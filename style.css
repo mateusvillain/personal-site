@@ -1,0 +1,53 @@
+h1,
+.title {
+    font-size: 3.75rem;
+    line-height: 120%;
+    font-weight: 600;
+}
+
+h2,
+.headline {
+    font-size: 2.125rem;
+    line-height: 120%;
+    font-weight: 500;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 150%;
+}
+
+/*  */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.main-text h1 {
+    margin-bottom: 16px;
+}
+
+.social-media {
+    display: flex;
+}
+
+.icon-button {
+    padding: 16px;
+    border-radius: 9999px;
+    transition-duration: .1s;
+}
+
+.icon-button:hover {
+    background-color: hsla(0, 0%, 100%, .08);
+}
+
+.icon-button:active {
+    background-color: hsla(0, 0%, 100%, .16);
+}
+
+.icon-button i {
+    font-size: 24px;
+}
