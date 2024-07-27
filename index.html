@@ -25,9 +25,12 @@
     <meta property="twitter:description" content="With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!" />
     <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
 
+    <script src="script.js"></script>
+
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="grid.css">
+    <link rel="stylesheet" href="typography.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,40 +40,45 @@
 </head>
 <body>
     <div class="container">
-        <nav>
-            <div class="nav-menu nav-menu-on">
-                <i class="ph-fill ph-instagram-logo"></i>
+        <nav class="flex">
+            <div href="#" aria-label="Página inicial" class="nav-menu nav-menu-on tooltip-container" >
+                <i class="ph ph-house-simple"></i>
+                <span class="tooltip-text" aria-hidden="true">Início</span>
             </div>
-            <div class="nav-menu nav-menu-off">
-                <i class="ph-fill ph-instagram-logo"></i>
-            </div>
-            <div class="nav-menu nav-menu-off">
-                <i class="ph-fill ph-instagram-logo"></i>
-            </div>
-            <div class="nav-menu nav-menu-off">
-                <i class="ph-fill ph-instagram-logo"></i>
-            </div>
-            <div class="nav-menu nav-menu-off">
-                <i class="ph-fill ph-instagram-logo"></i>
-            </div>
+            <a href="#" aria-label="Portfólio" class="nav-menu nav-menu-off tooltip-container">
+                <i class="ph ph-briefcase"></i>
+                <span class="tooltip-text" aria-hidden="true">Portfólio</span>
+            </a>
+            <a href="#" aria-label="Perfil" class="nav-menu nav-menu-off tooltip-container">
+                <i class="ph ph-user"></i>
+                <span class="tooltip-text" aria-hidden="true">Perfil</span>
+            </a>
+            <a href="#" aria-label="Setup" class="nav-menu nav-menu-off tooltip-container">
+                <i class="ph ph-devices"></i>
+                <span class="tooltip-text" aria-hidden="true">Setup</span>
+            </a>
+            <a href="#" aria-label="Mais links e informações" class="nav-menu nav-menu-off tooltip-container">
+                <i class="ph ph-dots-three-vertical"></i>
+                <span class="tooltip-text" aria-hidden="true">Mais</span>
+            </a>
         </nav>
-        <main class="main-content">
-            <img src="img/mateus-villain.jpg" width="172px" style="margin-bottom: 40px; border-radius: 48px;" alt="Na foto está o Mateus, usando um moletom azul escuro escrito Alura em branco. Os braços estão para cima ajeitando o capuz do moletom. O cabelo está curto, e a barba está longa, tampando todo o pescoço. Está usando um óculos redondo. Atrás há uma prateleira aparecendo um troféu laranja, um box de livros do Scott Pilgrim e um boneco do robô Walle.">
-            <div class="main-text">
-                <h1>Product designer, especializado em design systems, professor e escritor</h1>
-                <p>Me chamo Mateus Villain, sou criciumense, product designer com foco em design system com mais de 6 anos de experiência, instrutor e mentor de design system, host e intruso em muitos podcasts, e escritor nas horas vagas.</p>
-            </div>
-            <div class="social-media">
-                <div class="icon-button">
+        <main class="flex main-content">
+            <img src="img/mateus-villain.jpg" class="ease-entrance-default" width="172px" style="border-radius: 48px;" alt="Na foto está o Mateus, usando um moletom azul escuro escrito Alura em branco. Os braços estão para cima ajeitando o capuz do moletom. O cabelo está curto, e a barba está longa, tampando todo o pescoço. Está usando um óculos redondo. Atrás há uma prateleira aparecendo um troféu laranja, um box de livros do Scott Pilgrim e um boneco do robô Walle.">
+            <section class="flex main-text">
+                <h1 class="ease-entrance-longer">Product designer, especializado em design systems, professor e escritor</h1>
+                <p class="ease-entrance-longer-2">Me chamo Mateus Villain, sou criciumense, product designer com foco em design system com mais de 6 anos de experiência, instrutor e mentor de design system, host e intruso em muitos podcasts, e escritor nas horas vagas.</p>
+            </section>
+            <section class="flex social-media">
+                <a href="https://www.instagram.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do Instagram de Mateus, nova janela">
                     <i class="ph-fill ph-instagram-logo"></i>
-                </div>
-                <div class="icon-button">
+                </a>
+                <a href="https://www.linkedin.com/in/   mateusvillain" class="icon-button" aria-label="Ir para o perfil do LinkedIn de Mateus, nova janela">
                     <i class="ph-fill ph-linkedin-logo"></i>
-                </div>
-                <div class="icon-button">
+                </a>
+                <a href="https://www.x.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do Twitter de Mateus, nova janela">
                     <i class="ph-fill ph-twitter-logo"></i>
-                </div>
-            </div>
+                </a>
+            </section>
         </main>
     </div>
 </body>
