@@ -1,20 +1,17 @@
 h1,
 .title {
     font-size: 3.75rem;
-    line-height: 120%;
     font-weight: 600;
 }
 
 h2,
 .headline {
     font-size: 2.125rem;
-    line-height: 120%;
     font-weight: 500;
 }
 
 p {
     font-size: 1rem;
-    line-height: 150%;
 }
 
 /*  */
@@ -24,6 +21,7 @@ p {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-top: 40px;
 }
 
 .main-text h1 {
@@ -32,22 +30,51 @@ p {
 
 .social-media {
     display: flex;
+    margin-top: 24px;
 }
 
-.icon-button {
-    padding: 16px;
+.icon-button,
+.nav-menu {
+    padding: 8px;
     border-radius: 9999px;
-    transition-duration: .1s;
+    transition-duration: .16s;
 }
 
 .icon-button:hover {
-    background-color: hsla(0, 0%, 100%, .08);
+    background: hsla(0, 0%, 100%, .08);
 }
 
 .icon-button:active {
-    background-color: hsla(0, 0%, 100%, .16);
+    background: hsla(0, 0%, 100%, .16);
 }
 
-.icon-button i {
+.icon-button i,
+.nav-menu i {
     font-size: 24px;
+}
+
+.nav-menu {
+    background: #2b2c2d;
+    border: 1px solid #373839;
+}
+
+.nav-menu-off { color: #ffffff; }
+.nav-menu-on { color: #F2A531 !important; }
+
+.nav-menu:hover {
+    background-color: #1C1F21;
+}
+
+nav {
+    position: fixed;
+    top: 50%;
+    left: 32px;
+    transform: translateY(-50%);
+    padding: 16px;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 9999px;
+    background: #0e0f10;
+    border: 1px solid #202121;
 }

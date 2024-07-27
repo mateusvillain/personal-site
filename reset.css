@@ -19,7 +19,6 @@ time, mark, audio, video {
 	vertical-align: baseline;
     font-family: "DM Sans", Arial, sans-serif;
     background-color: #090A0B;
-    color: #ffffff;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -37,4 +36,16 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 110%;
+}
+
+p {
+	line-height: 150%;
 }
