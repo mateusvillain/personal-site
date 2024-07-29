@@ -1,5 +1,63 @@
 body { background-color: #090A0B; }
 
+h1, h2, h3, h4, h5, h6, p { color: #ffffff; }
+h1, h2, h3, h4, h5, h6 { line-height: 110%; }
+
+.container {
+    margin: 0 16%;
+}
+
+@media (min-width: 0px) and (max-width: 768px) {
+    h1 {
+        font-size: 2.75rem;
+        font-weight: 600;
+    }
+    
+    h2 {
+        font-size: 2.125rem;
+        font-weight: 500;
+    }
+    
+    p {
+        font-size: 1rem;
+        line-height: 150%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1279px) {
+    h1 {
+        font-size: 3rem;
+        font-weight: 600;
+    }
+    
+    h2 {
+        font-size: 2.125rem;
+        font-weight: 500;
+    }
+    
+    p {
+        font-size: 1rem;
+        line-height: 150%;
+    }
+}
+
+@media (min-width: 1280px) {
+    h1 {
+        font-size: 3.75rem;
+        font-weight: 600;
+    }
+    
+    h2 {
+        font-size: 2.125rem;
+        font-weight: 500;
+    }
+    
+    p {
+        font-size: 1rem;
+        line-height: 150%;
+    }
+}
+
 a.icon-button,
 nav>a {
     text-decoration: none;
@@ -152,6 +210,7 @@ nav {
     border: 1px solid #1D1E1F;
     border-radius: 16px;
     align-items: center;
+    gap: 40px;
 }
 
 .tag {

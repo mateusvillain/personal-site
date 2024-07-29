@@ -5,66 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mateus Villain</title>
 
+    <!-- Meta -->
     <meta name="title" content="Mateus Villain">
-    <meta name="description" content="dasads">
-    <meta name="keywords" content="a,b,c">
+    <meta name="description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor.">
+    <meta name="keywords" content="Mateus Villain, Design System, User Interface, UI, User Experience, UX, Acessibilidade, Handoff">
     <meta name="robots" content="index, follow">
+    <meta name="author" content="Mateus Villain">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://metatags.io/" />
+    <meta property="og:url" content="https://mateusvillain.com" />
     <meta property="og:title" content="Meta Tags — Preview, Edit and Generate" />
-    <meta property="og:description" content="With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!" />
-    <meta property="og:image" content="https://metatags.io/images/meta-tags.png" />
-
+    <meta property="og:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor." />
+    <meta property="og:image" content="assets/assets/img/cover.jpg" />
+    
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://metatags.io/" />
+    <meta property="twitter:url" content="https://mateusvillain.com" />
     <meta property="twitter:title" content="Meta Tags — Preview, Edit and Generate" />
-    <meta property="twitter:description" content="With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!" />
-    <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
+    <meta property="twitter:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor." />
+    <meta property="twitter:image" content="assets/img/cover.jpg" />
 
-    <script src="script.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
 
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="grid.css">
-    <link rel="stylesheet" href="typography.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-
+    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
     <div class="blur"></div>
+    <nav class="flex">
+        <div href="#" aria-label="Página inicial" class="nav-menu nav-menu-on tooltip-container" >
+            <i class="ph ph-house-simple"></i>
+            <span class="tooltip-text" aria-hidden="true">Início</span>
+        </div>
+        <a href="#" aria-label="Portfólio" class="nav-menu nav-menu-off tooltip-container">
+            <i class="ph ph-briefcase"></i>
+            <span class="tooltip-text" aria-hidden="true">Portfólio</span>
+        </a>
+        <a href="#" aria-label="Perfil" class="nav-menu nav-menu-off tooltip-container">
+            <i class="ph ph-user"></i>
+            <span class="tooltip-text" aria-hidden="true">Perfil</span>
+        </a>
+        <a href="#" aria-label="Setup, equipamentos e acessórios" class="nav-menu nav-menu-off tooltip-container">
+            <i class="ph ph-devices"></i>
+            <span class="tooltip-text" aria-hidden="true">Setup</span>
+        </a>
+        <a href="#" aria-label="Mais links e informações" class="nav-menu nav-menu-off tooltip-container">
+            <i class="ph ph-dots-three-vertical"></i>
+            <span class="tooltip-text" aria-hidden="true">Mais</span>
+        </a>
+    </nav>
     <div class="container">
-        <nav class="flex">
-            <div href="#" aria-label="Página inicial" class="nav-menu nav-menu-on tooltip-container" >
-                <i class="ph ph-house-simple"></i>
-                <span class="tooltip-text" aria-hidden="true">Início</span>
-            </div>
-            <a href="#" aria-label="Portfólio" class="nav-menu nav-menu-off tooltip-container">
-                <i class="ph ph-briefcase"></i>
-                <span class="tooltip-text" aria-hidden="true">Portfólio</span>
-            </a>
-            <a href="#" aria-label="Perfil" class="nav-menu nav-menu-off tooltip-container">
-                <i class="ph ph-user"></i>
-                <span class="tooltip-text" aria-hidden="true">Perfil</span>
-            </a>
-            <a href="#" aria-label="Setup" class="nav-menu nav-menu-off tooltip-container">
-                <i class="ph ph-devices"></i>
-                <span class="tooltip-text" aria-hidden="true">Setup</span>
-            </a>
-            <a href="#" aria-label="Mais links e informações" class="nav-menu nav-menu-off tooltip-container">
-                <i class="ph ph-dots-three-vertical"></i>
-                <span class="tooltip-text" aria-hidden="true">Mais</span>
-            </a>
-        </nav>
         <main class="flex main-content">
-            <img src="img/mateus-villain.jpg" class="ease-entrance-default" width="172px" style="border-radius: 48px;" alt="Na foto está o Mateus, usando um moletom azul escuro escrito Alura em branco. Os braços estão para cima ajeitando o capuz do moletom. O cabelo está curto, e a barba está longa, tampando todo o pescoço. Está usando um óculos redondo. Atrás há uma prateleira aparecendo um troféu laranja, um box de livros do Scott Pilgrim e um boneco do robô Walle.">
+            <img src="assets/img/mateus-villain.jpg" class="ease-entrance-default" width="172px" style="border-radius: 48px;" alt="Na foto está o Mateus, usando um moletom azul escuro escrito Alura em branco. Os braços estão para cima ajeitando o capuz do moletom. O cabelo está curto, e a barba está longa, tampando todo o pescoço. Está usando um óculos redondo. Atrás há uma prateleira aparecendo um troféu laranja, um box de livros do Scott Pilgrim e um boneco do robô Walle.">
             <section class="flex main-text">
                 <h1 class="ease-entrance-longer">Product designer, especializado em design systems, professor e escritor</h1>
                 <p class="ease-entrance-longer-2">Me chamo Mateus Villain, sou criciumense, product designer com foco em design system com mais de 6 anos de experiência, instrutor e mentor de design system, host e intruso em muitos podcasts, e escritor nas horas vagas.</p>
@@ -93,7 +94,7 @@
                         </div>
                     </div>
                     <div>
-                        <img src="img/placeholder.png" alt="">
+                        <img src="assets/img/placeholder.png" alt="">
                     </div>
                 </article>
             </a>
