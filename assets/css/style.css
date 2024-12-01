@@ -1,6 +1,8 @@
 body {
     background-color: #090A0B !important;
     font-family: "DM Sans", Arial, sans-serif !important;
+    justify-content: center;
+    padding: 120px 24%;
 }
 
 h1, h2, h3, h4, h5, h6, p { color: #ffffff; }
@@ -11,10 +13,6 @@ h1 {
     font-weight: 600;
 }
 
-.container {
-    margin: 0 16%;
-}
-
 a.icon-button,
 nav>a {
     text-decoration: none;
@@ -22,12 +20,11 @@ nav>a {
 
 nav {
     position: fixed;
-    top: 50%;
-    left: 32px;
+    bottom: 0;
     transform: translateY(-50%);
     padding: 16px;
     gap: 16px;
-    flex-direction: column;
+    flex-direction: row;
     border-radius: 9999px;
     background: hsla(0, 0%, 54%, .4);
     backdrop-filter: blur(16px);
@@ -46,15 +43,10 @@ nav {
 .flex { display: flex; }
 
 .main-content {
-    flex-direction: column;
-    padding-top: 120px;
     gap: 40px;
 }
 
-.main-img {
-    margin-bottom: 80px;
-}
-
+.main-content,
 .main-text { flex-direction: column; }
 
 .main-text,
@@ -119,8 +111,6 @@ nav {
 	}
 }
 
-/*  */
-
 .tooltip-container {
     position: relative;
     display: inline-block;
@@ -137,7 +127,7 @@ nav {
     position: absolute;
     top: 50%;
     left: 0;
-    transform: translateX(-16%) translateY(-50%);
+    transform: translateX(-11%) translateY(-50%);
     transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
     opacity: 0;
     z-index: 1;
@@ -145,72 +135,6 @@ nav {
 
 .tooltip-container:hover .tooltip-text {
     visibility: visible;
-    transform: translateX(48px) translateY(-50%);
+    transform: translateX(-11%) translateY(-180%);
     opacity: 1;
-}
-
-.blur {
-    background: rgb(242, 165, 49);
-    border-radius: 999px;
-    height: 517px;
-    width: 517px;
-    opacity: .16;
-    filter: blur(100px);
-    position: absolute;
-    left: 50%;
-    top: -217px;
-    transform: translateX(-50%);
-}
-
-.portfolio {
-    margin-top: 160px;
-}
-
-.portfolio-item {
-    padding: 32px;
-    background: #0E0F10;
-    border: 1px solid #1D1E1F;
-    border-radius: 16px;
-    align-items: center;
-    gap: 40px;
-}
-
-.tag {
-    background: #2B2C2D;
-    border: 1px solid #373839;
-    border-radius: 999px;
-    padding: 4px 8px;
-    color: #fff;
-    font-size: 12px;
-}
-
-.portfolio-item-text {
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-}
-
-.portfolio-tag-list {
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-article.portfolio-item img {
-    width: 360px;
-    height: 240px;
-    border-radius: 12px;
-    object-fit: cover;
-}
-
-section.portfolio a {
-    text-decoration: none;
-}
-
-.main-bg {
-    background: url(../img/main-bg.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 100%;
-    height: 800px;
 }
