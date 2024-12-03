@@ -57,20 +57,20 @@
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body class="">
+<body class="container">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTD9ZL6W"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <!-- Content -->
-    <main class="flex main-content">
-        <img src="assets/img/mateus-villain.jpg" class="ease-entrance-default" width="160px" height="224px" style="object-fit: cover;" aria-label="hidden">
-        <section class="flex main-text">
+    <!-- Main -->
+    <main class="flex flex-direction-column gap-16">
+        <img src="assets/img/mateus-villain.jpg" class="ease-entrance-default border-radius-lg" width="160px" height="224px" style="object-fit: cover;" aria-hidden="true">
+        <section class="flex flex-direction-column gap-16">
             <h1 class="ease-entrance-longer">Mateus Villain</h1>
-            <p class="body-lg ease-entrance-longer-2">Product designer, escritor, e entusiasta em café</p>
-            <p class="body-lg ease-entrance-longer-2">Nasci e ainda vivo na cidade de Criciúma, em Santa Catarina, junto com minha esposa, minha cachorra Amora, e minha gata Figma (sim, esse é o nome dela). Trabalho com product design desde 2016, e atualmente estou em posição de senior na Locaweb, tanto sendo responsável por algumas construções e lançamentos da empresa quanto pelo design system da marca. Também sou professor, e trabalho na construção e gravação de cursos da Escola de UX & Design da Alura. No ano de 2024, publiquei meu primeiro livro sobre design systems, intitulado Design System, a divindade dos produtos digitais, mesmo nome da primeira palestra sobre o tema. Fugindo do lado profissional, também sou um amante do café profissional, estudando, investindo, praticando e—obviamente—degustando.</p>
+            <h2 class="body-lg ease-entrance-longer-2">Product designer, escritor, e entusiasta em café</h2>
+            <p class="body-lg ease-entrance-longer-2">Nasci e ainda vivo na cidade de Criciúma, em Santa Catarina, junto com minha esposa, minha cachorra Amora, e minha gata Figma (sim, esse é o nome dela). Trabalho com product design desde 2016, e atualmente estou em posição de senior na Locaweb, tanto sendo responsável por algumas construções e lançamentos da empresa quanto pelo design system da marca. Também sou professor, e trabalho na construção e gravação de cursos da Escola de UX & Design da Alura. Além disso, faço parte da equipe do Detach!, o primeiro evento 100% brasileiro sobre design system. No ano de 2025, publiquei meu primeiro livro sobre design systems, intitulado Design System, a divindade dos produtos digitais, mesmo nome da primeira palestra sobre o tema. Fugindo do lado profissional, também sou um amante do café profissional, estudando, investindo, praticando e—obviamente—degustando.</p>
         </section>
-        <section class="flex social-media">
+        <section class="flex social-media gap-16">
             <a href="https://www.linkedin.com/in/mateusvillain" class="icon-button" aria-label="Ir para o perfil do LinkedIn de Mateus, nova janela" target="_blank">
                 <i class="ph-fill ph-linkedin-logo"></i>
             </a>
@@ -80,27 +80,139 @@
         </section>
     </main>
 
-    <section style="margin: 80px 0;">
-        <img src="assets/img/mosaic.png" alt="" width="100%">
+    <!-- Projects -->
+    <section class="flex flex-direction-column gap-16 margin-t-b-80">
+        <h2>Projetos</h2>
+        <a href="https://github.com/mateusvillain/letsui.github.io/tree/main" target="_blank" arial-label="Let's UI, um simples e sucinto design system open-source, nova janela.">
+            <div class="card flex align-items-center gap-24" aria-hidden="true">
+                <img src="assets/img/lets-ui.svg" width="64px" class="border-radius-2xl" alt="">
+                <article class="project-content">
+                    <h3>Let's UI</h3>
+                    <p>Um simples e sucinto design system open-source.</p>
+                </article>
+            </div>
+        </a>
     </section>
 
-    <iframe
-        style="border-radius:12px"
-        src="https://open.spotify.com/embed/track/3HMY0r2BAdpasXMY8rseR0?utm_source=generator"
-        width="100%"
-        height="120"
-        frameBorder="0"
-        allowfullscreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-    </iframe>
+    <img src="assets/img/mosaic.png" width="100%" aria-hidden="true">
 
-    <section>
-        <h2>Conteúdos</h2>
-        <article class="flex" style="justify-content: space-between;">
-            <h3>O que é e como aplicar o 8-pt grid</h3>
-            <p>28 out. 2024</p>
-        </article>
+    <!-- Tools -->
+    <div id="tab-example" class="tab-container padding-all-32 margin-t-80" style="flex: 1;">
+        <div class="flex justify-content-center align-items-center setup-icon">
+            <i class="ph ph-devices"></i>
+        </div>
+        <ul aria-controls="tab-example" role="tablist">
+            <li role="tab" aria-controls="tab-example_1" tabindex="0" aria-selected="true">Setup</li>
+            <li role="tab" aria-controls="tab-example_2" tabindex="0" aria-selected="false">Gadgets</li>
+            <li role="tab" aria-controls="tab-example_3" tabindex="0" aria-selected="false">Coffee</li>
+        </ul>
+        <section class="margin-t-32">
+            <div id="tab-example_1" role="tabpanel" aria-expanded="true">
+                <ul>
+                    <li>Placa Mãe ASRock B450M Steel Legend DDR4</li>
+                    <li>Fonte ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
+                    <li>Processador AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
+                    <li>Placa de Video Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
+                    <li>SSD 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Kingston NV2, M.2 2280 PCIe, NVMe, Leitura 3500 MB/s, Gravação 2100 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span></li>
+                    <li>SSD Kingston A400, 240 <span aria-hidden="true" aria-label="gigabytes">GB</span>, SATA, Leitura 500 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span>, Gravação 350 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span></li>
+                    <li>HD Seagate Barracuda 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Sata III 6 <span aria-hidden="true" aria-label="gigabytes por segundo">GB/s</span></li>
+                    <li>Memória Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
+                    <li>Memória Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8) DDR4 2666MHz C16</li>
+                    <li>2x Monitor LG 25<span aria-hidden="true" aria-label="polegadas">”</span> UltraWide Full HD 25UM58</li>
+                    <li>Teclado Mecânico EPOMAKER x AULA F75</li>
+                    <li>Mouse Logitech G502 X Lightspeed</li>
+                    <li>2x Webcam Logitech Brio 4K Pro</li>
+                    <li>Microfone Audio-Technica ATR2100x-USB</li>
+                    <li>Caixa de Som Gamer Husky Gaming Storm</li>
+                    <li>Mesa Geniodesk Basic</li>
+                </ul>
+            </div>
+            <div id="tab-example_2" role="tabpanel" aria-expanded="false">
+                <ul>
+                    <li>Chromebook X</li>
+                    <li>Samsung Galaxy Z Fold4 256 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
+                    <li>Samsung Galaxy S20 FE 256 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
+                    <li>Samsung Galaxy Watch4 Classic</li>
+                    <li>Samsung Galaxy Buds 2</li>
+                    <li>Powerbank 2000<span aria-hidden="true" aria-label="miliamperes">mAh</span></li>
+                </ul>
+            </div>
+            <div id="tab-example_3" role="tabpanel" aria-expanded="false">
+                <ul>
+                    <li>Orfeu Clássico, café arábico em grãos</li>
+                    <li>Cafeteira Espresso Oster Xpert Perfect Brew</li>
+                    <li>Balança digital de café com timer, modelo C319</li>
+                    <li>Porta filtro duplo, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                    <li>Tamper Compactador de plástico Oster, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                    <li>Anel de dosagem, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                    <li>Distribuidor de café, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                    <li>Puck screen de alumínio, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                    <li>Coffee scoop, 30<span aria-hidden="true" aria-label="mililitros">ml</span></li>
+                    <li>Filtro Melitta 103</li>
+                    <li>Filtro simples não pressurizado</li>
+                    <li>Filtro duplo não pressurizado</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <section class="flex card flex-direction-column gap-16 margin-t-16">
+        <div class="flex justify-content-center align-items-center setup-icon">
+            <i class="ph ph-squares-four"></i>
+        </div>
+        <h2>Apps</h2>
+        <ul class="flex gap-16 gadgets">
+            <li>
+                <img src="assets/img/apps/arc.svg" width="32px" alt="Arc Browser">
+            </li>
+            <li>
+                <img src="assets/img/apps/chatgpt.svg" width="32px" alt="ChatGPT">
+            </li>
+            <li>
+                <img src="assets/img/apps/figma.svg" width="32px" alt="Figma">
+            </li>
+            <li>
+                <img src="assets/img/apps/framer.svg" width="32px" alt="Framer">
+            </li>
+            <li>
+                <img src="assets/img/apps/notion-calendar.svg" width="32px" alt="Notion Calendar">
+            </li>
+            <li>
+                <img src="assets/img/apps/obsidian.svg" width="32px" alt="Obsidian">
+            </li>
+            <li>
+                <img src="assets/img/apps/spotify.svg" width="32px" alt="Spotify">
+            </li>
+            <li>
+                <img src="assets/img/apps/vscode.svg" width="32px" alt="Visual Studio Code">
+            </li>
+        </ul>
     </section>
+    <section class="flex card flex-direction-column gap-16 margin-t-16">
+        <div class="flex justify-content-center align-items-center setup-icon">
+            <i class="ph ph-music-note"></i>
+        </div>
+        <h2>Playlists</h2>
+        <iframe
+            style="border-radius:16px"
+            src="https://open.spotify.com/embed/playlist/7oM7VrooXTrWAvCJZFemDE?utm_source=generator"
+            width="100%"
+            height="152"
+            frameBorder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+        </iframe>
+        <iframe
+            style="border-radius:16px"
+            src="https://open.spotify.com/embed/playlist/1RZaY2UuSdjTNGlXghdfl3?utm_source=generator"
+            width="100%"
+            height="152"
+            frameBorder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+    </section>
+
+    <script src="assets/js/tabs.js"></script>
 </body>
 </html>
