@@ -73,10 +73,10 @@
             <p class="body-lg ease-entrance-longer-2">Nasci e ainda vivo na cidade de Criciúma, em Santa Catarina, junto com minha esposa, minha cachorra Amora, e minha gata Figma (sim, esse é o nome dela). Trabalho com product design desde 2016, e atualmente estou em posição de senior na Locaweb, tanto sendo responsável por algumas construções e lançamentos da empresa quanto pelo design system da marca. Também sou professor, e trabalho na construção e gravação de cursos da Escola de UX & Design da Alura. Além disso, faço parte da equipe do Detach!, o primeiro evento 100% brasileiro sobre design system. Fugindo do lado profissional, também sou um amante do café profissional, estudando, investindo, praticando e—obviamente—degustando.</p>
         </section>
         <section class="flex social-media gap-16 ease-entrance-longer-2">
-            <a href="https://www.linkedin.com/in/mateusvillain" class="icon-button" aria-label="Ir para o perfil do LinkedIn de Mateus, nova janela" target="_blank">
+            <a href="https://www.linkedin.com/in/mateusvillain" class="icon-button" aria-label="Ir para o perfil do LinkedIn de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'LinkedIn'});">
                 <i class="ph-fill ph-linkedin-logo"></i>
             </a>
-            <a href="https://www.instagram.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do Instagram de Mateus, nova janela" target="_blank">
+            <a href="https://www.instagram.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do Instagram de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'Instagram'});">
                 <i class="ph-fill ph-instagram-logo"></i>
             </a>
         </section>
@@ -85,7 +85,7 @@
     <!-- Projects -->
     <section class="flex flex-direction-column gap-16 margin-t-b-80">
         <h2>Projetos</h2>
-        <a href="https://github.com/mateusvillain/letsui.github.io/tree/main" target="_blank" arial-label="Let's UI, um simples e sucinto design system open-source, nova janela.">
+        <a href="https://github.com/mateusvillain/letsui.github.io/tree/main" target="_blank" arial-label="Let's UI, um simples e sucinto design system open-source, nova janela." onclick="gtag('event', 'click', {event_category: 'projects',event_label: 'Lets UI'});">
             <div class="card flex align-items-center gap-24" aria-hidden="true">
                 <img src="assets/img/lets-ui.svg" width="64px" class="border-radius-2xl" alt="">
                 <article class="project-content">
@@ -104,9 +104,9 @@
             <i class="ph ph-devices"></i>
         </div>
         <ul aria-controls="tab-example" role="tablist">
-            <li role="tab" aria-controls="tab-example_1" tabindex="0" aria-selected="true">Setup</li>
-            <li role="tab" aria-controls="tab-example_2" tabindex="0" aria-selected="false">Gadgets</li>
-            <li role="tab" aria-controls="tab-example_3" tabindex="0" aria-selected="false">Coffee</li>
+            <li role="tab" aria-controls="tab-example_1" tabindex="0" aria-selected="true" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Setup'});">Setup</li>
+            <li role="tab" aria-controls="tab-example_2" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Gadgets'});">Gadgets</li>
+            <li role="tab" aria-controls="tab-example_3" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Coffee'});">Coffee</li>
         </ul>
         <section class="margin-t-32">
             <div id="tab-example_1" role="tabpanel" aria-expanded="true">
@@ -201,7 +201,8 @@
             frameBorder="0"
             allowfullscreen=""
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
+            loading="lazy"
+            onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 1'});">
         </iframe>
         <iframe
             style="border-radius:16px"
@@ -211,7 +212,9 @@
             frameBorder="0"
             allowfullscreen=""
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"></iframe>
+            loading="lazy"
+            onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 2'});">
+        </iframe>
     </section>
 
     <script src="assets/js/tabs.js"></script>
