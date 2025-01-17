@@ -40,24 +40,6 @@ a { text-decoration: none; }
 /* Typography */
 h1, h2, h3, h4, h5, h6, p { color: #ffffff; }
 
-h1 {
-    font-size: 60px;
-    line-height: 110%;
-    font-weight: 600;
-}
-
-h2 {
-    font-size: 20px;
-    line-height: 1.5rem;
-    font-weight: 500;
-}
-
-h3 {
-    font-size: 18px;
-    line-height: 1.5rem;
-    font-weight: 500;
-}
-
 /* Icon button */
 .icon-button { color: #ffffff; }
 .icon-button {
@@ -124,10 +106,6 @@ a.icon-button { text-decoration: none; }
     border: 1px solid hsl(210, 2%, 22%);
     color: var(--lui-color-neutral-light-layer-bg-surface);
 }
-
-.flex-direction-column { flex-direction: column; }
-.justify-content-center { justify-content: center; }
-.align-items-center { align-items: center; }
 
 ul li { margin-bottom: var(--lui-spacing-8); }
 ul li:last-child { margin-bottom: none; }

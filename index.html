@@ -18,7 +18,7 @@
     <meta property="og:url" content="https://mateusvillain.com" />
     <meta property="og:title" content="Mateus Villain" />
     <meta property="og:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor." />
-    <meta property="og:image" content="assets/assets/img/cover.jpg" />
+    <meta property="og:image" content="assets/img/cover.jpg" />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -49,6 +49,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://mateusvillain.github.io/letsui.github.io/css/baseline.css">
+    <link rel="stylesheet" href="assets/css/lets/baseline.css"> <!-- Apagar depois -->
     <link rel="stylesheet" href="assets/css/brand.css">
     <link rel="stylesheet" href="assets/css/style.css">
     
@@ -63,33 +64,39 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Main -->
-    <main class="flex flex-direction-column gap-40">
-        <img src="assets/img/mateus-villain.jpg" class="ease-entrance-default border-radius-lg" width="160px" height="224px" style="object-fit: cover;" aria-hidden="true">
-        <section class="flex flex-direction-column gap-32">
-            <hgroup class="flex flex-direction-column gap-4">
-                <h1 class="ease-entrance-longer">Mateus Villain</h1>
-                <h2 class="body-lg ease-entrance-longer-2">Product designer, escritor, e entusiasta em café</h2>
+    <main class="flex flex-column gap-40">
+        <img src="assets/img/mateus-villain.jpg" class="ease-entrance-default br-8" width="160px" height="224px" style="object-fit: cover;" aria-hidden="true">
+        <section class="flex flex-column gap-32">
+            <hgroup class="flex flex-column gap-4">
+                <h1 class="display ease-entrance-longer">Mateus Villain</h1>
+                <h2 class="subtitle ease-entrance-longer-2">Product designer, escritor, e entusiasta em café</h2>
             </hgroup>
-            <p class="body-lg ease-entrance-longer-2">Nasci e ainda vivo na cidade de Criciúma, em Santa Catarina, junto com minha esposa, minha cachorra Amora, e minha gata Figma (sim, esse é o nome dela). Trabalho com product design desde 2016, e atualmente estou em posição de senior na Locaweb, tanto sendo responsável por algumas construções e lançamentos da empresa quanto pelo design system da marca. Também sou professor, e trabalho na construção e gravação de cursos da Escola de UX & Design da Alura. Além disso, faço parte da equipe do Detach!, o primeiro evento 100% brasileiro sobre design system. Fugindo do lado profissional, também sou um amante do café profissional, estudando, investindo, praticando e—obviamente—degustando.</p>
+            <p class="ease-entrance-longer-2">Nasci e ainda vivo na cidade de Criciúma, em Santa Catarina, junto com minha esposa, minha cachorra Amora, e minha gata Figma (sim, esse é o nome dela). Trabalho com product design desde 2016, e atualmente estou em posição de senior na Locaweb, tanto sendo responsável por algumas construções e lançamentos da empresa quanto pelo design system da marca. Também sou professor, e trabalho na construção e gravação de cursos da Escola de UX & Design da Alura. Além disso, faço parte da equipe do Detach!, o primeiro evento 100% brasileiro sobre design system. Fugindo do lado profissional, também sou um amante do café profissional, estudando, investindo, praticando e—obviamente—degustando.</p>
         </section>
         <section class="flex social-media gap-16 ease-entrance-longer-2">
             <a href="https://www.linkedin.com/in/mateusvillain" class="icon-button" aria-label="Ir para o perfil do LinkedIn de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'LinkedIn'});">
                 <i class="ph-fill ph-linkedin-logo"></i>
             </a>
-            <a href="https://www.instagram.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do Instagram de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'Instagram'});">
-                <i class="ph-fill ph-instagram-logo"></i>
+            <a href="https://www.github.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do GitHub de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'Instagram'});">
+                <i class="ph-fill ph-github-logo"></i>
+            </a>
+            <a rel="me" href="https://mastodon.social/@mateusvillain" class="icon-button" aria-label="Ir para o perfil do GitHub de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'Instagram'});">
+                <i class="ph-fill ph-mastodon-logo"></i>
             </a>
         </section>
     </main>
 
     <!-- Projects -->
-    <section class="flex flex-direction-column gap-16 margin-t-b-80">
-        <h2>Projetos</h2>
+    <section class="flex flex-column gap-16 margin-t-b-80">
+        <h2 class="headline">Projetos</h2>
         <a href="https://github.com/mateusvillain/letsui.github.io/tree/main" target="_blank" arial-label="Let's UI, um simples e sucinto design system open-source, nova janela." onclick="gtag('event', 'click', {event_category: 'projects',event_label: 'Lets UI'});">
-            <div class="card flex align-items-center gap-24" aria-hidden="true">
-                <img src="assets/img/lets-ui.svg" width="64px" class="border-radius-2xl" alt="">
+            <div class="card flex flex-align-center gap-24" aria-hidden="true">
+                <img src="assets/img/lets-ui.svg" width="64px" class="br-8" alt="">
                 <article class="project-content">
-                    <h3>Let's UI (em andamento)</h3>
+                    <div class="flex flex-align-center gap-8">
+                        <h3 class="block-title">Let's UI</h3>
+                        <div class="tag-md tag-caution">Em andamento</div>
+                    </div>
                     <p>Um simples e sucinto design system open-source.</p>
                 </article>
             </div>
@@ -100,7 +107,7 @@
 
     <!-- Tools -->
     <div id="tab-example" class="tab-container padding-all-32 margin-t-80" style="flex: 1;">
-        <div class="flex justify-content-center align-items-center setup-icon">
+        <div class="flex flex-justify-center flex-align-center setup-icon">
             <i class="ph ph-devices"></i>
         </div>
         <ul aria-controls="tab-example" role="tablist">
@@ -142,6 +149,9 @@
                 <ul>
                     <li>Orfeu Clássico, café arábico em grãos</li>
                     <li>Cafeteira Espresso Oster Xpert Perfect Brew</li>
+                    <li>Prensa Francesa</li>
+                    <li>Cafeteira Italiana</li>
+                    <li>Timemore C3</li>
                     <li>Balança digital de café com timer, modelo C319</li>
                     <li>Porta filtro duplo, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
                     <li>Tamper Compactador de plástico Oster, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
@@ -150,17 +160,15 @@
                     <li>Puck screen de alumínio, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
                     <li>Coffee scoop, 30<span aria-hidden="true" aria-label="mililitros">ml</span></li>
                     <li>Filtro Melitta 103</li>
-                    <li>Filtro simples não pressurizado</li>
-                    <li>Filtro duplo não pressurizado</li>
                 </ul>
             </div>
         </section>
     </div>
-    <section class="flex card flex-direction-column gap-16 margin-t-16">
-        <div class="flex justify-content-center align-items-center setup-icon">
+    <section class="flex card flex-column gap-16 margin-t-16">
+        <div class="flex flex-justify-center flex-align-center setup-icon">
             <i class="ph ph-squares-four"></i>
         </div>
-        <h2>Apps</h2>
+        <h2 class="block-title">Apps</h2>
         <ul class="flex gap-16 gadgets">
             <li>
                 <img src="assets/img/apps/arc.svg" width="32px" alt="Arc Browser">
@@ -188,11 +196,11 @@
             </li>
         </ul>
     </section>
-    <section class="flex card flex-direction-column gap-16 margin-t-16">
-        <div class="flex justify-content-center align-items-center setup-icon">
+    <section class="flex card flex-column gap-16 margin-t-16">
+        <div class="flex flex-justify-center flex-align-center setup-icon">
             <i class="ph ph-music-note"></i>
         </div>
-        <h2>Playlists</h2>
+        <h2 class="block-title">Playlists</h2>
         <iframe
             style="border-radius:16px"
             src="https://open.spotify.com/embed/playlist/7oM7VrooXTrWAvCJZFemDE?utm_source=generator"
