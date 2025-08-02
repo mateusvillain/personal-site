@@ -8,7 +8,5 @@ async function carregarClima() {
   }
 }
 
-carregarHora();
 carregarClima();
-setInterval(carregarHora, 10000);
 setInterval(carregarClima, 900000);
