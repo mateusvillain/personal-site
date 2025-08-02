@@ -71,4 +71,4 @@ class TabController {
     }
   }
   
-  const tabController = new TabController('#tab-example');
+  const tabController = new TabController('#tab-tools');

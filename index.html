@@ -14,20 +14,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mateusvillain.com" />
-    <meta property="og:title" content="Mateus Villain" />
-    <meta property="og:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor." />
-    <meta property="og:image" content="assets/img/cover.jpg" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mateusvillain.com">
+    <meta property="og:title" content="Mateus Villain">
+    <meta property="og:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor.">
+    <meta property="og:image" content="img/cover.jpg">
     
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mateusvillain.com" />
-    <meta property="twitter:title" content="Mateus Villain" />
-    <meta property="twitter:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor." />
-    <meta property="twitter:image" content="assets/img/cover.jpg" />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mateusvillain.com">
+    <meta property="twitter:title" content="Mateus Villain">
+    <meta property="twitter:description" content="Mateus Villain é product designer, especialista em design system, instrutor e escritor.">
+    <meta property="twitter:image" content="img/cover.jpg">
 
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
 
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -46,185 +46,342 @@
         gtag('config', 'G-09TX5J6BKT');
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://mateusvillain.github.io/letsui.github.io/css/baseline.css">
-    <link rel="stylesheet" href="assets/css/lets/baseline.css"> <!-- Apagar depois -->
-    <link rel="stylesheet" href="assets/css/brand.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    
+    <link rel="stylesheet" href="https://mateusvillain.github.io/lets-ui-css/src/letsui.css">
+    <link rel="stylesheet" href="https://mateusvillain.github.io/lets-ui-css/tokens/variables.css">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/components.css"/>
+    <link rel="stylesheet" href="css/site.css"/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body class="container">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTD9ZL6W"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<body>
+    <div class="scroll-container">
 
-    <!-- Main -->
-    <main class="flex flex-column gap-40">
-        <img src="assets/img/mateus-villain.jpg" class="ease-entrance-default br-8" width="160px" height="224px" style="object-fit: cover;" aria-hidden="true">
-        <section class="flex flex-column gap-32">
-            <hgroup class="flex flex-column gap-4">
-                <h1 class="display ease-entrance-longer">Mateus Villain</h1>
-                <h2 class="subtitle ease-entrance-longer-2">Product designer, escritor, e entusiasta em café</h2>
-            </hgroup>
-            <p class="ease-entrance-longer-2">Nasci e ainda vivo na cidade de Criciúma, em Santa Catarina, junto com minha esposa, minha cachorra Amora, e minha gata Figma (sim, esse é o nome dela). Trabalho com product design desde 2016, e atualmente estou em posição de senior na Locaweb, tanto sendo responsável por algumas construções e lançamentos da empresa quanto pelo design system da marca. Também sou professor, e trabalho na construção e gravação de cursos da Escola de UX & Design da Alura. Além disso, faço parte da equipe do Detach!, o primeiro evento 100% brasileiro sobre design system. Fugindo do lado profissional, também sou um amante do café profissional, estudando, investindo, praticando e—obviamente—degustando.</p>
-        </section>
-        <section class="flex social-media gap-16 ease-entrance-longer-2">
-            <a href="https://www.linkedin.com/in/mateusvillain" class="icon-button" aria-label="Ir para o perfil do LinkedIn de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'LinkedIn'});">
-                <i class="ph-fill ph-linkedin-logo"></i>
-            </a>
-            <a href="https://www.github.com/mateusvillain" class="icon-button" aria-label="Ir para o perfil do GitHub de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'Instagram'});">
-                <i class="ph-fill ph-github-logo"></i>
-            </a>
-            <a rel="me" href="https://mastodon.social/@mateusvillain" class="icon-button" aria-label="Ir para o perfil do GitHub de Mateus, nova janela" target="_blank" onclick="gtag('event', 'click', {event_category: 'social_media',event_label: 'Instagram'});">
-                <i class="ph-fill ph-mastodon-logo"></i>
-            </a>
-        </section>
-    </main>
+        <!-- Main -->
+        <main class="flex flex-justify-center">
+            <section>
+                <img src="img/mateus-villain.jpg" class="ease-entrance-default br-8" width="280px" height="400px" style="object-fit: cover; filter: grayscale(100%);" aria-hidden="true">
+                <hgroup>
+                    <h1 class="ease-entrance-longer">Mateus Villain</h1>
+                    <h2 class="subtitle ease-entrance-longer-2">Product designer, writer and coffee geek</h2>
+                </hgroup>
+                <p>I was born and still live in the city of Criciúma, in Santa Catarina, together with my wife, my dog Amora, and my cat Figma. I've been working with product design since 2016, and I'm currently a senior at Locaweb, responsible for the KingHost dashboard and app, as well as the design system.</p>
+                <div class="body-sm flex footer-text" style="gap: 16px">
+                    <p style="color: white;">Criciúma, SC</p>
+                    <span style="color: white;" aria-hidden="true">⸬</span>
+                    <p style="color: white;" id="hora"></p>
+                    <span style="color: white;" aria-hidden="true">⸬</span>
+                    <p style="color: white;" id="clima"></p>
+                    <span style="color: white;" aria-hidden="true">⸬</span>
+                    <p id="mood"></p>
+                </div>
+            </section>
+        </main>
 
-    <!-- Projects -->
-    <section class="flex flex-column gap-16 margin-t-b-80">
-        <h2 class="headline">Projetos</h2>
-        <a href="https://github.com/mateusvillain/letsui.github.io/tree/main" target="_blank" arial-label="Let's UI, um simples e sucinto design system open-source, nova janela." onclick="gtag('event', 'click', {event_category: 'projects',event_label: 'Lets UI'});">
-            <div class="card flex flex-align-center gap-24" aria-hidden="true">
-                <img src="assets/img/lets-ui.svg" width="64px" class="br-8" alt="">
-                <article class="project-content">
-                    <div class="flex flex-align-center gap-8">
-                        <h3 class="block-title">Let's UI</h3>
-                        <div class="tag-md tag-caution">Em andamento</div>
+        <!-- Gadgets -->
+        <div class="card-gadgets">
+            <!-- Stack -->
+            <section class="stack card-glass">
+                <div class="flex flex-justify-center flex-align-center setup-icon">
+                    <i class="ph ph-squares-four"></i>
+                </div>
+                <h2 class="headline">Stack</h2>
+                <ul class="flex flex-wrap" style="gap: 16px; margin-top: 16px;">
+                    <li>
+                        <img src="img/apps/arc.svg" width="32px" alt="Arc Browser">
+                    </li>
+                    <li>
+                        <img src="img/apps/chatgpt.svg" width="32px" alt="ChatGPT">
+                    </li>
+                    <li>
+                        <img src="img/apps/figma.svg" width="32px" alt="Figma">
+                    </li>
+                    <li>
+                        <img src="img/apps/framer.svg" width="32px" alt="Framer">
+                    </li>
+                    <li>
+                        <img src="img/apps/notion-calendar.svg" width="32px" alt="Notion Calendar">
+                    </li>
+                    <li>
+                        <img src="img/apps/obsidian.svg" width="32px" alt="Obsidian">
+                    </li>
+                    <li>
+                        <img src="img/apps/spotify.svg" width="32px" alt="Spotify">
+                    </li>
+                    <li>
+                        <img src="img/apps/vscode.svg" width="32px" alt="Visual Studio Code">
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Playlists -->
+            <section class="playlists card-glass">
+                <div class="flex flex-justify-center flex-align-center setup-icon">
+                    <i class="ph ph-music-note"></i>
+                </div>
+                <h2 class="headline">Playlists</h2>
+                <iframe
+                    style="border-radius:16px"
+                    class="margin-t-16"
+                    src="https://open.spotify.com/embed/playlist/7oM7VrooXTrWAvCJZFemDE?utm_source=generator"
+                    width="100%"
+                    height="200"
+                    frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 1'});">
+                </iframe>
+                <iframe
+                    style="border-radius:16px"
+                    src="https://open.spotify.com/embed/playlist/1RZaY2UuSdjTNGlXghdfl3?utm_source=generator"
+                    width="100%"
+                    height="200"
+                    frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 2'});">
+                </iframe>
+            </section>
+        </div>
+
+        <div class="card-gadgets">
+            <section id="tab-tools" class="tab-container card-glass">
+                <div class="flex flex-justify-center flex-align-center setup-icon">
+                    <i class="ph ph-devices"></i>
+                </div>
+                <h2 class="headline">Tools</h2>
+                <ul aria-controls="tab-tools" role="tablist">
+                    <li role="tab" aria-controls="tab-tools_1" tabindex="0" aria-selected="true" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Setup'});">Setup</li>
+                    <li role="tab" aria-controls="tab-tools_2" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Gadgets'});">Gadgets</li>
+                    <li role="tab" aria-controls="tab-tools_3" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Coffee'});">Coffee</li>
+                </ul>
+                <section>
+                    <div id="tab-tools_1" role="tabpanel" aria-expanded="true">
+                        <ul>
+                            <li>Placa Mãe ASRock B450M Steel Legend DDR4</li>
+                            <li>Fonte ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
+                            <li>Processador AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
+                            <li>Placa de Video Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
+                            <li>SSD 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Kingston NV2, M.2 2280 PCIe, NVMe, Leitura 3500 MB/s, Gravação 2100 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span></li>
+                            <li>SSD Kingston A400, 240 <span aria-hidden="true" aria-label="gigabytes">GB</span>, SATA, Leitura 500 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span>, Gravação 350 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span></li>
+                            <li>HD Seagate Barracuda 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Sata III 6 <span aria-hidden="true" aria-label="gigabytes por segundo">GB/s</span></li>
+                            <li>Memória Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
+                            <li>Memória Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8) DDR4 2666MHz C16</li>
+                            <li>2x Monitor LG 25<span aria-hidden="true" aria-label="polegadas">”</span> UltraWide Full HD 25UM58</li>
+                            <li>Teclado Mecânico EPOMAKER x AULA F75</li>
+                            <li>Mouse Logitech G502 X Lightspeed</li>
+                            <li>2x Webcam Logitech Brio 4K Pro</li>
+                            <li>Microfone Audio-Technica ATR2100x-USB</li>
+                            <li>Caixa de Som Gamer Husky Gaming Storm</li>
+                            <li>Mesa Geniodesk Basic</li>
+                        </ul>
                     </div>
-                    <p>Um simples e sucinto design system open-source.</p>
-                </article>
-            </div>
-        </a>
-    </section>
-
-    <img src="assets/img/mosaic.png" width="100%" aria-hidden="true">
-
-    <!-- Tools -->
-    <div id="tab-example" class="tab-container padding-all-32 margin-t-80" style="flex: 1;">
-        <div class="flex flex-justify-center flex-align-center setup-icon">
-            <i class="ph ph-devices"></i>
+                    <div id="tab-tools_2" role="tabpanel" aria-expanded="false">
+                        <ul>
+                            <li>Apple iPhone 15 128 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
+                            <li>Apple iPhone 8 128 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
+                            <li>Samsung Galaxy Z Fold4 256 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
+                            <li>Samsung Galaxy S20 FE 128 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
+                            <li>Samsung Galaxy Watch4 Classic</li>
+                            <li>Samsung Galaxy Buds 2</li>
+                            <li>Powerbank 2000<span aria-hidden="true" aria-label="miliamperes">mAh</span></li>
+                        </ul>
+                    </div>
+                    <div id="tab-tools_3" role="tabpanel" aria-expanded="false">
+                        <ul>
+                            <li>Cafeteira Espresso Oster Xpert Perfect Brew</li>
+                            <li>Balança digital de café com timer, modelo C319</li>
+                            <li>Porta filtro duplo, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                            <li>Tamper Compactador de plástico Oster, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                            <li>Anel de dosagem, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                            <li>Distribuidor de café, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                            <li>Puck screen de alumínio, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
+                            <li>Coffee scoop, 30<span aria-hidden="true" aria-label="mililitros">ml</span></li>
+                            <li>Filtro V60, acrílico</li>
+                            <li>Filtro Melitta 103, plástico</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
         </div>
-        <ul aria-controls="tab-example" role="tablist">
-            <li role="tab" aria-controls="tab-example_1" tabindex="0" aria-selected="true" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Setup'});">Setup</li>
-            <li role="tab" aria-controls="tab-example_2" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Gadgets'});">Gadgets</li>
-            <li role="tab" aria-controls="tab-example_3" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Coffee'});">Coffee</li>
-        </ul>
-        <section class="margin-t-32">
-            <div id="tab-example_1" role="tabpanel" aria-expanded="true">
-                <ul>
-                    <li>Placa Mãe ASRock B450M Steel Legend DDR4</li>
-                    <li>Fonte ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
-                    <li>Processador AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
-                    <li>Placa de Video Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
-                    <li>SSD 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Kingston NV2, M.2 2280 PCIe, NVMe, Leitura 3500 MB/s, Gravação 2100 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span></li>
-                    <li>SSD Kingston A400, 240 <span aria-hidden="true" aria-label="gigabytes">GB</span>, SATA, Leitura 500 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span>, Gravação 350 <span aria-hidden="true" aria-label="megabytes por segundo">MB/s</span></li>
-                    <li>HD Seagate Barracuda 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Sata III 6 <span aria-hidden="true" aria-label="gigabytes por segundo">GB/s</span></li>
-                    <li>Memória Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
-                    <li>Memória Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8) DDR4 2666MHz C16</li>
-                    <li>2x Monitor LG 25<span aria-hidden="true" aria-label="polegadas">”</span> UltraWide Full HD 25UM58</li>
-                    <li>Teclado Mecânico EPOMAKER x AULA F75</li>
-                    <li>Mouse Logitech G502 X Lightspeed</li>
-                    <li>2x Webcam Logitech Brio 4K Pro</li>
-                    <li>Microfone Audio-Technica ATR2100x-USB</li>
-                    <li>Caixa de Som Gamer Husky Gaming Storm</li>
-                    <li>Mesa Geniodesk Basic</li>
-                </ul>
+
+        <section class="lets-ui-section">
+            <div class="card-lets-ui card-glass">
+                <div style="width: 100%; height: 316px; background-color: lightgray;"></div>
+                <div class="card-body">
+                    <h3 class="headline">Let's UI</h3>
+                    <p class="body-lg">O Let's UI é um design system multibranding completo e open source, pensado para tornar interfaces totalmente fluidas.</p>
+                </div>
+                <div class="flex" style="gap: 24px">
+                    <a href="https://github.com/mateusvillain/lets-ui-css" target="_blank" rel="noopener noreferrer">
+                        <button class="icon-button btn-dark">
+                            <i class="ph ph-github-logo"></i>
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button class="icon-button btn-dark">
+                            <i class="ph ph-figma-logo"></i>
+                        </button>
+                    </a>
+                </div>
             </div>
-            <div id="tab-example_2" role="tabpanel" aria-expanded="false">
-                <ul>
-                    <li>Samsung Galaxy Z Fold4 256 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
-                    <li>Samsung Galaxy S20 FE 256 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
-                    <li>Samsung Galaxy Watch4 Classic</li>
-                    <li>Samsung Galaxy Buds 2</li>
-                    <li>Powerbank 2000<span aria-hidden="true" aria-label="miliamperes">mAh</span></li>
-                </ul>
-            </div>
-            <div id="tab-example_3" role="tabpanel" aria-expanded="false">
-                <ul>
-                    <li>Orfeu Clássico, café arábico em grãos</li>
-                    <li>Cafeteira Espresso Oster Xpert Perfect Brew</li>
-                    <li>Prensa Francesa</li>
-                    <li>Cafeteira Italiana</li>
-                    <li>Timemore C3</li>
-                    <li>Balança digital de café com timer, modelo C319</li>
-                    <li>Porta filtro duplo, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
-                    <li>Tamper Compactador de plástico Oster, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
-                    <li>Anel de dosagem, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
-                    <li>Distribuidor de café, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
-                    <li>Puck screen de alumínio, 58<span aria-hidden="true" aria-label="milímetros">mm</span></li>
-                    <li>Coffee scoop, 30<span aria-hidden="true" aria-label="mililitros">ml</span></li>
-                    <li>Filtro Melitta 103</li>
-                </ul>
+
+            <!-- Components -->
+            <div class="float-layer">
+                <div class="code-tokens code-block scroll-float" style="width: 360px;">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="line-number">1</td>
+                                <td><span class="yellow">{</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">2</td>
+                                <td>&nbsp;&nbsp;<span class="light-blue">"brand":</span> <span class="pink">{</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">3</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;<span class="light-blue">"spacing":</span> <span class="blue">{</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">4</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="light-blue">"2xs":</span> <span class="yellow">{</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">5</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="light-blue">"min":</span> <span class="pink">{</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">6</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="light-blue">"value":</span> <span class="orange">"0.125rem"</span><span>,</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">7</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="light-blue">"type":</span> <span class="orange">"spacing"</span></td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">8</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pink">}</span><span>,</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-auto-layout card card-border scroll-float" style="width: 320px;">
+                    <div class="card-cover">
+                        <img src="img/auto-layout.svg" alt="">
+                    </div>
+                    <div class="card-body">
+                        <p class="body-lg txt-bold">How to use auto layout</p>
+                        <p class="body-lg">Learn to use auto layout and become more proficient with Figma.</p>
+                        <p class="body-sm" style="margin-top: 16px">30 minutes</p>
+                    </div>
+                </div>
+
+                <div class="card modal scroll-float" style="width: 480px;">
+                    <div>
+                        <h3 class="block-title">New project</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div class="modal-item modal-item-active" style="border-radius: var(--lui-border-radius-8);">
+                            <p class="body-lg txt-bold">Blank project</p>
+                            <p class="body-lg">Start a project from scratch</p>
+                        </div>
+                        <div class="modal-item" style="border-radius: var(--lui-border-radius-8);">
+                            <p class="body-lg txt-bold">Starting from a template</p>
+                            <p class="body-lg">Choose a ready-made template and edit later</p>
+                        </div>
+                    </div>
+                    <div class="flex" style="gap: 24px;">
+                        <button class="btn btn-lg btn-secondary" style="width: 100%;">Cancel</button>
+                        <button class="btn btn-lg btn-primary" style="width: 100%;">Create project</button>
+                    </div>
+                </div>
+
+                <div class="alert bc-info scroll-float" role="alert" style="width: 420px;">
+                    <div class="alert-content">
+                        <i class="alert-icon ph ph-info" aria-hidden="true"></i>
+                        <div class="alert-text">
+                            <p>New update available</p>
+                            <p>A new version of the system is ready to be installed. Restart to apply the improvements.</p>
+                        </div>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn btn-primary btn-lg">Restart now</button>
+                    </div>
+                </div>
+
+                <div class="menu-dropdown scroll-float" style="width: 240px;">
+                    <div class="menu-item">
+                        <p>New</p>
+                        <i class="ph ph-caret-right"></i>
+                    </div>
+                    <div class="menu-item">
+                        <p>Open</p>
+                        <div class="shortcut">
+                            <p>Ctrl+O</p>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <p>Save as</p>
+                        <i class="ph ph-caret-right"></i>
+                    </div>
+                    <div class="separator-space">
+                        <div class="separator"></div>
+                    </div>
+                    <div class="menu-item">
+                        <p>Rename</p>
+                    </div>
+                    <div class="menu-item">
+                        <p>Delete</p>
+                    </div>
+                </div>
+
+                
+
+                <div class="tokens-text code-block scroll-float" style="width: 400px;">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="line-number">1</td>
+                                <td class="light-blue">display</td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">2</td>
+                                <td class="light-blue">title</td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">3</td>
+                                <td class="light-blue">subtitle</td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">4</td>
+                                <td class="light-blue">block-title</td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">5</td>
+                                <td class="light-blue">subheadline</td>
+                            </tr>
+                            <tr>
+                                <td class="line-number">6</td>
+                                <td class="light-blue">overtitle</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>  
             </div>
         </section>
+        
     </div>
-    <section class="flex card flex-column gap-16 margin-t-16">
-        <div class="flex flex-justify-center flex-align-center setup-icon">
-            <i class="ph ph-squares-four"></i>
-        </div>
-        <h2 class="block-title">Apps</h2>
-        <ul class="flex gap-16 gadgets">
-            <li>
-                <img src="assets/img/apps/arc.svg" width="32px" alt="Arc Browser">
-            </li>
-            <li>
-                <img src="assets/img/apps/chatgpt.svg" width="32px" alt="ChatGPT">
-            </li>
-            <li>
-                <img src="assets/img/apps/figma.svg" width="32px" alt="Figma">
-            </li>
-            <li>
-                <img src="assets/img/apps/framer.svg" width="32px" alt="Framer">
-            </li>
-            <li>
-                <img src="assets/img/apps/notion-calendar.svg" width="32px" alt="Notion Calendar">
-            </li>
-            <li>
-                <img src="assets/img/apps/obsidian.svg" width="32px" alt="Obsidian">
-            </li>
-            <li>
-                <img src="assets/img/apps/spotify.svg" width="32px" alt="Spotify">
-            </li>
-            <li>
-                <img src="assets/img/apps/vscode.svg" width="32px" alt="Visual Studio Code">
-            </li>
-        </ul>
-    </section>
-    <section class="flex card flex-column gap-16 margin-t-16">
-        <div class="flex flex-justify-center flex-align-center setup-icon">
-            <i class="ph ph-music-note"></i>
-        </div>
-        <h2 class="block-title">Playlists</h2>
-        <iframe
-            style="border-radius:16px"
-            src="https://open.spotify.com/embed/playlist/7oM7VrooXTrWAvCJZFemDE?utm_source=generator"
-            width="100%"
-            height="152"
-            frameBorder="0"
-            allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 1'});">
-        </iframe>
-        <iframe
-            style="border-radius:16px"
-            src="https://open.spotify.com/embed/playlist/1RZaY2UuSdjTNGlXghdfl3?utm_source=generator"
-            width="100%"
-            height="152"
-            frameBorder="0"
-            allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 2'});">
-        </iframe>
-    </section>
 
-    <script src="assets/js/tabs.js"></script>
+    <script src="js/horizontal-scroll.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="js/time.js"></script>
+    <script src="js/weather.js"></script>
 </body>
 </html>
