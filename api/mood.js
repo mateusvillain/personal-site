@@ -25,10 +25,15 @@ export default async function handler(req, res) {
     }
 
     const page = data.results[0];
-    const emoji = page.properties.Emoji?.rich_text?.[0]?.plain_text || '🙂';
 
-    res.status(200).json({ mood: `Mood do dia: ${emoji}` });
+    const emoji = page.properties.Emoji?.rich_text?.[0]?.plain_text || '🤔';
+    const mensagem = page.properties.Mensagem?.rich_text?.[0]?.plain_text || '';
+
+    res.status(200).json({
+      mood: `Mood do dia: ${emoji}`,
+      mensagem
+    });
   } catch (err) {
-    res.status(500).json({ erro: 'Erro ao buscar mood' });
+    res.status(500).json({ erro: '🤔' });
   }
 }
