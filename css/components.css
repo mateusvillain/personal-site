@@ -103,3 +103,53 @@ td.light-blue::before {
 .menu-dropdown {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.04), 0 12px 20px rgba(0, 0, 0, 0.12);
 }
+
+/* Desktop */
+@media (min-width: 769px) {
+  .scroll-float {
+    transition: transform 0.1s linear;
+    will-change: transform;
+  }
+
+  .float-layer {
+    position: relative;
+    height: 600px; /* ajuste conforme seu layout */
+    width: 100vw;
+  }
+
+  .code-tokens {
+    position: absolute;
+    top: 40px;
+    left: 0;
+  }
+
+  .card-auto-layout {
+    position: absolute;
+    top: 160px;
+    left: 0;
+  }
+
+  .modal {
+    position: absolute;
+    top: 0;
+    left: 240px;
+  }
+
+  .alert {
+    position: absolute;
+    top: 300px;
+    left: 500px;
+  }
+
+  .menu-dropdown {
+    position: absolute;
+    top: 100px;
+    left: 800px;
+  }
+
+  .tokens-text {
+    position: absolute;
+    top: 400px;
+    left: 800px;
+  }
+}
