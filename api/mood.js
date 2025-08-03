@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     const mensagem = page.properties.Mensagem?.rich_text?.[0]?.plain_text || '';
 
     res.status(200).json({
-      mood: `Mood do dia: ${emoji}`,
+      mood: `${emoji}`,
       mensagem
     });
   } catch (err) {
