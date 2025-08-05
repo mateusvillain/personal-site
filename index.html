@@ -59,6 +59,16 @@
 </head>
 <body>
     <div class="scroll-container">
+        <div class="body-sm flex footer-text" style="gap: 16px">
+            <p style="color: white;">
+                <a href="https://pt.wikipedia.org/wiki/Crici%C3%BAma" target="_blank">Criciúma, SC</a>
+            </p>
+            <span style="color: white;" aria-hidden="true">⸬</span>
+            <p style="color: white;" id="hora"></p>
+            <span style="color: white;" aria-hidden="true">⸬</span>
+            <p style="color: white;" id="clima"></p>
+        </div>
+
         <main class="flex flex-justify-center">
             <section>
                 <div class="image">
@@ -73,12 +83,17 @@
                     <h2 class="subtitle ease-entrance-longer-2">Product designer, writer and coffee geek</h2>
                 </hgroup>
                 <p>I was born and still live in the city of Criciúma, in Santa Catarina, together with my wife, my dog Amora, and my cat Figma. I've been working with product design since 2016, and I'm currently a senior at Locaweb, responsible for the KingHost dashboard and app, as well as the design system.</p>
-                <div class="body-sm flex footer-text" style="gap: 16px">
-                    <p style="color: white;">Criciúma, SC</p>
-                    <span style="color: white;" aria-hidden="true">⸬</span>
-                    <p style="color: white;" id="hora"></p>
-                    <span style="color: white;" aria-hidden="true">⸬</span>
-                    <p style="color: white;" id="clima"></p>
+                <div class="flex social-media">
+                    <a href="https://linkedin.com/in/mateusvillain" target="_blank" rel="noopener noreferrer">
+                        <button class="icon-button btn-dark">
+                            <i class="ph ph-linkedin-logo"></i>
+                        </button>
+                    </a>
+                    <a href="https://github.com/mateusvillain" target="_blank" rel="noopener noreferrer">
+                        <button class="icon-button btn-dark">
+                            <i class="ph ph-github-logo"></i>
+                        </button>
+                    </a>
                 </div>
             </section>
         </main>
@@ -92,39 +107,53 @@
                 </div>
                 <h2 class="headline">Stack</h2>
                 <ul class="flex flex-wrap" style="gap: 16px; margin-top: 16px;">
-                    <li>
-                        <img src="img/apps/arc.svg" width="32px" alt="Arc Browser">
-                    </li>
-                    <li>
-                        <img src="img/apps/chatgpt.svg" width="32px" alt="ChatGPT">
-                    </li>
-                    <li>
-                        <img src="img/apps/figma.svg" width="32px" alt="Figma">
-                    </li>
-                    <li>
-                        <img src="img/apps/framer.svg" width="32px" alt="Framer">
-                    </li>
-                    <li>
-                        <img src="img/apps/notion-calendar.svg" width="32px" alt="Notion Calendar">
-                    </li>
-                    <li>
-                        <img src="img/apps/obsidian.svg" width="32px" alt="Obsidian">
-                    </li>
-                    <li>
-                        <img src="img/apps/spotify.svg" width="32px" alt="Spotify">
-                    </li>
-                    <li>
-                        <img src="img/apps/vscode.svg" width="32px" alt="Visual Studio Code">
-                    </li>
+                    <li><img src="img/apps/zen.svg" width="32px" alt="Zen Browser"></li>
+                    <li><img src="img/apps/figma.svg" width="32px" alt="Figma"></li>
+                    <li><img src="img/apps/rive.svg" width="32px" alt="Rive"></li>
+                    <li><img src="img/apps/vscode.svg" width="32px" alt="Visual Studio Code"></li>
+                    <li><img src="img/apps/git.svg" width="32px" alt="Git"></li>
+                    <li><img src="img/apps/chatgpt.svg" width="32px" alt="ChatGPT"></li>
+                    <li><img src="img/apps/manus.svg" width="32px" alt="Manus"></li>
+                    <li><img src="img/apps/obsidian.svg" width="32px" alt="Obsidian"></li>
+                    <li><img src="img/apps/notion.svg" width="32px" alt="Notion"></li>
+                    <li><img src="img/apps/notion-calendar.svg" width="32px" alt="Notion Calendar"></li>
+                    <li><img src="img/apps/spotify.svg" width="32px" alt="Spotify"></li>
                 </ul>
             </section>
 
             <!-- Playlists -->
-            
+            <section class="playlists card-glass">
+                <div class="flex flex-justify-center flex-align-center setup-icon">
+                    <i class="ph ph-music-note"></i>
+                </div>
+                <h2 class="headline">Playlists</h2>
+                <iframe
+                    style="border-radius:16px;"
+                    src="https://open.spotify.com/embed/playlist/7oM7VrooXTrWAvCJZFemDE?utm_source=generator"
+                    width="100%"
+                    height="152"
+                    frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 1'});">
+                </iframe>
+                <iframe
+                    style="border-radius:16px; height: 80px;"
+                    src="https://open.spotify.com/embed/playlist/1RZaY2UuSdjTNGlXghdfl3?utm_source=generator"
+                    width="100%"
+                    height="80"
+                    frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    onclick="gtag('event', 'click', {event_category: 'playlists',event_label: 'Playlist 2'});">
+                </iframe>
+            </section>
         </div>
 
-        <div class="card-gadgets">
-            <section id="tab-tools" class="tab-container card-glass">
+        <div>
+            <section id="tab-tools" class="tab-container card-glass tools">
                 <div class="flex flex-justify-center flex-align-center setup-icon">
                     <i class="ph ph-devices"></i>
                 </div>
@@ -134,7 +163,7 @@
                     <li role="tab" aria-controls="tab-tools_2" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Gadgets'});">Gadgets</li>
                     <li role="tab" aria-controls="tab-tools_3" tabindex="0" aria-selected="false" onclick="gtag('event', 'click', {event_category: 'tools',event_label: 'Coffee'});">Coffee</li>
                 </ul>
-                <section>
+                <section style="overflow-y: auto;">
                     <div id="tab-tools_1" role="tabpanel" aria-expanded="true">
                         <ul>
                             <li>Placa Mãe ASRock B450M Steel Legend DDR4</li>
@@ -149,9 +178,9 @@
                             <li>2x Monitor LG 25<span aria-hidden="true" aria-label="polegadas">”</span> UltraWide Full HD 25UM58</li>
                             <li>Teclado Mecânico EPOMAKER x AULA F75</li>
                             <li>Mouse Logitech G502 X Lightspeed</li>
-                            <li>2x Webcam Logitech Brio 4K Pro</li>
-                            <li>Microfone Audio-Technica ATR2100x-USB</li>
-                            <li>Caixa de Som Gamer Husky Gaming Storm</li>
+                            <li>Sony <span aria-hidden="true" aria-label="a">α</span>6000</li>
+                            <li>Webcam Logitech Brio 4K Pro</li>
+                            <li>Microfone HyperX QuadCast 2</li>
                             <li>Mesa Geniodesk Basic</li>
                         </ul>
                     </div>
@@ -186,18 +215,18 @@
 
         <section class="lets-ui-section">
             <div class="card-lets-ui card-glass">
-                <div style="width: 100%; height: 316px; background-color: lightgray;"></div>
+                <img src="img/lets-ui.png" alt="Ilustração de uma interface de usuário com layout de dashboard, incluindo barra lateral de navegação, cards de conteúdo, modais flutuantes e botões em destaque na cor roxa." width="560px" style="position: relative; top: -40px; left: -80px;">
                 <div class="card-body">
                     <h3 class="headline">Let's UI</h3>
                     <p class="body-lg">O Let's UI é um design system multibranding completo e open source, pensado para tornar interfaces totalmente fluidas.</p>
                 </div>
                 <div class="flex" style="gap: 24px">
-                    <a href="https://github.com/mateusvillain/lets-ui-css" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/mateusvillain/lets-ui-css" aria-label="Repositório do Let's UI no GitHub, nova janela" target="_blank" rel="noopener noreferrer">
                         <button class="icon-button btn-dark">
                             <i class="ph ph-github-logo"></i>
                         </button>
                     </a>
-                    <a href="#">
+                    <a href="#" aria-label="Protótipo do Let's UI no Figma, nova janela" target="_blank" rel="noopener noreferrer">
                         <button class="icon-button btn-dark">
                             <i class="ph ph-figma-logo"></i>
                         </button>
