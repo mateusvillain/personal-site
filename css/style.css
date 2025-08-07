@@ -16,10 +16,10 @@ a { text-decoration: none; }
 i { font-size: var(--lui-spacing-scale-150); }
 
 main > section > hgroup > h1 {
-    font-size: 7.5rem;
+    font-size: clamp(6rem, 10vw, 7.5rem);
     font-weight: var(--lui-typography-weight-bold);
     line-height: var(--lui-typography-line-height-md);
-    letter-spacing: -5px;
+    letter-spacing: clamp(-2px, -0.5vw, -5px);
 }
 
 .image {
@@ -97,6 +97,7 @@ main > section > hgroup > h1 {
 }
 
 .setup-icon {
+    padding: var(--lui-spacing-fixed-8);
     color: var(--lui-color-neutral-light-text-body);
     width: var(--lui-spacing-fixed-40);
     height: var(--lui-spacing-fixed-40);
@@ -174,6 +175,12 @@ ul.gadgets li { margin-bottom: 0; }
     }
 }
 
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px !important;
+}
+
 /* Desktop */
 @media (min-width: 769px) {
     .card-gadgets {
@@ -190,13 +197,6 @@ ul.gadgets li { margin-bottom: 0; }
 
     .playlists {
         width: 480px;
-        overflow-y: auto;
-    }
-
-    .playlist-iframe {
-        width: 100%;
-        height: 160px !important;
-        border-radius: 16px;
     }
 
     .tools {
@@ -265,10 +265,24 @@ ul.gadgets li { margin-bottom: 0; }
         transform: translateY(-50%) translateX(8px);
         white-space: nowrap;
     }
+
+    .card-lets-ui > img {
+        width: 560px;
+        position: relative;
+        top: -40px;
+        left: -80px;
+    }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
+    .card-lets-ui > img {
+        width: 640px;
+        position: relative;
+        top: -40px;
+        left: -80px;
+    }
+    
     html, body,
     .float-layer {
         display: flex;
@@ -293,7 +307,7 @@ ul.gadgets li { margin-bottom: 0; }
 
     main {
         text-align: center;
-        margin-bottom: 40px;
+        margin: 40px 0 40px 0;
 
         section {
             hgroup {
@@ -305,6 +319,20 @@ ul.gadgets li { margin-bottom: 0; }
                 }
             }
         }
+    }
+
+    .social-media {
+        justify-content: center;
+        margin-top: 16px;
+    }
+
+    .footer-text {
+        justify-content: center;
+    }
+
+    .float-layer {
+        flex-direction: column;
+        padding: 16px;
     }
 
     h1 {
