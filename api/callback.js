@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       },
       body: new URLSearchParams({
         code,
-        redirect_uri: `https://https://personal-site-kohl-psi.vercel.app/api/callback`,
+        redirect_uri: `https://personal-site-kohl-psi.vercel.app/api/callback`,
         grant_type: 'authorization_code'
       })
     });
