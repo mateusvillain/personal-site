@@ -169,10 +169,6 @@ ul.gadgets li { margin-bottom: 0; }
 
 .tools ul li {
     margin-bottom: var(--lui-spacing-fixed-8);
-
-    &:last-child {
-        margin-bottom: var(--lui-spacing-fixed-0);
-    }
 }
 
 .card-body {
@@ -200,7 +196,7 @@ ul.gadgets li { margin-bottom: 0; }
     }
 
     .tools {
-        width: 520px;
+        width: 560px;
         height: 100%;
         margin-left: 48px;
     }
@@ -251,8 +247,8 @@ ul.gadgets li { margin-bottom: 0; }
 
     .footer-text {
         position: absolute;
-        bottom: 24px;
-        left: 24px;
+        bottom: var(--lui-spacing-fixed-24);
+        left: var(--lui-spacing-fixed-24);
     }
 
     .mobile-grid {
@@ -312,7 +308,7 @@ ul.gadgets li { margin-bottom: 0; }
         section {
             hgroup {
                 margin-top: -80px;
-                margin-bottom: 40px;
+                margin-bottom: var(--lui-spacing-fixed-40);
 
                 h1 {
                     line-height: 1.1;
@@ -321,18 +317,26 @@ ul.gadgets li { margin-bottom: 0; }
         }
     }
 
-    .social-media {
-        justify-content: center;
-        margin-top: 16px;
-    }
-
+    .social-media,
     .footer-text {
         justify-content: center;
     }
 
-    .float-layer {
+    .float-layer,
+    .card-gadgets {
         flex-direction: column;
-        padding: 16px;
+    }
+
+    .social-media {
+        margin-top: var(--lui-spacing-fixed-16);
+    }
+
+    .footer-text {
+        flex-wrap: wrap;
+    }
+
+    .float-layer {
+        padding: var(--lui-spacing-fixed-16);
     }
 
     h1 {
@@ -340,8 +344,7 @@ ul.gadgets li { margin-bottom: 0; }
     }
 
     .card-gadgets {
-        flex-direction: column;
-        gap: 40px;
+        gap: var(--lui-spacing-fixed-40);
     }
 
     .grid {
@@ -372,13 +375,12 @@ ul.gadgets li { margin-bottom: 0; }
         overflow-x: hidden;
         overflow-y: auto;
         height: auto;
-        padding: 16px;
+        padding: var(--lui-spacing-fixed-16);
     }
 
     .tooltip-text {
         max-width: 160px;
-        top: 120%;
-        right: -80%;
+        right: 120%;
     }
 }
 
