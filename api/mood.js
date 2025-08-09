@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!data.results || data.results.length === 0) {
-      return res.status(200).json({ mood: '🤔 Nenhum mood encontrado' });
+      return res.status(200).json({ mood: '🤔 Have you drunk water today?' });
     }
 
     const page = data.results[0];

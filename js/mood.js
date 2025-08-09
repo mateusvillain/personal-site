@@ -7,7 +7,7 @@ async function carregarMood() {
     document.getElementById('mensagem').textContent = data.mensagem || '';
   } catch (err) {
     document.getElementById('mood').textContent = '🤔';
-    document.getElementById('mensagem').textContent = 'Não foi possível carregar o mood.';
+    document.getElementById('mensagem').textContent = "Can't load mood";
 
     console.error(err);
   }

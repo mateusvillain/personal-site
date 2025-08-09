@@ -4,7 +4,7 @@ async function carregarHora() {
     const data = await res.json();
     document.getElementById('hora').textContent = data.hora;
   } catch (err) {
-    document.getElementById('hora').textContent = 'Erro ao carregar hora';
+    document.getElementById('hora').textContent = "Can't load time";
   }
 }
 carregarHora();

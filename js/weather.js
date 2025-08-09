@@ -4,7 +4,7 @@ async function carregarClima() {
     const data = await res.json();
     document.getElementById('clima').textContent = data.clima;
   } catch (err) {
-    document.getElementById('clima').textContent = 'Erro ao carregar clima';
+    document.getElementById('clima').textContent = "Can't load weather";
   }
 }
 

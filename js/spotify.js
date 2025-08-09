@@ -6,16 +6,16 @@ async function carregarMusica() {
     const el = document.getElementById('spotify');
 
     if (!data.isPlaying) {
-      el.textContent = 'Nenhuma música tocando agora';
+      el.textContent = 'No music playing now';
     } else {
       el.innerHTML = `
-        🎵 <a href="${data.songUrl}" target="_blank">${data.title}</a> - ${data.artist}
+        <a href="${data.songUrl}" target="_blank">${data.title}</a> - ${data.artist} 🎵
       `;
     }
   } catch (err) {
-    document.getElementById('spotify').textContent = 'Erro ao carregar música';
+    document.getElementById('spotify').textContent = "Can't load Spotify";
   }
 }
 
 carregarMusica();
-setInterval(carregarMusica, 30000); // Atualiza a cada 30 segundos
+setInterval(carregarMusica, 30000);
