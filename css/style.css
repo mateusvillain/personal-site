@@ -8,8 +8,9 @@
 body, html {
     background-color: #090A0B !important;
     justify-content: center;
-    height: 100%;
-    overflow: hidden;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 a { text-decoration: none; }
@@ -180,6 +181,56 @@ ul.gadgets li { margin-bottom: 0; }
 
 /* Desktop */
 @media (min-width: 769px) {
+    /* Nova abordagem: viewport fixa + trilho transladado */
+    html, body { height: 100%; overflow: hidden; }
+    .hscroll-wrapper {
+        position: relative;
+    }
+
+    .scroll-container {
+        display: block; /* sobrepõe display:flex global */
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden; /* esconde o excesso horizontal, trilho move por translate */
+        /* Evita deslocamento vertical durante o pin */
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .scroll-track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        height: 100%;
+        gap: var(--lui-spacing-fixed-16);
+        will-change: transform;
+        width: max-content; /* garante largura total do conteúdo em linha */
+    }
+
+    /* Corrige itens crescendo pelo tamanho do conteúdo e quebrando layout */
+    .scroll-track > * {
+        min-width: 0; /* permite quebra de linha dentro dos itens de texto */
+    }
+
+    /* Garanta que o primeiro bloco (hero) ocupe a largura visível */
+    .scroll-track > main {
+        width: calc(100vw - (var(--lui-spacing-fixed-80) * 2));
+        max-width: 1200px;
+    }
+
+    /* Painéis: alinham verticalmente e ocupam 100% da altura visível */
+    .scroll-track > * {
+        min-width: 0;
+        flex: 0 0 auto;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding-top: var(--lui-spacing-fixed-80);
+        padding-bottom: var(--lui-spacing-fixed-80);
+    }
+
     .card-gadgets {
         flex-direction: column;
         align-items: end;
@@ -389,6 +440,18 @@ ul.gadgets li { margin-bottom: 0; }
 .ease-entrance-default { animation: easeEntranceDefault 1s ease 0s 1 normal forwards; }
 .ease-entrance-longer { animation: easeEntranceLonger 1.4s ease 0s 1 normal forwards; }
 .ease-entrance-longer-2 { animation: easeEntranceLonger2 1.4s ease 0s 1 normal forwards; }
+
+/* Overrides finais para desktop: viewport fixa + trilho horizontal */
+@media (min-width: 769px) {
+    html, body { height: 100%; overflow: hidden; }
+    .scroll-container {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        padding-top: var(--lui-spacing-fixed-80);
+        padding-bottom: var(--lui-spacing-fixed-80);
+    }
+}
 
 @keyframes easeEntranceDefault {
 	0% {

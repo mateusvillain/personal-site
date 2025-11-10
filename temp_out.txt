@@ -1,0 +1,123 @@
+    .scroll-track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        height: 100%;
+        gap: var(--lui-spacing-fixed-16);
+        will-change: transform;
+        width: max-content; /* garante largura total do conteúdo em linha */
+    }
+
+    /* Corrige itens crescendo pelo tamanho do conteúdo e quebrando layout */
+    .scroll-track > * {
+        min-width: 0; /* permite quebra de linha dentro dos itens de texto */
+    }
+
+    /* Garanta que o primeiro bloco (hero) ocupe a largura visível */
+    .scroll-track > main {
+        width: calc(100vw - (var(--lui-spacing-fixed-80) * 2));
+        max-width: 1200px;
+    }
+
+    .card-gadgets {
+        flex-direction: column;
+        align-items: end;
+        justify-content: end;
+        gap: var(--lui-spacing-fixed-64);
+        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+    }
+
+    .stack {
+        width: 338px;
+    }
+
+    .playlists {
+        width: 480px;
+    }
+
+    .tools {
+        width: 560px;
+        height: 100%;
+    .scroll-track > * {
+        min-width: 0; /* permite quebra de linha dentro dos itens de texto */
+    }
+
+    /* Garanta que o primeiro bloco (hero) ocupe a largura visível */
+    .scroll-track > main {
+        width: calc(100vw - (var(--lui-spacing-fixed-80) * 2));
+        max-width: 1200px;
+    }
+
+    .card-gadgets {
+        flex-direction: column;
+        align-items: end;
+        justify-content: end;
+        gap: var(--lui-spacing-fixed-64);
+        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+    }
+
+    .stack {
+        width: 338px;
+    }
+
+    .playlists {
+        width: 480px;
+    }
+
+    .tools {
+        width: 560px;
+        height: 100%;
+        margin-left: 48px;
+    }
+
+    .card-lets-ui {
+        width: 480px;
+    }
+
+    .lets-ui-section {
+        display: flex;
+        align-items: center;
+        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+    }
+    .scroll-track > main {
+        width: calc(100vw - (var(--lui-spacing-fixed-80) * 2));
+        max-width: 1200px;
+    }
+
+    .card-gadgets {
+        flex-direction: column;
+        align-items: end;
+        justify-content: end;
+        gap: var(--lui-spacing-fixed-64);
+        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+    }
+
+    .stack {
+        width: 338px;
+    }
+
+    .playlists {
+        width: 480px;
+    }
+
+    .tools {
+        width: 560px;
+        height: 100%;
+        margin-left: 48px;
+    }
+
+    .card-lets-ui {
+        width: 480px;
+    }
+
+    .lets-ui-section {
+        display: flex;
+        align-items: center;
+        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+    }
+
+    main {
+        section {
+            hgroup {
+                margin-top: -218px;

@@ -1,77 +1,119 @@
 const floatEls = document.querySelectorAll('.scroll-float');
 const contain = document.querySelector('.scroll-container');
 
+// Efeito flutuante: apenas X no desktop
+let horizontalProgress = 0;
 function updateFloatingEffect() {
-    const isMobile = window.innerWidth <= 768;
-    const scrollAmount = isMobile ? contain.scrollTop : contain.scrollLeft;
-
-    floatEls.forEach((el, i) => {
+  const isMobile = window.innerWidth <= 768;
+  const amount = isMobile ? (contain ? contain.scrollTop : 0) : horizontalProgress;
+  floatEls.forEach((el, i) => {
     const factor = 0.3 + (i % 3) * 0.1;
-    const offsetX = Math.sin(scrollAmount * 0.005 + i) * 100 * factor;
-    const offsetY = Math.cos(scrollAmount * 0.005 + i) * 10 * factor;
-    const rotate = Math.sin(scrollAmount * 0.003 + i) * 20 * factor;
-
+    const offsetX = Math.sin(amount * 0.005 + i) * 100 * factor;
+    const offsetY = isMobile ? Math.cos(amount * 0.005 + i) * 10 * factor : 0;
+    const rotate = isMobile ? Math.sin(amount * 0.003 + i) * 20 * factor : 0;
     el.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
-    });
+  });
 }
-
-// Scroll horizontal
-contain.addEventListener('scroll', updateFloatingEffect);
-window.addEventListener('resize', updateFloatingEffect);
+if (contain) contain.addEventListener('scroll', updateFloatingEffect);
 updateFloatingEffect();
 
-const container = document.querySelector('.scroll-container');
-let scrollVelocity = 0;
+// Nova abordagem (desktop): viewport fixa + trilho transladado (sem scroll vertical)
+let track = null;
+let current = 0;   // posição atual
+let target = 0;    // posição desejada
+let maxScroll = 0; // limite
+let rafId = 0;
 
-// Melhor suporte a trackpad/mouse: considera deltaX e deltaY + deltaMode
-container.addEventListener('wheel', (e) => {
-    if (window.innerWidth <= 768) return;
-
-    const modeScale = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? container.clientWidth : 1);
-    const dx = (e.deltaX || 0) * modeScale;
-    const dy = (e.deltaY || 0) * modeScale;
-
-    // Só intercepta se vamos realmente mover horizontalmente
-    if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) > 0) {
-        e.preventDefault();
-        scrollVelocity += dx;
-    } else if (dy !== 0) {
-        // Converte rolagem vertical em horizontal
-        e.preventDefault();
-        scrollVelocity += dy * 1.5;
-    }
-}, { passive: false });
-
-// Atualiza o scroll constantemente com desaceleração
-function updateScroll() {
-    if (Math.abs(scrollVelocity) > 0.1) {
-        container.scrollLeft += scrollVelocity;
-        scrollVelocity *= 0.9; // desacelera suavemente
-    } else {
-        scrollVelocity = 0;
-    }
-    requestAnimationFrame(updateScroll);
+function ensureTrack() {
+  if (!contain) return null;
+  // Se foi criado wrapper sticky antes, desfaz
+  const parent = contain.parentElement;
+  if (parent && parent.classList.contains('hscroll-wrapper')) {
+    parent.parentNode.insertBefore(contain, parent);
+    parent.remove();
+  }
+  let t = contain.querySelector('.scroll-track');
+  if (!t) {
+    t = document.createElement('div');
+    t.className = 'scroll-track';
+    while (contain.firstChild) t.appendChild(contain.firstChild);
+    contain.appendChild(t);
+  }
+  return t;
 }
 
-updateScroll();
+function recalc() {
+  if (!contain) return;
+  track = ensureTrack();
+  if (!track) return;
+  const vw = contain.clientWidth;
+  const total = track.scrollWidth;
+  maxScroll = Math.max(0, total - vw);
+  target = Math.min(Math.max(target, 0), maxScroll);
+  current = Math.min(Math.max(current, 0), maxScroll);
+  applyTransform();
+}
 
-// Navegação por teclado em desktop
-window.addEventListener('keydown', (e) => {
-    if (window.innerWidth <= 768) return;
-    const key = e.key;
-    let delta = 0;
-    const step = 80;
-    const page = container.clientWidth * 0.9;
+function applyTransform() {
+  if (!track) return;
+  track.style.transform = `translate3d(${-current}px, 0, 0)`;
+  horizontalProgress = current;
+  updateFloatingEffect();
+}
 
-    if (key === 'ArrowRight') delta = step;
-    else if (key === 'ArrowLeft') delta = -step;
-    else if (key === 'PageDown') delta = page;
-    else if (key === 'PageUp') delta = -page;
-    else if (key === 'Home') delta = -container.scrollLeft;
-    else if (key === 'End') delta = (container.scrollWidth - container.clientWidth) - container.scrollLeft;
+function tick() {
+  const diff = target - current;
+  if (Math.abs(diff) < 0.1) {
+    current = target;
+    applyTransform();
+    rafId = 0;
+    return;
+  }
+  current += diff * 0.12; // easing
+  applyTransform();
+  rafId = requestAnimationFrame(tick);
+}
 
-    if (delta !== 0) {
-        e.preventDefault();
-        container.scrollLeft += delta;
-    }
-});
+function startTick() {
+  if (!rafId) rafId = requestAnimationFrame(tick);
+}
+
+function onWheel(e) {
+  if (window.innerWidth <= 768) return; // somente desktop
+  if (!track) return;
+  const modeScale = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? window.innerHeight : 1);
+  const dx = (e.deltaX || 0) * modeScale;
+  const dy = (e.deltaY || 0) * modeScale;
+  const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+  if (delta !== 0) {
+    e.preventDefault();
+    target = Math.min(Math.max(target + delta, 0), maxScroll);
+    startTick();
+  }
+}
+
+function onKey(e) {
+  if (window.innerWidth <= 768) return;
+  if (!track) return;
+  let delta = 0;
+  const step = 80;
+  const page = contain.clientWidth * 0.9;
+  if (e.key === 'ArrowRight') delta = step;
+  else if (e.key === 'ArrowLeft') delta = -step;
+  else if (e.key === 'PageDown') delta = page;
+  else if (e.key === 'PageUp') delta = -page;
+  else if (e.key === 'Home') delta = -target;
+  else if (e.key === 'End') delta = maxScroll - target;
+  if (delta !== 0) {
+    e.preventDefault();
+    target = Math.min(Math.max(target + delta, 0), maxScroll);
+    startTick();
+  }
+}
+
+window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+window.addEventListener('keydown', onKey);
+window.addEventListener('resize', recalc);
+
+// Inicializa
+recalc();
