@@ -80,6 +80,7 @@ main > section > hgroup > h1 {
     overflow-y: hidden;
     height: 100vh;
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     padding: var(--lui-spacing-fixed-80);
     gap: var(--lui-spacing-fixed-16);
 }
