@@ -16,6 +16,8 @@ body, html {
 a { text-decoration: none; }
 i { font-size: var(--lui-spacing-scale-150); }
 
+main { margin-left: var(--lui-spacing-fixed-64); }
+
 main > section > hgroup > h1 {
     font-size: clamp(6rem, 10vw, 7.5rem);
     font-weight: var(--lui-typography-weight-bold);
@@ -33,6 +35,12 @@ main > section > hgroup > h1 {
 .card-glass,
 .card-gadgets {
     display: flex;
+}
+
+/* Efeitos flutuantes */
+.scroll-float {
+    transform-origin: center center;
+    will-change: transform;
 }
 
 .mood {
@@ -120,7 +128,6 @@ ul.gadgets li { margin-bottom: 0; }
     border: 1px solid hsl(210, 2%, 22%);
     border-radius: var(--lui-spacing-fixed-32);
     overflow: hidden;
-    margin-bottom: 16px;
 
     [role=tablist] {
         display: flex;
@@ -169,14 +176,22 @@ ul.gadgets li { margin-bottom: 0; }
     }
 }
 
-.tools ul li {
+.tool-list ul li {
     margin-bottom: var(--lui-spacing-fixed-8);
+}
+
+.tool-list ul li:last-child {
+    margin-bottom: var(--lui-spacing-fixed-0);
 }
 
 .card-body {
     display: flex;
     flex-direction: column;
     gap: 8px !important;
+}
+
+.footer-text {
+    position: absolute;
 }
 
 /* Desktop */
@@ -239,6 +254,17 @@ ul.gadgets li { margin-bottom: 0; }
         margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
     }
 
+    .playlists-tools {
+        display: flex;
+        align-items: flex-end;
+        gap: 40px;
+    }
+
+    .tools-stack {
+        display: flex;
+        gap: 40px;
+    }
+
     .stack {
         width: 338px;
     }
@@ -249,8 +275,7 @@ ul.gadgets li { margin-bottom: 0; }
 
     .tools {
         width: 560px;
-        height: 100%;
-        margin-left: 48px;
+        height: 36rem;
     }
 
     .card-lets-ui {
@@ -298,9 +323,8 @@ ul.gadgets li { margin-bottom: 0; }
     }
 
     .footer-text {
-        position: absolute;
-        bottom: var(--lui-spacing-fixed-24);
-        left: var(--lui-spacing-fixed-24);
+        bottom: 24px;
+        left: 24px;
     }
 
     .mobile-grid {
@@ -379,11 +403,28 @@ ul.gadgets li { margin-bottom: 0; }
         flex-direction: column;
     }
 
+    .playlists-tools {
+        display: flex;
+        flex-direction: column;
+        gap: var(--lui-spacing-fixed-40);
+    }
+
+    .tools-stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--lui-spacing-fixed-40);
+    }
+
+    .stack {
+        margin-bottom: var(--lui-spacing-scale-500);
+    }
+
     .social-media {
         margin-top: var(--lui-spacing-fixed-16);
     }
 
     .footer-text {
+        margin-top: var(--lui-spacing-fixed-8);
         flex-wrap: wrap;
     }
 

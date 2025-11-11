@@ -10,7 +10,7 @@ function updateFloatingEffect() {
     const factor = 0.3 + (i % 3) * 0.1;
     const offsetX = Math.sin(amount * 0.005 + i) * 100 * factor;
     const offsetY = isMobile ? Math.cos(amount * 0.005 + i) * 10 * factor : 0;
-    const rotate = isMobile ? Math.sin(amount * 0.003 + i) * 20 * factor : 0;
+    const rotate = Math.sin(amount * 0.003 + i) * 12 * factor; // reativa leves rotações
     el.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
   });
 }
