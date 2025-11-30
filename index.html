@@ -72,15 +72,12 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-    <div class="body-sm flex footer-text" style="gap: 16px">
-            <p style="color: white;" id="hora"></p>
-            <span style="color: white;" aria-hidden="true">⸬</span>
-            <a target="_blank" href="https://www.google.com/search?q=Crici%C3%BAma%2C+SC+weather&client=firefox-b-d&sca_esv=9e9838c08b3e3a3b&ei=IcWXaLvMIMfF5OUP-rWViQQ&ved=0ahUKEwj74Oud3f6OAxXHIrkGHfpaJUEQ4dUDCBA&uact=5&oq=Crici%C3%BAma%2C+SC+weather&gs_lp=Egxnd3Mtd2l6LXNlcnAiFUNyaWNpw7ptYSwgU0Mgd2VhdGhlcjIGEAAYCBgeMgYQABgIGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogRIpAlQlARY0wdwAXgBkAEAmAGwAaABrQSqAQMwLjS4AQPIAQD4AQGYAgSgAsYDwgIKEAAYsAMY1gQYR8ICCBAAGAcYChgewgIFEAAYgATCAggQABgHGAgYHsICCBAAGAgYDRgemAMAiAYBkAYIkgcDMS4zoAe0DrIHAzAuM7gHwgPCBwUwLjIuMsgHCg&sclient=gws-wiz-serp">
-                <p style="color: white;" id="clima"></p>
-            </a>
-            <span style="color: white;" aria-hidden="true">⸬</span>
-            <p style="color: white;" id="spotify"></p>
-        </div>
+    <div class="body-sm flex footer-text">
+        <p style="color: white;" id="hora"></p>
+        <p style="color: white;" id="clima"></p>
+        <p style="color: white;" id="spotify"></p>
+        <a id="lang-switch" data-i18n="language"></a>
+    </div>
     <div class="scroll-container">
         <main class="flex flex-justify-center">
             <section>
@@ -89,24 +86,28 @@
                         <span id="mood"></span>
                         <p id="mensagem" class="body-md tooltip-text"></p>
                     </div>
-                    <img src="img/mateus-villain.jpg" class="ease-entrance-default br-8" width="280px" height="400px" style="object-fit: cover; filter: grayscale(100%);" alt="A man with a neatly trimmed beard and short hair, wearing round, brown glasses and a black turtleneck sweater. He is standing outdoors next to a tall, dark-colored pole, with a blurred green leafy background. The man has a calm and confident expression, with his arms crossed lightly in front of him. He is also wearing a thin silver necklace.">
+                    <img src="img/mateus-villain.jpg" class="ease-entrance-default br-8" width="280px" height="360px" style="object-fit: cover; filter: grayscale(100%);" alt="A man with a neatly trimmed beard and short hair, wearing round, brown glasses and a black turtleneck sweater. He is standing outdoors next to a tall, dark-colored pole, with a blurred green leafy background. The man has a calm and confident expression, with his arms crossed lightly in front of him. He is also wearing a thin silver necklace.">
                 </div>
-                <hgroup>
-                    <h1 class="ease-entrance-longer saol">Mateus Villain</h1>
-                    <h2 class="subtitle ease-entrance-longer-2">Product designer, writer and coffee geek</h2>
-                </hgroup>
-                <p class="body-lg">I was born and still live in the city of Criciúma, in Santa Catarina, together with my wife, my dog Amora, and my cat Figma. I've been working with product design since 2016, and I'm currently a senior at Locaweb, responsible for the KingHost dashboard and app, as well as the design system.</p>
-                <div class="flex social-media">
-                    <a href="https://linkedin.com/in/mateusvillain?utm_source=mateusvillain&utm_medium=referral&utm_campaign=social-media" target="_blank" rel="noopener noreferrer" data-link="linkedin" data-social="linkedin">
-                        <button class="icon-button btn-dark">
-                            <i class="ph ph-linkedin-logo"></i>
-                        </button>
-                    </a>
-                    <a href="https://github.com/mateusvillain?utm_source=mateusvillain&utm_medium=referral&utm_campaign=social-media" target="_blank" rel="noopener noreferrer" data-link="github" data-social="github">
-                        <button class="icon-button btn-dark">
-                            <i class="ph ph-github-logo"></i>
-                        </button>
-                    </a>
+                <div class="main-content">
+                    <hgroup>
+                        <h1 class="ease-entrance-longer saol">Mateus Villain</h1>
+                        <h2 class="subtitle ease-entrance-longer-2" data-i18n="role">Product designer, writer and coffee geek</h2>
+                    </hgroup>
+                    <div class="flex main-content-description">
+                        <p class="body-lg" data-i18n="about">I was born and still live in the city of Criciúma, in Santa Catarina, together with my wife, my dog Amora, and my cat Figma. I've been working with product design since 2016, and I'm currently a senior at Locaweb, responsible for the KingHost dashboard and app, as well as the design system.</p>
+                        <div class="social-media flex">
+                            <a href="https://linkedin.com/in/mateusvillain?utm_source=mateusvillain&utm_medium=referral&utm_campaign=social-media" target="_blank" rel="noopener noreferrer" data-link="linkedin" data-social="linkedin">
+                                <button class="icon-button btn-dark">
+                                    <i class="ph ph-linkedin-logo"></i>
+                                </button>
+                            </a>
+                            <a href="https://github.com/mateusvillain?utm_source=mateusvillain&utm_medium=referral&utm_campaign=social-media" target="_blank" rel="noopener noreferrer" data-link="github" data-social="github">
+                                <button class="icon-button btn-dark">
+                                    <i class="ph ph-github-logo"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
@@ -119,60 +120,48 @@
                         <div class="flex flex-justify-center flex-align-center setup-icon">
                             <i class="ph ph-devices"></i>
                         </div>
-                        <h2 class="headline">Tools</h2>
+                        <h2 class="headline" data-i18n="tools-title">Tools</h2>
                         <ul aria-controls="tab-tools" role="tablist">
                             <li role="tab" aria-controls="tab-tools_1" tabindex="0" aria-selected="true" data-tab="Setup">Setup</li>
-                            <li role="tab" aria-controls="tab-tools_2" tabindex="0" aria-selected="false" data-tab="Accessories">Accessories</li>
-                            <li role="tab" aria-controls="tab-tools_3" tabindex="0" aria-selected="false" data-tab="Gadgets">Gadgets</li>
-                            <li role="tab" aria-controls="tab-tools_4" tabindex="0" aria-selected="false" data-tab="Coffee">Coffee</li>
+                            <li role="tab" aria-controls="tab-tools_2" tabindex="0" aria-selected="false" data-tab="Accessories" data-i18n="tools-accessories-title">Accessories</li>
+                            <li role="tab" aria-controls="tab-tools_3" tabindex="0" aria-selected="false" data-tab="Coffee" data-i18n="tools-coffee-title">Coffee</li>
                         </ul>
                         <section class="tool-list" style="overflow-y: auto;">
                             <div id="tab-tools_1" role="tabpanel" aria-expanded="true">
                                 <ul class="body-lg">
-                                    <li>Motherboard ASRock B450M Steel Legend DDR4</li>
-                                    <li>Power Supply ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
-                                    <li>Processor AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
-                                    <li>Graphics Card Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
+                                    <li>ASRock B450M Steel Legend DDR4</li>
+                                    <li>ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
+                                    <li>AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
+                                    <li>Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
                                     <li>SSD 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Kingston NV2, M.2 2280 PCIe, NVMe, Read 3500 MB/s, Write 2100 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span></li>
                                     <li>SSD Kingston A400, 240 <span aria-hidden="true" aria-label="gigabytes">GB</span>, SATA, Read 500 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span>, Write 350 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span></li>
                                     <li>HD Seagate Barracuda 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Sata III 6 <span aria-hidden="true" aria-label="gigabytes per second">GB/s</span></li>
-                                    <li>Memory Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
-                                    <li>Memory Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8), 2666MHz, DDR4, CL16</li>
+                                    <li>Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
+                                    <li>Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8), 2666MHz, DDR4, CL16</li>
                                 </ul>
                             </div>
                             <div id="tab-tools_2" role="tabpanel" aria-expanded="true">
                                 <ul class="body-lg">
-                                    <li>2x Monitor LG 25<span aria-hidden="true" aria-label="inches">”</span> UltraWide Full HD 25UM58</li>
-                                    <li>Mechanical Keyboard EPOMAKER x AULA F75</li>
-                                    <li>Mouse Logitech G502 X Lightspeed</li>
-                                    <li>Sony <span aria-hidden="true" aria-label="a">α</span>6000</li>
-                                    <li>Webcam Logitech Brio 4K Pro</li>
-                                    <li>Microphone HyperX QuadCast 2</li>
-                                    <li>Desk Geniodesk Basic</li>
+                                    <li><span data-i18n="tools-accessories-monitor">2x LG 25” UltraWide Full HD 25UM58 Monitor</span></li>
+                                    <li><span data-i18n="tools-accessories-keyboard">EPOMAKER x AULA F75 Mechanical Keyboard</span></li>
+                                    <li><span data-i18n="tools-accessories-mouse">Logitech G502 X Lightspeed Mouse</span></li>
+                                    <li><span data-i18n="tools-accessories-camera">Sony α6000 Camera</span></li>
+                                    <li><span data-i18n="tools-accessories-webcam">Logitech Brio 4K Pro Webcam</span></li>
+                                    <li><span data-i18n="tools-accessories-mic">HyperX QuadCast 2 Microphone</span></li>
+                                    <li><span data-i18n="tools-accessories-desk">Geniodesk Basic Desk</span></li>
                                 </ul>
                             </div>
                             <div id="tab-tools_3" role="tabpanel" aria-expanded="false">
                                 <ul class="body-lg">
-                                    <li>Apple iPhone 15 128 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
-                                    <li>Apple iPhone 8 128 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
-                                    <li>Samsung Galaxy Z Fold4 256 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
-                                    <li>Samsung Galaxy S20 FE 128 <span aria-hidden="true" aria-label="gigabytes">GB</span></li>
-                                    <li>Samsung Galaxy Watch5 Classic</li>
-                                    <li>Samsung Galaxy Buds 2</li>
-                                    <li>Powerbank 2000<span aria-hidden="true" aria-label="milliamps">mAh</span></li>
-                                </ul>
-                            </div>
-                            <div id="tab-tools_4" role="tabpanel" aria-expanded="false">
-                                <ul class="body-lg">
                                     <li>Oster Xpert Perfect Brew</li>
-                                    <li>Coffee Grinder TIMEMORE C3</li>
-                                    <li>Coffee Scale TIMEMORE Basic 2.0</li>
-                                    <li>Porta filtro duplo, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Tamper Compactador de plástico Oster, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Anel de dosagem, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Distribuidor de café, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Puck screen de alumínio, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Filtro V60, acrílico</li>
+                                    <li><span data-i18n="tools-coffee-grinder">TIMEMORE C3 coffee grinder</span></li>
+                                    <li><span data-i18n="tools-coffee-scale">TIMEMORE Basic 2.0 coffee scale</span></li>
+                                    <li><span data-i18n="tools-coffee-portafilter">Double espresso portafilter</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                    <li>Tamper Oster, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                    <li><span data-i18n="tools-coffee-funnel">Dosing funnel</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                    <li><span data-i18n="tools-coffee-leveler">Leveler</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                    <li>Puck screen, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                    <li><span data-i18n="tools-coffee-filter">V60 dripper, acrylic</span></li>
                                 </ul>
                             </div>
                         </section>
@@ -206,7 +195,7 @@
                 <img src="img/lets-ui.png" alt="Illustration of a user interface with a dashboard layout, including sidebar navigation, content cards, floating modals, and highlighted buttons in purple.">
                 <div class="card-body">
                     <h3 class="headline">Let's UI</h3>
-                    <p class="body-lg">Let’s UI is a complete, open-source multibranding design system, created to make interfaces fully fluid.</p>
+                    <p class="body-lg" data-i18n="lets-ui-description">Let’s UI is a complete, open-source multibranding design system, created to make interfaces fully fluid.</p>
                 </div>
                 <div class="flex" style="gap: 24px">
                     <a href="https://github.com/mateusvillain/lets-ui-css?utm_source=mateusvillain&utm_medium=referral&utm_campaign=lets_ui" aria-label="Let's UI GitHub Repository, new window" target="_blank" rel="noopener noreferrer" data-link="github-lets-ui" data-lui="github">
@@ -556,6 +545,30 @@
             observer.observe(target);
         });
     </script>
+
+    <script>
+let currentLang = localStorage.getItem("lang") || "pt";
+
+function loadLanguage(lang) {
+  fetch(`./lang/${lang}.json`)
+    .then(res => res.json())
+    .then(data => {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.innerText = data[key];
+      });
+      localStorage.setItem("lang", lang);
+    });
+}
+
+loadLanguage(currentLang);
+
+document.getElementById("lang-switch").addEventListener("click", () => {
+  currentLang = currentLang === "pt" ? "en" : "pt";
+  loadLanguage(currentLang);
+});
+</script>
+
 
     <script src="js/horizontal-scroll.js"></script>
     <script src="js/tabs.js"></script>

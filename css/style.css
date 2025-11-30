@@ -39,7 +39,7 @@ main {
 main > section > hgroup > h1 {
   font-size: clamp(6rem, 10vw, 7.5rem);
   font-weight: var(--lui-typography-weight-bold);
-  line-height: var(--lui-typography-line-height-md);
+  line-height: 100%;
   letter-spacing: clamp(-2px, -0.5vw, -5px);
 }
 
