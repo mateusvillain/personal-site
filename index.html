@@ -111,62 +111,59 @@
                 </div>
             </section>
         </main>
-
-        <div>
-            <div class="playlists-tools">
-                <div class="tools-stack">
-                    <!-- Tools -->
-                    <section id="tab-tools" class="tab-container card-glass tools">
-                        <div class="flex flex-justify-center flex-align-center setup-icon">
-                            <i class="ph ph-devices"></i>
+        <div class="tools-list">
+            <div class="flex g-40 tools-stack">
+                <!-- Tools -->
+                <section id="tab-tools" class="tab-container card-glass tools">
+                    <div class="flex flex-justify-center flex-align-center setup-icon">
+                        <i class="ph ph-devices"></i>
+                    </div>
+                    <h2 class="headline" data-i18n="tools-title">Tools</h2>
+                    <ul aria-controls="tab-tools" role="tablist">
+                        <li role="tab" aria-controls="tab-tools_1" tabindex="0" aria-selected="true" data-tab="Setup">Setup</li>
+                        <li role="tab" aria-controls="tab-tools_2" tabindex="0" aria-selected="false" data-tab="Accessories" data-i18n="tools-accessories-title">Accessories</li>
+                        <li role="tab" aria-controls="tab-tools_3" tabindex="0" aria-selected="false" data-tab="Coffee" data-i18n="tools-coffee-title">Coffee</li>
+                    </ul>
+                    <section class="tool-list" style="overflow-y: auto;">
+                        <div id="tab-tools_1" role="tabpanel" aria-expanded="true">
+                            <ul class="body-lg">
+                                <li>ASRock B450M Steel Legend DDR4</li>
+                                <li>ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
+                                <li>AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
+                                <li>Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
+                                <li>SSD Kingston NV2, 1 <span aria-hidden="true" aria-label="terabyte">TB</span>, M.2 2280 PCIe, NVMe, Read 3500 MB/s, Write 2100 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span></li>
+                                <li>SSD Kingston A400, 240 <span aria-hidden="true" aria-label="gigabytes">GB</span>, SATA, Read 500 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span>, Write 350 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span></li>
+                                <li>HD Seagate Barracuda, 1 <span aria-hidden="true" aria-label="terabyte">TB</span>, Sata III 6 <span aria-hidden="true" aria-label="gigabytes per second">GB/s</span></li>
+                                <li>Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
+                                <li>Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8), 2666MHz, DDR4, CL16</li>
+                            </ul>
                         </div>
-                        <h2 class="headline" data-i18n="tools-title">Tools</h2>
-                        <ul aria-controls="tab-tools" role="tablist">
-                            <li role="tab" aria-controls="tab-tools_1" tabindex="0" aria-selected="true" data-tab="Setup">Setup</li>
-                            <li role="tab" aria-controls="tab-tools_2" tabindex="0" aria-selected="false" data-tab="Accessories" data-i18n="tools-accessories-title">Accessories</li>
-                            <li role="tab" aria-controls="tab-tools_3" tabindex="0" aria-selected="false" data-tab="Coffee" data-i18n="tools-coffee-title">Coffee</li>
-                        </ul>
-                        <section class="tool-list" style="overflow-y: auto;">
-                            <div id="tab-tools_1" role="tabpanel" aria-expanded="true">
-                                <ul class="body-lg">
-                                    <li>ASRock B450M Steel Legend DDR4</li>
-                                    <li>ATX Gamemax GP400A 400<span aria-hidden="true" aria-label="watts">W</span> Real 80Plus</li>
-                                    <li>AMD Ryzen 5 3600, 6-Core, 12-Threads, 3.6 <span aria-hidden="true" aria-label="gigahertz">GHz</span></li>
-                                    <li>Asus GeForce GTX 1650 Dual, 4 <span aria-hidden="true" aria-label="gigabytes">GB</span>, GDDR5</li>
-                                    <li>SSD 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Kingston NV2, M.2 2280 PCIe, NVMe, Read 3500 MB/s, Write 2100 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span></li>
-                                    <li>SSD Kingston A400, 240 <span aria-hidden="true" aria-label="gigabytes">GB</span>, SATA, Read 500 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span>, Write 350 <span aria-hidden="true" aria-label="megabytes per second">MB/s</span></li>
-                                    <li>HD Seagate Barracuda 1 <span aria-hidden="true" aria-label="terabyte">TB</span> Sata III 6 <span aria-hidden="true" aria-label="gigabytes per second">GB/s</span></li>
-                                    <li>Corsair Vengeance LPX, 16 <span aria-hidden="true" aria-label="gigabytes">GB</span> (1×16), 2400MHz, DDR4, CL16</li>
-                                    <li>Corsair Vengeance LPX, 8 <span aria-hidden="true" aria-label="gigabytes">GB</span> (2×8), 2666MHz, DDR4, CL16</li>
-                                </ul>
-                            </div>
-                            <div id="tab-tools_2" role="tabpanel" aria-expanded="true">
-                                <ul class="body-lg">
-                                    <li><span data-i18n="tools-accessories-monitor">2x LG 25” UltraWide Full HD 25UM58 Monitor</span></li>
-                                    <li><span data-i18n="tools-accessories-keyboard">EPOMAKER x AULA F75 Mechanical Keyboard</span></li>
-                                    <li><span data-i18n="tools-accessories-mouse">Logitech G502 X Lightspeed Mouse</span></li>
-                                    <li><span data-i18n="tools-accessories-camera">Sony α6000 Camera</span></li>
-                                    <li><span data-i18n="tools-accessories-webcam">Logitech Brio 4K Pro Webcam</span></li>
-                                    <li><span data-i18n="tools-accessories-mic">HyperX QuadCast 2 Microphone</span></li>
-                                    <li><span data-i18n="tools-accessories-desk">Geniodesk Basic Desk</span></li>
-                                </ul>
-                            </div>
-                            <div id="tab-tools_3" role="tabpanel" aria-expanded="false">
-                                <ul class="body-lg">
-                                    <li>Oster Xpert Perfect Brew</li>
-                                    <li><span data-i18n="tools-coffee-grinder">TIMEMORE C3 coffee grinder</span></li>
-                                    <li><span data-i18n="tools-coffee-scale">TIMEMORE Basic 2.0 coffee scale</span></li>
-                                    <li><span data-i18n="tools-coffee-portafilter">Double espresso portafilter</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Tamper Oster, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li><span data-i18n="tools-coffee-funnel">Dosing funnel</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li><span data-i18n="tools-coffee-leveler">Leveler</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li>Puck screen, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
-                                    <li><span data-i18n="tools-coffee-filter">V60 dripper, acrylic</span></li>
-                                </ul>
-                            </div>
-                        </section>
+                        <div id="tab-tools_2" role="tabpanel" aria-expanded="false">
+                            <ul class="body-lg">
+                                <li><span data-i18n="tools-accessories-monitor">2x LG 25” UltraWide Full HD 25UM58 Monitor</span></li>
+                                <li><span data-i18n="tools-accessories-keyboard">EPOMAKER x AULA F75 Mechanical Keyboard</span></li>
+                                <li><span data-i18n="tools-accessories-mouse">Logitech G502 X Lightspeed Mouse</span></li>
+                                <li><span data-i18n="tools-accessories-camera">Sony α6000 Camera</span></li>
+                                <li><span data-i18n="tools-accessories-webcam">Logitech Brio 4K Pro Webcam</span></li>
+                                <li><span data-i18n="tools-accessories-mic">HyperX QuadCast 2 Microphone</span></li>
+                                <li><span data-i18n="tools-accessories-desk">Geniodesk Basic Desk</span></li>
+                            </ul>
+                        </div>
+                        <div id="tab-tools_3" role="tabpanel" aria-expanded="false">
+                            <ul class="body-lg">
+                                <li>Oster Xpert Perfect Brew</li>
+                                <li><span data-i18n="tools-coffee-grinder">TIMEMORE C3 coffee grinder</span></li>
+                                <li><span data-i18n="tools-coffee-scale">TIMEMORE Basic 2.0 coffee scale</span></li>
+                                <li><span data-i18n="tools-coffee-portafilter">Double espresso portafilter</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                <li>Tamper Oster, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                <li><span data-i18n="tools-coffee-funnel">Dosing funnel</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                <li><span data-i18n="tools-coffee-leveler">Leveler</span>, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                <li>Puck screen, 58<span aria-hidden="true" aria-label="millimeter">mm</span></li>
+                                <li><span data-i18n="tools-coffee-filter">V60 dripper, acrylic</span></li>
+                            </ul>
+                        </div>
                     </section>
-                </div>
+                </section>
                 <!-- Stack -->
                 <section class="stack card-glass">
                     <div class="flex flex-justify-center flex-align-center setup-icon">
@@ -180,7 +177,6 @@
                         <li><img src="img/apps/vscode.svg" width="32px" alt="Visual Studio Code brand"></li>
                         <li><img src="img/apps/git.svg" width="32px" alt="Git brand"></li>
                         <li><img src="img/apps/chatgpt.svg" width="32px" alt="ChatGPT brand"></li>
-                        <li><img src="img/apps/manus.svg" width="32px" alt="Manus brand"></li>
                         <li><img src="img/apps/obsidian.svg" width="32px" alt="Obsidian brand"></li>
                         <li><img src="img/apps/notion.svg" width="32px" alt="Notion brand"></li>
                         <li><img src="img/apps/notion-calendar.svg" width="32px" alt="Notion Calendar brand"></li>
@@ -190,8 +186,8 @@
             </div>
         </div>
 
-        <section class="lets-ui-section">
-            <div class="card-lets-ui card-glass">
+        <section class="lets-ui">
+            <div class="lets-ui-card card-glass">
                 <img src="img/lets-ui.png" alt="Illustration of a user interface with a dashboard layout, including sidebar navigation, content cards, floating modals, and highlighted buttons in purple.">
                 <div class="card-body">
                     <h3 class="headline">Let's UI</h3>
@@ -357,12 +353,12 @@
             </div>
         </section>
 
-        <!-- <section>
-            <div class="card-lets-ui card-glass">
-                <img src="img/lets-ui.png" alt="Illustration of a user interface with a dashboard layout, including sidebar navigation, content cards, floating modals, and highlighted buttons in purple.">
+        <section>
+            <div class="book-card card-glass">
+                <img src="img/book-cover-illustration.png" alt="Illustration of a user interface with a dashboard layout, including sidebar navigation, content cards, floating modals, and highlighted buttons in purple.">
                 <div class="card-body">
-                    <h3 class="headline">Design System além do layout</h3>
-                    <p class="body-lg">Este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.</p>
+                    <h3 class="headline" data-i18n="book-title">Design System além do layout</h3>
+                    <p class="body-lg" data-i18n="book-description">Este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.</p>
                 </div>
                 <div class="flex" style="gap: 24px">
                     <a href="https://www.casadocodigo.com.br/products/livro-design-system?utm_source=mateusvillain&utm_medium=referral&utm_campaign=book" aria-label="Book: Design System além do layout, new window" target="_blank" rel="noopener noreferrer" data-link="book">
@@ -373,21 +369,22 @@
                 </div>
             </div>
 
-            <img id="book" src="img/book-cover.png" alt="" style="transform: rotate(0deg); width: 520px; z-index: 2; transition: transform 0.6s ease;">
-            <svg width="700" height="827" viewBox="0 0 700 827" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(-45deg); width: 520px; margin-bottom: 120px; z-index: 1;">
+            <img id="book" class="book-cover" src="img/book-cover.png" alt="">
+            <svg width="700" height="827" viewBox="0 0 700 827" fill="none" xmlns="http://www.w3.org/2000/svg" class="img-line">
                 <path d="M683.357 805.576C659.489 805.576 692.646 775.815 696.697 767.97C699.319 762.892 681.457 772.813 681.331 772.875C664.534 781.138 647.487 789.199 629.152 795.766C619.276 799.303 608.574 801.763 598.925 805.576C593.073 807.889 600.784 799.969 601.458 799.036C608.613 789.14 618.281 779.595 621.891 768.671C625.6 757.448 582.305 788.29 581.701 788.758C577.371 792.122 520.835 834.706 518.546 821.693C512.262 785.954 536.889 745.648 554.345 712.845C561.163 700.034 575.307 680.197 546.409 699.999C497.591 733.449 453.476 770.01 405.07 803.707C404.273 804.262 377.377 821.984 377.377 814.802C377.377 794.332 405.503 768.282 419.255 751.853C453.844 710.532 491.737 670.603 529.691 630.743C547.946 611.571 566.72 592.529 581.701 571.998C590.102 560.486 585.6 562.389 574.271 571.531C509.576 623.732 451.486 679.827 394.263 735.97C344.239 785.05 466.057 626.453 508.583 574.1C525.873 552.815 543.955 531.714 559.749 509.866C568.294 498.046 556.591 508.203 551.644 512.669C470.707 585.724 400.051 663.816 321.314 737.955C318.113 740.969 295.216 766.652 286.19 765.517C268.506 763.293 312.899 657.302 313.884 654.918C360.199 542.805 420.101 430.261 492.879 324.872C499.527 315.246 501.194 309.212 484.098 319.5C420.222 357.941 368.404 409.096 317.261 455.209C244.321 520.974 177.125 589.287 109.391 657.604C97.4534 669.644 89.1277 684.721 71.3962 692.641C69.8619 693.326 68.0449 690.732 68.3567 689.488C71.0584 678.703 93.6993 638.156 96.0503 634.13C181.331 488.07 299.446 350.378 435.466 224.2C453.642 207.338 476.294 191.83 492.879 174.214C508.065 158.085 459.29 204.911 442.896 220.463C367.447 292.034 291.953 363.601 215.943 434.887C170.015 477.962 124.625 522.804 69.7076 560.786C68.067 561.921 50.947 574.918 43.0272 574.918C40.5194 574.918 37.9848 573.013 37.6236 571.297C35.73 562.301 45.1195 536.096 47.0799 531.122C79.9581 447.693 134.594 368.175 187.237 290.069C214.19 250.079 242.716 210.567 268.629 170.243C276.881 157.401 297.326 134.707 295.985 119.557C294.928 107.619 261.66 125.336 247.352 132.053C190.885 158.564 142.826 193.884 96.0503 227.937C70.9399 246.218 48.4192 268.706 20.3995 284.93C-2.13019 297.976 37.314 245.76 50.7949 227.704C95.1563 168.285 142.629 109.873 194.835 53.5712C198.185 49.9584 237.256 1.01522 247.69 2.53439C250.395 2.92829 189.843 61.9763 181.833 67.7027C165.114 79.6553 148.38 95.592 127.797 104.608C111.629 111.69 97.2758 88.5732 89.2958 83.3524C63.3111 66.3524 29.2154 73.9621 2.5 84.5203" stroke="#C1C6CB" stroke-width="5" stroke-linecap="round"/>
             </svg>
 
             <div class="book-content">
                 <div class="book-content-head">
-                    <p class="display saol type-line">Descubra o universo dos</p>
-                    <p class="display saol type-line">design systems e como</p>
-                    <p class="display saol type-line">eles vão além da  simples</p>
-                    <p class="display saol type-line">padronização visual.</p>
+                    <p class="display saol type-line hidden-mobile" data-i18n="book-accent-1">Descubra o universo dos</p>
+                    <p class="display saol type-line hidden-mobile" data-i18n="book-accent-2">design systems e como</p>
+                    <p class="display saol type-line hidden-mobile" data-i18n="book-accent-3">eles vão além da simples</p>
+                    <p class="display saol type-line hidden-mobile" data-i18n="book-accent-4">padronização visual.</p>
+                    <p class="display saol type-line hidden-desktop" data-i18n="book-accent">Descubra o universo dos design systems e como eles vão além da simples padronização visual.</p>
                 </div>
                 <div class="book-description flex flex-column">
-                    <p class="body-lg">Voltado para designers, desenvolvedores, gestores e curiosos, este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.</p>
-                    <p class="body-lg">Mais do que um guia de ferramentas, você tem em mãos todo o conhecimento estratégico e prático necessário para transformar teoria em prática, consolidando produtos digitais consistentes e fortalecendo a relação com as pessoas usuárias.</p>
+                    <p class="body-lg" data-i18n="book-description-1">Voltado para designers, desenvolvedores, gestores e curiosos, este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.</p>
+                    <p class="body-lg" data-i18n="book-description-2">Mais do que um guia de ferramentas, você tem em mãos todo o conhecimento estratégico e prático necessário para transformar teoria em prática, consolidando produtos digitais consistentes e fortalecendo a relação com as pessoas usuárias.</p>
                 </div>
             </div>
 
@@ -396,83 +393,83 @@
                 <div class="book-chapter-column">
                     <div class="book-chapter-item flex">
                         <div class="book-chapter-content">
-                            <h3 class="overtitle">Parte 1</h3>
-                            <h4 class="headline">Entendendo o design system</h4>
+                            <h3 class="overtitle" data-i18n="part-1">Parte 1</h3>
+                            <h4 class="headline" data-i18n="part-1-title">Entendendo o design system</h4>
                         </div>
                         <ol>
-                            <li class="body-lg">Um produto chamado "design system"</li>
-                            <li class="body-lg">Solucionando problemas</li>
+                            <li class="body-lg" data-i18n="part-1-item-1">Um produto chamado "design system"</li>
+                            <li class="body-lg" data-i18n="part-1-item-2">Solucionando problemas</li>
                         </ol>
                     </div>
                     <div class="book-chapter-item flex">
                         <div class="book-chapter-content">
-                            <h3 class="overtitle">Parte 2</h3>
-                            <h4 class="headline">Planejamentos iniciais</h4>
+                            <h3 class="overtitle" data-i18n="part-2">Parte 2</h3>
+                            <h4 class="headline" data-i18n="part-2-title">Planejamentos iniciais</h4>
                         </div>
                         <ol>
-                            <li class="body-lg">Primeiras definições</li>
-                            <li class="body-lg">Equipe</li>
-                            <li class="body-lg">Auditoria de UI</li>
-                            <li class="body-lg">Escolhendo peças, produtos e pessoas</li>
-                            <li class="body-lg">Roadmap</li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="book-chapter-column">
-                    <div class="book-chapter-item flex">
-                        <div class="book-chapter-content">
-                            <h3 class="overtitle">Parte 3</h3>
-                            <h4 class="headline">Governança</h4>
-                        </div>
-                        <ol>
-                            <li class="body-lg">Consistência da marca</li>
-                            <li class="body-lg">Responsabilidades da equipe</li>
-                            <li class="body-lg">Política de versionamento</li>
-                            <li class="body-lg">Princípios de design</li>
-                        </ol>
-                    </div>
-                    <div class="book-chapter-item flex">
-                        <div class="book-chapter-content">
-                            <h3 class="overtitle">Parte 4</h3>
-                            <h4 class="headline">Estilos e design tokens</h4>
-                        </div>
-                        <ol>
-                            <li class="body-lg">Foundation</li>
-                            <li class="body-lg">Acessibilidade</li>
-                            <li class="body-lg">Cores</li>
-                            <li class="body-lg">Elevação</li>
-                            <li class="body-lg">Espaçamento</li>
-                            <li class="body-lg">Tipografia</li>
-                            <li class="body-lg">Design tokens</li>
+                            <li class="body-lg" data-i18n="part-2-item-1">Primeiras definições</li>
+                            <li class="body-lg" data-i18n="part-2-item-2">Equipe</li>
+                            <li class="body-lg" data-i18n="part-2-item-3">Auditoria de UI</li>
+                            <li class="body-lg" data-i18n="part-2-item-4">Escolhendo peças, produtos e pessoas</li>
+                            <li class="body-lg" data-i18n="part-2-item-5">Roadmap</li>
                         </ol>
                     </div>
                 </div>
                 <div class="book-chapter-column">
                     <div class="book-chapter-item flex">
                         <div class="book-chapter-content">
-                            <h3 class="overtitle">Parte 5</h3>
-                            <h4 class="headline">Componentes e microinterações</h4>
+                            <h3 class="overtitle" data-i18n="part-3">Parte 3</h3>
+                            <h4 class="headline" data-i18n="part-3-title">Governança</h4>
                         </div>
                         <ol>
-                            <li class="body-lg">Componentes</li>
-                            <li class="body-lg">Propriedades e customizações</li>
-                            <li class="body-lg">Estados</li>
+                            <li class="body-lg" data-i18n="part-3-item-1">Consistência da marca</li>
+                            <li class="body-lg" data-i18n="part-3-item-2">Responsabilidades da equipe</li>
+                            <li class="body-lg" data-i18n="part-3-item-3">Política de versionamento</li>
+                            <li class="body-lg" data-i18n="part-3-item-4">Princípios de design</li>
                         </ol>
                     </div>
                     <div class="book-chapter-item flex">
                         <div class="book-chapter-content">
-                            <h3 class="overtitle">Parte 6</h3>
-                            <h4 class="headline">Boas práticas de documentação</h4>
+                            <h3 class="overtitle" data-i18n="part-4">Parte 4</h3>
+                            <h4 class="headline" data-i18n="part-4-title">Estilos e design tokens</h4>
                         </div>
                         <ol>
-                            <li class="body-lg">Iniciando a documentação</li>
-                            <li class="body-lg">Documentando componentes</li>
-                            <li class="body-lg">Documentando os patterns</li>
+                            <li class="body-lg" data-i18n="part-4-item-1">Foundation</li>
+                            <li class="body-lg" data-i18n="part-4-item-2">Acessibilidade</li>
+                            <li class="body-lg" data-i18n="part-4-item-3">Cores</li>
+                            <li class="body-lg" data-i18n="part-4-item-4">Elevação</li>
+                            <li class="body-lg" data-i18n="part-4-item-5">Espaçamento</li>
+                            <li class="body-lg" data-i18n="part-4-item-6">Tipografia</li>
+                            <li class="body-lg" data-i18n="part-4-item-7">Design tokens</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="book-chapter-column">
+                    <div class="book-chapter-item flex">
+                        <div class="book-chapter-content">
+                            <h3 class="overtitle" data-i18n="part-5">Parte 5</h3>
+                            <h4 class="headline" data-i18n="part-5-title">Componentes e microinterações</h4>
+                        </div>
+                        <ol>
+                            <li class="body-lg" data-i18n="part-5-item-1">Componentes</li>
+                            <li class="body-lg" data-i18n="part-5-item-2">Propriedades e customizações</li>
+                            <li class="body-lg" data-i18n="part-5-item-3">Estados</li>
+                        </ol>
+                    </div>
+                    <div class="book-chapter-item flex">
+                        <div class="book-chapter-content">
+                            <h3 class="overtitle" data-i18n="part-6">Parte 6</h3>
+                            <h4 class="headline" data-i18n="part-6-title">Boas práticas de documentação</h4>
+                        </div>
+                        <ol>
+                            <li class="body-lg" data-i18n="part-6-item-1">Iniciando a documentação</li>
+                            <li class="body-lg" data-i18n="part-6-item-2">Documentando componentes</li>
+                            <li class="body-lg" data-i18n="part-6-item-3">Documentando os patterns</li>
                         </ol>
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
     </div>
 
     <script>

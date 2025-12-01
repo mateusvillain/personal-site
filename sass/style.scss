@@ -22,6 +22,10 @@ body, html {
     height: auto;
     overflow-x: hidden;
     overflow-y: auto;
+    @media (max-width: 768px) {
+        font-size: 14px;
+        overflow: auto;
+    }
 }
 
 a { text-decoration: none; }
@@ -221,7 +225,45 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
     gap: 8px !important;
 }
 
+.img-line {
+    transform: rotate(-45deg);
+    width: 520px;
+    margin-bottom: 120px;
+    z-index: 1;
+    @media (max-width: 769px) {
+        transform: rotate(40deg);
+    }
+}
+
+.hidden- {
+    &desktop {
+        @media (min-width: 769px) {
+            display: none !important;
+        }
+    }
+    &mobile {
+        @media (max-width: 768px) {
+            display: none !important;
+        }
+    }
+}
+
 .book- {
+    &card {
+        @media (min-width: 769px) {
+            width: 480px;
+        }
+        > img {
+            position: relative;
+            width: 300px;
+        }
+    }
+    &cover {
+        transform: rotate(0deg);
+        width: 520px;
+        z-index: 2;
+        transition: transform 0.6s ease;
+    }
     &content {
         @media (min-width: 769px) {
             display: flex;
@@ -232,10 +274,13 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
     }
 
     &description {
-        width: 480px;
         gap: var(--lui-spacing-fixed-24);
         @media (min-width: 769px) {
+            width: 480px;
             margin-right: var(--lui-spacing-fixed-80);
+        }
+        @media (max-width: 768px) {
+            margin-top: var(--lui-spacing-fixed-8);
         }
     }
 
@@ -308,6 +353,7 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
             gap: var(--lui-spacing-fixed-80);
 
             @media (max-width: 768px) {
+                margin-top: var(--lui-spacing-fixed-40);
                 gap: var(--lui-spacing-fixed-40);
             }
         }
@@ -323,6 +369,48 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
     & p::after {
         content: '⸬';
         margin-left: var(--lui-spacing-fixed-16);
+    }
+}
+
+.lets-ui {
+    @media (min-width: 769px) {
+        display: flex;
+        align-items: center;
+        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+    }
+    &-card {
+        @media (min-width: 769px) {
+            width: 480px;
+        }
+        > img {
+            width: 560px;
+            position: relative;
+            top: -40px;
+            left: -80px;
+            @media (max-width: 768px) {
+                width: 640px;
+            }
+        }
+    }
+}
+
+.stack {
+    width: 338px;
+    @media (max-width: 768px) {
+        margin-bottom: var(--lui-spacing-scale-500);
+    }
+}
+
+.tools- {
+    &list {
+        display: flex;
+        align-items: center;
+    }
+    &stack {
+        align-items: flex-end;
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
     }
 }
 
@@ -384,38 +472,9 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
         margin-left: calc(var(--lui-spacing-fixed-80) * 4);
     }
 
-    .playlists-tools {
-        display: flex;
-        align-items: flex-end;
-        gap: 40px;
-    }
-
-    .tools-stack {
-        display: flex;
-        gap: 40px;
-    }
-
-    .stack {
-        width: 338px;
-    }
-
-    .playlists {
-        width: 480px;
-    }
-
     .tools {
-        width: 560px;
-        height: 36rem;
-    }
-
-    .card-lets-ui {
-        width: 480px;
-    }
-
-    .lets-ui-section {
-        display: flex;
-        align-items: center;
-        margin-left: calc(var(--lui-spacing-fixed-80) * 4 );
+        width: 650px;
+        height: 33rem;
     }
 
     main {
@@ -424,12 +483,10 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
                 h1 {
                     white-space: nowrap;
                 }
-
                 h2 {
                     margin-left: 40px;
                 }
             }
-                        
             .image {
                 img {
                     margin-left: 64px;
@@ -465,34 +522,12 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
         transform: translateY(-50%) translateX(8px);
         white-space: nowrap;
     }
-
-    .card-lets-ui > img {
-        width: 560px;
-        position: relative;
-        top: -40px;
-        left: -80px;
-    }
-
-    
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-    .card-lets-ui > img {
-        width: 640px;
-        position: relative;
-        top: -40px;
-        left: -80px;
-    }
-    
     .float-layer {
         display: flex;
-    }
-
-    html, body {
-        font-size: 14px;
-        overflow: auto;
-        justify-content: center;
     }
 
     .float-layer {
@@ -526,21 +561,9 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
         justify-content: center;
     }
 
-    .playlists-tools,
-    .tools-stack {
-        display: flex;
-        gap: var(--lui-spacing-fixed-40);
-    }
-
     .float-layer,
-    .card-gadgets,
-    .playlists-tools,
-    .tools-stack {
+    .card-gadgets {
         flex-direction: column;
-    }
-
-    .stack {
-        margin-bottom: var(--lui-spacing-scale-500);
     }
 
     .social-media {
@@ -661,7 +684,7 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
 
 .type-line {
     overflow: hidden;
-    white-space: nowrap;
+    // white-space: nowrap;
     display: inline-block;
     width: fit-content;
 }
