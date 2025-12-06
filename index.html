@@ -46,8 +46,6 @@
         gtag('config', 'G-09TX5J6BKT');
     </script>
 
-    <script src="js/analytics.js"></script>
-
     <!-- Hotjar Tracking Code for www.mateusvillain.com -->
     <script>
         (function(h,o,t,j,a,r){
@@ -544,28 +542,27 @@
     </script>
 
     <script>
-let currentLang = localStorage.getItem("lang") || "pt";
+        let currentLang = localStorage.getItem("lang") || "pt";
 
-function loadLanguage(lang) {
-  fetch(`./lang/${lang}.json`)
-    .then(res => res.json())
-    .then(data => {
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        el.innerText = data[key];
-      });
-      localStorage.setItem("lang", lang);
-    });
-}
+        function loadLanguage(lang) {
+        fetch(`./lang/${lang}.json`)
+            .then(res => res.json())
+            .then(data => {
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                el.innerText = data[key];
+            });
+            localStorage.setItem("lang", lang);
+            });
+        }
 
-loadLanguage(currentLang);
+        loadLanguage(currentLang);
 
-document.getElementById("lang-switch").addEventListener("click", () => {
-  currentLang = currentLang === "pt" ? "en" : "pt";
-  loadLanguage(currentLang);
-});
-</script>
-
+        document.getElementById("lang-switch").addEventListener("click", () => {
+            currentLang = currentLang === "pt" ? "en" : "pt";
+            loadLanguage(currentLang);
+        });
+    </script>
 
     <script src="js/horizontal-scroll.js"></script>
     <script src="js/tabs.js"></script>
@@ -573,5 +570,6 @@ document.getElementById("lang-switch").addEventListener("click", () => {
     <script src="js/weather.js"></script>
     <script src="js/mood.js"></script>
     <script src="js/spotify.js"></script>
+    <script src="js/analytics.js"></script>
 </body>
 </html>

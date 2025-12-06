@@ -39,7 +39,7 @@ document.querySelectorAll('[data-social]').forEach(link => {
 // Let's UI
 document.querySelectorAll('[data-lui]').forEach(link => {
   link.addEventListener('click', () => {
-    const name = link.dataset.social;
+    const name = link.dataset.lui;
 
     sendEvent('lui_link_click', {
       platform: name
