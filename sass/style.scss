@@ -31,7 +31,7 @@ body, html {
 a { text-decoration: none; }
 i { font-size: var(--lui-spacing-scale-150); }
 
-main { margin-left: var(--lui-spacing-fixed-64); }
+.home { margin-left: var(--lui-spacing-fixed-64); }
 
 .main-content {
     hgroup {
@@ -130,28 +130,29 @@ main { margin-left: var(--lui-spacing-fixed-64); }
 }
 
 /* Card */
-.card-glass {
-    height: fit-content;
-    padding: var(--lui-spacing-fixed-32);
-    background: hsl(0deg 0% 54% / 4%);
-    border-radius: var(--lui-spacing-fixed-32);
-    border: 1px solid hsl(210, 2%, 22%);
-    color: var(--lui-color-neutral-light-layer-bg-surface);
-    flex-direction: column;
-    gap: var(--lui-spacing-fixed-16);
-}
+.card {
+    &-glass {
+        height: fit-content;
+        padding: var(--lui-spacing-fixed-32);
+        background: hsl(0deg 0% 54% / 4%);
+        border-radius: var(--lui-spacing-fixed-32);
+        border: 1px solid hsl(210, 2%, 22%);
+        color: var(--lui-color-neutral-light-layer-bg-surface);
+        flex-direction: column;
+        gap: var(--lui-spacing-fixed-16);
+    }
+    &-icon {
+        padding: var(--lui-spacing-fixed-8);
+        color: var(--lui-color-neutral-light-text-body);
+        width: var(--lui-spacing-fixed-40);
+        height: var(--lui-spacing-fixed-40);
+        background-color: #2B2C2D;
+        border: 1px solid #373839;
+        border-radius: var(--lui-border-radius-circle);
 
-.setup-icon {
-    padding: var(--lui-spacing-fixed-8);
-    color: var(--lui-color-neutral-light-text-body);
-    width: var(--lui-spacing-fixed-40);
-    height: var(--lui-spacing-fixed-40);
-    background-color: #2B2C2D;
-    border: 1px solid #373839;
-    border-radius: var(--lui-border-radius-circle);
-
-    i {
-        font-size: var(--lui-spacing-scale-150);
+        i {
+            font-size: var(--lui-spacing-scale-150);
+        }
     }
 }
 
