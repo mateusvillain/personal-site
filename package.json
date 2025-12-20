@@ -1,15 +1,13 @@
 {
   "name": "personal-site",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sass:dev": "npx npm-run-all --parallel sass:normal:watch sass:min:watch",
-    "sass:normal": "sass sass/style.scss css/style.css",
-    "sass:normal:watch": "sass --watch sass/style.scss css/style.css",
-    "sass:min": "sass sass/style.scss css/style.min.css --style=compressed --no-source-map",
-    "sass:min:watch": "sass --watch sass/style.scss css/style.min.css --style=compressed --no-source-map"
+    "sass:min": "sass sass:css --style=compressed --no-source-map",
+    "sass:min:watch": "sass --watch sass:css --style=compressed --no-source-map"
   },
   "repository": {
     "type": "git",
