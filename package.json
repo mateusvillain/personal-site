@@ -5,6 +5,8 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run build && serve public -l 3000",
+    "build": "node build-assets.js && node build-html.js",
     "sass:min": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
     "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map"
   },
@@ -15,7 +17,7 @@
   "keywords": [],
   "author": "Mateus Villain",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/mateusvillain/personal-site/issues"
   },
