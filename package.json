@@ -5,9 +5,8 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass:dev": "npx npm-run-all --parallel sass:normal:watch sass:min:watch",
-    "sass:min": "sass sass:css --style=compressed --no-source-map",
-    "sass:min:watch": "sass --watch sass:css --style=compressed --no-source-map"
+    "sass:min": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
+    "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map"
   },
   "repository": {
     "type": "git",
