@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Locaweb Design System - Mateus Villain</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/locaweb-design-system.css">
     <link rel="stylesheet" href="https://mateusvillain.github.io/lets-ui-css/src/letsui.css">
     <link rel="stylesheet" href="https://mateusvillain.github.io/lets-ui-css/tokens/variables.css">
+    <link rel="stylesheet" href="../css/style.css?v=1.9.0">
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
@@ -24,10 +23,10 @@
     </header>
     <div class="portfolio-container">
         <main id="main" class="hero">
-            <h1 class="display">Locaweb Design System</h1>
+            <h1 class="display saol">Locaweb Design System</h1>
             <img src="https://picsum.photos/800/400" alt="">
             <div class="card-role">
-                <div class="card-glass flex-row">
+                <div class="card-glass">
                     <div class="card-icon">
                         <i class="ph ph-buildings"></i>
                     </div>
@@ -36,7 +35,7 @@
                         <p class="body-lg">Locaweb</p>
                     </div>
                 </div>
-                <div class="card-glass flex-row">
+                <div class="card-glass">
                     <div class="card-icon">
                         <i class="ph ph-user"></i>
                     </div>
@@ -49,7 +48,7 @@
         </main>
 
         <!-- Visão geral -->
-        <section>
+        <section class="project-section">
             <h2 class="headline">Visão geral do projeto</h2>
             <h3 class="block-title">Objetivo</h3>
             <div class="paragraph">
@@ -60,20 +59,18 @@
                 <p class="body-lg">O meu papel ao longo desse projeto foi de trazer escalabilidade para o design system, avaliando os elementos que precisavam ser melhorados, de forma que os resultados trouxessem maior eficiência de uso pelos designers e desenvolvedores.</p>
             </div>
             <h3 class="block-title">Resultados</h3>
-            <div class="paragraph">
-                <ul>
-                    <li class="body-lg">Novo sistema de design tokens, com separação entre tokens primitivos e semânticos, nomenclaturas claras e escaláveis.</li>
-                    <li class="body-lg">Paletas de cores recriadas, garantindo contrastes acessíveis e com uso semântico definido.</li>
-                    <li class="body-lg">Escalas tipográficas com medidas relativas e melhor adaptação a telas menores.</li>
-                    <li class="body-lg">Sistema de elevação totalmente reformulado, baseado em modelos de iluminação real e com definição de uso em componentes e microinterações.</li>
-                    <li class="body-lg">Documentação clara, com explicação de uso geral dos componentes e suas propriedades individuais, e critérios de acessibilidade.</li>
-                    <li class="body-lg">Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção de rótulos para softwares de leitura de tela com definição diretamente no componente do Figma.</li>
-                </ul>
-            </div>
+            <ul class="overview-results">
+                <li class="body-lg">Novo sistema de design tokens, com separação entre tokens primitivos e semânticos, nomenclaturas claras e escaláveis.</li>
+                <li class="body-lg">Paletas de cores recriadas, garantindo contrastes acessíveis e com uso semântico definido.</li>
+                <li class="body-lg">Escalas tipográficas com medidas relativas e melhor adaptação a telas menores.</li>
+                <li class="body-lg">Sistema de elevação totalmente reformulado, baseado em modelos de iluminação real e com definição de uso em componentes e microinterações.</li>
+                <li class="body-lg">Documentação clara, com explicação de uso geral dos componentes e suas propriedades individuais, e critérios de acessibilidade.</li>
+                <li class="body-lg">Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção de rótulos para softwares de leitura de tela com definição diretamente no componente do Figma.</li>
+            </ul>
         </section>
 
         <!-- Descobertas -->
-        <section>
+        <section class="project-section">
             <h2 class="headline">Descobertas</h2>
             <h3 class="block-title">Análise do produto</h3>
             <div class="paragraph">
@@ -214,7 +211,7 @@
             </div>
         </section>
 
-        <section class="project-preview" aria-hidden="true">
+        <section class="project-preview project-section" aria-hidden="true">
             <h2 class="headline">Desenvolvimento das soluções</h2>
             <h3 class="block-title">Design tokens escaláveis</h3>
             <div class="paragraph">
@@ -222,7 +219,7 @@
             </div>
         </section>
 
-        <div class="card-glass project-lock" data-project="projeto-locaweb-ds">
+        <div class="card-glass project-lock project-section" data-project="projeto-locaweb-ds">
             <h2 class="headline">Informações confidenciais</h2>
             <p class="body-lg">A solução do projeto contém informações confidenciais. Para continuar lendo, é necessário informar a senha correta no campo a seguir.</p>
             <p class="body-lg">Não possui a senha? Entre em contato comigo pelo <a class="link" href="https://www.linkedin.com/in/mateusvillain/" target="_blank">Linkedin</a> ou pelo e-mail contato@mateusvillain.com.</p>
