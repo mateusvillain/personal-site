@@ -2,22 +2,28 @@
   "cleanUrls": true,
   "headers": [
     {
-      "source": "/(.*)\\.(css|js|json)",
+      "source": "/lang/(.*)\\.json",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "public, max-age=300, must-revalidate"
         }
       ]
     },
     {
-      "source": "/(.*)\\.(png|jpg|jpeg|webp|svg|gif|ico)",
+      "source": "/dist/(.*)\\.(css|js|png|jpg|jpeg|webp|svg|gif)",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/portfolio/locaweb-design-system",
+      "destination": "/locaweb-design-system.html"
     }
   ]
 }
