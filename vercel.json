@@ -23,7 +23,7 @@
   "rewrites": [
     {
       "source": "/portfolio/locaweb-design-system",
-      "destination": "/locaweb-design-system.html"
+      "destination": "/locaweb-design-system"
     }
   ]
 }
