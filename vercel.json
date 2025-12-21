@@ -18,6 +18,15 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        { "type": "host", "value": "staging.mateusvillain.com" }
+      ],
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
     }
   ],
   "redirects": [
