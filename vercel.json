@@ -20,6 +20,13 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/locaweb-design-system",
+      "destination": "/portfolio/locaweb-design-system",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/portfolio/locaweb-design-system",
