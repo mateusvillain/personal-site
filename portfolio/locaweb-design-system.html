@@ -12,10 +12,18 @@
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-
 <body>
+    <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
+    <header class="page-header">
+        <p class="body-lg">
+            <a href="../index.html" aria-label="Ir para a página inicial">Mateus Villain</a>
+        </p>
+        <p class="body-lg">
+            <a href="#" aria-label="Navegar para a lista de projeos">Projetos</a>
+        </p>
+    </header>
     <div class="portfolio-container">
-        <main class="hero">
+        <main id="main" class="hero">
             <h1 class="display">Locaweb Design System</h1>
             <img src="https://picsum.photos/800/400" alt="">
             <div class="card-role">
@@ -43,10 +51,24 @@
         <!-- Visão geral -->
         <section>
             <h2 class="headline">Visão geral do projeto</h2>
+            <h3 class="block-title">Objetivo</h3>
             <div class="paragraph">
-                <p class="body-lg">A estrutura do design system da Locaweb nasceu por meio de uma framework open-source chamada Vuetify, para agilizar o seu processo de construção. Contudo, isso acarretou em diversos elementos e componentes não utilizados, e design tokens pouco desenvolvidos.</p>
-                <p class="body-lg">O meu desafio foi entender quais eram os pontos que necessitavam melhorias ao longo de todo o produto, para que os colaboradores se sentissem mais confortáveis de utilizar e não ficassem com dúvidas.</p>
-                <p class="body-lg">Isso exigiu algumas análises de uso do design system, consultas com colaboradores e desk research, resultando numa reorganização completa nos design tokens e dos elementos de estilo.</p>
+                <p class="body-lg">A estrutura do design system da Locaweb nasceu por meio de uma framework open-source chamada Vuetify, para agilizar o seu processo de construção. Contudo, isso acarretou em componentes e design tokens pouco escaláveis e confusos de entender, considerando também a falta de uma documentação.</p>
+            </div>
+            <h3 class="block-title">Responsabilidade</h3>
+            <div class="paragraph">
+                <p class="body-lg">O meu papel ao longo desse projeto foi de trazer escalabilidade para o design system, avaliando os elementos que precisavam ser melhorados, de forma que os resultados trouxessem maior eficiência de uso pelos designers e desenvolvedores.</p>
+            </div>
+            <h3 class="block-title">Resultados</h3>
+            <div class="paragraph">
+                <ul>
+                    <li class="body-lg">Novo sistema de design tokens, com separação entre tokens primitivos e semânticos, nomenclaturas claras e escaláveis.</li>
+                    <li class="body-lg">Paletas de cores recriadas, garantindo contrastes acessíveis e com uso semântico definido.</li>
+                    <li class="body-lg">Escalas tipográficas com medidas relativas e melhor adaptação a telas menores.</li>
+                    <li class="body-lg">Sistema de elevação totalmente reformulado, baseado em modelos de iluminação real e com definição de uso em componentes e microinterações.</li>
+                    <li class="body-lg">Documentação clara, com explicação de uso geral dos componentes e suas propriedades individuais, e critérios de acessibilidade.</li>
+                    <li class="body-lg">Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção de rótulos para softwares de leitura de tela com definição diretamente no componente do Figma.</li>
+                </ul>
             </div>
         </section>
 
