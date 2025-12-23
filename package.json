@@ -6,11 +6,11 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run build && npx serve public -l 3000",
+    "env": "vercel env pull .env.local",
     "build": "node build-assets.js && node build-html.js",
+    "dev": "npm run build && npx serve public -l 3000",
     "sass:min": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
-    "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map",
-    "env": "vercel env pull .env.local"
+    "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map"
   },
   "repository": {
     "type": "git",
