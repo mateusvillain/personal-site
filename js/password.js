@@ -1,11 +1,10 @@
-
 document.querySelectorAll(".project-lock").forEach(lock => {
   const projectId = lock.dataset.project;
   const input = lock.querySelector(".password-input");
   const button = lock.querySelector(".unlock-btn");
   const error = lock.querySelector(".error-message");
-  const content = document.querySelector(".project-content");
   const preview = document.querySelector(".project-preview");
+  const content = document.querySelector(".project-content");
 
   const storageKey = `project-unlocked-${projectId}`;
 
@@ -28,6 +27,7 @@ document.querySelectorAll(".project-lock").forEach(lock => {
 
     const data = await response.json();
 
+    // 👉 AQUI está a parte que faltava
     content.innerHTML = renderNotion(data.blocks);
 
     localStorage.setItem(storageKey, "true");
