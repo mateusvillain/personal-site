@@ -236,7 +236,6 @@
         <section class="project-content"></section>
     </div>
 
-    <script src="{{ js/project.js }}"></script>
     <script>
         const observer = new IntersectionObserver(
             entries => {
@@ -256,5 +255,6 @@
         observer.observe(card);
         });
     </script>
+    <script src="{{ js/project.js }}" defer></script>
 </body>
 </html>

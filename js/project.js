@@ -11,7 +11,7 @@ document.querySelectorAll(".project-lock").forEach(lock => {
   button.addEventListener("click", async () => {
     error.hidden = true;
 
-    const response = await fetch("/api/project-content", {
+    const response = await fetch("/api/project", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
