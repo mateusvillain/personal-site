@@ -53,7 +53,10 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false });
+    console.error("PROJECT CONTENT API ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
 }
