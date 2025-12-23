@@ -29,8 +29,8 @@ export default async function handler(req, res) {
     const query = await notion.databases.query({
       database_id: process.env.NOTION_PROJECTS_DB_ID,
       filter: {
-        property: "Slug",
-        rich_text: {
+        property: "Name",
+        title: {
           equals: project
         }
       }
