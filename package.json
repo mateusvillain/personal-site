@@ -1,14 +1,16 @@
 {
   "name": "personal-site",
   "version": "1.10.1",
+  "packageManager": "npm@10.5.0",
   "description": "",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run build && serve public -l 3000",
+    "dev": "npm run build && npx serve public -l 3000",
     "build": "node build-assets.js && node build-html.js",
     "sass:min": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
-    "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map"
+    "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map",
+    "env": "vercel env pull .env.local"
   },
   "repository": {
     "type": "git",
