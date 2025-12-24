@@ -16,7 +16,7 @@
   "keywords": [],
   "author": "Mateus Villain",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/mateusvillain/personal-site/issues"
   },
