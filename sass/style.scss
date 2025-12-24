@@ -6,10 +6,13 @@
 }
 
 * {
-    color: var(--lui-color-neutral-light-text-body) !important;
     margin: var(--lui-spacing-fixed-0);
     padding: var(--lui-spacing-fixed-0);
     box-sizing: border-box;
+
+    > p, li, a, h1, h2, h3, h4, h5, h6, label {
+        color: var(--lui-color-neutral-light-text-body) !important;
+    }
 }
 
 .saol {
@@ -30,8 +33,6 @@ body, html {
 
 a { text-decoration: none; }
 i { font-size: var(--lui-spacing-scale-150); }
-
-.home { margin-left: var(--lui-spacing-fixed-64); }
 
 .main-content {
     hgroup {
@@ -457,7 +458,7 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
                 // padding-bottom: var(--lui-spacing-fixed-80);
             }
 
-            > main {
+            > main.home {
                 /* Garanta que o primeiro bloco (hero) ocupe a largura visível */
                 width: calc(100vw - (var(--lui-spacing-fixed-80) * 2));
                 max-width: 1200px;
@@ -478,7 +479,8 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
         height: 33rem;
     }
 
-    main {
+    main.home {
+        margin-left: var(--lui-spacing-fixed-64);
         section {
             hgroup {
                 h1 {
@@ -541,7 +543,7 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
         }
     }
 
-    main {
+    main.home {
         text-align: center;
         margin: var(--lui-spacing-fixed-40) var(--lui-spacing-fixed-0) var(--lui-spacing-fixed-40) var(--lui-spacing-fixed-0);
 
