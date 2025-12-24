@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Locaweb Design System - Mateus Villain</title>
-    <link rel="canonical" href="https://mateusvillain.com/portfolio/locaweb-design-system">
+    <title>Locaweb Design System — Mateus Villain</title>
+
+    <!-- Meta -->
+    <meta name="title" content="Locaweb Design System — Mateus Villain">
+    <meta name="description" content="">
+    <meta name="keywords" content="design system, design tokens, product design, ui design, ux design, acessibilidade, web design, figma, locaweb">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Mateus Villain">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mateusvillain.com/projetos/locaweb-design-system.html">
+    <meta property="og:title" content="Locaweb Design System — Mateus Villain">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="img/cover.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mateusvillain.com/projetos/locaweb-design-system.html">
+    <meta property="twitter:title" content="Locaweb Design System — Mateus Villain">
+    <meta property="twitter:description" content="">
+    <meta property="twitter:image" content="img/cover.jpg">
+
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NTD9ZL6W');</script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-09TX5J6BKT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-09TX5J6BKT');
+    </script>
+
+    <!-- Hotjar Tracking Code for www.mateusvillain.com -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:1538934,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
 
     <link rel="stylesheet" href="https://mateusvillain.github.io/lets-ui-css/src/letsui.css">
     <link rel="stylesheet" href="https://mateusvillain.github.io/lets-ui-css/tokens/variables.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
     <link rel="stylesheet" href="css/style.css">
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -17,10 +69,10 @@
     <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
     <header class="page-header">
         <p class="body-lg">
-            <a href="../index.html" aria-label="Ir para a página inicial">Mateus Villain</a>
+            <a href="index.html" aria-label="Ir para a página inicial">Mateus Villain</a>
         </p>
         <p class="body-lg">
-            <a href="#" aria-label="Navegar para a lista de projeos">Projetos</a>
+            <a href="projects.html" aria-label="Navegar para a lista de projetos">Projetos</a>
         </p>
     </header>
     <div class="portfolio-container">
@@ -49,7 +101,7 @@
             </div>
         </main>
 
-        <!-- Visão geral -->
+        <!-- Overview -->
         <section class="project-section">
             <h2 class="headline">Visão geral do projeto</h2>
             <h3 class="block-title">Objetivo</h3>
@@ -71,7 +123,7 @@
             </ul>
         </section>
 
-        <!-- Descobertas -->
+        <!-- Discovery -->
         <section class="project-section">
             <h2 class="headline">Descobertas</h2>
             <h3 class="block-title">Análise do produto</h3>
@@ -213,47 +265,26 @@
             </div>
         </section>
 
-        <section class="project-preview project-section" aria-hidden="true">
-            <h2 class="headline">Desenvolvimento das soluções</h2>
-            <h3 class="block-title">Design tokens escaláveis</h3>
-            <div class="paragraph">
-                <p class="body-lg">Eu não acredito que você abriu o código do meu site pra tentar ver o que está escrito nesse texto desfocado. Se quiser ler o texto real, me chama no LinkedIn ou manda um e-mail que eu te passo a senha do projeto. Ah, e pode ficar tranquilo, esse texto não é lido por softwares de leitura de tela, ele é só pra brincar com os bisbilhoteiros 😛</p>
-            </div>
-        </section>
-
-        <div class="card-glass project-lock project-section" data-project="project-locaweb-ds">
+        <!-- Password -->
+        <section id="password-box" class="card-glass">
             <h2 class="headline">Informações confidenciais</h2>
             <p class="body-lg">A solução do projeto contém informações confidenciais. Para continuar lendo, é necessário informar a senha correta no campo a seguir.</p>
-            <p class="body-lg">Não possui a senha? Entre em contato comigo pelo <a class="link" href="https://www.linkedin.com/in/mateusvillain/" target="_blank">Linkedin</a> ou pelo e-mail contato@mateusvillain.com.</p>
+            <p class="body-lg">Não possui a senha? Entre em contato comigo pelo <a class="link" href="https://www.linkedin.com/in/mateusvillain/" target="_blank">LinkedIn</a> ou pelo e-mail contato@mateusvillain.com.</p>
             <div class="form-group">
                 <label for="password">Senha</label>
-                <input id="password" type="password" class="password-input form-size-lg" placeholder="Senha do projeto" autocomplete="off">
-                <p class="error-message" hidden>A senha informada está incorreta.</p>
+                <input type="password" id="password" class="password-input form-size-lg" placeholder="Senha do projeto" autocomplete="off">
+                <p id="error" hidden></p>
             </div>
-            <button class="unlock-btn btn btn-lg btn-primary">Ler projeto completo</button>
-        </div>
+            <button id="unlock" class="unlock-btn btn btn-lg btn-primary">Desbloquear conteúdo</button>
+        </section>
 
-        <section class="project-content"></section>
+        <!-- Secret content -->
+        <section id="protected-content" class="project-section-secret"></section>
     </div>
 
-    <script>
-        const observer = new IntersectionObserver(
-            entries => {
-                entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    observer.unobserve(entry.target); // anima só uma vez
-                }
-                });
-            },
-            {
-                threshold: 0.2
-            }
-        );
-
-        document.querySelectorAll(".project-lock").forEach(card => {
-        observer.observe(card);
-        });
-    </script>
+    <script src="/js/project-protected.js" data-slug="design-system-locaweb"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
 </body>
 </html>
