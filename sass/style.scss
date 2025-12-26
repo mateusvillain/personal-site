@@ -407,6 +407,7 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
     &list {
         display: flex;
         align-items: center;
+        margin: 0 calc(var(--lui-spacing-fixed-80)*2);
     }
     &stack {
         align-items: flex-end;
