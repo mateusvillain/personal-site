@@ -36,7 +36,7 @@ personal-site/
 │   ├── project.js              # Cria a estrutura do projeto e insere a senha
 │   ├── projects.js             # Realiza a conexão com a database do Notion
 │   ├── spotify.js              # Busca a música ouvida no momento no Spotify
-│   ├── time.js                 # BUsca o horário atual do local
+│   ├── time.js                 # Busca o horário atual do local
 │   └── weather.js              # Busca o clima atual do local
 │
 ├── css/
