@@ -397,7 +397,9 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
 }
 
 .stack {
-    width: 338px;
+    @media (min-width: 769px) {
+        width: 338px;
+    }
     @media (max-width: 768px) {
         margin-bottom: var(--lui-spacing-scale-500);
     }
@@ -407,11 +409,17 @@ ul.gadgets li { margin-bottom: var(--lui-spacing-fixed-0); }
     &list {
         display: flex;
         align-items: center;
-        margin: 0 calc(var(--lui-spacing-fixed-80)*2);
+        @media (min-width: 769px) {
+            margin: 0 calc(var(--lui-spacing-fixed-80)*2);
+        }
+        
     }
     &stack {
-        align-items: flex-end;
+        @media (min-width: 769px) {
+            align-items: flex-end;
+        }
         @media (max-width: 768px) {
+            margin-top: var(--lui-spacing-fixed-80);
             flex-direction: column;
         }
     }
