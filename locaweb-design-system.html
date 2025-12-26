@@ -69,10 +69,10 @@
     <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
     <header class="page-header">
         <p class="body-lg">
-            <a href="index.html" aria-label="Ir para a página inicial">Mateus Villain</a>
+            <a href="index.html" aria-label="Ir para a página inicial" data-link="home">Mateus Villain</a>
         </p>
         <p class="body-lg">
-            <a href="projects.html" aria-label="Navegar para a lista de projetos">Projetos</a>
+            <a href="projects.html" aria-label="Navegar para a lista de projetos" data-link="projects">Projetos</a>
         </p>
     </header>
     <div class="portfolio-container">
@@ -275,14 +275,15 @@
                 <input type="password" id="password" class="password-input form-size-lg" placeholder="Senha do projeto" autocomplete="off">
                 <p id="error" hidden></p>
             </div>
-            <button id="unlock" class="unlock-btn btn btn-lg btn-primary">Desbloquear conteúdo</button>
+            <button id="unlock" class="unlock-btn btn btn-lg btn-primary" data-link="unlock">Desbloquear conteúdo</button>
         </section>
 
         <!-- Secret content -->
         <section id="protected-content" class="project-section-secret"></section>
     </div>
 
-    <script src="/js/project-protected.js" data-slug="design-system-locaweb"></script>
+    <script src="js/project-protected.js" data-slug="design-system-locaweb"></script>
+    <script src="js/analytics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
