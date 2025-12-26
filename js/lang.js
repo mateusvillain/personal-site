@@ -1,4 +1,4 @@
-let currentLang = localStorage.getItem("lang") || "pt";
+let currentLang = localStorage.getItem("lang") || "en";
 
 function loadLanguage(lang) {
 fetch(`./lang/${lang}.json`)
@@ -9,6 +9,7 @@ fetch(`./lang/${lang}.json`)
     el.innerText = data[key];
   });
   localStorage.setItem("lang", lang);
+  document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
   });
 }
 
