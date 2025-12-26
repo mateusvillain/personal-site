@@ -15,9 +15,6 @@ Meu site pessoal é feito com HTML, CSS/SCSS e JavaScript, organizado de forma m
 * Imagens, fontes e internacionalização
 * Arquivos de idioma (lang) para suportar conteúdo multilíngue
 
-É um projeto estático que pode ser hospedado em qualquer servidor ou GitHub Pages. 
-GitHub Docs
-
 ## Tecnologias
 
 O projeto usa:
