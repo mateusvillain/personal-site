@@ -1,19 +1,25 @@
 {
   "name": "personal-site",
-  "version": "1.11.0",
+  "version": "1.9.0",
   "description": "",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "sass:dev": "npx npm-run-all --parallel sass:normal:watch sass:min:watch",
-    "sass:min": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
-    "sass:min:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map"
+    "sass": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
+    "sass:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map",
+    "release:major": "npm version major && git push origin main --tags",
+    "release:minor": "npm version minor && git push origin main --tags",
+    "release:patch": "npm version patch && git push origin main --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mateusvillain/personal-site.git"
   },
-  "keywords": [],
+  "keywords": [
+    "personal",
+    "site",
+    "portfolio",
+    "design system"
+  ],
   "author": "Mateus Villain",
   "license": "ISC",
   "type": "module",
@@ -22,6 +28,7 @@
   },
   "homepage": "https://github.com/mateusvillain/personal-site#readme",
   "devDependencies": {
+    "esbuild": "^0.27.2",
     "sass": "^1.94.2"
   },
   "dependencies": {
