@@ -130,17 +130,20 @@
             <div class="paragraph">
                 <p class="body-lg">A primeira análise consistiu em catalogar cada design token e entender qual o caso de uso que eles tinham no design system. Além disso, utilizando o analytics do Figma, pude observar o número de inserções dos estilos, variáveis e componentes do arquivo, além da quantidade de detaches.</p>
                 <p class="body-lg">Avaliando o uso das cores, reparei que em todas as paletas, pelo menos um dos tons nunca era utilizado, e pela falta de documentação, não havia uma indicação verdadeira de como e quando utilizar cada uma, considerando que apenas com exceção a paleta de cores neutras, todas as outras eram apenas usadas para microinterações nos componentes, mas sem nomenclaturas que indicassem isso. Além disso, também percebi que alguns tons usados como background para textos em componentes não contrastavam bem, seguindo as diretrizes da WCAG.</p>
+                <p class="body-lg">A responsividade do sistema de escalas tipográficas não era bem executado. Em vez de trabalhar com medidas relativas (como rem ou em), como é o convencional, e reduzir o valor conforme o breakpoint, os textos apenas reduziam o tamanho para uma escala abaixo, ou seja, se em desktop tinhamos textos de 40, 32 e 24 pixels, em mobile o texto que usava 40 atualizava para 32 pixels, e o 32 para 24 pixels, e assim por diante.</p>
+                <p class="body-lg">Essa redução ocasionava tanto em textos demasiadamente grandes em dispositivos móveis, como também nas duas últimas escalas com o mesmo tamanho, já que a última não possuia um valor menor para atualizar.</p>
             </div>
+            
             <div class="card-grid">
                 <div class="card-glass card-detail">
-                    <img src="https://picsum.photos/340/322" alt="">
+                    <img src="img/lw-nomenclaturas-sem-padrao.png" alt="Exemplo de tokens de cores com nomes inconsistentes entre a paleta principal e a escala de cinza, mostrando falta de padronização na nomenclatura.">
                     <div class="card-detail-content">
                         <p class="body-lg txt-bold">Nomenclaturas sem padrão</p>
                         <p class="body-lg">Os tokens de cor não possuíam padrão de nomenclatura, considerando que a escala de cinza era definida diferente das outras paletas.</p>
                     </div>
                 </div>
                 <div class="card-glass card-detail">
-                    <img src="https://picsum.photos/340/322" alt="">
+                    <img src="img/lw-baixo-contraste.png" alt="Interface em fundo escuro com botão vermelho e textos claros, destacando problema de baixo contraste e alerta de falha de acessibilidade.">
                     <div class="card-detail-content">
                         <p class="body-lg txt-bold">Baixo contraste</p>
                         <p class="body-lg">A falta de uma adaptação principalmente nas cores do meio de cada paleta
@@ -149,38 +152,22 @@
                     </div>
                 </div>
                 <div class="card-glass card-detail">
-                    <img src="https://picsum.photos/340/322" alt="">
+                    <img src="img/lw-atributos-aria.png" alt="Código de um modal exibindo ausência de atributos ARIA, ilustrando falta de suporte para tecnologias assistivas.">
                     <div class="card-detail-content">
-                        <p class="body-lg txt-bold">Componentes sem tags estruturais</p>
+                        <p class="body-lg txt-bold">Componentes sem atributos acessíveis</p>
                         <p class="body-lg">Accordions, alerts, modais e outros componentes não possuíam atributos ARIA para auxiliar tecnologias assistivas.</p>
                     </div>
                 </div>
                 <div class="card-glass card-detail">
-                    <img src="https://picsum.photos/340/322" alt="">
+                    <img src="img/lw-tipografia-pouco-responsiva.png" alt="Lista de textos com diferentes tamanhos de fonte, mostrando uma escala tipográfica desorganizada e pouco responsiva entre dispositivos.">
                     <div class="card-detail-content">
-                        <p class="body-lg txt-bold">Design tokens desorganizados</p>
+                        <p class="body-lg txt-bold">Escala tipográfica pouco responsiva</p>
                         <p class="body-lg">Os design tokens não eram organizados e nem mesmo escaláveis, sem uma separação do que é primitivo ou semântico.</p>
-                    </div>
-                </div>
-                <div class="card-glass card-detail">
-                    <img src="https://picsum.photos/340/322" alt="">
-                    <div class="card-detail-content">
-                        <p class="body-lg txt-bold">Responsividade pouco funcional</p>
-                        <p class="body-lg">As escalas tipográficas não trabalhavam com unidades relativas, por essa razão que alguns textos permaneciam muito grandes em telas menores.</p>
-                    </div>
-                </div>
-                <div class="card-glass card-detail">
-                    <img src="https://picsum.photos/340/322" alt="">
-                    <div class="card-detail-content">
-                        <p class="body-lg txt-bold">Documentação inexistente</p>
-                        <p class="body-lg">Não havia nenhuma documentação sobre o uso e boas práticas tanto dos design tokens quanto dos componentes.</p>
                     </div>
                 </div>
             </div>
 
             <div class="paragraph">
-                <p class="body-lg">A responsividade do sistema de escalas tipográficas não era bem executado. Em vez de trabalhar com medidas relativas (como rem ou em), como é o convencional, e reduzir o valor conforme o breakpoint, os textos apenas reduziam o tamanho para uma escala abaixo, ou seja, se em desktop tinhamos textos de 40, 32 e 24 pixels, em mobile o texto que usava 40 atualizava para 32 pixels, e o 32 para 24 pixels, e assim por diante.</p>
-                <p class="body-lg">Essa redução ocasionava tanto em textos demasiadamente grandes em dispositivos móveis, como também nas duas últimas escalas com o mesmo tamanho, já que a última não possuia um valor menor para atualizar.</p>
                 <p class="body-lg">Entretanto, o maior problema que notei com relação a tipografia era o seu uso prático. No próprio design system, alguns títulos eram compostos por tamanhos diferentes, e os produtos não possuíam padrão entre si. Isso se devia pela nomenclatura nada clara (font-size-xl, lg, md...) e por não ter nenhuma indicação do que seria um h1, h2 e outras tags.</p>
                 <p class="body-lg">Por fim, o design system também fornecia as mesmas escalas para as duas fontes da marca, Ubuntu (principal) e Open Sans (secundária), mas a última raramente era usada nos projetos, considerando que até mesmo alguns designers nem sabiam da existência dela.</p>
             </div>
