@@ -76,5 +76,12 @@
     "part-6-title": "Boas práticas de documentação",
     "part-6-item-1": "Iniciando a documentação",
     "part-6-item-2": "Documentando os componentes",
-    "part-6-item-3": "Documentando os patterns"
+    "part-6-item-3": "Documentando os patterns",
+
+    "404-title": "Erro 404",
+    "404-description": "A página que você está buscando não existe. Para continuar:",
+    "404-item-1": "Retorne a página inicial.",
+    "404-item-2": "Acesse um dos meus projetos",
+    "404-item-3": "Entre em contato via contato@mateusvillain.com",
+    "404-link-1": "Início"
 }

@@ -76,5 +76,12 @@
     "part-6-title": "Documentation best practices",
     "part-6-item-1": "Starting the documentation",
     "part-6-item-2": "Documenting components",
-    "part-6-item-3": "Documenting patterns"
+    "part-6-item-3": "Documenting patterns",
+
+    "404-title": "Error 404",
+    "404-description": "The page you are looking for does not exist. To continue:",
+    "404-item-1": "Return to the homepage.",
+    "404-item-2": "Access one of my projects",
+    "404-item-3": "Get in touch: contato@mateusvillain.com",
+    "404-link-1": "Home"
 }
