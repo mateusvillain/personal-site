@@ -3,8 +3,5 @@
   "rewrites": [
     { "source": "/projects", "destination": "/projects.html" },
     { "source": "/locaweb-design-system", "destination": "/locaweb-design-system.html" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/404.html", "status": 404 }
   ]
 }
