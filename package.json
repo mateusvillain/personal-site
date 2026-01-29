@@ -4,8 +4,9 @@
   "description": "",
   "main": "dist/index.html",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node build.js && npm run build:css",
+    "build": "cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:sitemap",
     "build:css": "sass src/sass/index.scss dist/style.css --style=compressed --no-source-map",
+    "build:sitemap": "node sitemap.js",
 
     "watch:html": "cross-env NODE_ENV=development nodemon --watch src --ext html --exec \"node build.js\"",
     "watch:css": "sass src/sass/index.scss dist/style.css --watch",
