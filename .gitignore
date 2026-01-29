@@ -30,7 +30,6 @@ temp/
 Thumbs.db
 
 # --- Editors / IDE ---
-.vscode/
 .idea/
 *.swp
 
