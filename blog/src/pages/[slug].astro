@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import BlogLayout from "../layouts/BlogLayout.astro";
+// import "../styles/blog-post.css";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// ⬇️ AQUI está a parte importante
+const { Content } = await post.render();
+
+// Formata a data no formato "Mês DD, YYYY"
+const date = new Date(post.data.date);
+const months = [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out",
+  "Nov",
+  "Dez",
+];
+const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+---
+
+<BlogLayout title={post.data.title} description={post.data.description}>
+  <div class="home-link">
+    <p class="body--md">
+      <a
+        href="../../../index.html"
+        class="link"
+        aria-label="Ir para a página inicial">Início</a
+      >
+    </p>
+    <p class="body--md">
+      <a href="../../blog" class="link" aria-label="Ir para o blog">Blog</a>
+    </p>
+  </div>
+  <article class="full-post">
+    <section class="post-details">
+      <h1 class="title">{post.data.title}</h1>
+      <p class="body--md">
+        <time datetime={post.data.date}>{formattedDate}</time>
+      </p>
+    </section>
+
+    <Content />
+  </article>
+</BlogLayout>

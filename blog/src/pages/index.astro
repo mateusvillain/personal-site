@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import BlogLayout from "../layouts/Blog.astro";
+// import "../styles/blog-post.css";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => new Date(b.data.date) - new Date(a.data.date),
+);
+---
+
+<BlogLayout
+  title="Blog"
+  description="Artigos sobre design, frontend e sistemas"
+>
+  <div class="home-link">
+    <p class="body--md">
+      <a
+        href="../../../index.html"
+        class="link"
+        aria-label="Ir para a página inicial">Início</a
+      >
+    </p>
+  </div>
+  <div class="post-details">
+    <h1 class="title">Blog</h1>
+  </div>
+  {
+    posts.map((post) => {
+      const date = new Date(post.data.date);
+      const months = [
+        "Jan",
+        "Fev",
+        "Mar",
+        "Abr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Set",
+        "Out",
+        "Nov",
+        "Dez",
+      ];
+      const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+
+      return (
+        <article class="post">
+          <a href={post.slug}>
+            <div class="post-header">
+              <p>{post.data.title}</p>
+              <p>{post.data.description}</p>
+            </div>
+            <p class="body--md">
+              <time>{formattedDate}</time>
+            </p>
+          </a>
+        </article>
+      );
+    })
+  }
+</BlogLayout>
