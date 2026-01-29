@@ -1,15 +1,12 @@
+<a href="#main" class="skip-link">Ir para o conteúdo principal</a>
 <div class="container">
-  <!-- <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
-  <header class="page-header">
-      <p class="body--lg">
-          <a href="index.html" aria-label="Ir para a página inicial" data-link="home">Mateus Villain</a>
-      </p>
-      <p class="body--lg">
-          <a href="projects.html" aria-label="Navegar para a lista de projetos" data-link="projects">Projetos</a>
-      </p>
-  </header> -->
   <main id="main" class="project-main">
-    <h1>Locaweb Design System</h1>
+    <div>
+      <p class="body--md">
+        <a href="index.html" class="link" aria-label="Ir para a página inicial">Voltar para a página inicial</a>
+      </p>
+    </div>
+    <h1 class="title">Reestruturando os tokens do Locaweb Design System</h1>
     <div class="tag-list">
       <div class="tag body--sm">design system</div>
       <div class="tag body--sm">design tokens</div>
@@ -33,40 +30,17 @@
     <h2 class="headline">Visão geral</h2>
     <div class="paragraph">
       <p class="body--lg">
-        O design system da Locaweb foi criado a partir do Vuetify para agilizar
-        o desenvolvimento, mas acabou gerando componentes e tokens pouco
-        escaláveis e sem documentação clara. Nesse projeto, meu papel foi
-        revisar e melhorar esses elementos, trazendo mais escalabilidade e
-        eficiência para designers e desenvolvedores.
+        O design system da Locaweb foi criado a partir do Vuetify para agilizar o desenvolvimento, mas acabou gerando componentes e tokens pouco escaláveis e sem documentação clara. Nesse projeto, meu papel foi revisar e melhorar esses elementos, trazendo mais escalabilidade e eficiência para designers e desenvolvedores.
       </p>
     </div>
     <h3 class="block-title">Resultados</h3>
     <ul class="overview-results">
-      <li class="body--lg">
-        Novo sistema de design tokens, com separação entre tokens primitivos e
-        semânticos, nomenclaturas claras e escaláveis.
-      </li>
-      <li class="body--lg">
-        Paletas de cores recriadas, garantindo contrastes acessíveis e com uso
-        semântico definido.
-      </li>
-      <li class="body--lg">
-        Escalas tipográficas com medidas relativas e melhor adaptação a telas
-        menores.
-      </li>
-      <li class="body--lg">
-        Sistema de elevação totalmente reformulado, baseado em modelos de
-        iluminação real e com definição de uso em componentes e microinterações.
-      </li>
-      <li class="body--lg">
-        Documentação clara, com explicação de uso geral dos componentes e suas
-        propriedades individuais, e critérios de acessibilidade.
-      </li>
-      <li class="body--lg">
-        Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção
-        de rótulos para softwares de leitura de tela com definição diretamente
-        no componente do Figma.
-      </li>
+      <li class="body--lg">Novo sistema de design tokens, com separação entre tokens primitivos e semânticos, nomenclaturas claras e escaláveis.</li>
+      <li class="body--lg">Paletas de cores recriadas, garantindo contrastes acessíveis e com uso semântico definido.</li>
+      <li class="body--lg">Escalas tipográficas com medidas relativas e melhor adaptação a telas menores</li>
+      <li class="body--lg">Sistema de elevação totalmente reformulado, baseado em modelos de iluminação  e com definição de uso em componentes e microinterações.</li>
+      <li class="body--lg">Documentação clara, com explicação de uso geral dos componentes e suas propriedades individuais, e critérios de acessibilidade.</li>
+      <li class="body--lg">Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção de rótulos para softwares  leitura de tela com definição diretamente no componente do Figma.</li>
     </ul>
   </section>
 
@@ -76,36 +50,12 @@
     <h3 class="block-title">Análise do produto</h3>
     <div class="paragraph">
       <p class="body--lg">
-        A primeira análise consistiu em catalogar cada design token e entender
-        qual o caso de uso que eles tinham no design system. Além disso,
-        utilizando o analytics do Figma, pude observar o número de inserções dos
-        estilos, variáveis e componentes do arquivo, além da quantidade de
-        detaches.
+        A primeira análise consistiu em catalogar cada design token e entender qual o caso de uso que eles tinham no design system. Além disso, utilizando o analytics do Figma, pude observar o número de inserções dos estilos, variáveis e componentes do arquivo, além da quantidade de detaches.
       </p>
-      <p class="body--lg">
-        Avaliando o uso das cores, reparei que em todas as paletas, pelo menos
-        um dos tons nunca era utilizado, e pela falta de documentação, não havia
-        uma indicação verdadeira de como e quando utilizar cada uma,
-        considerando que apenas com exceção a paleta de cores neutras, todas as
-        outras eram apenas usadas para microinterações nos componentes, mas sem
-        nomenclaturas que indicassem isso. Além disso, também percebi que alguns
-        tons usados como background para textos em componentes não contrastavam
-        bem, seguindo as diretrizes da WCAG.
+      <p class="body--lg">Avaliando o uso das cores, reparei que em todas as paletas, pelo menos um dos tons nunca era utilizado, e pela falta de documentação, não havia uma indicação verdadeira de como e quando utilizar cada uma, considerando que apenas com exceção a paleta de cores neutras, todas as outras eram apenas usadas para microinterações nos componentes, mas sem nomenclaturas que indicassem isso. Além disso, também percebi que alguns tons usados como background para textos em componentes não contrastavam bem, seguindo as diretrizes da WCAG.</p>
+      <p class="body--lg">A responsividade do sistema de escalas tipográficas não era bem executado. Em vez de trabalhar com medidas relativas (como rem ou em), como é o convencional, e reduzir o valor conforme o breakpoint, os textos apenas reduziam o tamanho para uma escala abaixo, ou seja, se em desktop tinhamos textos de 40, 32 e 24 pixels, em mobile o texto que usava 40 atualizava para 32 pixels, e o 32 para 24 pixels, e assim por diante.diante.
       </p>
-      <p class="body--lg">
-        A responsividade do sistema de escalas tipográficas não era bem
-        executado. Em vez de trabalhar com medidas relativas (como rem ou em),
-        como é o convencional, e reduzir o valor conforme o breakpoint, os
-        textos apenas reduziam o tamanho para uma escala abaixo, ou seja, se em
-        desktop tinhamos textos de 40, 32 e 24 pixels, em mobile o texto que
-        usava 40 atualizava para 32 pixels, e o 32 para 24 pixels, e assim por
-        diante.
-      </p>
-      <p class="body--lg">
-        Essa redução ocasionava tanto em textos demasiadamente grandes em
-        dispositivos móveis, como também nas duas últimas escalas com o mesmo
-        tamanho, já que a última não possuia um valor menor para atualizar.
-      </p>
+      <p class="body--lg">Essa redução ocasionava tanto em textos demasiadamente grandes em dispositivos móveis, como também nas duas últimas escalas com o mesmo tamanho, já que a última não possuia um valor menor para atualizar.</p>
     </div>
 
     <div class="project-example">
@@ -116,10 +66,7 @@
         />
         <div class="project-card-content">
           <p class="body--lg">Nomenclaturas sem padrão</p>
-          <p class="body--lg">
-            Os tokens de cor não possuíam padrão de nomenclatura, considerando
-            que a escala de cinza era definida diferente das outras paletas.
-          </p>
+          <p class="body--lg">Os tokens de cor não possuíam padrão de nomenclatura, considerando que a escala de cinza era definida diferente das outras paletas.</p>
         </div>
       </div>
       <div class="project-card">
@@ -129,10 +76,7 @@
         />
         <div class="project-card-content">
           <p class="body--lg">Baixo contraste</p>
-          <p class="body--lg">
-            A falta de uma adaptação principalmente nas cores do meio de cada
-            paleta traziam falhas quando inseridas sobre um fundo escuro.
-          </p>
+          <p class="body--lg">A falta de uma adaptação principalmente nas cores do meio de cada paleta traziam falhas  inseridas sobre um fundo escuro.</p>
         </div>
       </div>
       <div class="project-card">
@@ -142,10 +86,7 @@
         />
         <div class="project-card-content">
           <p class="body--lg">Componentes sem atributos acessíveis</p>
-          <p class="body--lg">
-            Accordions, alerts, modais e outros componentes não possuíam
-            atributos ARIA para auxiliar tecnologias assistivas.
-          </p>
+          <p class="body--lg">Accordions, alerts, modais e outros componentes não possuíam atributos ARIA para auxiliar  assistivas.</p>
         </div>
       </div>
       <div class="project-card">
@@ -155,109 +96,59 @@
         />
         <div class="project-card-content">
           <p class="body--lg">Escala tipográfica pouco responsiva</p>
-          <p class="body--lg">
-            Os design tokens não eram organizados e nem mesmo escaláveis, sem
-            uma separação do que é primitivo ou semântico.
-          </p>
+          <p class="body--lg">Os design tokens não eram organizados e nem mesmo escaláveis, sem uma separação do que é primitivo ou semântico.</p>
         </div>
       </div>
     </div>
 
     <div class="paragraph">
-      <p class="body--lg">
-        Entretanto, o maior problema que notei com relação a tipografia era o
-        seu uso prático. No próprio design system, alguns títulos eram compostos
-        por tamanhos diferentes, e os produtos não possuíam padrão entre si.
-        Isso se devia pela nomenclatura nada clara (font-size-xl, lg, md...) e
-        por não ter nenhuma indicação do que seria um h1, h2 e outras tags.
-      </p>
-      <p class="body--lg">
-        Por fim, o design system também fornecia as mesmas escalas para as duas
-        fontes da marca, Ubuntu (principal) e Open Sans (secundária), mas a
-        última raramente era usada nos projetos, considerando que até mesmo
-        alguns designers nem sabiam da existência dela.
-      </p>
+      <p class="body--lg"> Entretanto, o maior problema que notei com relação a tipografia era o seu uso prático. No próprio design system, alguns títulos eram compostos por tamanhos diferentes, e os produtos não possuíam padrão entre si. Isso se devia pela nomenclatura nada clara (font-size-xl, lg, md...) e por não ter nenhuma indicação do que seria um h1, h2 e outras tags.</p>
+      <p class="body--lg">Por fim, o design system também fornecia as mesmas escalas para as duas fontes da marca, Ubuntu (principal) e Open Sans (secundária), mas a última raramente era usada nos projetos, considerando que até mesmo alguns designers nem sabiam da existência dela.</p>
     </div>
 
     <h3 class="block-title">Entrevista com colaboradores</h3>
     <div class="paragraph">
-      <p class="body--lg">
-        Para a segunda análise, preparei um roteiro e realizei uma entrevista
-        individual com cada um dos designers que já vinham utilizando o design
-        system nos seus produtos, com o objetivo de entender as percepções de
-        cada um sobre o uso dos tokens.
-      </p>
-      <p class="body--lg">
-        A pesquisa comprovou alguns dos dados que eu já havia coletado na
-        primeira análise, mas também me trouxe novos resultados:
-      </p>
+      <p class="body--lg">Para a segunda análise, preparei um roteiro e realizei uma entrevista individual com cada um dos designers que já vinham utilizando o design system nos seus produtos, com o objetivo de entender as percepções de cada um sobre o uso dos tokens.</p>
+      <p class="body--lg">A pesquisa comprovou alguns dos dados que eu já havia coletado na primeira análise, mas também me trouxe novos resultados:</p>
     </div>
 
     <div class="notepad">
       <div class="note">
         <p class="body--lg">Pouco uso da cor secundária</p>
-        <p class="body--lg">
-          Os designers não utilizavam a cor secundária em nenhuma ocasião na interface dos produtos, e como não havia documentação, não sabiam dizer para que essa paleta servia.
-        </p>
+        <p class="body--lg">Os designers não utilizavam a cor secundária em nenhuma ocasião na interface dos produtos, e como não havia documentação, não sabiam dizer para que essa paleta servia.</p>
       </div>
       <div class="note">
-        <p class="body--lg">
-          Dificuldades em entender as hierarquias tipográficas
-        </p>
-        <p class="body--lg">
-          Os designers tinham entendimentos diferentes sobre quando utilizar a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.
-        </p>
+        <p class="body--lg">Dificuldades em entender as hierarquias tipográficas</p>
+        <p class="body--lg">Os designers tinham entendimentos diferentes sobre quando utilizar a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.</p>
       </div>
       <div class="note">
-        <p class="body--lg">
-          Inutilização do peso "light"
-        </p>
-        <p class="body--lg">
-          O arquivo fornecia o peso “light” para cada uma das oito escalas, e mesmo que com pouquíssimas inserções vistas no analytics, todos os designers afirmaram nunca usar e nem saber o seu caso de uso.
-        </p>
+        <p class="body--lg">Inutilização do peso "light"</p>
+        <p class="body--lg">O arquivo fornecia o peso “light” para cada uma das oito escalas, e mesmo que com pouquíssimas inserções vistas no analytics, todos os designers afirmaram nunca usar e nem saber o seu caso de uso.</p>
       </div>
       <div class="note">
-        <p class="body--lg">
-          Incerteza sobre o uso das escalas de cinza nos textos
-        </p>
-        <p class="body--lg">
-          Pela falta de padronização e recomendação, os designers tinham diferentes entendimentos entre si sobre o uso das escalas de cinza em textos, de forma a colaborar na hierarquia de títulos e parágrafos.
-        </p>
+        <p class="body--lg">Incerteza sobre o uso das escalas de cinza nos textos</p>
+        <p class="body--lg">Pela falta de padronização e recomendação, os designers tinham diferentes entendimentos entre si sobre o uso das escalas de cinza em textos, de forma a colaborar na hierarquia de títulos e parágrafos.</p>
       </div>
     </div>
 
     <h3 class="block-title">Comparações entre design e código</h3>
     <div class="paragraph">
-      <p class="body--lg">
-        A terceira e última análise envolveu uma comparação direta entre Figma e código de todos os design tokens e componentes.
-      </p>
-      <p class="body--lg">
-        Esse levantamento foi feito primeiramente sozinho, para ter inicialmente as minhas próprias visões, mas no final decidi me reunir com o responsável pelo desenvolvimento front-end do design system, tanto para ter a oportunidade de coletar mais informações como já passar para ele os pontos que coletei.
-      </p>
+      <p class="body--lg">A terceira e última análise envolveu uma comparação direta entre Figma e código de todos os design tokens e componentes.</p>
+      <p class="body--lg">Esse levantamento foi feito primeiramente sozinho, para ter inicialmente as minhas próprias visões, mas no final decidi me reunir com o responsável pelo desenvolvimento front-end do design system, tanto para ter a oportunidade de coletar mais informações como já passar para ele os pontos que coletei.</p>
     </div>
-    
+
     <div class="notepad">
       <div class="note">
         <p class="body--lg">Componentes com nomes diferentes</p>
-        <p class="body--lg">
-          Apesar dos designers e desenvolvedores usarem os mesmos componentes, alguns deles não compartilhavam o mesmo nome, como era o caso do Dialog para os designers, e Modal para os desenvolvedores.
-        </p>
+        <p class="body--lg">Apesar dos designers e desenvolvedores usarem os mesmos componentes, alguns deles não compartilhavam o mesmo nome, como era o caso do Dialog para os designers, e Modal para os desenvolvedores.</p>
       </div>
       <div class="note">
-        <p class="body--lg">
-          Escalas tipográficas com nomes distintos
-        </p>
-        <p class="body--lg">
-          Enquanto os designers reconheciam as escalas por uma determinada nomenclatura no Figma, a nomenclatura do design token usada na prática pelos desenvolvedores eram outras.
-        </p>
+        <p class="body--lg">Escalas tipográficas com nomes distintos</p>
+        <p class="body--lg">Enquanto os designers reconheciam as escalas por uma determinada nomenclatura no Figma, a nomenclatura do design token usada na prática pelos desenvolvedores eram outras.</p>
       </div>
       <div class="note">
-        <p class="body--lg">
-          Diferenças nas elevações em design e código
-        </p>
-        <p class="body--lg">
-          O arquivo do design system no Figma fornecia alguns níveis de elevação (estilos de sombra), que eram completamente diferentes dos tokens, tanto em nomenclatura quanto em valor.
-        </p>
+        <p class="body--lg">Diferenças nas elevações em design e código</p>
+        <p class="body--lg">O arquivo do design system no Figma fornecia alguns níveis de elevação (estilos de sombra), que eram completamente diferentes dos tokens, tanto em nomenclatura quanto em valor.</p>
       </div>
     </div>
   </section>
@@ -266,32 +157,16 @@
   <section id="password-box" class="project-section">
     <h2 class="headline">Informações confidenciais</h2>
     <div class="paragraph">
-      <p class="body--lg">
-        A solução do projeto contém informações confidenciais. Para continuar lendo, é necessário informar a senha correta no campo a seguir.
-      </p>
-      <p class="body--lg">
-        Não possui a senha? Entre em contato comigo pelo <a class="link" href="https://www.linkedin.com/in/mateusvillain/" target="_blank" >LinkedIn</a> ou pelo e-mail contato@mateusvillain.com.
-      </p>
+      <p class="body--lg">A solução do projeto contém informações confidenciais. Para continuar lendo, é necessário informar a senha correta no campo a seguir.</p>
+      <p class="body--lg">Não possui a senha? Entre em contato comigo pelo <a class="link" href="https://www.linkedin.com/in/mateusvillain/" target="_blank" >LinkedIn</a> ou pelo e-mail contato@mateusvillain.com.</p>
     </div>
     <div class="form-password">
       <div class="form__group form__lg">
         <label for="password">Senha</label>
-        <input
-          type="password"
-          id="password"
-          class="password-input"
-          placeholder="Senha do projeto"
-          autocomplete="off"
-        />
+        <input type="password" id="password" class="password-input" placeholder="Senha do projeto" autocomplete="off"/>
         <p id="error" hidden></p>
       </div>
-      <button
-        id="unlock"
-        class="unlock-btn btn btn--primary btn--lg"
-        data-link="unlock"
-      >
-        Desbloquear conteúdo
-      </button>
+      <button id="unlock" class="unlock-btn btn btn--primary btn--lg" data-link="unlock">Desbloquear conteúdo</button>
     </div>
   </section>
 
