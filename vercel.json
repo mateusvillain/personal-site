@@ -1,5 +1,8 @@
 {
   "cleanUrls": true,
+  "outputDirectory": "dist",
+  "buildCommand": "npm run build",
+
   "rewrites": [
     { "source": "/projects", "destination": "/projects.html" },
     { "source": "/locaweb-design-system", "destination": "/locaweb-design-system.html" }
