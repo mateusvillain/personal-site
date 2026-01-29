@@ -9,13 +9,15 @@ async function carregarMusica() {
       el.textContent = 'No music playing now';
     } else {
       el.innerHTML = `
-        <a href="${data.songUrl}" target="_blank">${data.title}</a> - ${data.artist} 🎵
+        <a href="${data.songUrl}" target="_blank">${data.title}</a> 🎵
       `;
     }
   } catch (err) {
     document.getElementById('spotify').textContent = "Can't load Spotify";
   }
 }
+
+// <a href="${data.songUrl}" target="_blank">${data.title}</a> - ${data.artist} 🎵
 
 carregarMusica();
 setInterval(carregarMusica, 30000);
