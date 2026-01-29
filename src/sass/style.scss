@@ -1,5 +1,14 @@
-html, body, h1, h2, h3, h4, h5, h6, p, a {
-  font-family: 'Geist', Arial, sans-serif !important;
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  font-family: "Geist", Arial, sans-serif !important;
 }
 
 body {
@@ -24,11 +33,11 @@ a {
     margin: 0 auto;
     max-width: 720px;
   }
-  
+
   @media (min-width: 1280px) {
     margin: 0 auto;
     max-width: 560px;
-  }  
+  }
 }
 
 main {
@@ -43,7 +52,7 @@ main {
 
     .content {
       p:first-of-type {
-        opacity: .8;
+        opacity: 0.8;
         font-style: italic;
         margin-bottom: var(--lui-spacing-fixed-16);
       }
@@ -89,8 +98,6 @@ main {
 .project-list > a.project-item:last-child {
   margin-bottom: 0;
 }
-
-
 
 section {
   &.project-list {
