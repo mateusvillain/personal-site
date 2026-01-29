@@ -1,16 +1,22 @@
 <div class="container">
   <div class="desktop">
-    <div>
+    <div class="personal-info">
       <p class="body--sm" id="hora"></p>
       <p class="body--sm" id="clima"></p>
       <p class="body--sm" id="spotify"></p>
     </div>
-    <a
-      class="body--sm link"
-      id="lang-switch"
-      data-i18n="language"
-      data-link="language"
-    ></a>
+    <div class="site-controls">
+      <!-- <label class="theme-toggle body--sm" aria-label="Alternar tema">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="icon"></span>
+      </label> -->
+      <a
+        class="body--sm link"
+        id="lang-switch"
+        data-i18n="language"
+        data-link="language"
+      ></a>
+    </div>
   </div>
 
   <main class="hero">
@@ -18,6 +24,7 @@
     <h1>Mateus Villain <span id="mood" aria-label="false"></span></h1>
 
     <div class="content">
+      <p data-i18n="role"></p>
       <p data-i18n="about"></p>
     </div>
 
@@ -65,3 +72,21 @@
     </a>
   </section>
 </div>
+
+<script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+    toggle.checked = savedTheme === "dark";
+  }
+
+  toggle.addEventListener("change", () => {
+    const theme = toggle.checked ? "dark" : "light";
+    root.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  });
+</script>
