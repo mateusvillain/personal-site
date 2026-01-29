@@ -2,10 +2,17 @@
   "name": "personal-site",
   "version": "1.10.0",
   "description": "",
-  "main": "index.html",
+  "main": "dist/index.html",
   "scripts": {
-    "sass": "sass sass/index.scss css/style.css --style=compressed --no-source-map",
-    "sass:watch": "sass --watch sass/index.scss css/style.css --style=compressed --no-source-map",
+    "build": "cross-env NODE_ENV=production node build.js && npm run build:css",
+    "build:css": "sass src/sass/index.scss dist/style.css --style=compressed --no-source-map",
+
+    "watch:html": "cross-env NODE_ENV=development nodemon --watch src --ext html --exec \"node build.js\"",
+    "watch:css": "sass src/sass/index.scss dist/style.css --watch",
+
+    "serve": "browser-sync start --server \"dist\" --files \"dist/**/*\" --open",
+    "dev:front": "npm-run-all --parallel watch:html watch:css serve",
+    
     "release:major": "npm version major && git push origin main --tags",
     "release:minor": "npm version minor && git push origin main --tags",
     "release:patch": "npm version patch && git push origin main --tags"
@@ -21,15 +28,22 @@
     "design system"
   ],
   "author": "Mateus Villain",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "bugs": {
     "url": "https://github.com/mateusvillain/personal-site/issues"
   },
   "homepage": "https://github.com/mateusvillain/personal-site#readme",
   "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "cross-env": "^10.1.0",
     "esbuild": "^0.27.2",
-    "sass": "^1.94.2"
+    "nodemon": "^3.1.11",
+    "npm-run-all": "^4.1.5",
+    "posthtml": "^0.16.7",
+    "posthtml-include": "^2.0.1",
+    "sass": "^1.94.2",
+    "vercel": "^50.8.1"
   },
   "dependencies": {
     "@notionhq/client": "^5.6.0",
