@@ -4,16 +4,17 @@
   "description": "",
   "main": "dist/index.html",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:sitemap",
+    "build": "cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:blog && npm run build:sitemap",
     "build:css": "sass src/sass/index.scss dist/style.css --style=compressed --no-source-map",
     "build:sitemap": "node sitemap.js",
+    "build:blog": "npm --prefix blog run build",
 
     "watch:html": "cross-env NODE_ENV=development nodemon --watch src --ext html --exec \"node build.js\"",
     "watch:css": "sass src/sass/index.scss dist/style.css --watch",
 
     "serve": "browser-sync start --server \"dist\" --files \"dist/**/*\" --open",
     "dev:front": "npm-run-all --parallel watch:html watch:css serve",
-    
+
     "release:major": "npm version major && git push origin main --tags",
     "release:minor": "npm version minor && git push origin main --tags",
     "release:patch": "npm version patch && git push origin main --tags"
