@@ -1,13 +1,15 @@
 {
     "language": "PT",
     "role": "Designer e autor",
-    "about": "Eu nasci em ainda vivo em Criciúma, Santa Catarina, junto com a minha esposa, minha cachorra Amora e minha gata Figma. Eu trabalho com product design desde 2016, e atualmente estou como senior na Locaweb, responsável pelo design system, e pelo painel do cliente e site da KingHost.",
+    "about": "Sou product designer, nascido em Criciúma, SC, especialista em design systems e autor do livro Design System além do layout. Atualmente trabalho na Locaweb como Senior Product Designer, ajudando a construir o Locaweb Design System e promovendo a cultura de design dentro da empresa.",
 
     "menu-about": "Sobre mim",
     "menu-book": "Meu livro",
 
     "projects": "Projetos",
+    "locaweb-title": "Reestruturando os tokens do Locaweb Design System",
     "locaweb-description": "Locaweb Design System é o design system multi-brand da LWSA.",
+    "letsui-title": "Let's UI: um design system multi-brand com foco em fluidez",
     "letsui-description": "Let’s UI é um design system open source e multi-brand, criado para projetar interfaces totalmente fluídas e agnósticas.",
     "book-title": "Design System além do layout",
     "book-description": "Este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.",

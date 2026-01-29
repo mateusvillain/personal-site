@@ -1,14 +1,16 @@
 {
     "language": "EN",
     "role": "Designer and author",
-    "about": "I was born and still live in Criciúma, Santa Catarina, together with my wife, my dog Amora, and my cat Figma. I've been working with product design since 2016, and I'm currently a senior at Locaweb, responsible for the KingHost dashboard and app, as well as the design system.",
+    "about": "I am a product designer, born in Criciúma, SC, specialist in design systems and author of the book Design System beyond the layout. I currently work at Locaweb as a Senior Product Designer, helping to build the Locaweb Design System and promoting the design culture within the company.",
     
     "menu-about": "About",
     "menu-book": "My book",
     
     "projects": "Projects",
+    "locaweb-title": "Restructuring the tokens of Locaweb Design System",
     "locaweb-description": "Locaweb Design System is LWSA's multibranding design system.",
     "letsui-description": "Let’s UI is a complete, open-source multibranding design system, created to make interfaces fully fluid.",
+    "letsui-title": "Let's UI: a multibranding design system with a focus on fluidity",
     "book-title": "Design System beyond the layout",
     "book-description": "This book covers everything from initial planning, style and token definition, to components, microinteractions, and documentation, showing how multidisciplinary teams can work efficiently.",
 
