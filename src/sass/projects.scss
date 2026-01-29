@@ -1,0 +1,165 @@
+section {
+  &.project-section {
+    h3 {
+      margin-top: 40px;
+    }
+
+    h3 + .paragraph,
+    h3 + ul {
+      margin-top: 8px;
+    }
+
+    .paragraph > p+p {
+      margin-top: 16px;
+    }
+  }
+
+  & .project-example {
+    margin-top: 40px;
+    
+    & .project-card {
+      &:not(:last-of-type) {
+        margin-bottom: 40px;
+      }
+
+      img {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8px;
+        gap: 2px;
+
+        & p:first-of-type {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+main.project-main {
+  margin-top: 80px;
+  img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+  }
+}
+
+.project-details {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+
+  & .info {
+    display: flex;
+    flex-direction: column;
+
+    & p:first-of-type {
+      opacity: .8;
+      font-weight: 500;
+    }
+  }
+}
+
+.tag-list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  gap: 8px;
+
+  .tag {
+    background-color: #ebecf3;
+    color: #464749;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Google Sans', monospace;
+  }
+}
+
+.notepad {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  background-image:
+    linear-gradient(
+      to bottom,
+      #eaeaea 1px,
+      transparent 1px
+    );
+  background-size: 100% 24px;
+  margin-top: 24px;
+  padding: 48px;
+  gap: 24px;
+  border-radius: 6px 8px 7px 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.notepad::before {
+  content: "";
+  position: absolute;
+  left: 32px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #f0b7b7;
+  opacity: 0.6;
+}
+
+.note {
+  & p {
+    line-height: 24px !important;
+
+    &:first-of-type {
+      font-weight: 500;
+    }
+  }
+}
+
+.project-section-secret {
+  h2:first-of-type {
+    margin-top: 0;
+  }
+
+  h2, h3 {
+    margin-top: 24px;
+  }
+
+  h3+p {
+    margin-top: 8px;
+  }
+
+  p+p {
+    margin-top: 16px;
+  }
+
+  pre {
+    border-radius: 16px;
+  }
+
+  .code-block {
+    margin: var(--lui-spacing-fixed-32) 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: hidden;
+
+    code {
+      white-space: inherit;
+    }
+  }
+}
+
+.form-password {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: end;
+}

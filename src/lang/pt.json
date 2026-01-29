@@ -1,0 +1,39 @@
+{
+    "language": "PT",
+    "role": "Designer e autor",
+    "about": "Eu nasci em ainda vivo em Criciúma, Santa Catarina, junto com a minha esposa, minha cachorra Amora e minha gata Figma. Eu trabalho com product design desde 2016, e atualmente estou como senior na Locaweb, responsável pelo design system, e pelo painel do cliente e site da KingHost.",
+
+    "menu-about": "Sobre mim",
+    "menu-book": "Meu livro",
+
+    "projects": "Projetos",
+    "locaweb-description": "Locaweb Design System é o design system multi-brand da LWSA.",
+    "letsui-description": "Let’s UI é um design system open source e multi-brand, criado para projetar interfaces totalmente fluídas e agnósticas.",
+    "book-title": "Design System além do layout",
+    "book-description": "Este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.",
+
+    "tools-accessories-title": "Acessórios",
+    "tools-accessories-monitor": "2x Monitor LG 25” UltraWide Full HD 25UM58",
+    "tools-accessories-keyboard": "Teclado Mecânico EPOMAKER x AULA F75",
+    "tools-accessories-mouse": "Mouse Logitech G502 X Lightspeed",
+    "tools-accessories-camera": "Câmera Sony α6000",
+    "tools-accessories-webcam": "Webcam Logitech Brio 4K Pro",
+    "tools-accessories-mic": "Microfone HyperX QuadCast 2",
+    "tools-accessories-desk": "Mesa Geniodesk Basic",
+    
+    "tools-coffee-title": "Café",
+    "tools-coffee-machine": "Oster Xpert Perfect Brew",
+    "tools-coffee-grinder": "Moedor TIMEMORE C3",
+    "tools-coffee-scale": "Balança TIMEMORE Basic 2.0",
+    "tools-coffee-portafilter": "Porta filtro duplo",
+    "tools-coffee-funnel": "Anel de dosagem",
+    "tools-coffee-leveler": "Nivelador",
+    "tools-coffee-filter": "Filtro V60, acrílico",
+
+    "404-title": "Erro 404",
+    "404-description": "A página que você está buscando não existe. Para continuar:",
+    "404-item-1": "Retorne a página inicial.",
+    "404-item-2": "Acesse um dos meus projetos",
+    "404-item-3": "Entre em contato via contato@mateusvillain.com",
+    "404-link-1": "Início"
+}

@@ -1,0 +1,39 @@
+{
+    "language": "EN",
+    "role": "Designer and author",
+    "about": "I was born and still live in Criciúma, Santa Catarina, together with my wife, my dog Amora, and my cat Figma. I've been working with product design since 2016, and I'm currently a senior at Locaweb, responsible for the KingHost dashboard and app, as well as the design system.",
+    
+    "menu-about": "About",
+    "menu-book": "My book",
+    
+    "projects": "Projects",
+    "locaweb-description": "Locaweb Design System is LWSA's multibranding design system.",
+    "letsui-description": "Let’s UI is a complete, open-source multibranding design system, created to make interfaces fully fluid.",
+    "book-title": "Design System beyond the layout",
+    "book-description": "This book covers everything from initial planning, style and token definition, to components, microinteractions, and documentation, showing how multidisciplinary teams can work efficiently.",
+
+    "tools-accessories-title": "Accessories",
+    "tools-accessories-monitor": "2x LG 25” UltraWide Full HD 25UM58 monitor",
+    "tools-accessories-keyboard": "EPOMAKER x AULA F75 mechanical keyboard",
+    "tools-accessories-mouse": "Logitech G502 X Lightspeed mouse",
+    "tools-accessories-camera": "Sony α6000 camera",
+    "tools-accessories-webcam": "Logitech Brio 4K Pro webcam",
+    "tools-accessories-mic": "HyperX QuadCast 2 microphone",
+    "tools-accessories-desk": "Geniodesk Basic desk",
+    
+    "tools-coffee-title": "Coffee",
+    "tools-coffee-machine": "Oster Xpert Perfect Brew",
+    "tools-coffee-grinder": "TIMEMORE C3 coffee grinder",
+    "tools-coffee-scale": "TIMEMORE Basic 2.0 coffee scale",
+    "tools-coffee-portafilter": "Double espresso portafilter",
+    "tools-coffee-funnel": "Dosing funnel",
+    "tools-coffee-leveler": "Leveler",
+    "tools-coffee-filter": "V60 dripper, acrylic",
+    
+    "404-title": "Error 404",
+    "404-description": "The page you are looking for does not exist. To continue:",
+    "404-item-1": "Return to the homepage.",
+    "404-item-2": "Access one of my projects",
+    "404-item-3": "Get in touch: contato@mateusvillain.com",
+    "404-link-1": "Home"
+}
