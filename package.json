@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.html",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:blog && npm run build:sitemap",
+    "build": "npm install --prefix blog && cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:blog && npm run build:sitemap",
     "build:css": "sass src/sass/index.scss dist/style.css --style=compressed --no-source-map",
     "build:sitemap": "node sitemap.js",
     "build:blog": "npm --prefix blog run build",
