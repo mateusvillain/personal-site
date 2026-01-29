@@ -15,6 +15,12 @@ section {
 
     .paragraph > p + img {
       margin: 16px 0;
+
+      @media (max-width: 559px) {
+        object-fit: cover;
+        object-position: center;
+        width: 360px;
+      }
     }
 
     ul {
