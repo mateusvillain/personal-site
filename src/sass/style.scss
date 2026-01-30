@@ -164,3 +164,22 @@ section {
 :root[data-theme="dark"] .theme-toggle .icon::before {
   content: "☀️";
 }
+
+.tooltip-wrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute !important;
+  top: -60%;
+  left: 48%;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* quando passar o mouse no span.mood, mostra o tooltip */
+.mood:hover + .tooltip {
+  opacity: 1;
+}
