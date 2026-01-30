@@ -21,7 +21,15 @@
 
   <main class="hero">
     <img src="img/mtsvlln.jpg" alt="" />
-    <h1>Mateus Villain <span id="mood" aria-label="false"></span></h1>
+    <section class="flex flex-row">
+      <h1 class="title">Mateus Villain</h1>
+      <div class="flex flex-row tooltip-wrapper" aria-label="false">
+        <span id="mood" class="mood title"></span>
+        <div class="tooltip tooltip--bottom">
+          <span id="mensagem"></span>
+        </div>
+      </div>
+    </section>
 
     <div class="content">
       <p data-i18n="role"></p>
@@ -30,29 +38,47 @@
 
     <div class="links">
       <p>
-        <a class="link" href="blog">Blog</a>
+        <a class="link" href="blog" data-link="blog">Blog</a>
       </p>
       <p>
         <a
           class="link"
           href="https://www.casadocodigo.com.br/products/livro-design-system"
+          target="_blank"
           data-i18n="menu-book"
+          data-link="book"
         ></a>
       </p>
       <p>
-        <a class="link" href="https://linkedin.com/in/mateusvillain/"
+        <a
+          class="link"
+          href="https://linkedin.com/in/mateusvillain/"
+          target="_blank"
+          data-link="github"
+          data-social="github"
           >LinkedIn</a
         >
       </p>
       <p>
-        <a class="link" href="https://github.com/mateusvillain/">GitHub</a>
+        <a
+          class="link"
+          href="https://github.com/mateusvillain/"
+          target="_blank"
+          data-link="linkedin"
+          data-social="linkedin"
+          >GitHub</a
+        >
       </p>
     </div>
   </main>
 
   <section class="project-list">
     <h2 data-i18n="projects"></h2>
-    <a href="locaweb-design-system.html" class="project-item">
+    <a
+      href="locaweb-design-system.html"
+      class="project-item"
+      data-link="locaweb-design-system"
+    >
       <div class="project">
         <img src="img/locaweb-design-system.jpg" alt="" />
         <div class="project-content">
@@ -61,7 +87,11 @@
         </div>
       </div>
     </a>
-    <a href="https://github.com/mateusvillain/lets-ui-css/" target="_blank">
+    <a
+      href="https://github.com/mateusvillain/lets-ui-css/"
+      target="_blank"
+      data-link="github-lets-ui"
+    >
       <div class="project">
         <img src="img/lets-ui.jpg" alt="" />
         <div class="project-content">
