@@ -20,51 +20,96 @@
   --lui-brand-color-primary-1: color(srgb 0.929412 0.839216 1);
   --lui-brand-color-primary-2: color(srgb 0.85098 0.678431 1);
   --lui-brand-color-primary-3: color(srgb 0.756863 0.517647 1);
-  --lui-brand-color-primary-4: color(srgb 0.670588 0.4 1);
-  --lui-brand-color-primary-5: color(srgb 0.529412 0.2 1);
-  --lui-brand-color-primary-6: color(srgb 0.407843 0.145098 0.858824);
-  --lui-brand-color-primary-7: color(srgb 0.301961 0.098039 0.717647);
-  --lui-brand-color-primary-8: color(srgb 0.207843 0.062745 0.576471);
-  --lui-brand-color-primary-9: color(srgb 0.145098 0.035294 0.478431);
+  --lui-brand-color-primary-4: color(srgb 0.529412 0.2 1);
+  --lui-brand-color-primary-5: color(srgb 0.407843 0.145098 0.858824);
+  --lui-brand-color-primary-6: color(srgb 0.301961 0.098039 0.717647);
+  --lui-brand-color-primary-7: color(srgb 0.207843 0.062745 0.576471);
+  --lui-brand-color-primary-8: color(srgb 0.145098 0.035294 0.478431);
   --lui-brand-color-secondary-1: color(srgb 0.945098 0.94902 0.964706);
   --lui-brand-color-secondary-2: color(srgb 0.854902 0.862745 0.894118);
   --lui-brand-color-secondary-3: color(srgb 0.74902 0.764706 0.811765);
-  --lui-brand-color-secondary-4: color(srgb 0.619608 0.639216 0.701961);
-  --lui-brand-color-secondary-5: color(srgb 0.423529 0.439216 0.505882);
-  --lui-brand-color-secondary-6: color(srgb 0.333333 0.34902 0.411765);
-  --lui-brand-color-secondary-7: color(srgb 0.247059 0.262745 0.321569);
-  --lui-brand-color-secondary-8: color(srgb 0.168627 0.180392 0.231373);
-  --lui-brand-color-secondary-9: color(srgb 0.101961 0.109804 0.14902);
+  --lui-brand-color-secondary-4: color(srgb 0.423529 0.439216 0.505882);
+  --lui-brand-color-secondary-5: color(srgb 0.333333 0.34902 0.411765);
+  --lui-brand-color-secondary-6: color(srgb 0.247059 0.262745 0.321569);
+  --lui-brand-color-secondary-7: color(srgb 0.168627 0.180392 0.231373);
+  --lui-brand-color-secondary-8: color(srgb 0.101961 0.109804 0.14902);
   --lui-brand-opacity-disabled: 0.4;
-  --lui-brand-typography-font-family-body: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Helvetica Neue", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --lui-brand-typography-font-family-heading: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Helvetica Neue", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --lui-brand-typography-font-size-1xl: clamp(1.402rem, 1.21rem + 0.96vw, 2.074rem);
-  --lui-brand-typography-font-size-1xs: clamp(0.875rem, 0.8393rem + 0.1786vw, 1rem);
-  --lui-brand-typography-font-size-2xl: clamp(1.577rem, 1.3167rem + 1.3014vw, 2.488rem);
-  --lui-brand-typography-font-size-2xs: clamp(0.778rem, 0.7623rem + 0.0786vw, 0.833rem);
-  --lui-brand-typography-font-size-3xl: clamp(2.245rem, 1.6579rem + 2.9357vw, 4.3rem);
-  --lui-brand-typography-font-size-3xs: clamp(0.691rem, 0.6901rem + 0.0043vw, 0.694rem);
-  --lui-brand-typography-font-size-lg: clamp(1.246rem, 1.1083rem + 0.6886vw, 1.728rem);
-  --lui-brand-typography-font-size-md: clamp(1.107rem, 1.0119rem + 0.4757vw, 1.44rem);
-  --lui-brand-typography-font-size-sm: clamp(0.984rem, 0.9223rem + 0.3086vw, 1.2rem);
+  --lui-brand-typography-font-family-body:
+    -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Helvetica Neue", "Arial", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --lui-brand-typography-font-family-heading:
+    -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Helvetica Neue", "Arial", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --lui-brand-typography-font-size-1xl: clamp(
+    1.402rem,
+    1.21rem + 0.96vw,
+    2.074rem
+  );
+  --lui-brand-typography-font-size-1xs: clamp(
+    0.875rem,
+    0.8393rem + 0.1786vw,
+    1rem
+  );
+  --lui-brand-typography-font-size-2xl: clamp(
+    1.577rem,
+    1.3167rem + 1.3014vw,
+    2.488rem
+  );
+  --lui-brand-typography-font-size-2xs: clamp(
+    0.778rem,
+    0.7623rem + 0.0786vw,
+    0.833rem
+  );
+  --lui-brand-typography-font-size-3xl: clamp(
+    2.245rem,
+    1.6579rem + 2.9357vw,
+    4.3rem
+  );
+  --lui-brand-typography-font-size-3xs: clamp(
+    0.691rem,
+    0.6901rem + 0.0043vw,
+    0.694rem
+  );
+  --lui-brand-typography-font-size-lg: clamp(
+    1.246rem,
+    1.1083rem + 0.6886vw,
+    1.728rem
+  );
+  --lui-brand-typography-font-size-md: clamp(
+    1.107rem,
+    1.0119rem + 0.4757vw,
+    1.44rem
+  );
+  --lui-brand-typography-font-size-sm: clamp(
+    0.984rem,
+    0.9223rem + 0.3086vw,
+    1.2rem
+  );
   --lui-brand-typography-line-height-body: 1.5;
   --lui-brand-typography-line-height-heading: 1.2;
-  --lui-brand-typography-weight-block-title: var(--lui-typography-weight-medium);
+  --lui-brand-typography-weight-block-title: var(
+    --lui-typography-weight-medium
+  );
   --lui-brand-typography-weight-display: var(--lui-typography-weight-light);
   --lui-brand-typography-weight-headline: var(--lui-typography-weight-semibold);
-  --lui-brand-typography-weight-overtitle: var(--lui-typography-weight-semibold);
-  --lui-brand-typography-weight-subheadline: var(--lui-typography-weight-regular);
+  --lui-brand-typography-weight-overtitle: var(
+    --lui-typography-weight-semibold
+  );
+  --lui-brand-typography-weight-subheadline: var(
+    --lui-typography-weight-regular
+  );
   --lui-brand-typography-weight-subtitle: var(--lui-typography-weight-regular);
   --lui-brand-typography-weight-title: var(--lui-typography-weight-semibold);
   --lui-color-blue-1: color(srgb 0.921569 0.968627 1);
   --lui-color-blue-2: color(srgb 0.701961 0.870588 0.992157);
   --lui-color-blue-3: color(srgb 0.494118 0.772549 0.984314);
-  --lui-color-blue-4: color(srgb 0.32549 0.686275 0.968627);
-  --lui-color-blue-5: color(srgb 0.2 0.607843 0.941176);
-  --lui-color-blue-6: color(srgb 0.109804 0.537255 0.894118);
-  --lui-color-blue-7: color(srgb 0.047059 0.439216 0.776471);
-  --lui-color-blue-8: color(srgb 0.011765 0.262745 0.482353);
-  --lui-color-blue-9: color(srgb 0 0.105882 0.2);
+  --lui-color-blue-4: color(srgb 0.2 0.607843 0.941176);
+  --lui-color-blue-5: color(srgb 0.109804 0.537255 0.894118);
+  --lui-color-blue-6: color(srgb 0.047059 0.439216 0.776471);
+  --lui-color-blue-7: color(srgb 0.011765 0.262745 0.482353);
+  --lui-color-blue-8: color(srgb 0 0.105882 0.2);
   --lui-color-caution-background-container: var(--lui-color-orange-5);
   --lui-color-caution-background-surface: var(--lui-color-orange-1);
   --lui-color-caution-border-stroke: var(--lui-color-orange-5);
@@ -77,21 +122,19 @@
   --lui-color-gray-1: color(srgb 1 1 1);
   --lui-color-gray-2: color(srgb 0.933333 0.92549 0.945098);
   --lui-color-gray-3: color(srgb 0.780392 0.792157 0.831373);
-  --lui-color-gray-4: color(srgb 0.592157 0.603922 0.662745);
-  --lui-color-gray-5: color(srgb 0.423529 0.439216 0.505882);
-  --lui-color-gray-6: color(srgb 0.329412 0.345098 0.403922);
-  --lui-color-gray-7: color(srgb 0.239216 0.254902 0.301961);
-  --lui-color-gray-8: color(srgb 0.156863 0.168627 0.2);
-  --lui-color-gray-9: color(srgb 0.07451 0.082353 0.098039);
+  --lui-color-gray-4: color(srgb 0.423529 0.439216 0.505882);
+  --lui-color-gray-5: color(srgb 0.329412 0.345098 0.403922);
+  --lui-color-gray-6: color(srgb 0.239216 0.254902 0.301961);
+  --lui-color-gray-7: color(srgb 0.156863 0.168627 0.2);
+  --lui-color-gray-8: color(srgb 0.07451 0.082353 0.098039);
   --lui-color-green-1: color(srgb 0.901961 1 0.917647);
   --lui-color-green-2: color(srgb 0.662745 0.937255 0.709804);
   --lui-color-green-3: color(srgb 0.462745 0.87451 0.529412);
-  --lui-color-green-4: color(srgb 0.309804 0.811765 0.392157);
-  --lui-color-green-5: color(srgb 0.176471 0.662745 0.262745);
-  --lui-color-green-6: color(srgb 0.098039 0.509804 0.172549);
-  --lui-color-green-7: color(srgb 0.047059 0.360784 0.105882);
-  --lui-color-green-8: color(srgb 0.019608 0.211765 0.058824);
-  --lui-color-green-9: color(srgb 0.003922 0.058824 0.015686);
+  --lui-color-green-4: color(srgb 0.176471 0.662745 0.262745);
+  --lui-color-green-5: color(srgb 0.098039 0.509804 0.172549);
+  --lui-color-green-6: color(srgb 0.047059 0.360784 0.105882);
+  --lui-color-green-7: color(srgb 0.019608 0.211765 0.058824);
+  --lui-color-green-8: color(srgb 0.003922 0.058824 0.015686);
   --lui-color-info-background-container: var(--lui-color-blue-5);
   --lui-color-info-background-surface: var(--lui-color-blue-1);
   --lui-color-info-border-stroke: var(--lui-color-blue-5);
@@ -99,24 +142,23 @@
   --lui-color-link-default: var(--lui-brand-color-primary-5);
   --lui-color-link-visited: var(--lui-brand-color-primary-7);
   --lui-color-neutral-background-container: var(--lui-color-gray-3);
-  --lui-color-neutral-background-overlay: var(--lui-color-gray-9);
+  --lui-color-neutral-background-overlay: var(--lui-color-gray-8);
   --lui-color-neutral-background-surface: var(--lui-color-gray-1);
   --lui-color-neutral-border-divisor: var(--lui-color-gray-2);
   --lui-color-neutral-border-stroke: var(--lui-color-gray-5);
-  --lui-color-neutral-icon-default: var(--lui-color-gray-9);
+  --lui-color-neutral-icon-default: var(--lui-color-gray-8);
   --lui-color-neutral-icon-inverse: var(--lui-color-gray-1);
-  --lui-color-neutral-text-body: var(--lui-color-gray-8);
-  --lui-color-neutral-text-heading: var(--lui-color-gray-9);
+  --lui-color-neutral-text-body: var(--lui-color-gray-7);
+  --lui-color-neutral-text-heading: var(--lui-color-gray-8);
   --lui-color-neutral-text-inverse: var(--lui-color-gray-1);
   --lui-color-orange-1: color(srgb 1 0.772549 0.678431);
   --lui-color-orange-2: color(srgb 1 0.670588 0.490196);
   --lui-color-orange-3: color(srgb 1 0.603922 0.313725);
-  --lui-color-orange-4: color(srgb 1 0.572549 0.168627);
-  --lui-color-orange-5: color(srgb 0.862745 0.45098 0.05098);
-  --lui-color-orange-6: color(srgb 0.729412 0.360784 0);
-  --lui-color-orange-7: color(srgb 0.592157 0.290196 0);
-  --lui-color-orange-8: color(srgb 0.454902 0.219608 0);
-  --lui-color-orange-9: color(srgb 0.321569 0.14902 0);
+  --lui-color-orange-4: color(srgb 0.862745 0.45098 0.05098);
+  --lui-color-orange-5: color(srgb 0.729412 0.360784 0);
+  --lui-color-orange-6: color(srgb 0.592157 0.290196 0);
+  --lui-color-orange-7: color(srgb 0.454902 0.219608 0);
+  --lui-color-orange-8: color(srgb 0.321569 0.14902 0);
   --lui-color-primary-background-container: var(--lui-brand-color-primary-5);
   --lui-color-primary-background-surface: var(--lui-brand-color-primary-1);
   --lui-color-primary-border-stroke: var(--lui-brand-color-primary-5);
@@ -124,13 +166,14 @@
   --lui-color-red-1: color(srgb 1 0.858824 0.858824);
   --lui-color-red-2: color(srgb 0.992157 0.662745 0.662745);
   --lui-color-red-3: color(srgb 0.988235 0.47451 0.47451);
-  --lui-color-red-4: color(srgb 0.980392 0.321569 0.321569);
-  --lui-color-red-5: color(srgb 0.831373 0.2 0.196078);
-  --lui-color-red-6: color(srgb 0.682353 0.12549 0.117647);
-  --lui-color-red-7: color(srgb 0.537255 0.078431 0.070588);
-  --lui-color-red-8: color(srgb 0.388235 0.05098 0.043137);
-  --lui-color-red-9: color(srgb 0.239216 0.031373 0.023529);
-  --lui-color-secondary-background-container: var(--lui-brand-color-secondary-5);
+  --lui-color-red-4: color(srgb 0.831373 0.2 0.196078);
+  --lui-color-red-5: color(srgb 0.682353 0.12549 0.117647);
+  --lui-color-red-6: color(srgb 0.537255 0.078431 0.070588);
+  --lui-color-red-7: color(srgb 0.388235 0.05098 0.043137);
+  --lui-color-red-8: color(srgb 0.239216 0.031373 0.023529);
+  --lui-color-secondary-background-container: var(
+    --lui-brand-color-secondary-5
+  );
   --lui-color-secondary-background-surface: var(--lui-brand-color-secondary-1);
   --lui-color-secondary-border-stroke: var(--lui-brand-color-secondary-5);
   --lui-color-secondary-icon-default: var(--lui-brand-color-secondary-5);
@@ -141,16 +184,19 @@
   --lui-color-violet-1: color(srgb 0.929412 0.839216 1);
   --lui-color-violet-2: color(srgb 0.85098 0.678431 1);
   --lui-color-violet-3: color(srgb 0.756863 0.517647 1);
-  --lui-color-violet-4: color(srgb 0.670588 0.4 1);
-  --lui-color-violet-5: color(srgb 0.529412 0.2 1);
-  --lui-color-violet-6: color(srgb 0.407843 0.145098 0.858824);
-  --lui-color-violet-7: color(srgb 0.301961 0.098039 0.717647);
-  --lui-color-violet-8: color(srgb 0.207843 0.062745 0.576471);
-  --lui-color-violet-9: color(srgb 0.145098 0.035294 0.478431);
-  --lui-elevation-base: 0 0 8px 0 color(srgb 0 0 0 / 0.02), 0 4px 12px 0 color(srgb 0 0 0 / 0.04);
-  --lui-elevation-floating: 0 0 8px 0 color(srgb 0 0 0 / 0.08), 0 12px 20px 0 color(srgb 0 0 0 / 0.12);
-  --lui-elevation-hovered: 0 0 8px 0 color(srgb 0 0 0 / 0.04), 0 8px 16px 0 color(srgb 0 0 0 / 0.08);
-  --lui-elevation-overlay: 0 1px 8px 0 color(srgb 0 0 0 / 0.04), 0 16px 24px 0 color(srgb 0 0 0 / 0.16);
+  --lui-color-violet-4: color(srgb 0.529412 0.2 1);
+  --lui-color-violet-5: color(srgb 0.407843 0.145098 0.858824);
+  --lui-color-violet-6: color(srgb 0.301961 0.098039 0.717647);
+  --lui-color-violet-7: color(srgb 0.207843 0.062745 0.576471);
+  --lui-color-violet-8: color(srgb 0.145098 0.035294 0.478431);
+  --lui-elevation-base:
+    0 0 8px 0 color(srgb 0 0 0 / 0.02), 0 4px 12px 0 color(srgb 0 0 0 / 0.04);
+  --lui-elevation-floating:
+    0 0 8px 0 color(srgb 0 0 0 / 0.08), 0 12px 20px 0 color(srgb 0 0 0 / 0.12);
+  --lui-elevation-hovered:
+    0 0 8px 0 color(srgb 0 0 0 / 0.04), 0 8px 16px 0 color(srgb 0 0 0 / 0.08);
+  --lui-elevation-overlay:
+    0 1px 8px 0 color(srgb 0 0 0 / 0.04), 0 16px 24px 0 color(srgb 0 0 0 / 0.16);
   --lui-opacity-0: 0;
   --lui-opacity-100: 1;
   --lui-opacity-disabled: var(--lui-brand-opacity-disabled);
@@ -185,67 +231,207 @@
   --lui-typography-line-height-lg: 1.5;
   --lui-typography-line-height-md: 1.2;
   --lui-typography-line-height-sm: 1.125;
-  --lui-typography-scale-block-title-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-block-title-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-block-title-font-size: 16px;
-  --lui-typography-scale-block-title-font-weight: var(--lui-brand-typography-weight-block-title);
-  --lui-typography-scale-block-title-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-block-title-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-block-title: var(--lui-typography-scale-block-title-font-weight) var(--lui-typography-scale-block-title-font-size)/var(--lui-typography-scale-block-title-line-height) var(--lui-typography-scale-block-title-font-family);
-  --lui-typography-scale-body-lg-font-family: var(--lui-brand-typography-font-family-body);
+  --lui-typography-scale-block-title-font-weight: var(
+    --lui-brand-typography-weight-block-title
+  );
+  --lui-typography-scale-block-title-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-block-title-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-block-title: var(
+      --lui-typography-scale-block-title-font-weight
+    )
+    var(--lui-typography-scale-block-title-font-size)/var(
+      --lui-typography-scale-block-title-line-height
+    )
+    var(--lui-typography-scale-block-title-font-family);
+  --lui-typography-scale-body-lg-font-family: var(
+    --lui-brand-typography-font-family-body
+  );
   --lui-typography-scale-body-lg-font-size: 16px;
-  --lui-typography-scale-body-lg-font-weight: var(--lui-typography-weight-regular);
-  --lui-typography-scale-body-lg-line-height: var(--lui-brand-typography-line-height-body);
-  --lui-typography-scale-body-lg-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-body-lg: var(--lui-typography-scale-body-lg-font-weight) var(--lui-typography-scale-body-lg-font-size)/var(--lui-typography-scale-body-lg-line-height) var(--lui-typography-scale-body-lg-font-family);
-  --lui-typography-scale-body-md-font-family: var(--lui-brand-typography-font-family-body);
+  --lui-typography-scale-body-lg-font-weight: var(
+    --lui-typography-weight-regular
+  );
+  --lui-typography-scale-body-lg-line-height: var(
+    --lui-brand-typography-line-height-body
+  );
+  --lui-typography-scale-body-lg-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-body-lg: var(
+      --lui-typography-scale-body-lg-font-weight
+    )
+    var(--lui-typography-scale-body-lg-font-size)/var(
+      --lui-typography-scale-body-lg-line-height
+    )
+    var(--lui-typography-scale-body-lg-font-family);
+  --lui-typography-scale-body-md-font-family: var(
+    --lui-brand-typography-font-family-body
+  );
   --lui-typography-scale-body-md-font-size: 16px;
-  --lui-typography-scale-body-md-font-weight: var(--lui-typography-weight-regular);
-  --lui-typography-scale-body-md-line-height: var(--lui-brand-typography-line-height-body);
-  --lui-typography-scale-body-md-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-body-md: var(--lui-typography-scale-body-md-font-weight) var(--lui-typography-scale-body-md-font-size)/var(--lui-typography-scale-body-md-line-height) var(--lui-typography-scale-body-md-font-family);
-  --lui-typography-scale-body-sm-font-family: var(--lui-brand-typography-font-family-body);
+  --lui-typography-scale-body-md-font-weight: var(
+    --lui-typography-weight-regular
+  );
+  --lui-typography-scale-body-md-line-height: var(
+    --lui-brand-typography-line-height-body
+  );
+  --lui-typography-scale-body-md-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-body-md: var(
+      --lui-typography-scale-body-md-font-weight
+    )
+    var(--lui-typography-scale-body-md-font-size)/var(
+      --lui-typography-scale-body-md-line-height
+    )
+    var(--lui-typography-scale-body-md-font-family);
+  --lui-typography-scale-body-sm-font-family: var(
+    --lui-brand-typography-font-family-body
+  );
   --lui-typography-scale-body-sm-font-size: 16px;
-  --lui-typography-scale-body-sm-font-weight: var(--lui-typography-weight-regular);
-  --lui-typography-scale-body-sm-line-height: var(--lui-brand-typography-line-height-body);
-  --lui-typography-scale-body-sm-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-body-sm: var(--lui-typography-scale-body-sm-font-weight) var(--lui-typography-scale-body-sm-font-size)/var(--lui-typography-scale-body-sm-line-height) var(--lui-typography-scale-body-sm-font-family);
-  --lui-typography-scale-display-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-body-sm-font-weight: var(
+    --lui-typography-weight-regular
+  );
+  --lui-typography-scale-body-sm-line-height: var(
+    --lui-brand-typography-line-height-body
+  );
+  --lui-typography-scale-body-sm-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-body-sm: var(
+      --lui-typography-scale-body-sm-font-weight
+    )
+    var(--lui-typography-scale-body-sm-font-size)/var(
+      --lui-typography-scale-body-sm-line-height
+    )
+    var(--lui-typography-scale-body-sm-font-family);
+  --lui-typography-scale-display-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-display-font-size: 16px;
-  --lui-typography-scale-display-font-weight: var(--lui-brand-typography-weight-display);
-  --lui-typography-scale-display-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-display-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-display: var(--lui-typography-scale-display-font-weight) var(--lui-typography-scale-display-font-size)/var(--lui-typography-scale-display-line-height) var(--lui-typography-scale-display-font-family);
-  --lui-typography-scale-headline-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-display-font-weight: var(
+    --lui-brand-typography-weight-display
+  );
+  --lui-typography-scale-display-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-display-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-display: var(
+      --lui-typography-scale-display-font-weight
+    )
+    var(--lui-typography-scale-display-font-size)/var(
+      --lui-typography-scale-display-line-height
+    )
+    var(--lui-typography-scale-display-font-family);
+  --lui-typography-scale-headline-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-headline-font-size: 16px;
-  --lui-typography-scale-headline-font-weight: var(--lui-brand-typography-weight-headline);
-  --lui-typography-scale-headline-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-headline-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-headline: var(--lui-typography-scale-headline-font-weight) var(--lui-typography-scale-headline-font-size)/var(--lui-typography-scale-headline-line-height) var(--lui-typography-scale-headline-font-family);
-  --lui-typography-scale-overtitle-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-headline-font-weight: var(
+    --lui-brand-typography-weight-headline
+  );
+  --lui-typography-scale-headline-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-headline-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-headline: var(
+      --lui-typography-scale-headline-font-weight
+    )
+    var(--lui-typography-scale-headline-font-size)/var(
+      --lui-typography-scale-headline-line-height
+    )
+    var(--lui-typography-scale-headline-font-family);
+  --lui-typography-scale-overtitle-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-overtitle-font-size: 16px;
-  --lui-typography-scale-overtitle-font-weight: var(--lui-brand-typography-weight-overtitle);
-  --lui-typography-scale-overtitle-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-overtitle-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-overtitle-text-case: var(--lui-typography-case-uppercase);
-  --lui-typography-scale-overtitle: var(--lui-typography-scale-overtitle-font-weight) var(--lui-typography-scale-overtitle-font-size)/var(--lui-typography-scale-overtitle-line-height) var(--lui-typography-scale-overtitle-font-family);
-  --lui-typography-scale-subheadline-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-overtitle-font-weight: var(
+    --lui-brand-typography-weight-overtitle
+  );
+  --lui-typography-scale-overtitle-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-overtitle-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-overtitle-text-case: var(
+    --lui-typography-case-uppercase
+  );
+  --lui-typography-scale-overtitle: var(
+      --lui-typography-scale-overtitle-font-weight
+    )
+    var(--lui-typography-scale-overtitle-font-size)/var(
+      --lui-typography-scale-overtitle-line-height
+    )
+    var(--lui-typography-scale-overtitle-font-family);
+  --lui-typography-scale-subheadline-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-subheadline-font-size: 16px;
-  --lui-typography-scale-subheadline-font-weight: var(--lui-brand-typography-weight-subheadline);
-  --lui-typography-scale-subheadline-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-subheadline-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-subheadline: var(--lui-typography-scale-subheadline-font-weight) var(--lui-typography-scale-subheadline-font-size)/var(--lui-typography-scale-subheadline-line-height) var(--lui-typography-scale-subheadline-font-family);
-  --lui-typography-scale-subtitle-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-subheadline-font-weight: var(
+    --lui-brand-typography-weight-subheadline
+  );
+  --lui-typography-scale-subheadline-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-subheadline-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-subheadline: var(
+      --lui-typography-scale-subheadline-font-weight
+    )
+    var(--lui-typography-scale-subheadline-font-size)/var(
+      --lui-typography-scale-subheadline-line-height
+    )
+    var(--lui-typography-scale-subheadline-font-family);
+  --lui-typography-scale-subtitle-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-subtitle-font-size: 16px;
-  --lui-typography-scale-subtitle-font-weight: var(--lui-brand-typography-weight-subtitle);
-  --lui-typography-scale-subtitle-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-subtitle-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-subtitle: var(--lui-typography-scale-subtitle-font-weight) var(--lui-typography-scale-subtitle-font-size)/var(--lui-typography-scale-subtitle-line-height) var(--lui-typography-scale-subtitle-font-family);
-  --lui-typography-scale-title-font-family: var(--lui-brand-typography-font-family-heading);
+  --lui-typography-scale-subtitle-font-weight: var(
+    --lui-brand-typography-weight-subtitle
+  );
+  --lui-typography-scale-subtitle-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-subtitle-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-subtitle: var(
+      --lui-typography-scale-subtitle-font-weight
+    )
+    var(--lui-typography-scale-subtitle-font-size)/var(
+      --lui-typography-scale-subtitle-line-height
+    )
+    var(--lui-typography-scale-subtitle-font-family);
+  --lui-typography-scale-title-font-family: var(
+    --lui-brand-typography-font-family-heading
+  );
   --lui-typography-scale-title-font-size: 16px;
-  --lui-typography-scale-title-font-weight: var(--lui-brand-typography-weight-title);
-  --lui-typography-scale-title-line-height: var(--lui-brand-typography-line-height-heading);
-  --lui-typography-scale-title-letter-spacing: var(--lui-typography-tracking-default);
-  --lui-typography-scale-title: var(--lui-typography-scale-title-font-weight) var(--lui-typography-scale-title-font-size)/var(--lui-typography-scale-title-line-height) var(--lui-typography-scale-title-font-family);
+  --lui-typography-scale-title-font-weight: var(
+    --lui-brand-typography-weight-title
+  );
+  --lui-typography-scale-title-line-height: var(
+    --lui-brand-typography-line-height-heading
+  );
+  --lui-typography-scale-title-letter-spacing: var(
+    --lui-typography-tracking-default
+  );
+  --lui-typography-scale-title: var(--lui-typography-scale-title-font-weight)
+    var(--lui-typography-scale-title-font-size)/var(
+      --lui-typography-scale-title-line-height
+    )
+    var(--lui-typography-scale-title-font-family);
   --lui-typography-tracking-default: 0;
   --lui-typography-tracking-tighter: -1px;
   --lui-typography-tracking-tightest: -2px;
@@ -264,83 +450,79 @@
     --lui-brand-color-primary-1: color(srgb 0.929412 0.839216 1);
     --lui-brand-color-primary-2: color(srgb 0.85098 0.678431 1);
     --lui-brand-color-primary-3: color(srgb 0.756863 0.517647 1);
-    --lui-brand-color-primary-4: color(srgb 0.670588 0.4 1);
-    --lui-brand-color-primary-5: color(srgb 0.529412 0.2 1);
-    --lui-brand-color-primary-6: color(srgb 0.407843 0.145098 0.858824);
-    --lui-brand-color-primary-7: color(srgb 0.301961 0.098039 0.717647);
-    --lui-brand-color-primary-8: color(srgb 0.207843 0.062745 0.576471);
-    --lui-brand-color-primary-9: color(srgb 0.145098 0.035294 0.478431);
+    --lui-brand-color-primary-4: color(srgb 0.529412 0.2 1);
+    --lui-brand-color-primary-5: color(srgb 0.407843 0.145098 0.858824);
+    --lui-brand-color-primary-6: color(srgb 0.301961 0.098039 0.717647);
+    --lui-brand-color-primary-7: color(srgb 0.207843 0.062745 0.576471);
+    --lui-brand-color-primary-8: color(srgb 0.145098 0.035294 0.478431);
     --lui-brand-color-secondary-1: color(srgb 0.945098 0.94902 0.964706);
     --lui-brand-color-secondary-2: color(srgb 0.854902 0.862745 0.894118);
     --lui-brand-color-secondary-3: color(srgb 0.74902 0.764706 0.811765);
-    --lui-brand-color-secondary-4: color(srgb 0.619608 0.639216 0.701961);
-    --lui-brand-color-secondary-5: color(srgb 0.423529 0.439216 0.505882);
-    --lui-brand-color-secondary-6: color(srgb 0.333333 0.34902 0.411765);
-    --lui-brand-color-secondary-7: color(srgb 0.247059 0.262745 0.321569);
-    --lui-brand-color-secondary-8: color(srgb 0.168627 0.180392 0.231373);
-    --lui-brand-color-secondary-9: color(srgb 0.101961 0.109804 0.14902);
+    --lui-brand-color-secondary-4: color(srgb 0.423529 0.439216 0.505882);
+    --lui-brand-color-secondary-5: color(srgb 0.333333 0.34902 0.411765);
+    --lui-brand-color-secondary-6: color(srgb 0.247059 0.262745 0.321569);
+    --lui-brand-color-secondary-7: color(srgb 0.168627 0.180392 0.231373);
+    --lui-brand-color-secondary-8: color(srgb 0.101961 0.109804 0.14902);
     --lui-color-blue-1: color(srgb 0.921569 0.968627 1);
     --lui-color-blue-2: color(srgb 0.701961 0.870588 0.992157);
     --lui-color-blue-3: color(srgb 0.494118 0.772549 0.984314);
-    --lui-color-blue-4: color(srgb 0.32549 0.686275 0.968627);
-    --lui-color-blue-5: color(srgb 0.2 0.607843 0.941176);
-    --lui-color-blue-6: color(srgb 0.109804 0.537255 0.894118);
-    --lui-color-blue-7: color(srgb 0.047059 0.439216 0.776471);
-    --lui-color-blue-8: color(srgb 0.011765 0.262745 0.482353);
-    --lui-color-blue-9: color(srgb 0 0.105882 0.2);
+    --lui-color-blue-4: color(srgb 0.2 0.607843 0.941176);
+    --lui-color-blue-5: color(srgb 0.109804 0.537255 0.894118);
+    --lui-color-blue-6: color(srgb 0.047059 0.439216 0.776471);
+    --lui-color-blue-7: color(srgb 0.011765 0.262745 0.482353);
+    --lui-color-blue-8: color(srgb 0 0.105882 0.2);
     --lui-color-gray-1: color(srgb 1 1 1);
     --lui-color-gray-2: color(srgb 0.933333 0.92549 0.945098);
     --lui-color-gray-3: color(srgb 0.780392 0.792157 0.831373);
-    --lui-color-gray-4: color(srgb 0.592157 0.603922 0.662745);
-    --lui-color-gray-5: color(srgb 0.423529 0.439216 0.505882);
-    --lui-color-gray-6: color(srgb 0.329412 0.345098 0.403922);
-    --lui-color-gray-7: color(srgb 0.239216 0.254902 0.301961);
-    --lui-color-gray-8: color(srgb 0.156863 0.168627 0.2);
-    --lui-color-gray-9: color(srgb 0.07451 0.082353 0.098039);
+    --lui-color-gray-4: color(srgb 0.423529 0.439216 0.505882);
+    --lui-color-gray-5: color(srgb 0.329412 0.345098 0.403922);
+    --lui-color-gray-6: color(srgb 0.239216 0.254902 0.301961);
+    --lui-color-gray-7: color(srgb 0.156863 0.168627 0.2);
+    --lui-color-gray-8: color(srgb 0.07451 0.082353 0.098039);
     --lui-color-green-1: color(srgb 0.901961 1 0.917647);
     --lui-color-green-2: color(srgb 0.662745 0.937255 0.709804);
     --lui-color-green-3: color(srgb 0.462745 0.87451 0.529412);
-    --lui-color-green-4: color(srgb 0.309804 0.811765 0.392157);
-    --lui-color-green-5: color(srgb 0.176471 0.662745 0.262745);
-    --lui-color-green-6: color(srgb 0.098039 0.509804 0.172549);
-    --lui-color-green-7: color(srgb 0.047059 0.360784 0.105882);
-    --lui-color-green-8: color(srgb 0.019608 0.211765 0.058824);
-    --lui-color-green-9: color(srgb 0.003922 0.058824 0.015686);
+    --lui-color-green-4: color(srgb 0.176471 0.662745 0.262745);
+    --lui-color-green-5: color(srgb 0.098039 0.509804 0.172549);
+    --lui-color-green-6: color(srgb 0.047059 0.360784 0.105882);
+    --lui-color-green-7: color(srgb 0.019608 0.211765 0.058824);
+    --lui-color-green-8: color(srgb 0.003922 0.058824 0.015686);
     --lui-color-orange-1: color(srgb 1 0.772549 0.678431);
     --lui-color-orange-2: color(srgb 1 0.670588 0.490196);
     --lui-color-orange-3: color(srgb 1 0.603922 0.313725);
-    --lui-color-orange-4: color(srgb 1 0.572549 0.168627);
-    --lui-color-orange-5: color(srgb 0.862745 0.45098 0.05098);
-    --lui-color-orange-6: color(srgb 0.729412 0.360784 0);
-    --lui-color-orange-7: color(srgb 0.592157 0.290196 0);
-    --lui-color-orange-8: color(srgb 0.454902 0.219608 0);
-    --lui-color-orange-9: color(srgb 0.321569 0.14902 0);
+    --lui-color-orange-4: color(srgb 0.862745 0.45098 0.05098);
+    --lui-color-orange-5: color(srgb 0.729412 0.360784 0);
+    --lui-color-orange-6: color(srgb 0.592157 0.290196 0);
+    --lui-color-orange-7: color(srgb 0.454902 0.219608 0);
+    --lui-color-orange-8: color(srgb 0.321569 0.14902 0);
     --lui-color-red-1: color(srgb 1 0.858824 0.858824);
     --lui-color-red-2: color(srgb 0.992157 0.662745 0.662745);
     --lui-color-red-3: color(srgb 0.988235 0.47451 0.47451);
-    --lui-color-red-4: color(srgb 0.980392 0.321569 0.321569);
-    --lui-color-red-5: color(srgb 0.831373 0.2 0.196078);
-    --lui-color-red-6: color(srgb 0.682353 0.12549 0.117647);
-    --lui-color-red-7: color(srgb 0.537255 0.078431 0.070588);
-    --lui-color-red-8: color(srgb 0.388235 0.05098 0.043137);
-    --lui-color-red-9: color(srgb 0.239216 0.031373 0.023529);
+    --lui-color-red-4: color(srgb 0.831373 0.2 0.196078);
+    --lui-color-red-5: color(srgb 0.682353 0.12549 0.117647);
+    --lui-color-red-6: color(srgb 0.537255 0.078431 0.070588);
+    --lui-color-red-7: color(srgb 0.388235 0.05098 0.043137);
+    --lui-color-red-8: color(srgb 0.239216 0.031373 0.023529);
     --lui-color-violet-1: color(srgb 0.929412 0.839216 1);
     --lui-color-violet-2: color(srgb 0.85098 0.678431 1);
     --lui-color-violet-3: color(srgb 0.756863 0.517647 1);
-    --lui-color-violet-4: color(srgb 0.670588 0.4 1);
-    --lui-color-violet-5: color(srgb 0.529412 0.2 1);
-    --lui-color-violet-6: color(srgb 0.407843 0.145098 0.858824);
-    --lui-color-violet-7: color(srgb 0.301961 0.098039 0.717647);
-    --lui-color-violet-8: color(srgb 0.207843 0.062745 0.576471);
-    --lui-color-violet-9: color(srgb 0.145098 0.035294 0.478431);
+    --lui-color-violet-4: color(srgb 0.529412 0.2 1);
+    --lui-color-violet-5: color(srgb 0.407843 0.145098 0.858824);
+    --lui-color-violet-6: color(srgb 0.301961 0.098039 0.717647);
+    --lui-color-violet-7: color(srgb 0.207843 0.062745 0.576471);
+    --lui-color-violet-8: color(srgb 0.145098 0.035294 0.478431);
     --lui-color-primary-background-surface: var(--lui-brand-color-primary-1);
     --lui-color-link-default: var(--lui-brand-color-primary-5);
     --lui-color-primary-background-container: var(--lui-brand-color-primary-5);
     --lui-color-primary-border-stroke: var(--lui-brand-color-primary-5);
     --lui-color-primary-icon-default: var(--lui-brand-color-primary-5);
     --lui-color-link-visited: var(--lui-brand-color-primary-7);
-    --lui-color-secondary-background-surface: var(--lui-brand-color-secondary-1);
-    --lui-color-secondary-background-container: var(--lui-brand-color-secondary-5);
+    --lui-color-secondary-background-surface: var(
+      --lui-brand-color-secondary-1
+    );
+    --lui-color-secondary-background-container: var(
+      --lui-brand-color-secondary-5
+    );
     --lui-color-secondary-border-stroke: var(--lui-brand-color-secondary-5);
     --lui-color-secondary-icon-default: var(--lui-brand-color-secondary-5);
     --lui-color-info-background-surface: var(--lui-color-blue-1);
@@ -353,10 +535,10 @@
     --lui-color-neutral-border-divisor: var(--lui-color-gray-2);
     --lui-color-neutral-background-container: var(--lui-color-gray-3);
     --lui-color-neutral-border-stroke: var(--lui-color-gray-5);
-    --lui-color-neutral-text-body: var(--lui-color-gray-8);
-    --lui-color-neutral-background-overlay: var(--lui-color-gray-9);
-    --lui-color-neutral-icon-default: var(--lui-color-gray-9);
-    --lui-color-neutral-text-heading: var(--lui-color-gray-9);
+    --lui-color-neutral-text-body: var(--lui-color-gray-7);
+    --lui-color-neutral-background-overlay: var(--lui-color-gray-8);
+    --lui-color-neutral-icon-default: var(--lui-color-gray-8);
+    --lui-color-neutral-text-heading: var(--lui-color-gray-8);
     --lui-color-success-background-surface: var(--lui-color-green-1);
     --lui-color-success-background-container: var(--lui-color-green-5);
     --lui-color-success-border-stroke: var(--lui-color-green-5);
@@ -372,80 +554,72 @@
     --lui-color-danger-text-error: var(--lui-color-red-5);
   }
 }
-[data-theme=light] {
+[data-theme="light"] {
   color-scheme: light;
   --lui-brand-color-primary-1: color(srgb 0.929412 0.839216 1);
   --lui-brand-color-primary-2: color(srgb 0.85098 0.678431 1);
   --lui-brand-color-primary-3: color(srgb 0.756863 0.517647 1);
-  --lui-brand-color-primary-4: color(srgb 0.670588 0.4 1);
-  --lui-brand-color-primary-5: color(srgb 0.529412 0.2 1);
-  --lui-brand-color-primary-6: color(srgb 0.407843 0.145098 0.858824);
-  --lui-brand-color-primary-7: color(srgb 0.301961 0.098039 0.717647);
-  --lui-brand-color-primary-8: color(srgb 0.207843 0.062745 0.576471);
-  --lui-brand-color-primary-9: color(srgb 0.145098 0.035294 0.478431);
+  --lui-brand-color-primary-4: color(srgb 0.529412 0.2 1);
+  --lui-brand-color-primary-5: color(srgb 0.407843 0.145098 0.858824);
+  --lui-brand-color-primary-6: color(srgb 0.301961 0.098039 0.717647);
+  --lui-brand-color-primary-7: color(srgb 0.207843 0.062745 0.576471);
+  --lui-brand-color-primary-8: color(srgb 0.145098 0.035294 0.478431);
   --lui-brand-color-secondary-1: color(srgb 0.945098 0.94902 0.964706);
   --lui-brand-color-secondary-2: color(srgb 0.854902 0.862745 0.894118);
   --lui-brand-color-secondary-3: color(srgb 0.74902 0.764706 0.811765);
-  --lui-brand-color-secondary-4: color(srgb 0.619608 0.639216 0.701961);
-  --lui-brand-color-secondary-5: color(srgb 0.423529 0.439216 0.505882);
-  --lui-brand-color-secondary-6: color(srgb 0.333333 0.34902 0.411765);
-  --lui-brand-color-secondary-7: color(srgb 0.247059 0.262745 0.321569);
-  --lui-brand-color-secondary-8: color(srgb 0.168627 0.180392 0.231373);
-  --lui-brand-color-secondary-9: color(srgb 0.101961 0.109804 0.14902);
+  --lui-brand-color-secondary-4: color(srgb 0.423529 0.439216 0.505882);
+  --lui-brand-color-secondary-5: color(srgb 0.333333 0.34902 0.411765);
+  --lui-brand-color-secondary-6: color(srgb 0.247059 0.262745 0.321569);
+  --lui-brand-color-secondary-7: color(srgb 0.168627 0.180392 0.231373);
+  --lui-brand-color-secondary-8: color(srgb 0.101961 0.109804 0.14902);
   --lui-color-blue-1: color(srgb 0.921569 0.968627 1);
   --lui-color-blue-2: color(srgb 0.701961 0.870588 0.992157);
   --lui-color-blue-3: color(srgb 0.494118 0.772549 0.984314);
-  --lui-color-blue-4: color(srgb 0.32549 0.686275 0.968627);
-  --lui-color-blue-5: color(srgb 0.2 0.607843 0.941176);
-  --lui-color-blue-6: color(srgb 0.109804 0.537255 0.894118);
-  --lui-color-blue-7: color(srgb 0.047059 0.439216 0.776471);
-  --lui-color-blue-8: color(srgb 0.011765 0.262745 0.482353);
-  --lui-color-blue-9: color(srgb 0 0.105882 0.2);
+  --lui-color-blue-4: color(srgb 0.2 0.607843 0.941176);
+  --lui-color-blue-5: color(srgb 0.109804 0.537255 0.894118);
+  --lui-color-blue-6: color(srgb 0.047059 0.439216 0.776471);
+  --lui-color-blue-7: color(srgb 0.011765 0.262745 0.482353);
+  --lui-color-blue-8: color(srgb 0 0.105882 0.2);
   --lui-color-gray-1: color(srgb 1 1 1);
   --lui-color-gray-2: color(srgb 0.933333 0.92549 0.945098);
   --lui-color-gray-3: color(srgb 0.780392 0.792157 0.831373);
-  --lui-color-gray-4: color(srgb 0.592157 0.603922 0.662745);
-  --lui-color-gray-5: color(srgb 0.423529 0.439216 0.505882);
-  --lui-color-gray-6: color(srgb 0.329412 0.345098 0.403922);
-  --lui-color-gray-7: color(srgb 0.239216 0.254902 0.301961);
-  --lui-color-gray-8: color(srgb 0.156863 0.168627 0.2);
-  --lui-color-gray-9: color(srgb 0.07451 0.082353 0.098039);
+  --lui-color-gray-4: color(srgb 0.423529 0.439216 0.505882);
+  --lui-color-gray-5: color(srgb 0.329412 0.345098 0.403922);
+  --lui-color-gray-6: color(srgb 0.239216 0.254902 0.301961);
+  --lui-color-gray-7: color(srgb 0.156863 0.168627 0.2);
+  --lui-color-gray-8: color(srgb 0.07451 0.082353 0.098039);
   --lui-color-green-1: color(srgb 0.901961 1 0.917647);
   --lui-color-green-2: color(srgb 0.662745 0.937255 0.709804);
   --lui-color-green-3: color(srgb 0.462745 0.87451 0.529412);
-  --lui-color-green-4: color(srgb 0.309804 0.811765 0.392157);
-  --lui-color-green-5: color(srgb 0.176471 0.662745 0.262745);
-  --lui-color-green-6: color(srgb 0.098039 0.509804 0.172549);
-  --lui-color-green-7: color(srgb 0.047059 0.360784 0.105882);
-  --lui-color-green-8: color(srgb 0.019608 0.211765 0.058824);
-  --lui-color-green-9: color(srgb 0.003922 0.058824 0.015686);
+  --lui-color-green-4: color(srgb 0.176471 0.662745 0.262745);
+  --lui-color-green-5: color(srgb 0.098039 0.509804 0.172549);
+  --lui-color-green-6: color(srgb 0.047059 0.360784 0.105882);
+  --lui-color-green-7: color(srgb 0.019608 0.211765 0.058824);
+  --lui-color-green-8: color(srgb 0.003922 0.058824 0.015686);
   --lui-color-orange-1: color(srgb 1 0.772549 0.678431);
   --lui-color-orange-2: color(srgb 1 0.670588 0.490196);
   --lui-color-orange-3: color(srgb 1 0.603922 0.313725);
-  --lui-color-orange-4: color(srgb 1 0.572549 0.168627);
-  --lui-color-orange-5: color(srgb 0.862745 0.45098 0.05098);
-  --lui-color-orange-6: color(srgb 0.729412 0.360784 0);
-  --lui-color-orange-7: color(srgb 0.592157 0.290196 0);
-  --lui-color-orange-8: color(srgb 0.454902 0.219608 0);
-  --lui-color-orange-9: color(srgb 0.321569 0.14902 0);
+  --lui-color-orange-4: color(srgb 0.862745 0.45098 0.05098);
+  --lui-color-orange-5: color(srgb 0.729412 0.360784 0);
+  --lui-color-orange-6: color(srgb 0.592157 0.290196 0);
+  --lui-color-orange-7: color(srgb 0.454902 0.219608 0);
+  --lui-color-orange-8: color(srgb 0.321569 0.14902 0);
   --lui-color-red-1: color(srgb 1 0.858824 0.858824);
   --lui-color-red-2: color(srgb 0.992157 0.662745 0.662745);
   --lui-color-red-3: color(srgb 0.988235 0.47451 0.47451);
-  --lui-color-red-4: color(srgb 0.980392 0.321569 0.321569);
-  --lui-color-red-5: color(srgb 0.831373 0.2 0.196078);
-  --lui-color-red-6: color(srgb 0.682353 0.12549 0.117647);
-  --lui-color-red-7: color(srgb 0.537255 0.078431 0.070588);
-  --lui-color-red-8: color(srgb 0.388235 0.05098 0.043137);
-  --lui-color-red-9: color(srgb 0.239216 0.031373 0.023529);
+  --lui-color-red-4: color(srgb 0.831373 0.2 0.196078);
+  --lui-color-red-5: color(srgb 0.682353 0.12549 0.117647);
+  --lui-color-red-6: color(srgb 0.537255 0.078431 0.070588);
+  --lui-color-red-7: color(srgb 0.388235 0.05098 0.043137);
+  --lui-color-red-8: color(srgb 0.239216 0.031373 0.023529);
   --lui-color-violet-1: color(srgb 0.929412 0.839216 1);
   --lui-color-violet-2: color(srgb 0.85098 0.678431 1);
   --lui-color-violet-3: color(srgb 0.756863 0.517647 1);
-  --lui-color-violet-4: color(srgb 0.670588 0.4 1);
-  --lui-color-violet-5: color(srgb 0.529412 0.2 1);
-  --lui-color-violet-6: color(srgb 0.407843 0.145098 0.858824);
-  --lui-color-violet-7: color(srgb 0.301961 0.098039 0.717647);
-  --lui-color-violet-8: color(srgb 0.207843 0.062745 0.576471);
-  --lui-color-violet-9: color(srgb 0.145098 0.035294 0.478431);
+  --lui-color-violet-4: color(srgb 0.529412 0.2 1);
+  --lui-color-violet-5: color(srgb 0.407843 0.145098 0.858824);
+  --lui-color-violet-6: color(srgb 0.301961 0.098039 0.717647);
+  --lui-color-violet-7: color(srgb 0.207843 0.062745 0.576471);
+  --lui-color-violet-8: color(srgb 0.145098 0.035294 0.478431);
   --lui-color-primary-background-surface: var(--lui-brand-color-primary-1);
   --lui-color-link-default: var(--lui-brand-color-primary-5);
   --lui-color-primary-background-container: var(--lui-brand-color-primary-5);
@@ -453,7 +627,9 @@
   --lui-color-primary-icon-default: var(--lui-brand-color-primary-5);
   --lui-color-link-visited: var(--lui-brand-color-primary-7);
   --lui-color-secondary-background-surface: var(--lui-brand-color-secondary-1);
-  --lui-color-secondary-background-container: var(--lui-brand-color-secondary-5);
+  --lui-color-secondary-background-container: var(
+    --lui-brand-color-secondary-5
+  );
   --lui-color-secondary-border-stroke: var(--lui-brand-color-secondary-5);
   --lui-color-secondary-icon-default: var(--lui-brand-color-secondary-5);
   --lui-color-info-background-surface: var(--lui-color-blue-1);
@@ -466,10 +642,10 @@
   --lui-color-neutral-border-divisor: var(--lui-color-gray-2);
   --lui-color-neutral-background-container: var(--lui-color-gray-3);
   --lui-color-neutral-border-stroke: var(--lui-color-gray-5);
-  --lui-color-neutral-text-body: var(--lui-color-gray-8);
-  --lui-color-neutral-background-overlay: var(--lui-color-gray-9);
-  --lui-color-neutral-icon-default: var(--lui-color-gray-9);
-  --lui-color-neutral-text-heading: var(--lui-color-gray-9);
+  --lui-color-neutral-text-body: var(--lui-color-gray-7);
+  --lui-color-neutral-background-overlay: var(--lui-color-gray-8);
+  --lui-color-neutral-icon-default: var(--lui-color-gray-8);
+  --lui-color-neutral-text-heading: var(--lui-color-gray-8);
   --lui-color-success-background-surface: var(--lui-color-green-1);
   --lui-color-success-background-container: var(--lui-color-green-5);
   --lui-color-success-border-stroke: var(--lui-color-green-5);
@@ -491,83 +667,79 @@
     --lui-brand-color-primary-1: color(srgb 0.145098 0.035294 0.478431);
     --lui-brand-color-primary-2: color(srgb 0.207843 0.062745 0.576471);
     --lui-brand-color-primary-3: color(srgb 0.301961 0.098039 0.717647);
-    --lui-brand-color-primary-4: color(srgb 0.407843 0.145098 0.858824);
-    --lui-brand-color-primary-5: color(srgb 0.529412 0.2 1);
-    --lui-brand-color-primary-6: color(srgb 0.670588 0.4 1);
-    --lui-brand-color-primary-7: color(srgb 0.756863 0.517647 1);
-    --lui-brand-color-primary-8: color(srgb 0.85098 0.678431 1);
-    --lui-brand-color-primary-9: color(srgb 0.929412 0.839216 1);
+    --lui-brand-color-primary-4: color(srgb 0.529412 0.2 1);
+    --lui-brand-color-primary-5: color(srgb 0.670588 0.4 1);
+    --lui-brand-color-primary-6: color(srgb 0.756863 0.517647 1);
+    --lui-brand-color-primary-7: color(srgb 0.85098 0.678431 1);
+    --lui-brand-color-primary-8: color(srgb 0.929412 0.839216 1);
     --lui-brand-color-secondary-1: color(srgb 0.101961 0.109804 0.14902);
     --lui-brand-color-secondary-2: color(srgb 0.168627 0.180392 0.231373);
     --lui-brand-color-secondary-3: color(srgb 0.247059 0.262745 0.321569);
-    --lui-brand-color-secondary-4: color(srgb 0.333333 0.34902 0.411765);
-    --lui-brand-color-secondary-5: color(srgb 0.423529 0.439216 0.505882);
-    --lui-brand-color-secondary-6: color(srgb 0.619608 0.639216 0.701961);
-    --lui-brand-color-secondary-7: color(srgb 0.74902 0.764706 0.811765);
-    --lui-brand-color-secondary-8: color(srgb 0.854902 0.862745 0.894118);
-    --lui-brand-color-secondary-9: color(srgb 0.945098 0.94902 0.964706);
+    --lui-brand-color-secondary-4: color(srgb 0.423529 0.439216 0.505882);
+    --lui-brand-color-secondary-5: color(srgb 0.619608 0.639216 0.701961);
+    --lui-brand-color-secondary-6: color(srgb 0.74902 0.764706 0.811765);
+    --lui-brand-color-secondary-7: color(srgb 0.854902 0.862745 0.894118);
+    --lui-brand-color-secondary-8: color(srgb 0.945098 0.94902 0.964706);
     --lui-color-blue-1: color(srgb 0 0.105882 0.2);
     --lui-color-blue-2: color(srgb 0.031373 0.329412 0.584314);
     --lui-color-blue-3: color(srgb 0.090196 0.478431 0.807843);
-    --lui-color-blue-4: color(srgb 0.14902 0.54902 0.886275);
-    --lui-color-blue-5: color(srgb 0.215686 0.607843 0.92549);
-    --lui-color-blue-6: color(srgb 0.309804 0.666667 0.952941);
-    --lui-color-blue-7: color(srgb 0.533333 0.784314 0.972549);
-    --lui-color-blue-8: color(srgb 0.741176 0.886275 0.988235);
-    --lui-color-blue-9: color(srgb 0.921569 0.968627 1);
+    --lui-color-blue-4: color(srgb 0.215686 0.607843 0.92549);
+    --lui-color-blue-5: color(srgb 0.309804 0.666667 0.952941);
+    --lui-color-blue-6: color(srgb 0.533333 0.784314 0.972549);
+    --lui-color-blue-7: color(srgb 0.741176 0.886275 0.988235);
+    --lui-color-blue-8: color(srgb 0.921569 0.968627 1);
     --lui-color-gray-1: color(srgb 0.07451 0.082353 0.101961);
     --lui-color-gray-2: color(srgb 0.164706 0.176471 0.211765);
     --lui-color-gray-3: color(srgb 0.254902 0.27451 0.32549);
-    --lui-color-gray-4: color(srgb 0.34902 0.376471 0.439216);
-    --lui-color-gray-5: color(srgb 0.447059 0.478431 0.54902);
-    --lui-color-gray-6: color(srgb 0.556863 0.588235 0.662745);
-    --lui-color-gray-7: color(srgb 0.690196 0.717647 0.776471);
-    --lui-color-gray-8: color(srgb 0.835294 0.85098 0.886275);
-    --lui-color-gray-9: color(srgb 0.980392 0.988235 1);
+    --lui-color-gray-4: color(srgb 0.447059 0.478431 0.54902);
+    --lui-color-gray-5: color(srgb 0.556863 0.588235 0.662745);
+    --lui-color-gray-6: color(srgb 0.690196 0.717647 0.776471);
+    --lui-color-gray-7: color(srgb 0.835294 0.85098 0.886275);
+    --lui-color-gray-8: color(srgb 0.980392 0.988235 1);
     --lui-color-green-1: color(srgb 0.003922 0.058824 0.015686);
     --lui-color-green-2: color(srgb 0.023529 0.176471 0.054902);
     --lui-color-green-3: color(srgb 0.05098 0.294118 0.101961);
-    --lui-color-green-4: color(srgb 0.094118 0.411765 0.156863);
-    --lui-color-green-5: color(srgb 0.152941 0.529412 0.223529);
-    --lui-color-green-6: color(srgb 0.239216 0.647059 0.317647);
-    --lui-color-green-7: color(srgb 0.435294 0.764706 0.494118);
-    --lui-color-green-8: color(srgb 0.662745 0.882353 0.698039);
-    --lui-color-green-9: color(srgb 0.901961 1 0.917647);
+    --lui-color-green-4: color(srgb 0.152941 0.529412 0.223529);
+    --lui-color-green-5: color(srgb 0.239216 0.647059 0.317647);
+    --lui-color-green-6: color(srgb 0.435294 0.764706 0.494118);
+    --lui-color-green-7: color(srgb 0.662745 0.882353 0.698039);
+    --lui-color-green-8: color(srgb 0.901961 1 0.917647);
     --lui-color-orange-1: color(srgb 0.321569 0.14902 0);
     --lui-color-orange-2: color(srgb 0.403922 0.184314 0);
     --lui-color-orange-3: color(srgb 0.490196 0.219608 0);
-    --lui-color-orange-4: color(srgb 0.576471 0.258824 0.015686);
-    --lui-color-orange-5: color(srgb 0.658824 0.309804 0.054902);
-    --lui-color-orange-6: color(srgb 0.745098 0.372549 0.121569);
-    --lui-color-orange-7: color(srgb 0.831373 0.486275 0.294118);
-    --lui-color-orange-8: color(srgb 0.913725 0.623529 0.486275);
-    --lui-color-orange-9: color(srgb 1 0.772549 0.678431);
+    --lui-color-orange-4: color(srgb 0.658824 0.309804 0.054902);
+    --lui-color-orange-5: color(srgb 0.745098 0.372549 0.121569);
+    --lui-color-orange-6: color(srgb 0.831373 0.486275 0.294118);
+    --lui-color-orange-7: color(srgb 0.913725 0.623529 0.486275);
+    --lui-color-orange-8: color(srgb 1 0.772549 0.678431);
     --lui-color-red-1: color(srgb 0.239216 0.031373 0.023529);
     --lui-color-red-2: color(srgb 0.333333 0.058824 0.047059);
     --lui-color-red-3: color(srgb 0.431373 0.094118 0.082353);
-    --lui-color-red-4: color(srgb 0.52549 0.137255 0.12549);
-    --lui-color-red-5: color(srgb 0.619608 0.192157 0.180392);
-    --lui-color-red-6: color(srgb 0.713725 0.27451 0.262745);
-    --lui-color-red-7: color(srgb 0.811765 0.45098 0.447059);
-    --lui-color-red-8: color(srgb 0.905882 0.654902 0.65098);
-    --lui-color-red-9: color(srgb 1 0.858824 0.858824);
+    --lui-color-red-4: color(srgb 0.619608 0.192157 0.180392);
+    --lui-color-red-5: color(srgb 0.713725 0.27451 0.262745);
+    --lui-color-red-6: color(srgb 0.811765 0.45098 0.447059);
+    --lui-color-red-7: color(srgb 0.905882 0.654902 0.65098);
+    --lui-color-red-8: color(srgb 1 0.858824 0.858824);
     --lui-color-violet-1: color(srgb 0.145098 0.035294 0.478431);
     --lui-color-violet-2: color(srgb 0.207843 0.062745 0.576471);
     --lui-color-violet-3: color(srgb 0.301961 0.098039 0.717647);
-    --lui-color-violet-4: color(srgb 0.407843 0.145098 0.858824);
-    --lui-color-violet-5: color(srgb 0.615686 0.341176 1);
-    --lui-color-violet-6: color(srgb 0.721569 0.4 1);
-    --lui-color-violet-7: color(srgb 0.756863 0.517647 1);
-    --lui-color-violet-8: color(srgb 0.85098 0.678431 1);
-    --lui-color-violet-9: color(srgb 0.929412 0.839216 1);
+    --lui-color-violet-4: color(srgb 0.615686 0.341176 1);
+    --lui-color-violet-5: color(srgb 0.721569 0.4 1);
+    --lui-color-violet-6: color(srgb 0.756863 0.517647 1);
+    --lui-color-violet-7: color(srgb 0.85098 0.678431 1);
+    --lui-color-violet-8: color(srgb 0.929412 0.839216 1);
     --lui-color-primary-background-surface: var(--lui-brand-color-primary-1);
     --lui-color-link-default: var(--lui-brand-color-primary-5);
     --lui-color-primary-background-container: var(--lui-brand-color-primary-5);
     --lui-color-primary-border-stroke: var(--lui-brand-color-primary-5);
     --lui-color-primary-icon-default: var(--lui-brand-color-primary-5);
     --lui-color-link-visited: var(--lui-brand-color-primary-7);
-    --lui-color-secondary-background-surface: var(--lui-brand-color-secondary-1);
-    --lui-color-secondary-background-container: var(--lui-brand-color-secondary-5);
+    --lui-color-secondary-background-surface: var(
+      --lui-brand-color-secondary-1
+    );
+    --lui-color-secondary-background-container: var(
+      --lui-brand-color-secondary-5
+    );
     --lui-color-secondary-border-stroke: var(--lui-brand-color-secondary-5);
     --lui-color-secondary-icon-default: var(--lui-brand-color-secondary-5);
     --lui-color-info-background-surface: var(--lui-color-blue-1);
@@ -580,10 +752,10 @@
     --lui-color-neutral-border-divisor: var(--lui-color-gray-2);
     --lui-color-neutral-background-container: var(--lui-color-gray-3);
     --lui-color-neutral-border-stroke: var(--lui-color-gray-5);
-    --lui-color-neutral-text-body: var(--lui-color-gray-8);
-    --lui-color-neutral-background-overlay: var(--lui-color-gray-9);
-    --lui-color-neutral-icon-default: var(--lui-color-gray-9);
-    --lui-color-neutral-text-heading: var(--lui-color-gray-9);
+    --lui-color-neutral-text-body: var(--lui-color-gray-7);
+    --lui-color-neutral-background-overlay: var(--lui-color-gray-8);
+    --lui-color-neutral-icon-default: var(--lui-color-gray-8);
+    --lui-color-neutral-text-heading: var(--lui-color-gray-8);
     --lui-color-success-background-surface: var(--lui-color-green-1);
     --lui-color-success-background-container: var(--lui-color-green-5);
     --lui-color-success-border-stroke: var(--lui-color-green-5);
@@ -599,80 +771,72 @@
     --lui-color-danger-text-error: var(--lui-color-red-5);
   }
 }
-[data-theme=dark] {
+[data-theme="dark"] {
   color-scheme: dark;
   --lui-brand-color-primary-1: color(srgb 0.145098 0.035294 0.478431);
   --lui-brand-color-primary-2: color(srgb 0.207843 0.062745 0.576471);
   --lui-brand-color-primary-3: color(srgb 0.301961 0.098039 0.717647);
-  --lui-brand-color-primary-4: color(srgb 0.407843 0.145098 0.858824);
-  --lui-brand-color-primary-5: color(srgb 0.529412 0.2 1);
-  --lui-brand-color-primary-6: color(srgb 0.670588 0.4 1);
-  --lui-brand-color-primary-7: color(srgb 0.756863 0.517647 1);
-  --lui-brand-color-primary-8: color(srgb 0.85098 0.678431 1);
-  --lui-brand-color-primary-9: color(srgb 0.929412 0.839216 1);
+  --lui-brand-color-primary-4: color(srgb 0.529412 0.2 1);
+  --lui-brand-color-primary-5: color(srgb 0.670588 0.4 1);
+  --lui-brand-color-primary-6: color(srgb 0.756863 0.517647 1);
+  --lui-brand-color-primary-7: color(srgb 0.85098 0.678431 1);
+  --lui-brand-color-primary-8: color(srgb 0.929412 0.839216 1);
   --lui-brand-color-secondary-1: color(srgb 0.101961 0.109804 0.14902);
   --lui-brand-color-secondary-2: color(srgb 0.168627 0.180392 0.231373);
   --lui-brand-color-secondary-3: color(srgb 0.247059 0.262745 0.321569);
-  --lui-brand-color-secondary-4: color(srgb 0.333333 0.34902 0.411765);
-  --lui-brand-color-secondary-5: color(srgb 0.423529 0.439216 0.505882);
-  --lui-brand-color-secondary-6: color(srgb 0.619608 0.639216 0.701961);
-  --lui-brand-color-secondary-7: color(srgb 0.74902 0.764706 0.811765);
-  --lui-brand-color-secondary-8: color(srgb 0.854902 0.862745 0.894118);
-  --lui-brand-color-secondary-9: color(srgb 0.945098 0.94902 0.964706);
+  --lui-brand-color-secondary-4: color(srgb 0.423529 0.439216 0.505882);
+  --lui-brand-color-secondary-5: color(srgb 0.619608 0.639216 0.701961);
+  --lui-brand-color-secondary-6: color(srgb 0.74902 0.764706 0.811765);
+  --lui-brand-color-secondary-7: color(srgb 0.854902 0.862745 0.894118);
+  --lui-brand-color-secondary-8: color(srgb 0.945098 0.94902 0.964706);
   --lui-color-blue-1: color(srgb 0 0.105882 0.2);
   --lui-color-blue-2: color(srgb 0.031373 0.329412 0.584314);
   --lui-color-blue-3: color(srgb 0.090196 0.478431 0.807843);
-  --lui-color-blue-4: color(srgb 0.14902 0.54902 0.886275);
-  --lui-color-blue-5: color(srgb 0.215686 0.607843 0.92549);
-  --lui-color-blue-6: color(srgb 0.309804 0.666667 0.952941);
-  --lui-color-blue-7: color(srgb 0.533333 0.784314 0.972549);
-  --lui-color-blue-8: color(srgb 0.741176 0.886275 0.988235);
-  --lui-color-blue-9: color(srgb 0.921569 0.968627 1);
+  --lui-color-blue-4: color(srgb 0.215686 0.607843 0.92549);
+  --lui-color-blue-5: color(srgb 0.309804 0.666667 0.952941);
+  --lui-color-blue-6: color(srgb 0.533333 0.784314 0.972549);
+  --lui-color-blue-7: color(srgb 0.741176 0.886275 0.988235);
+  --lui-color-blue-8: color(srgb 0.921569 0.968627 1);
   --lui-color-gray-1: color(srgb 0.07451 0.082353 0.101961);
   --lui-color-gray-2: color(srgb 0.164706 0.176471 0.211765);
   --lui-color-gray-3: color(srgb 0.254902 0.27451 0.32549);
-  --lui-color-gray-4: color(srgb 0.34902 0.376471 0.439216);
-  --lui-color-gray-5: color(srgb 0.447059 0.478431 0.54902);
-  --lui-color-gray-6: color(srgb 0.556863 0.588235 0.662745);
-  --lui-color-gray-7: color(srgb 0.690196 0.717647 0.776471);
-  --lui-color-gray-8: color(srgb 0.835294 0.85098 0.886275);
-  --lui-color-gray-9: color(srgb 0.980392 0.988235 1);
+  --lui-color-gray-4: color(srgb 0.447059 0.478431 0.54902);
+  --lui-color-gray-5: color(srgb 0.556863 0.588235 0.662745);
+  --lui-color-gray-6: color(srgb 0.690196 0.717647 0.776471);
+  --lui-color-gray-7: color(srgb 0.835294 0.85098 0.886275);
+  --lui-color-gray-8: color(srgb 0.980392 0.988235 1);
   --lui-color-green-1: color(srgb 0.003922 0.058824 0.015686);
   --lui-color-green-2: color(srgb 0.023529 0.176471 0.054902);
   --lui-color-green-3: color(srgb 0.05098 0.294118 0.101961);
-  --lui-color-green-4: color(srgb 0.094118 0.411765 0.156863);
-  --lui-color-green-5: color(srgb 0.152941 0.529412 0.223529);
-  --lui-color-green-6: color(srgb 0.239216 0.647059 0.317647);
-  --lui-color-green-7: color(srgb 0.435294 0.764706 0.494118);
-  --lui-color-green-8: color(srgb 0.662745 0.882353 0.698039);
-  --lui-color-green-9: color(srgb 0.901961 1 0.917647);
+  --lui-color-green-4: color(srgb 0.152941 0.529412 0.223529);
+  --lui-color-green-5: color(srgb 0.239216 0.647059 0.317647);
+  --lui-color-green-6: color(srgb 0.435294 0.764706 0.494118);
+  --lui-color-green-7: color(srgb 0.662745 0.882353 0.698039);
+  --lui-color-green-8: color(srgb 0.901961 1 0.917647);
   --lui-color-orange-1: color(srgb 0.321569 0.14902 0);
   --lui-color-orange-2: color(srgb 0.403922 0.184314 0);
   --lui-color-orange-3: color(srgb 0.490196 0.219608 0);
-  --lui-color-orange-4: color(srgb 0.576471 0.258824 0.015686);
-  --lui-color-orange-5: color(srgb 0.658824 0.309804 0.054902);
-  --lui-color-orange-6: color(srgb 0.745098 0.372549 0.121569);
-  --lui-color-orange-7: color(srgb 0.831373 0.486275 0.294118);
-  --lui-color-orange-8: color(srgb 0.913725 0.623529 0.486275);
-  --lui-color-orange-9: color(srgb 1 0.772549 0.678431);
+  --lui-color-orange-4: color(srgb 0.658824 0.309804 0.054902);
+  --lui-color-orange-5: color(srgb 0.745098 0.372549 0.121569);
+  --lui-color-orange-6: color(srgb 0.831373 0.486275 0.294118);
+  --lui-color-orange-7: color(srgb 0.913725 0.623529 0.486275);
+  --lui-color-orange-8: color(srgb 1 0.772549 0.678431);
   --lui-color-red-1: color(srgb 0.239216 0.031373 0.023529);
   --lui-color-red-2: color(srgb 0.333333 0.058824 0.047059);
   --lui-color-red-3: color(srgb 0.431373 0.094118 0.082353);
-  --lui-color-red-4: color(srgb 0.52549 0.137255 0.12549);
-  --lui-color-red-5: color(srgb 0.619608 0.192157 0.180392);
-  --lui-color-red-6: color(srgb 0.713725 0.27451 0.262745);
-  --lui-color-red-7: color(srgb 0.811765 0.45098 0.447059);
-  --lui-color-red-8: color(srgb 0.905882 0.654902 0.65098);
-  --lui-color-red-9: color(srgb 1 0.858824 0.858824);
+  --lui-color-red-4: color(srgb 0.619608 0.192157 0.180392);
+  --lui-color-red-5: color(srgb 0.713725 0.27451 0.262745);
+  --lui-color-red-6: color(srgb 0.811765 0.45098 0.447059);
+  --lui-color-red-7: color(srgb 0.905882 0.654902 0.65098);
+  --lui-color-red-8: color(srgb 1 0.858824 0.858824);
   --lui-color-violet-1: color(srgb 0.145098 0.035294 0.478431);
   --lui-color-violet-2: color(srgb 0.207843 0.062745 0.576471);
   --lui-color-violet-3: color(srgb 0.301961 0.098039 0.717647);
-  --lui-color-violet-4: color(srgb 0.407843 0.145098 0.858824);
-  --lui-color-violet-5: color(srgb 0.615686 0.341176 1);
-  --lui-color-violet-6: color(srgb 0.721569 0.4 1);
-  --lui-color-violet-7: color(srgb 0.756863 0.517647 1);
-  --lui-color-violet-8: color(srgb 0.85098 0.678431 1);
-  --lui-color-violet-9: color(srgb 0.929412 0.839216 1);
+  --lui-color-violet-4: color(srgb 0.615686 0.341176 1);
+  --lui-color-violet-5: color(srgb 0.721569 0.4 1);
+  --lui-color-violet-6: color(srgb 0.756863 0.517647 1);
+  --lui-color-violet-7: color(srgb 0.85098 0.678431 1);
+  --lui-color-violet-8: color(srgb 0.929412 0.839216 1);
   --lui-color-primary-background-surface: var(--lui-brand-color-primary-1);
   --lui-color-link-default: var(--lui-brand-color-primary-5);
   --lui-color-primary-background-container: var(--lui-brand-color-primary-5);
@@ -680,7 +844,9 @@
   --lui-color-primary-icon-default: var(--lui-brand-color-primary-5);
   --lui-color-link-visited: var(--lui-brand-color-primary-7);
   --lui-color-secondary-background-surface: var(--lui-brand-color-secondary-1);
-  --lui-color-secondary-background-container: var(--lui-brand-color-secondary-5);
+  --lui-color-secondary-background-container: var(
+    --lui-brand-color-secondary-5
+  );
   --lui-color-secondary-border-stroke: var(--lui-brand-color-secondary-5);
   --lui-color-secondary-icon-default: var(--lui-brand-color-secondary-5);
   --lui-color-info-background-surface: var(--lui-color-blue-1);
@@ -693,10 +859,10 @@
   --lui-color-neutral-border-divisor: var(--lui-color-gray-2);
   --lui-color-neutral-background-container: var(--lui-color-gray-3);
   --lui-color-neutral-border-stroke: var(--lui-color-gray-5);
-  --lui-color-neutral-text-body: var(--lui-color-gray-8);
-  --lui-color-neutral-background-overlay: var(--lui-color-gray-9);
-  --lui-color-neutral-icon-default: var(--lui-color-gray-9);
-  --lui-color-neutral-text-heading: var(--lui-color-gray-9);
+  --lui-color-neutral-text-body: var(--lui-color-gray-7);
+  --lui-color-neutral-background-overlay: var(--lui-color-gray-8);
+  --lui-color-neutral-icon-default: var(--lui-color-gray-8);
+  --lui-color-neutral-text-heading: var(--lui-color-gray-8);
   --lui-color-success-background-surface: var(--lui-color-green-1);
   --lui-color-success-background-container: var(--lui-color-green-5);
   --lui-color-success-border-stroke: var(--lui-color-green-5);
@@ -778,10 +944,6 @@ body {
   color: var(--lui-brand-color-primary-8);
 }
 
-.primary-9 {
-  color: var(--lui-brand-color-primary-9);
-}
-
 .secondary-1 {
   color: var(--lui-brand-color-secondary-1);
 }
@@ -812,10 +974,6 @@ body {
 
 .secondary-8 {
   color: var(--lui-brand-color-secondary-8);
-}
-
-.secondary-9 {
-  color: var(--lui-brand-color-secondary-9);
 }
 
 .blue-1 {
@@ -850,10 +1008,6 @@ body {
   color: var(--lui-color-blue-8);
 }
 
-.blue-9 {
-  color: var(--lui-color-blue-9);
-}
-
 .gray-1 {
   color: var(--lui-color-gray-1);
 }
@@ -884,10 +1038,6 @@ body {
 
 .gray-8 {
   color: var(--lui-color-gray-8);
-}
-
-.gray-9 {
-  color: var(--lui-color-gray-9);
 }
 
 .green-1 {
@@ -922,10 +1072,6 @@ body {
   color: var(--lui-color-green-8);
 }
 
-.green-9 {
-  color: var(--lui-color-green-9);
-}
-
 .orange-1 {
   color: var(--lui-color-orange-1);
 }
@@ -956,10 +1102,6 @@ body {
 
 .orange-8 {
   color: var(--lui-color-orange-8);
-}
-
-.orange-9 {
-  color: var(--lui-color-orange-9);
 }
 
 .red-1 {
@@ -994,10 +1136,6 @@ body {
   color: var(--lui-color-red-8);
 }
 
-.red-9 {
-  color: var(--lui-color-red-9);
-}
-
 .violet-1 {
   color: var(--lui-color-violet-1);
 }
@@ -1028,10 +1166,6 @@ body {
 
 .violet-8 {
   color: var(--lui-color-violet-8);
-}
-
-.violet-9 {
-  color: var(--lui-color-violet-9);
 }
 
 .bg-surface-primary {
@@ -1203,7 +1337,11 @@ body {
 }
 
 .grid {
-  margin-bottom: clamp(var(--lui-spacing-fluid-16), var(--lui-spacing-fluid-32), var(--lui-spacing-fluid-32));
+  margin-bottom: clamp(
+    var(--lui-spacing-fluid-16),
+    var(--lui-spacing-fluid-32),
+    var(--lui-spacing-fluid-32)
+  );
   align-items: start;
 }
 .grid:last-of-type {
@@ -2697,52 +2835,92 @@ body {
 }
 
 .display {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-3xl)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-3xl)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
 }
 
 .title {
-  font: var(--lui-typography-weight-bold) var(--lui-brand-typography-font-size-2xl)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-bold)
+    var(--lui-brand-typography-font-size-2xl)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
 }
 
 .headline {
-  font: var(--lui-typography-weight-semibold) var(--lui-brand-typography-font-size-1xl)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-semibold)
+    var(--lui-brand-typography-font-size-1xl)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
 }
 
 .subtitle {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-lg)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-lg)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
 }
 
 .block-title {
-  font: var(--lui-typography-weight-medium) var(--lui-brand-typography-font-size-md)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-medium)
+    var(--lui-brand-typography-font-size-md)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
 }
 
 .subheadline {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-sm)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-sm)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
 }
 
 .overtitle {
-  font: var(--lui-typography-weight-medium) var(--lui-brand-typography-font-size-3xs)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-medium)
+    var(--lui-brand-typography-font-size-3xs)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-uppercase);
 }
 
 .body--lg {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
 
 .body--md {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-2xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-2xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
 
 .body--sm {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-3xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-3xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
 
@@ -2766,7 +2944,8 @@ body {
   gap: var(--lui-spacing-fixed-16);
   border-radius: var(--lui-border-radius-lg);
 }
-.alert__content, .alert__actions {
+.alert__content,
+.alert__actions {
   display: flex;
 }
 .alert__content {
@@ -2874,13 +3053,21 @@ button.btn:disabled::before {
 }
 button.btn--lg {
   padding: var(--lui-spacing-fluid-12) var(--lui-spacing-fluid-16);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   border-radius: var(--lui-border-radius-lg);
 }
 button.btn--md {
   padding: var(--lui-spacing-fluid-8) var(--lui-spacing-fluid-12);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-2xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-2xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   border-radius: var(--lui-border-radius-md);
 }
@@ -2971,7 +3158,7 @@ button.btn--success:focus {
 }
 
 .checkbox,
-input[type=checkbox] {
+input[type="checkbox"] {
   display: flex;
   align-items: center;
   gap: var(--lui-spacing-fixed-8);
@@ -2981,18 +3168,19 @@ input[type=checkbox] {
   padding: var(--lui-spacing-fixed-0);
 }
 
-.checkbox--lg input[type=checkbox] {
+.checkbox--lg input[type="checkbox"] {
   width: var(--lui-spacing-fixed-24);
   height: var(--lui-spacing-fixed-24);
 }
-.checkbox--md input[type=checkbox] {
+.checkbox--md input[type="checkbox"] {
   width: var(--lui-spacing-fixed-16);
   height: var(--lui-spacing-fixed-16);
 }
 .checkbox input {
   appearance: none;
   background-color: var(--lui-color-neutral-background-surface);
-  border: var(--lui-border-width-1) solid var(--lui-color-neutral-border-divisor);
+  border: var(--lui-border-width-1) solid
+    var(--lui-color-neutral-border-divisor);
   border-radius: var(--lui-border-radius-xs);
   display: inline-block;
   position: relative;
@@ -3014,21 +3202,25 @@ input[type=checkbox] {
   transform: translate(-50%, -60%) rotate(45deg);
 }
 .checkbox input:focus {
-  border: var(--lui-border-width-1) solid var(--lui-color-primary-background-container);
+  border: var(--lui-border-width-1) solid
+    var(--lui-color-primary-background-container);
   box-shadow: 0 0 0 3px lch(45.27% 113.1 310.44deg / 0.32);
   outline: none;
 }
-.checkbox input:not([aria-disabled=true]):not(.is-disabled):hover {
+.checkbox input:not([aria-disabled="true"]):not(.is-disabled):hover {
   filter: brightness(0.76);
 }
-.checkbox input:not([aria-disabled=true]):not(.is-disabled):active {
+.checkbox input:not([aria-disabled="true"]):not(.is-disabled):active {
   filter: brightness(0.6);
 }
-.checkbox input:not([aria-disabled=true]):not(.is-disabled):focus, .checkbox input:not([aria-disabled=true]):not(.is-disabled):focus-visible {
+.checkbox input:not([aria-disabled="true"]):not(.is-disabled):focus,
+.checkbox input:not([aria-disabled="true"]):not(.is-disabled):focus-visible {
   outline: 0;
   box-shadow: 0 0 0 3 lch(45.27% 113.1 310.44deg / 0.32);
 }
-.checkbox input:disabled, .checkbox input.is-disabled, .checkbox input[aria-disabled=true] {
+.checkbox input:disabled,
+.checkbox input.is-disabled,
+.checkbox input[aria-disabled="true"] {
   pointer-events: none;
   cursor: not-allowed;
   opacity: var(--lui-opacity-disabled);
@@ -3044,23 +3236,41 @@ input[type=checkbox] {
   gap: var(--lui-spacing-fixed-8);
 }
 .form__lg label {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
-.form__lg input, .form__lg select {
+.form__lg input,
+.form__lg select {
   border-radius: var(--lui-border-radius-sm);
   padding: var(--lui-spacing-fluid-12);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
 .form__md label {
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-2xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-2xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
-.form__md input, .form__md select {
+.form__md input,
+.form__md select {
   border-radius: var(--lui-border-radius-xs);
   padding: var(--lui-spacing-fixed-8);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-2xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-2xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
 }
 
@@ -3068,19 +3278,45 @@ label {
   color: var(--lui-color-neutral-text-heading);
 }
 
-input[type=color], input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url] {
+input[type="color"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"] {
   color: var(--lui-color-neutral-text-body);
   background-color: var(--lui-color-neutral-background-surface);
-  border: var(--lui-border-width-1) solid var(--lui-color-neutral-border-divisor);
+  border: var(--lui-border-width-1) solid
+    var(--lui-color-neutral-border-divisor);
   transition: all 0.2s ease-in-out;
   line-height: 1;
   box-sizing: border-box;
 }
-input[type=color]:hover, input[type=email]:hover, input[type=number]:hover, input[type=password]:hover, input[type=search]:hover, input[type=tel]:hover, input[type=text]:hover, input[type=time]:hover, input[type=url]:hover {
+input[type="color"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+input[type="password"]:hover,
+input[type="search"]:hover,
+input[type="tel"]:hover,
+input[type="text"]:hover,
+input[type="time"]:hover,
+input[type="url"]:hover {
   border: var(--lui-border-width-1) solid var(--lui-color-neutral-border-stroke);
 }
-input[type=color]:focus, input[type=email]:focus, input[type=number]:focus, input[type=password]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=text]:focus, input[type=time]:focus, input[type=url]:focus {
-  border: var(--lui-border-width-1) solid var(--lui-color-primary-background-container);
+input[type="color"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus {
+  border: var(--lui-border-width-1) solid
+    var(--lui-color-primary-background-container);
   box-shadow: 0 0 0 3px lch(45.27% 113.1 310.44deg / 0.32);
   outline: none;
 }
@@ -3127,20 +3363,24 @@ input[type=color]:focus, input[type=email]:focus, input[type=number]:focus, inpu
 .icon-button--md > i {
   font-size: 1rem;
 }
-.icon-button:active:not(:disabled)::before, .icon-button:focus {
+.icon-button:active:not(:disabled)::before,
+.icon-button:focus {
   border-radius: var(--lui-border-radius-lg);
 }
-.icon-button:not([aria-disabled=true]):not(.is-disabled):hover {
+.icon-button:not([aria-disabled="true"]):not(.is-disabled):hover {
   filter: brightness(0.76);
 }
-.icon-button:not([aria-disabled=true]):not(.is-disabled):active {
+.icon-button:not([aria-disabled="true"]):not(.is-disabled):active {
   filter: brightness(0.6);
 }
-.icon-button:not([aria-disabled=true]):not(.is-disabled):focus, .icon-button:not([aria-disabled=true]):not(.is-disabled):focus-visible {
+.icon-button:not([aria-disabled="true"]):not(.is-disabled):focus,
+.icon-button:not([aria-disabled="true"]):not(.is-disabled):focus-visible {
   outline: 0;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
 }
-.icon-button:disabled, .icon-button.is-disabled, .icon-button[aria-disabled=true] {
+.icon-button:disabled,
+.icon-button.is-disabled,
+.icon-button[aria-disabled="true"] {
   pointer-events: none;
   cursor: not-allowed;
   opacity: var(--lui-opacity-disabled);
@@ -3151,17 +3391,20 @@ a.link {
   color: var(--lui-color-link-default);
   transition: filter 0.3s ease;
 }
-a.link:not([aria-disabled=true]):not(.is-disabled):hover {
+a.link:not([aria-disabled="true"]):not(.is-disabled):hover {
   filter: brightness(0.76);
 }
-a.link:not([aria-disabled=true]):not(.is-disabled):active {
+a.link:not([aria-disabled="true"]):not(.is-disabled):active {
   filter: brightness(0.6);
 }
-a.link:not([aria-disabled=true]):not(.is-disabled):focus, a.link:not([aria-disabled=true]):not(.is-disabled):focus-visible {
+a.link:not([aria-disabled="true"]):not(.is-disabled):focus,
+a.link:not([aria-disabled="true"]):not(.is-disabled):focus-visible {
   outline: 0;
   box-shadow: 0 0 0 2px var(--lui-color-primary-border-stroke);
 }
-a.link:disabled, a.link.is-disabled, a.link[aria-disabled=true] {
+a.link:disabled,
+a.link.is-disabled,
+a.link[aria-disabled="true"] {
   pointer-events: none;
   cursor: not-allowed;
   opacity: var(--lui-opacity-disabled);
@@ -3180,7 +3423,9 @@ a.link:disabled, a.link.is-disabled, a.link[aria-disabled=true] {
   border-radius: var(--lui-border-radius-lg);
   outline: 0;
   overflow: hidden;
-  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
 }
 .modal--md {
   max-width: 480px;
@@ -3196,7 +3441,11 @@ a.link:disabled, a.link.is-disabled, a.link[aria-disabled=true] {
   align-items: center;
   justify-content: space-between;
   padding: var(--lui-spacing-fluid-24);
-  font: var(--lui-typography-weight-medium) var(--lui-brand-typography-font-size-md)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-medium)
+    var(--lui-brand-typography-font-size-md)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-none);
   color: var(--lui-color-neutral-text-heading);
 }
@@ -3205,13 +3454,18 @@ a.link:disabled, a.link.is-disabled, a.link[aria-disabled=true] {
   flex: 1 1 auto;
   padding: var(--lui-spacing-fluid-24);
   padding-top: 0;
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   color: var(--lui-color-neutral-text-body);
 }
 .modal__footer {
   display: flex;
-  padding: var(--lui-spacing-fixed-0) var(--lui-spacing-fluid-24) var(--lui-spacing-fluid-24);
+  padding: var(--lui-spacing-fixed-0) var(--lui-spacing-fluid-24)
+    var(--lui-spacing-fluid-24);
   gap: var(--lui-spacing-fluid-16);
 }
 .modal__footer button {
@@ -3236,16 +3490,25 @@ a.link:disabled, a.link.is-disabled, a.link[aria-disabled=true] {
   grid-area: sidebar;
 }
 .navbar img {
-  padding: var(--lui-spacing-fixed-16) var(--lui-spacing-fixed-16) var(--lui-spacing-fixed-0);
+  padding: var(--lui-spacing-fixed-16) var(--lui-spacing-fixed-16)
+    var(--lui-spacing-fixed-0);
 }
 .navbar h6 {
   color: var(--lui-color-neutral-text-heading);
-  font: var(--lui-typography-weight-medium) var(--lui-brand-typography-font-size-3xs)/var(--lui-brand-typography-line-height-heading) var(--lui-brand-typography-font-family-heading);
+  font: var(--lui-typography-weight-medium)
+    var(--lui-brand-typography-font-size-3xs)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
   text-transform: var(--lui-typography-case-uppercase);
 }
 .navbar a {
   color: var(--lui-color-neutral-text-body);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   text-decoration: none;
 }
@@ -3296,7 +3559,8 @@ a.link:disabled, a.link.is-disabled, a.link[aria-disabled=true] {
 select {
   color: var(--lui-color-neutral-text-heading);
   background-color: var(--lui-color-neutral-background-surface);
-  border: var(--lui-border-width-1) solid var(--lui-color-neutral-border-divisor);
+  border: var(--lui-border-width-1) solid
+    var(--lui-color-neutral-border-divisor);
   transition: all 0.2s ease-in-out;
   line-height: normal !important;
   box-sizing: border-box;
@@ -3313,7 +3577,9 @@ select:focus {
   box-shadow: 0 0 0 3px lch(45.27% 113.1 310.44deg / 0.32);
   outline: none;
 }
-select:disabled, select.disabled, select[aria-disabled=true] {
+select:disabled,
+select.disabled,
+select[aria-disabled="true"] {
   pointer-events: none;
   cursor: not-allowed;
   opacity: var(--lui-opacity-disabled);
@@ -3340,19 +3606,31 @@ select:disabled, select.disabled, select[aria-disabled=true] {
 
 .tag--sm {
   padding: var(--lui-spacing-fluid-2) var(--lui-spacing-fluid-8);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-3xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-3xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   border-radius: var(--lui-border-radius-sm);
 }
 .tag--md {
   padding: var(--lui-spacing-fluid-4) var(--lui-spacing-fluid-8);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-2xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-2xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   border-radius: var(--lui-border-radius-md);
 }
 .tag--lg {
   padding: var(--lui-spacing-fluid-8) var(--lui-spacing-fluid-12);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-1xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   border-radius: var(--lui-border-radius-lg);
 }
@@ -3427,7 +3705,11 @@ select:disabled, select.disabled, select[aria-disabled=true] {
   color: var(--lui-color-neutral-text-inverse);
   padding: var(--lui-spacing-fluid-2) var(--lui-spacing-fixed-8);
   border-radius: var(--lui-border-radius-xs);
-  font: var(--lui-typography-weight-regular) var(--lui-brand-typography-font-size-3xs)/var(--lui-brand-typography-line-height-body) var(--lui-brand-typography-font-family-body);
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-3xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
   text-transform: var(--lui-typography-case-none);
   white-space: nowrap;
 }
@@ -3443,32 +3725,36 @@ select:disabled, select.disabled, select[aria-disabled=true] {
   left: 50%;
   transform: translateX(-50%);
   border-width: 4px;
-  border-color: transparent transparent var(--lui-color-neutral-background-overlay);
+  border-color: transparent transparent
+    var(--lui-color-neutral-background-overlay);
 }
 .tooltip--bottom::after {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
   border-width: 4px;
-  border-color: var(--lui-color-neutral-background-overlay) transparent transparent transparent;
+  border-color: var(--lui-color-neutral-background-overlay) transparent
+    transparent transparent;
 }
 .tooltip--left::after {
   right: 100%;
   top: 50%;
   transform: translateY(-50%);
   border-width: 4px;
-  border-color: transparent var(--lui-color-neutral-background-overlay) transparent transparent;
+  border-color: transparent var(--lui-color-neutral-background-overlay)
+    transparent transparent;
 }
 .tooltip--right::after {
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
   border-width: 4px;
-  border-color: transparent transparent transparent var(--lui-color-neutral-background-overlay);
+  border-color: transparent transparent transparent
+    var(--lui-color-neutral-background-overlay);
 }
 
 .switch,
-input[type=checkbox].switch-input {
+input[type="checkbox"].switch-input {
   display: flex;
   align-items: center;
   gap: var(--lui-spacing-fixed-8);
@@ -3478,44 +3764,60 @@ input[type=checkbox].switch-input {
   padding: var(--lui-spacing-fixed-0);
 }
 
-.switch--lg input[type=checkbox] {
+.switch--lg input[type="checkbox"] {
   width: var(--lui-spacing-fluid-48);
   height: var(--lui-spacing-fixed-24);
   border-radius: var(--lui-border-radius-circle);
 }
-.switch--lg input[type=checkbox]::after {
+.switch--lg input[type="checkbox"]::after {
   width: var(--lui-spacing-fluid-20);
   height: var(--lui-spacing-fluid-20);
   top: var(--lui-spacing-fluid-2);
   left: var(--lui-spacing-fluid-2);
 }
-.switch--lg input[type=checkbox]:checked::after {
-  transform: translateX(calc(var(--lui-spacing-fluid-48) - var(--lui-spacing-fluid-20) - var(--lui-spacing-fluid-2) * 2));
+.switch--lg input[type="checkbox"]:checked::after {
+  transform: translateX(
+    calc(
+      var(--lui-spacing-fluid-48) - var(--lui-spacing-fluid-20) - var(
+          --lui-spacing-fluid-2
+        ) *
+        2
+    )
+  );
 }
-.switch--md input[type=checkbox] {
+.switch--md input[type="checkbox"] {
   width: var(--lui-spacing-fixed-32);
   height: var(--lui-spacing-fixed-16);
   border-radius: var(--lui-border-radius-circle);
 }
-.switch--md input[type=checkbox]::after {
+.switch--md input[type="checkbox"]::after {
   width: var(--lui-spacing-fluid-12);
   height: var(--lui-spacing-fluid-12);
   top: var(--lui-spacing-fluid-2);
   left: var(--lui-spacing-fluid-2);
 }
-.switch--md input[type=checkbox]:checked::after {
-  transform: translateX(calc(var(--lui-spacing-fixed-32) - var(--lui-spacing-fluid-12) - var(--lui-spacing-fluid-2) * 2));
+.switch--md input[type="checkbox"]:checked::after {
+  transform: translateX(
+    calc(
+      var(--lui-spacing-fixed-32) - var(--lui-spacing-fluid-12) - var(
+          --lui-spacing-fluid-2
+        ) *
+        2
+    )
+  );
 }
-.switch input[type=checkbox] {
+.switch input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   background-color: var(--lui-color-neutral-background-container);
   border: none;
   display: inline-block;
   position: relative;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
-.switch input[type=checkbox]::after {
+.switch input[type="checkbox"]::after {
   content: "";
   position: absolute;
   background-color: var(--lui-color-neutral-background-surface);
@@ -3523,35 +3825,38 @@ input[type=checkbox].switch-input {
   box-shadow: var(--lui-elevation-base);
   transition: transform 0.2s ease;
 }
-.switch input[type=checkbox]:checked {
+.switch input[type="checkbox"]:checked {
   background-color: var(--lui-color-primary-background-container);
 }
-.switch input[type=checkbox]:checked::after {
+.switch input[type="checkbox"]:checked::after {
   background-color: var(--lui-color-neutral-background-surface);
 }
-.switch input[type=checkbox]:focus-visible {
+.switch input[type="checkbox"]:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px lch(45.27% 113.1 310.44deg / 0.32);
 }
-.switch input[type=checkbox][disabled] {
+.switch input[type="checkbox"][disabled] {
   opacity: var(--lui-opacity-disabled);
   cursor: not-allowed;
 }
-.switch input[type=checkbox]:focus {
+.switch input[type="checkbox"]:focus {
   box-shadow: 0 0 0 3px lch(45.27% 113.1 310.44deg / 0.32);
   outline: none;
 }
-.switch:not([aria-disabled=true]):not(.is-disabled):hover {
+.switch:not([aria-disabled="true"]):not(.is-disabled):hover {
   filter: brightness(0.76);
 }
-.switch:not([aria-disabled=true]):not(.is-disabled):active {
+.switch:not([aria-disabled="true"]):not(.is-disabled):active {
   filter: brightness(0.6);
 }
-.switch:not([aria-disabled=true]):not(.is-disabled):focus, .switch:not([aria-disabled=true]):not(.is-disabled):focus-visible {
+.switch:not([aria-disabled="true"]):not(.is-disabled):focus,
+.switch:not([aria-disabled="true"]):not(.is-disabled):focus-visible {
   outline: 0;
   box-shadow: 0 0 0 3 lch(45.27% 113.1 310.44deg / 0.32);
 }
-.switch:disabled, .switch.is-disabled, .switch[aria-disabled=true] {
+.switch:disabled,
+.switch.is-disabled,
+.switch[aria-disabled="true"] {
   pointer-events: none;
   cursor: not-allowed;
   opacity: var(--lui-opacity-disabled);
@@ -3690,37 +3995,118 @@ input[type=checkbox].switch-input {
   flex-shrink: 1;
 }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: var(--lui-spacing-fixed-0);
   padding: var(--lui-spacing-fixed-0);
   border: var(--lui-spacing-fixed-0);
+  font-family: var(--lui-brand-typography-font-family-body);
   vertical-align: baseline;
 }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
   display: block;
 }
 
-blockquote, q {
+blockquote,
+q {
   quotes: none;
 }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
   content: "";
   content: none;
 }
