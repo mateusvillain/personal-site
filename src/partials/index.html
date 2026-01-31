@@ -6,16 +6,16 @@
       <p class="body--sm" id="spotify"></p>
     </div>
     <div class="site-controls">
-      <!-- <label class="theme-toggle body--sm" aria-label="Alternar tema">
-        <input type="checkbox" id="theme-toggle" />
-        <span class="icon"></span>
-      </label> -->
       <a
         class="body--sm link"
         id="lang-switch"
         data-i18n="language"
         data-link="language"
       ></a>
+      <label class="theme-toggle body--sm" aria-label="Alternar tema">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="icon"></span>
+      </label>
     </div>
   </div>
 
@@ -102,21 +102,3 @@
     </a>
   </section>
 </div>
-
-<script>
-  const toggle = document.getElementById("theme-toggle");
-  const root = document.documentElement;
-
-  const savedTheme = localStorage.getItem("theme");
-
-  if (savedTheme) {
-    root.setAttribute("data-theme", savedTheme);
-    toggle.checked = savedTheme === "dark";
-  }
-
-  toggle.addEventListener("change", () => {
-    const theme = toggle.checked ? "dark" : "light";
-    root.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  });
-</script>
