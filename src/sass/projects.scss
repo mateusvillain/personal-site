@@ -55,7 +55,6 @@ section {
 }
 
 main.project-main {
-  margin-top: 80px;
   img {
     width: 100%;
     max-height: 400px;
@@ -92,8 +91,6 @@ main.project-main {
   gap: 8px;
 
   .tag {
-    background-color: #ebecf3;
-    color: #464749;
     padding: 2px 8px;
     border-radius: 4px;
     font-family: "Google Sans", monospace;
@@ -104,7 +101,7 @@ main.project-main {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #ffffff;
   background-image: linear-gradient(to bottom, #eaeaea 1px, transparent 1px);
   background-size: 100% 24px;
   margin-top: 24px;
@@ -127,6 +124,7 @@ main.project-main {
 
 .note {
   & p {
+    color: color(srgb 0.156863 0.168627 0.2);
     line-height: 24px !important;
 
     &:first-of-type {
