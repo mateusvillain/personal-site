@@ -183,3 +183,28 @@ section {
 .mood:hover + .tooltip {
   opacity: 1;
 }
+
+.list-none {
+  list-style-type: none;
+
+  & li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    transition: transform 0.2s;
+
+    a,
+    p.body--lg {
+      flex: 1;
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    & p.body--md {
+      opacity: 0.8;
+    }
+  }
+}
