@@ -38,9 +38,8 @@
 
     <div class="links">
       <p>
-        <a class="link" href="about" data-i18n="menu-about" data-link="about"
-          >About</a
-        >
+        <a class="link" href="about" data-i18n="menu-about" data-link="about">
+        </a>
       </p>
       <p>
         <a class="link" href="blog" data-link="blog">Blog</a>
@@ -52,25 +51,27 @@
           target="_blank"
           data-i18n="menu-book"
           data-link="book"
-        ></a>
+        >
+        </a>
       </p>
       <p>
         <a
           class="link"
           href="https://linkedin.com/in/mateusvillain/"
           target="_blank"
-          data-link="github"
-          data-social="github"
-          >LinkedIn</a
+          data-link="linkedin"
+          data-social="linkedin"
         >
+          LinkedIn
+        </a>
       </p>
       <p>
         <a
           class="link"
           href="https://github.com/mateusvillain/"
           target="_blank"
-          data-link="linkedin"
-          data-social="linkedin"
+          data-link="github"
+          data-social="github"
           >GitHub</a
         >
       </p>
@@ -624,27 +625,69 @@
   </section>
 
   <section class="contact">
-    <h2>Contato</h2>
+    <h2 data-i18n="contact-title"></h2>
     <ul class="no-list">
-      <li>
+      <li class="contact-item">
         <p>E-mail</p>
-        <a class="link">contato@mateusvillain.com</a>
-      </li>
-      <li>
-        <p>GitHub</p>
-        <a class="link" href="https://github.com/mateusvillain" target="_blank"
-          >@mateusvillain</a
+        <a
+          class="link copy-link body--lg"
+          data-email="contato@mateusvillain.com"
         >
+          contato@mateusvillain.com
+          <div class="tooltip tooltip--top">
+            <span data-i18n="copy">Copiado!</span>
+          </div>
+        </a>
       </li>
-      <li>
+      <li class="contact-item">
         <p>LinkedIn</p>
         <a
           class="link"
           href="https://linkedin.com/in/mateusvillain"
+          data-link="linkedin"
+          data-social="linkedin"
           target="_blank"
-          >in/mateusvillain</a
         >
+          in/mateusvillain
+        </a>
+      </li>
+      <li class="contact-item">
+        <p>GitHub</p>
+        <a
+          class="link"
+          href="https://github.com/mateusvillain"
+          data-link="github"
+          data-social="github"
+          target="_blank"
+        >
+          @mateusvillain
+        </a>
       </li>
     </ul>
   </section>
 </div>
+
+<script>
+  const copyLinks = document.querySelectorAll('.copy-link')
+
+  copyLinks.forEach((link) => {
+    link.addEventListener('click', async (e) => {
+      e.preventDefault()
+
+      const email = link.dataset.email
+      const listItem = link.closest('li')
+
+      try {
+        await navigator.clipboard.writeText(email)
+
+        listItem.classList.add('appear-tooltip')
+
+        setTimeout(() => {
+          listItem.classList.remove('appear-tooltip')
+        }, 2000)
+      } catch (err) {
+        console.error('Erro ao copiar:', err)
+      }
+    })
+  })
+</script>
