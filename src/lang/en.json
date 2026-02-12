@@ -2,10 +2,8 @@
     "language": "EN",
     "role": "Designer and author",
     "about": "I am a product designer, born in Criciúma, SC, specialist in design systems and author of the book Design System beyond the layout. I currently work at Locaweb as a Senior Product Designer, helping to build the Locaweb Design System and promoting the design culture within the company.",
-
     "menu-about": "About",
     "menu-book": "My book",
-
     "projects": "Projects",
     "locaweb-title": "Restructuring the tokens of Locaweb Design System",
     "locaweb-description": "Development of the new design token system for the Locaweb Design System",
@@ -13,7 +11,6 @@
     "letsui-title": "Let's UI: a multibranding design system with a focus on fluidity",
     "book-title": "Design System beyond the layout",
     "book-description": "This book covers everything from initial planning, style and token definition, to components, microinteractions, and documentation, showing how multidisciplinary teams can work efficiently.",
-
     "tools-accessories-title": "Accessories",
     "tools-accessories-monitor": "2x LG 25” UltraWide Full HD 25UM58 monitor",
     "tools-accessories-keyboard": "EPOMAKER x AULA F75 mechanical keyboard",
@@ -22,7 +19,6 @@
     "tools-accessories-webcam": "Logitech Brio 4K Pro webcam",
     "tools-accessories-mic": "HyperX QuadCast 2 microphone",
     "tools-accessories-desk": "Geniodesk Basic desk",
-
     "tools-coffee-title": "Coffee",
     "tools-coffee-machine": "Oster Xpert Perfect Brew",
     "tools-coffee-grinder": "TIMEMORE C3 coffee grinder",
@@ -31,11 +27,12 @@
     "tools-coffee-funnel": "Dosing funnel",
     "tools-coffee-leveler": "Leveler",
     "tools-coffee-filter": "V60 dripper, acrylic",
-
+    "contact-title": "Contact",
     "404-title": "Error 404",
     "404-description": "The page you are looking for does not exist. To continue:",
     "404-item-1": "Return to the homepage.",
     "404-item-2": "Access one of my projects",
     "404-item-3": "Get in touch: contato@mateusvillain.com",
-    "404-link-1": "Home"
+    "404-link-1": "Home",
+    "copy": "Copied!"
 }
