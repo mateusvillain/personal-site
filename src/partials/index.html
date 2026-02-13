@@ -627,19 +627,21 @@
   <section class="contact">
     <h2 data-i18n="contact-title"></h2>
     <ul class="no-list">
-      <li class="contact-item">
-        <p>E-mail</p>
+      <li>
         <a
-          class="link copy-link body--lg"
+          class="copy-link flex justify-between"
           data-email="contato@mateusvillain.com"
         >
-          contato@mateusvillain.com
-          <div class="tooltip tooltip--top">
-            <span data-i18n="copy">Copiado!</span>
+          <p>E-mail</p>
+          <div>
+            <p class="email">contato@mateusvillain</p>
+            <div class="tooltip tooltip--top">
+              <span data-i18n="copy">Copiado!</span>
+            </div>
           </div>
         </a>
       </li>
-      <li class="contact-item">
+      <li>
         <p>LinkedIn</p>
         <a
           class="link"
@@ -651,7 +653,7 @@
           in/mateusvillain
         </a>
       </li>
-      <li class="contact-item">
+      <li>
         <p>GitHub</p>
         <a
           class="link"
@@ -667,27 +669,4 @@
   </section>
 </div>
 
-<script>
-  const copyLinks = document.querySelectorAll('.copy-link')
-
-  copyLinks.forEach((link) => {
-    link.addEventListener('click', async (e) => {
-      e.preventDefault()
-
-      const email = link.dataset.email
-      const listItem = link.closest('li')
-
-      try {
-        await navigator.clipboard.writeText(email)
-
-        listItem.classList.add('appear-tooltip')
-
-        setTimeout(() => {
-          listItem.classList.remove('appear-tooltip')
-        }, 2000)
-      } catch (err) {
-        console.error('Erro ao copiar:', err)
-      }
-    })
-  })
-</script>
+<script src="js/copy-link.js"></script>
