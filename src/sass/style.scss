@@ -287,6 +287,10 @@ section {
       &:hover {
         background-color: rgba(0, 0, 0, 0.04);
       }
+
+      p.email {
+        color: var(--lui-brand-color-primary-5);
+      }
     }
   }
 }
@@ -294,4 +298,9 @@ section {
 .copy-link {
   position: relative;
   display: inline-block;
+  flex: 1;
+}
+
+.copy-link > div {
+  position: relative;
 }
