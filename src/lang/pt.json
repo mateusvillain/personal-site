@@ -1,16 +1,16 @@
 {
     "language": "PT",
     "role": "Designer e autor",
-    "about": "Sou product designer, nascido em Criciúma, SC, especialista em design systems e autor do livro Design System além do layout. Atualmente trabalho na Locaweb como Senior Product Designer, ajudando a construir o Locaweb Design System e promovendo a cultura de design dentro da empresa.",
+    "short-bio": "Sou product designer, nascido em Criciúma, SC, especialista em design systems e autor do livro Design System além do layout. Atualmente trabalho na Locaweb como Senior Product Designer, ajudando a construir o Locaweb Design System e promovendo a cultura de design dentro da empresa.",
+    "about": "Mateus Villain é um product designer e especialista em design systems, responsável pelo design system da Locaweb e KingHost, professor de UX, e autor do livro Design System além do layout: Criação, estratégia e governança.",
     "menu-about": "Sobre mim",
-    "menu-book": "Meu livro",
     "projects": "Projetos",
-    "locaweb-title": "Reestruturando os tokens do Locaweb Design System",
-    "locaweb-description": "Desenvolvimento do novo sistema de design tokens do Locaweb Design System.",
+    "locaweb-title": "Reestruturando os design tokens do Locaweb Design System",
+    "locaweb-description": "Entendendo os problemas do atual sistema e solucionando por meio de uma coletânea de design tokens.",
     "letsui-title": "Let's UI: um design system multi-brand com foco em fluidez",
     "letsui-description": "Let’s UI é um design system open source e multi-brand, criado para projetar interfaces totalmente fluídas e agnósticas.",
     "book-title": "Design System além do layout",
-    "book-description": "Este livro explora desde o planejamento inicial, definição de estilos e tokens, até componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.",
+    "book-description": "Este livro explora desde o planejamento, definição tokens, componentes, microinterações e documentação, mostrando como equipes multidisciplinares podem trabalhar de forma eficiente.",
     "tools-accessories-title": "Acessórios",
     "tools-accessories-monitor": "2x Monitor LG 25” UltraWide Full HD 25UM58",
     "tools-accessories-keyboard": "Teclado Mecânico EPOMAKER x AULA F75",
@@ -34,5 +34,6 @@
     "404-item-2": "Acesse um dos meus projetos",
     "404-item-3": "Entre em contato via contato@mateusvillain.com",
     "404-link-1": "Início",
-    "copy": "Copiado!"
+    "copy": "Copiado!",
+    "book": "livro"
 }
