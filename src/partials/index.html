@@ -32,42 +32,37 @@
     </section>
 
     <div class="content">
-      <p data-i18n="role"></p>
-      <p data-i18n="about"></p>
+      <p class="body--lg" data-i18n="role"></p>
+      <p class="body--lg" data-i18n="short-bio"></p>
     </div>
 
     <div class="links">
       <p>
-        <a class="link" href="about" data-i18n="menu-about" data-link="about">
-        </a>
-      </p>
-      <p>
-        <a class="link" href="blog" data-link="blog">Blog</a>
-      </p>
-      <p>
         <a
-          class="link"
-          href="https://www.casadocodigo.com.br/products/livro-design-system"
-          target="_blank"
-          data-i18n="menu-book"
-          data-link="book"
+          class="link body--lg"
+          href="about"
+          data-i18n="menu-about"
+          data-link="about"
         >
         </a>
       </p>
       <p>
+        <a class="link body--lg" href="blog" data-link="blog">Blog</a>
+      </p>
+      <p>
         <a
-          class="link"
+          class="link body--lg"
           href="https://linkedin.com/in/mateusvillain/"
           target="_blank"
           data-link="linkedin"
           data-social="linkedin"
         >
-          LinkedIn
-        </a>
+          LinkedIn</a
+        >
       </p>
       <p>
         <a
-          class="link"
+          class="link body--lg"
           href="https://github.com/mateusvillain/"
           target="_blank"
           data-link="github"
@@ -78,38 +73,65 @@
     </div>
   </main>
 
-  <section class="project-list">
-    <h2 data-i18n="projects"></h2>
+  <section class="project">
+    <h2 class="headline" data-i18n="projects"></h2>
     <a
-      href="locaweb-design-system.html"
-      class="project-item"
-      data-link="locaweb-design-system"
+      href="https://www.casadocodigo.com.br/products/livro-design-system"
+      target="_blank"
+      data-link="github-lets-ui"
     >
-      <div class="project">
-        <img src="img/locaweb-design-system.jpg" alt="" />
-        <div class="project-content">
-          <h3 data-i18n="locaweb-title"></h3>
-          <p data-i18n="locaweb-description"></p>
+      <div class="project-item interaction-item">
+        <div class="project-icon">
+          <span class="body--lg" aria-hidden="true">📖</span>
+        </div>
+        <div>
+          <h3 class="block-title" data-i18n="book-title"></h3>
+          <p class="body--lg" data-i18n="book-description"></p>
+          <div class="tag-list">
+            <div
+              class="tag tag--container-neutral body--sm"
+              data-i18n="book"
+            ></div>
+            <div class="tag tag--container-neutral body--sm">design system</div>
+          </div>
         </div>
       </div>
     </a>
     <a
       href="https://github.com/mateusvillain/lets-ui-css/"
       target="_blank"
-      data-link="github-lets-ui"
+      data-link="book"
     >
-      <div class="project">
-        <img src="img/lets-ui.jpg" alt="" />
-        <div class="project-content">
-          <h3 data-i18n="letsui-title"></h3>
-          <p data-i18n="letsui-description"></p>
+      <div class="project-item interaction-item">
+        <div class="project-icon">
+          <span class="body--lg" aria-hidden="true">🖥️</span>
+        </div>
+        <div>
+          <h3 class="block-title" data-i18n="letsui-title"></h3>
+          <p class="body--lg" data-i18n="letsui-description"></p>
+          <div class="tag-list">
+            <div class="tag tag--container-neutral body--sm">design system</div>
+            <div class="tag tag--container-neutral body--sm">multi-brand</div>
+            <div class="tag tag--container-neutral body--sm">open source</div>
+          </div>
         </div>
       </div>
     </a>
   </section>
 
+  <section class="case">
+    <h2 class="headline">Cases</h2>
+    <a href="locaweb-design-system.html" data-link="locaweb-design-system">
+      <div class="case-item interaction-item">
+        <img src="img/locaweb-design-system.jpg" alt="" />
+        <h3 class="block-title" data-i18n="locaweb-title"></h3>
+        <p class="body--lg" data-i18n="locaweb-description"></p>
+      </div>
+    </a>
+  </section>
+
   <section class="stack">
-    <h2>Stack</h2>
+    <h2 class="headline">Stack</h2>
     <ul class="no-list stack">
       <li aria-label="Figma" class="show-tooltip">
         <svg
@@ -625,16 +647,16 @@
   </section>
 
   <section class="contact">
-    <h2 data-i18n="contact-title"></h2>
+    <h2 class="headline" data-i18n="contact-title"></h2>
     <ul class="no-list">
       <li>
         <a
           class="copy-link flex justify-between"
           data-email="contato@mateusvillain.com"
         >
-          <p>E-mail</p>
+          <p class="body--lg">E-mail</p>
           <div>
-            <p class="email">contato@mateusvillain</p>
+            <p class="email body--lg">contato@mateusvillain.com</p>
             <div class="tooltip tooltip--top">
               <span data-i18n="copy">Copiado!</span>
             </div>
@@ -642,27 +664,27 @@
         </a>
       </li>
       <li>
-        <p>LinkedIn</p>
         <a
-          class="link"
+          class="body--lg"
           href="https://linkedin.com/in/mateusvillain"
           data-link="linkedin"
           data-social="linkedin"
           target="_blank"
         >
-          in/mateusvillain
+          <p class="body--lg">LinkedIn</p>
+          <p class="email body--lg">in/mateusvillain</p>
         </a>
       </li>
       <li>
-        <p>GitHub</p>
         <a
-          class="link"
+          class="body--lg"
           href="https://github.com/mateusvillain"
           data-link="github"
           data-social="github"
           target="_blank"
         >
-          @mateusvillain
+          <p class="body--lg">GitHub</p>
+          <p class="email body--lg">@mateusvillain</p>
         </a>
       </li>
     </ul>
