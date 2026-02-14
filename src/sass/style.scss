@@ -196,10 +196,6 @@ section {
         padding: var(--lui-spacing-fluid-16);
       }
 
-      &:first-of-type {
-        padding: var(--lui-spacing-fixed-0);
-      }
-
       &:hover {
         background-color: rgba(0, 0, 0, 0.04);
       }
@@ -337,6 +333,7 @@ ul.stack {
 }
 
 .copy-link {
+  padding: var(--lui-spacing-fluid-16);
   position: relative;
   display: inline-block;
   flex: 1;
