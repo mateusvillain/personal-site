@@ -13,4 +13,12 @@ async function carregarMood() {
   }
 }
 
-carregarMood();
+window.addEventListener('load', () => {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      carregarMood();
+    });
+  } else {
+    setTimeout(carregarMood, 1000);
+  }
+});
