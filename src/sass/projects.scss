@@ -13,7 +13,7 @@ section {
       margin-top: 16px;
     }
 
-    .paragraph > p + img {
+    .paragraph > p + picture > img {
       margin: 16px 0;
 
       @media (max-width: 559px) {
@@ -34,7 +34,7 @@ section {
     & .project-card {
       margin-bottom: 40px;
 
-      img {
+      picture > img {
         width: 100%;
         object-fit: cover;
         border-radius: 8px;
@@ -55,7 +55,7 @@ section {
 }
 
 main.project-main {
-  img {
+  picture > img {
     width: 100%;
     max-height: 400px;
     object-fit: cover;
@@ -93,7 +93,7 @@ main.project-main {
   .tag {
     padding: 2px 8px;
     border-radius: 4px;
-    font-family: "Google Sans", monospace;
+    font-family: 'Google Sans', monospace;
   }
 }
 
@@ -112,7 +112,7 @@ main.project-main {
 }
 
 .notepad::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 32px;
   top: 0;

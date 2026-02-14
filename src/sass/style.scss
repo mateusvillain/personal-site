@@ -54,7 +54,7 @@ main {
   }
 
   &.hero {
-    > img {
+    > picture img {
       filter: grayscale(100%);
       border-radius: 24px;
       width: var(--lui-spacing-fluid-80);
@@ -166,7 +166,7 @@ section {
     }
 
     &-item {
-      img {
+      picture > img {
         width: 100%;
         object-fit: cover;
         border-radius: var(--lui-spacing-fluid-16);
