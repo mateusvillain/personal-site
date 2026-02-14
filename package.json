@@ -4,10 +4,11 @@
   "description": "",
   "main": "dist/index.html",
   "scripts": {
-    "build": "npm install --prefix blog && cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:blog && npm run build:sitemap",
+    "build": "npm install --prefix blog && cross-env NODE_ENV=production node build.js && npm run build:css && npm run build:blog && npm run build:img && npm run build:sitemap",
     "build:css": "sass src/sass/index.scss dist/style.css --style=compressed --no-source-map",
     "build:sitemap": "node sitemap.js",
     "build:blog": "npm --prefix blog run build",
+    "build:img": "node src/js/images.js",
     "watch:html": "cross-env NODE_ENV=development nodemon --watch src --ext html --exec \"node build.js\"",
     "watch:css": "sass src/sass/index.scss dist/style.css --watch",
     "serve": "browser-sync start --server \"dist\" --files \"dist/**/*\" --open",
@@ -47,6 +48,8 @@
   },
   "dependencies": {
     "@notionhq/client": "^5.6.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "glob": "^13.0.3",
+    "sharp": "^0.34.5"
   }
 }
