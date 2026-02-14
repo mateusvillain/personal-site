@@ -57,6 +57,7 @@ if (!isDev) {
 copyDir('src/js', 'dist/js');
 copyDir('src/lang', 'dist/lang');
 copyDir('src/img', 'dist/img');
+copyDir('src/fonts', 'dist/fonts');
 
 // layout
 const layoutHtml = fs.readFileSync(LAYOUT, 'utf-8');
