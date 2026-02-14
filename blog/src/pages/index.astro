@@ -1,11 +1,11 @@
 ---
-import { getCollection } from "astro:content";
-import BlogLayout from "../layouts/Blog.astro";
+import { getCollection } from 'astro:content'
+import BlogLayout from '../layouts/Blog.astro'
 // import "../styles/blog-post.css";
 
-const posts = (await getCollection("blog")).sort(
+const posts = (await getCollection('blog')).sort(
   (a, b) => new Date(b.data.date) - new Date(a.data.date),
-);
+)
 ---
 
 <BlogLayout
@@ -16,7 +16,7 @@ const posts = (await getCollection("blog")).sort(
     <p class="body--md">
       <a
         href="../../../index.html"
-        class="link"
+        class="link body--lg"
         aria-label="Ir para a página inicial">Início</a
       >
     </p>
@@ -26,36 +26,36 @@ const posts = (await getCollection("blog")).sort(
   </div>
   {
     posts.map((post) => {
-      const date = new Date(post.data.date);
+      const date = new Date(post.data.date)
       const months = [
-        "Jan",
-        "Fev",
-        "Mar",
-        "Abr",
-        "Mai",
-        "Jun",
-        "Jul",
-        "Ago",
-        "Set",
-        "Out",
-        "Nov",
-        "Dez",
-      ];
-      const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        'Jan',
+        'Fev',
+        'Mar',
+        'Abr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Set',
+        'Out',
+        'Nov',
+        'Dez',
+      ]
+      const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
 
       return (
         <article class="post">
           <a href={`/blog/${post.slug}`}>
             <div class="post-header">
-              <p>{post.data.title}</p>
-              <p>{post.data.description}</p>
+              <p class="body--lg">{post.data.title}</p>
+              <p class="body--lg">{post.data.description}</p>
             </div>
             <p class="body--md">
               <time>{formattedDate}</time>
             </p>
           </a>
         </article>
-      );
+      )
     })
   }
 </BlogLayout>
