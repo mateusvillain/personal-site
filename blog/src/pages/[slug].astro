@@ -1,42 +1,45 @@
 ---
-import { getCollection } from "astro:content";
-import BlogLayout from "../layouts/BlogLayout.astro";
-// import "../styles/blog-post.css";
+import { getCollection } from 'astro:content'
+import BlogLayout from '../layouts/BlogLayout.astro'
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection('blog')
 
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
-  }));
+  }))
 }
 
-const { post } = Astro.props;
+const { post } = Astro.props
 
 // ⬇️ AQUI está a parte importante
-const { Content } = await post.render();
+const { Content } = await post.render()
 
-// Formata a data no formato "Mês DD, YYYY"
-const date = new Date(post.data.date);
+// Formata a data no formato "DD Mês YYYY"
+const date = new Date(post.data.date)
 const months = [
-  "Jan",
-  "Fev",
-  "Mar",
-  "Abr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Set",
-  "Out",
-  "Nov",
-  "Dez",
-];
-const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  'Jan',
+  'Fev',
+  'Mar',
+  'Abr',
+  'Mai',
+  'Jun',
+  'Jul',
+  'Ago',
+  'Set',
+  'Out',
+  'Nov',
+  'Dez',
+]
+const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
 ---
 
-<BlogLayout title={post.data.title} description={post.data.description}>
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  cover={post.data.cover}
+>
   <div class="home-link">
     <p class="body--md">
       <a
