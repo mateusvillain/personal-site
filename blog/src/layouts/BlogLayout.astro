@@ -34,7 +34,7 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 
     <link rel="stylesheet" href="../../blog.css" />
     <link rel="stylesheet" href="../../style.css" />
-    <link rel="icon" type="image/x-icon" href="../favicon.png" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.png" />
   </head>
 
   <body data-theme="light">
@@ -43,6 +43,6 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
         <slot />
       </section>
     </div>
-    <script src="blog/js/code-copy.js" defer></script>
+    <script src="/js/code-copy.js" defer></script>
   </body>
 </html>

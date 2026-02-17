@@ -1,6 +1,6 @@
 ---
 const { title, description, cover } = Astro.props
-const defaultCover = '/../covers/cover.png'
+const defaultCover = '/../img/covers/cover.png'
 const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 ---
 
@@ -34,7 +34,7 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 
     <link rel="stylesheet" href="../blog.css" />
     <link rel="stylesheet" href="../style.css" />
-    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.png" />
   </head>
 
   <body data-theme="light">
