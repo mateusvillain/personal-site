@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
 import BlogLayout from '../layouts/Blog.astro'
-// import "../styles/blog-post.css";
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => new Date(b.data.date) - new Date(a.data.date),
@@ -9,8 +8,8 @@ const posts = (await getCollection('blog')).sort(
 ---
 
 <BlogLayout
-  title="Blog"
-  description="Artigos sobre design, frontend e sistemas"
+  title="Blog - Mateus Villain"
+  description="Blog sobre tecnologia, design system, UI e UX. Conteúdos práticos, tendências, boas práticas e reflexões para criar produtos digitais mais consistentes, escaláveis e centrados no usuário."
 >
   <div class="home-link">
     <p class="body--md">
@@ -41,7 +40,7 @@ const posts = (await getCollection('blog')).sort(
         'Nov',
         'Dez',
       ]
-      const formattedDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+      const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
 
       return (
         <article class="post">
