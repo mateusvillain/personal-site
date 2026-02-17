@@ -1,0 +1,105 @@
+h1 {
+  font: var(--lui-typography-weight-bold)
+    var(--lui-brand-typography-font-size-2xl)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
+  text-transform: var(--lui-typography-case-none);
+}
+
+h2 {
+  font: var(--lui-typography-weight-semibold)
+    var(--lui-brand-typography-font-size-1xl)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
+  text-transform: var(--lui-typography-case-none);
+}
+
+h3 {
+  font: var(--lui-typography-weight-medium)
+    var(--lui-brand-typography-font-size-md)/var(
+      --lui-brand-typography-line-height-heading
+    )
+    var(--lui-brand-typography-font-family-heading);
+  text-transform: var(--lui-typography-case-none);
+}
+
+p {
+  font: var(--lui-typography-weight-regular)
+    var(--lui-brand-typography-font-size-1xs)/var(
+      --lui-brand-typography-line-height-body
+    )
+    var(--lui-brand-typography-font-family-body);
+  text-transform: var(--lui-typography-case-none);
+}
+
+a {
+  color: var(--lui-color-link-default);
+  transition: filter 0.3s ease;
+}
+a:not([aria-disabled='true']):not(.is-disabled):hover {
+  filter: brightness(0.76);
+}
+a:not([aria-disabled='true']):not(.is-disabled):active {
+  filter: brightness(0.6);
+}
+a:not([aria-disabled='true']):not(.is-disabled):focus,
+a:not([aria-disabled='true']):not(.is-disabled):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 2px var(--lui-color-primary-border-stroke);
+}
+a:disabled,
+a.is-disabled,
+a[aria-disabled='true'] {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: var(--lui-opacity-disabled);
+  text-decoration: none;
+}
+
+code {
+  > span.line {
+    span {
+      font-family: 'Google Sans', monospace !important;
+    }
+  }
+}
+
+article.full-post {
+  pre {
+    padding: var(--lui-spacing-fluid-16);
+    border-radius: 8px;
+  }
+
+  margin-bottom: 80px;
+
+  ul {
+    list-style-position: inside;
+  }
+
+  p + h2,
+  p + h3,
+  p + h4,
+  pre + h2,
+  pre + h3,
+  pre + h4,
+  pre + p,
+  ul + h2,
+  ul + h3,
+  ul + h4,
+  p + pre {
+    margin-top: 2rem;
+  }
+
+  p + p,
+  p + ul,
+  h2 + h3,
+  h2 + ul,
+  h2 + p,
+  h3 + p,
+  h3 + ul,
+  ul + p {
+    margin-top: 1rem;
+  }
+}
