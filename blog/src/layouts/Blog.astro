@@ -1,5 +1,7 @@
 ---
-const { title, description } = Astro.props
+const { title, description, cover } = Astro.props
+const defaultCover = '/../covers/cover.png'
+const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 ---
 
 <!doctype html>
@@ -21,14 +23,14 @@ const { title, description } = Astro.props
     <meta property="og:url" content="https://mateusvillain.com" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="img/cover.jpg" />
+    <meta property="og:image" content={`${imageUrl}`} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://mateusvillain.com" />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content="img/cover.jpg" />
+    <meta property="twitter:image" content={`${imageUrl}`} />
 
     <link rel="stylesheet" href="../blog.css" />
     <link rel="stylesheet" href="../style.css" />

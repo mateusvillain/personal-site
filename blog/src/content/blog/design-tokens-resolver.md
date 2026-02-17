@@ -2,7 +2,7 @@
 title: 'Design Tokens Resolver: o módulo nativo para gerar tokens e condicionais'
 description: 'Aprenda a usar o Design Tokens Resolver para dar escalabilidade aos seus tokens e criar múltiplas condicionais para temas e breakpoints.'
 date: '2025-02-17'
-cover: '/covers/design-tokens-resolver.png'
+cover: '/blog/covers/design-tokens-resolver.png'
 tags:
   [
     'design system',
