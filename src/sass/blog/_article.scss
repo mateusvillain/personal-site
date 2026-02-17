@@ -35,7 +35,7 @@ p {
 }
 
 a {
-  color: var(--lui-color-link-default);
+  color: var(--lui-color-link-default) !important;
   transition: filter 0.3s ease;
 }
 a:not([aria-disabled='true']):not(.is-disabled):hover {
@@ -68,6 +68,7 @@ code {
 
 article.full-post {
   pre {
+    position: relative;
     padding: var(--lui-spacing-fluid-16);
     border-radius: 8px;
   }
@@ -101,5 +102,37 @@ article.full-post {
   h3 + ul,
   ul + p {
     margin-top: 1rem;
+  }
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: hsl(212, 80%, 50%);
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  z-index: 10;
+
+  &:hover {
+    background: hsl(212, 80%, 46%);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.copied {
+    background: #2b8a3e;
   }
 }
