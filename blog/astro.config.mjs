@@ -6,4 +6,5 @@ export default defineConfig({
   integrations: [mdx()],
   base: "/blog/",
   outDir: path.resolve("../dist/blog"),
+  site: "https://mateusvillain.com",
 });
