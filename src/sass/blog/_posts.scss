@@ -22,7 +22,7 @@
     flex-direction: row;
     justify-content: space-between;
     text-decoration: none;
-    color: inherit;
+    color: var(--lui-color-neutral-text-body) !important;
     gap: var(--lui-spacing-fluid-16);
   }
 
