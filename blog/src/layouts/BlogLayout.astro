@@ -32,6 +32,26 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={`${imageUrl}`} />
 
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      ;(function (w, d, l, i) {
+        w[l] = w[l] || []
+        w[l].push({
+          'gtm.start': Date.now(),
+          event: 'gtm.js',
+        })
+
+        const f = d.getElementsByTagName('script')[0]
+        const j = d.createElement('script')
+        const dl = l !== 'dataLayer' ? '&l=' + l : ''
+
+        j.async = true
+        j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`
+
+        f.parentNode && f.parentNode.insertBefore(j, f)
+      })(window, document, 'dataLayer', 'GTM-NTD9ZL6W')
+    </script>
+
     <link rel="canonical" href={Astro.url.href} />
     <link rel="stylesheet" href="../../blog.css" />
     <link rel="stylesheet" href="../../style.css" />
