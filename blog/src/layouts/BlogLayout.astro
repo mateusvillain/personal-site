@@ -32,6 +32,7 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={`${imageUrl}`} />
 
+    <link rel="canonical" href={Astro.url.href} />
     <link rel="stylesheet" href="../../blog.css" />
     <link rel="stylesheet" href="../../style.css" />
     <link rel="icon" type="image/x-icon" href="../img/favicon.png" />
