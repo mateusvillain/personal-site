@@ -1,6 +1,6 @@
 ---
 const { title, description, cover } = Astro.props
-const defaultCover = '/../img/covers/cover.png'
+const defaultCover = '/../img/cover.webp'
 const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 ---
 
@@ -20,7 +20,7 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mateusvillain.com" />
+    <meta property="og:url" content="https://mateusvillain.com/blog" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${imageUrl}`} />
