@@ -33,6 +33,10 @@ const months = [
   'Dez',
 ]
 const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+
+// Tempo de leitura (média de 200 palavras por minuto)
+const wordCount = post.body.trim().split(/\s+/).length
+const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 ---
 
 <BlogLayout
@@ -55,9 +59,12 @@ const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFu
   <article class="full-post">
     <section class="post-details">
       <h1 class="title">{post.data.title}</h1>
-      <p class="body--md">
-        <time datetime={post.data.date}>{formattedDate}</time>
-      </p>
+      <div class="flex">
+        <time class="body--md" datetime={post.data.date}>{formattedDate}</time>
+        <p class="read-time body--md">
+          {readingTime} <span aria-label="minutos">min</span> de leitura
+        </p>
+      </div>
     </section>
 
     <Content />
