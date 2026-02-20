@@ -15,7 +15,7 @@ const posts = (await getCollection('blog')).sort(
     <p class="body--md">
       <a
         href="../../../index.html"
-        class="link body--lg"
+        class="link body--md"
         aria-label="Ir para a página inicial">Início</a
       >
     </p>
@@ -43,7 +43,7 @@ const posts = (await getCollection('blog')).sort(
       const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
 
       return (
-        <article class="post">
+        <article class="post interaction-item">
           <a href={`/blog/${post.slug}`}>
             <div class="post-header">
               <p class="body--lg">{post.data.title}</p>
