@@ -5,6 +5,23 @@ import BlogLayout from '../layouts/Blog.astro'
 const posts = (await getCollection('blog')).sort(
   (a, b) => new Date(b.data.date) - new Date(a.data.date),
 )
+
+type PostList = typeof posts
+const postsByYear: Record<number, PostList> = {}
+for (const post of posts) {
+  const year = new Date(post.data.date).getFullYear()
+  if (!postsByYear[year]) postsByYear[year] = []
+  postsByYear[year].push(post)
+}
+
+const years = Object.keys(postsByYear)
+  .map(Number)
+  .sort((a, b) => b - a)
+
+const months = [
+  'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+  'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',
+]
 ---
 
 <BlogLayout
@@ -24,37 +41,25 @@ const posts = (await getCollection('blog')).sort(
     <h1 class="title">Blog</h1>
   </div>
   {
-    posts.map((post) => {
-      const date = new Date(post.data.date)
-      const months = [
-        'Jan',
-        'Fev',
-        'Mar',
-        'Abr',
-        'Mai',
-        'Jun',
-        'Jul',
-        'Ago',
-        'Set',
-        'Out',
-        'Nov',
-        'Dez',
-      ]
-      const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
-
-      return (
-        <article class="post interaction-item">
-          <a href={`/blog/${post.slug}`}>
-            <div class="post-header">
-              <p class="body--lg">{post.data.title}</p>
-              <p class="body--lg">{post.data.description}</p>
-            </div>
-            <p class="body--md">
-              <time>{formattedDate}</time>
-            </p>
-          </a>
-        </article>
-      )
-    })
+    years.map((year) => (
+      <section class="posts-year-group">
+        <h2 class="body--lg posts-year-label">{year}</h2>
+        {postsByYear[year].map((post) => {
+          const date = new Date(post.data.date)
+          const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${months[date.getMonth()]}`
+          return (
+            <article class="post interaction-item">
+              <a href={`/blog/${post.slug}`}>
+                <div class="post-header">
+                  <h3 class="body--lg">{post.data.title}</h3>
+                  <p class="body--lg">{post.data.description}</p>
+                </div>
+                <time class="body--lg">{formattedDate}</time>
+              </a>
+            </article>
+          )
+        })}
+      </section>
+    ))
   }
 </BlogLayout>
