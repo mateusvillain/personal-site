@@ -34,7 +34,7 @@
     display: flex;
     flex-direction: column;
 
-    p:first-of-type {
+    h3 {
       font-weight: 500;
     }
   }
@@ -46,10 +46,17 @@
     flex-direction: column;
     gap: var(--lui-spacing-fluid-8);
     margin-bottom: var(--lui-spacing-fluid-40);
+
+    & time:after {
+      content: '•';
+      margin: var(--lui-spacing-fixed-8) var(--lui-spacing-fluid-8);
+      opacity: 0.8;
+    }
   }
 }
 
-time {
+time,
+.read-time {
   white-space: nowrap;
   opacity: 0.8;
 }
