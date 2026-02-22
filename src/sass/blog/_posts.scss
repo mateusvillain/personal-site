@@ -60,3 +60,23 @@ time,
   white-space: nowrap;
   opacity: 0.8;
 }
+
+.newsletter {
+  &-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-2);
+    margin-bottom: var(--lui-spacing-fluid-12);
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: end;
+
+    & > div {
+      flex: 1;
+    }
+  }
+}
