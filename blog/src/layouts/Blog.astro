@@ -63,6 +63,45 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
       <section class="post-list">
         <slot />
       </section>
+      <div class="card card__border p--fixed-24" id="newsletter-card">
+        <div class="newsletter-head">
+          <h2 class="block-title">Assine a newsletter</h2>
+          <p class="body--lg">
+            Receba os melhores conteúdos direto no seu e-mail
+          </p>
+        </div>
+
+        <form class="newsletter-form" id="newsletter-form">
+          <div class="form__group form__lg">
+            <label for="email">E-mail</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="seu@email.com"
+              class="form__lg"
+              required
+            />
+          </div>
+
+          <input type="hidden" name="embed" value="1" />
+
+          <button type="submit" class="btn btn--primary btn--lg">
+            Assinar
+          </button>
+        </form>
+
+        <div id="newsletter-success" hidden>
+          <div class="alert alert--success">
+            <div class="alert__content">
+              <div class="alert__text">
+                <p class="body--lg">Quase lá. Enviamos um e-mail para confirmar sua inscrição.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <script src="/blog/js/form.js" defer></script>
   </body>
 </html>
