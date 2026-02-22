@@ -2165,7 +2165,7 @@ body {
 }
 
 .p--fixed-24 {
-  padding: fixed(24);
+  padding: 24px;
 }
 
 .p--fixed-32 {
@@ -2954,9 +2954,6 @@ body {
 }
 .alert__text p:first-child {
   margin-bottom: var(--lui-spacing-fluid-2);
-}
-.alert__text p:first-of-type {
-  font-weight: var(--lui-typography-weight-bold) !important;
 }
 .alert__actions {
   margin-top: var(--lui-spacing-fixed-24);
