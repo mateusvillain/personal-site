@@ -1,33 +1,54 @@
 const form = document.getElementById("newsletter-form");
 const success = document.getElementById("newsletter-success");
+const errorBox = document.getElementById("newsletter-error");
+const errorMessage = document.getElementById("newsletter-error-message");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const button = form.querySelector("button");
-  button.disabled = true;
-  button.textContent = "Enviando";
+    const button = form.querySelector("button");
+    const email = form.email.value.trim();
 
-  const email = form.email.value;
+    if (!button || !email) {
+      return;
+    }
 
-  try {
-    await fetch("https://buttondown.com/api/emails/embed-subscribe/mateusvillain", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        email,
-        embed: "1",
-      }),
-    });
+    button.disabled = true;
+    button.textContent = "Enviando...";
 
-    form.style.display = "none";
-    success.hidden = false;
+    if (errorBox) {
+      errorBox.hidden = true;
+    }
 
-  } catch {
-    button.disabled = false;
-    button.textContent = "Assinar";
-    alert("Erro ao enviar.");
-  }
-});
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || "Não foi possível enviar sua inscrição agora.");
+      }
+
+      form.style.display = "none";
+      if (success) {
+        success.hidden = false;
+      }
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = "Assinar";
+
+      if (errorBox && errorMessage) {
+        errorMessage.textContent =
+          error instanceof Error ? error.message : "Erro ao enviar inscrição.";
+        errorBox.hidden = false;
+      }
+    }
+  });
+}
