@@ -91,6 +91,16 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
           </button>
         </form>
 
+        <div id="newsletter-error" hidden aria-live="polite">
+          <div class="alert alert--danger">
+            <div class="alert__content">
+              <div class="alert__text">
+                <p class="body--lg" id="newsletter-error-message">Não foi possível enviar sua inscrição. Tente novamente.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div id="newsletter-success" hidden>
           <div class="alert alert--success">
             <div class="alert__content">
