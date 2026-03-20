@@ -1,7 +1,7 @@
 let currentLang = localStorage.getItem("lang") || "en";
 
 function loadLanguage(lang) {
-fetch(`./lang/${lang}.json`)
+fetch(`/lang/${lang}.json`)
   .then(res => res.json())
   .then(data => {
   document.querySelectorAll("[data-i18n]").forEach(el => {
