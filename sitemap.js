@@ -48,10 +48,9 @@ const pages = htmlFiles.map(file => {
 
 function getPriority(url) {
   if (url === '/') return '1.0';
-  if (url === '/blog') return '0.8';
-  if (url === '/locaweb-design-system') return '0.8';
-  if (url.startsWith('/blog/')) return '0.7';
-  return '0.6';
+  if (url.startsWith('/blog')) return '0.8';
+  if (url.startsWith('/case/')) return '0.9';
+  return '0.7';
 }
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
