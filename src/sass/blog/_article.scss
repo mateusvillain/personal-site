@@ -67,6 +67,10 @@ code {
 }
 
 article.full-post {
+  a {
+    font-size: 1rem;
+  }
+
   pre {
     position: relative;
     padding: var(--lui-spacing-fluid-16);
