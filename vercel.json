@@ -3,7 +3,7 @@
   "outputDirectory": "dist",
   "buildCommand": "npm run build",
 
-  "rewrites": [
-    { "source": "/locaweb-design-system", "destination": "/locaweb-design-system.html" }
+  "redirects": [
+    { "source": "/locaweb-design-system", "destination": "/case/locaweb-design-system", "permanent": true }
   ]
 }
