@@ -1,7 +1,84 @@
-<!--
-title: Sobre - Mateus Villain
-description: Mateus Villain é product designer, especialista em design system, instrutor e escritor.
-canonical: https://mateusvillain.com/about
--->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre - Mateus Villain</title>
 
-<include src="partials/about.html"></include>
+    <meta name="title" content="Sobre - Mateus Villain" />
+    <meta
+      name="description"
+      content="Mateus Villain é product designer, especialista em design system, instrutor e escritor."
+    />
+    <meta
+      name="keywords"
+      content="Design System, User Interface, UI, User Experience, UX, Acessibilidade, Handoff"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Mateus Villain" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mateusvillain.com/about" />
+    <meta property="og:title" content="Sobre - Mateus Villain" />
+    <meta
+      property="og:description"
+      content="Mateus Villain é product designer, especialista em design system, instrutor e escritor."
+    />
+    <meta property="og:image" content="https://mateusvillain.com/img/cover.png" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://mateusvillain.com/about" />
+    <meta property="twitter:title" content="Sobre - Mateus Villain" />
+    <meta
+      property="twitter:description"
+      content="Mateus Villain é product designer, especialista em design system, instrutor e escritor."
+    />
+    <meta
+      property="twitter:image"
+      content="https://mateusvillain.com/img/cover.png"
+    />
+
+    <link rel="canonical" href="https://mateusvillain.com/about" />
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
+
+    <script>
+      ;(function (w, d, s, l, i) {
+        w[l] = w[l] || []
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : ''
+        j.async = true
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+        f.parentNode.insertBefore(j, f)
+      })(window, document, 'script', 'dataLayer', 'GTM-NTD9ZL6W')
+    </script>
+
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+      as="style"
+      onload="this.rel = 'stylesheet'"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Geist-VariableFont_wght.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/GoogleSansCode-VariableFont_wght.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <include src="partials/about.html"></include>
+    <include src="partials/scripts.html"></include>
+  </body>
+</html>
