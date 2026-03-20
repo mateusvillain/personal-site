@@ -6,7 +6,6 @@ import include from 'posthtml-include';
 const SRC = path.resolve('src');
 const DIST = path.resolve('dist');
 const PAGES = path.join(SRC, 'pages');
-const LAYOUT = path.join(SRC, 'layouts', 'default.html');
 
 /* ---------------- utils ---------------- */
 function cleanDist() {
@@ -20,32 +19,26 @@ function copyDir(src, dest) {
   fs.cpSync(src, dest, { recursive: true });
 }
 
-function extractMeta(html) {
-  const match = html.match(/<!--([\s\S]*?)-->/);
-  if (!match) return { meta: {}, content: html };
+function getHtmlFilesRecursive(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = [];
 
-  const meta = {};
-  match[1]
-    .split('\n')
-    .map(l => l.trim())
-    .filter(Boolean)
-    .forEach(line => {
-      const [key, ...rest] = line.split(':');
-      meta[key.trim()] = rest.join(':').trim();
-    });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...getHtmlFilesRecursive(fullPath));
+      continue;
+    }
+    if (entry.isFile() && entry.name.endsWith('.html')) {
+      files.push(path.relative(PAGES, fullPath));
+    }
+  }
 
-  const content = html.replace(match[0], '').trim();
-  return { meta, content };
-}
-
-function injectMeta(html, meta) {
-  return html.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-    return meta[key.trim()] || '';
-  });
+  return files;
 }
 
 /* ---------------- build ---------------- */
-console.log('▶ Build iniciado');
+console.log('Build iniciado');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -59,41 +52,37 @@ copyDir('src/lang', 'dist/lang');
 copyDir('src/img', 'dist/img');
 copyDir('src/fonts', 'dist/fonts');
 
-// layout
-const layoutHtml = fs.readFileSync(LAYOUT, 'utf-8');
-
 // pages
-const files = fs.readdirSync(PAGES).filter(f => f.endsWith('.html'));
+const files = getHtmlFilesRecursive(PAGES);
 
-for (const file of files) {
-  const pagePath = path.join(PAGES, file);
+for (const relativeFile of files) {
+  const pagePath = path.join(PAGES, relativeFile);
   const rawHtml = fs.readFileSync(pagePath, 'utf-8');
 
-  const is404 = file === '404.html';
-  const { meta, content } = extractMeta(rawHtml);
-
-  const headInclude = is404
-    ? '<include src="partials/404-head.html"></include>'
-    : '<include src="partials/head.html"></include>';
-
-  const composedHtml = layoutHtml
-    .replace('{{head}}', headInclude)
-    .replace('{{content}}', content);
-
+  const is404 = relativeFile === '404.html';
+  const pageDir = path.dirname(relativeFile);
+  const pageName = path.basename(relativeFile, '.html');
   const result = await posthtml([
     include({ root: SRC })
-  ]).process(composedHtml);
+  ]).process(rawHtml);
 
-  const finalHtml = is404
-    ? result.html
-    : injectMeta(result.html, meta);
+  let outputPath;
+  if (is404) {
+    outputPath = path.join(DIST, '404.html');
+  } else if (pageDir === '.') {
+    outputPath = pageName === 'index'
+      ? path.join(DIST, 'index.html')
+      : path.join(DIST, `${pageName}.html`);
+  } else if (pageName === 'index') {
+    outputPath = path.join(DIST, pageDir, 'index.html');
+  } else {
+    outputPath = path.join(DIST, pageDir, pageName, 'index.html');
+  }
 
-  fs.writeFileSync(
-    path.join(DIST, file),
-    finalHtml
-  );
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  fs.writeFileSync(outputPath, result.html);
 
-  console.log(`✔ Página gerada: ${file}`);
+  console.log(`Página gerada: ${relativeFile} -> ${path.relative(DIST, outputPath)}`);
 }
 
-console.log('✔ Build finalizado com sucesso');
+console.log('Build finalizado com sucesso');
