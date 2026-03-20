@@ -1,5 +1,5 @@
 ---
-title: 'Claude no Figma: como usar IA para criar interfaces e controlar todo o seu Figma'
+title: 'Design no Figma com Claude: como usar IA para criar interfaces e controlar todo o seu Figma'
 description: 'Aprenda a usar o Claude para interagir com seus arquivos do Figma e automatizar tarefas repetitivas.'
 date: '2026-03-19'
 cover: '/blog/covers/claude-figma.png'
