@@ -76,7 +76,7 @@ for (const relativeFile of files) {
   } else if (pageName === 'index') {
     outputPath = path.join(DIST, pageDir, 'index.html');
   } else {
-    outputPath = path.join(DIST, pageDir, pageName, 'index.html');
+    outputPath = path.join(DIST, pageDir, `${pageName}.html`);
   }
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
