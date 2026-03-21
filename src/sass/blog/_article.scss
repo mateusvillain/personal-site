@@ -47,12 +47,6 @@ article.full-post {
     letter-spacing: -0.02em;
   }
 
-  time {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 400;
-  }
-
   p + h2,
   p + h3,
   p + p,
@@ -148,4 +142,8 @@ pre {
   .post-title {
     font-size: 1.5rem;
   }
+}
+
+.social-media-icons {
+  margin-left: -8px;
 }
