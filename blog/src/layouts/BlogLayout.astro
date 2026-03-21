@@ -55,6 +55,7 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
     <link rel="canonical" href={Astro.url.href} />
     <link rel="stylesheet" href="../../style.css" />
     <link rel="stylesheet" href="../../blog.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@lets-ui/css@latest/dist/letsui.min.css" />
     <link rel="icon" type="image/x-icon" href="../img/favicon.png" />
   </head>
 
@@ -63,6 +64,33 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
       <section class="post-list">
         <slot />
       </section>
+
+      <section class="flex gap-fixed-16">
+        <img
+          src="/img/mtsvlln.webp"
+          alt="Mateus Villain"
+          class="radius-sm"
+          width="64px"
+          height="64px"
+        />
+        <div class="flex flex-col">
+          <h2 class="headline">Mateus Villain</h2>
+          <p class="body--lg">Mateus Villain é product designer, especialista em design system, professor, e autor do livro Design System além do layout, pela Casa do Código.</p>
+          <div class="social-media-icons flex gap-fixed-8 m-t-fixed-8">
+            <a href="https://www.linkedin.com/in/mateusvillain" class="icon-button icon-button--lg" aria-label="LinkedIn, nova janela" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32">
+                <path fill="#000" d="M27 3H5a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM12 22a1 1 0 0 1-2 0v-8a1 1 0 0 1 2 0v8Zm-1-10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm12 10a1 1 0 0 1-2 0v-4.5a2.5 2.5 0 0 0-5 0V22a1 1 0 0 1-2 0v-8a1 1 0 0 1 1.974-.223A4.5 4.5 0 0 1 23 17.5V22Z"/>
+              </svg>
+            </a>
+            <a href="https://www.x.com/mateusvillain" class="icon-button icon-button--lg" aria-label="X, nova janela" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32">
+                <path fill="#000" d="m26.843 26.464-7.825-12.298 7.722-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.062-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .843-1.536ZM20.55 26 7.82 6h3.625l12.732 20h-3.63Z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <div class="card card__border p--fixed-24" id="newsletter-card">
         <div class="newsletter-head">
           <h2 class="block-title">Assine a newsletter</h2>
