@@ -1,7 +1,7 @@
 ---
 title: 'Escalando um Design System com IA: Reduzindo trabalho e automatizando processos'
 description: 'Utilize inteligência artificial para automatizar a criação e manutenção de design tokens, componentes e documentações.'
-date: '2026-03-25'
+date: '2026-03-26'
 cover: '/blog/covers/design-system-ia.png'
 tags:
   [
