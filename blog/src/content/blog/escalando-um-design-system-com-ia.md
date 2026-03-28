@@ -34,8 +34,8 @@ Para que tudo saia de maneira correta, é importante que você tenha algumas fer
 - [Google Antigravity](https://antigravity.google/download)
 - [Figma](https://www.figma.com/pt-br/downloads/)
 - [Claude](https://claude.com/download)
-- [Git](https://git-scm.com/install/) (v18+)
-- [Node.js](https://nodejs.org/pt-br/download/current.)
+- [Node.js](https://nodejs.org/pt-br/download/current.) (v18+)
+- [Git](https://git-scm.com/install/) (opcional)
 
 ### Repositórios
 
