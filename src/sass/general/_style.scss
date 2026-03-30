@@ -347,3 +347,13 @@ ul.stack {
 .space-nowrap {
   white-space: nowrap;
 }
+
+.faq-item {
+  padding-bottom: var(--lui-spacing-fluid-16);
+  border-bottom: var(--lui-border-width-1) solid
+    var(--lui-color-neutral-border-divisor);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
