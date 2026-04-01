@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Google Sans Code';
+  src: url('fonts/GoogleSansCode-VariableFont_wght.woff2');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -76,7 +81,7 @@ pre,
 code,
 span.line,
 span.line > span {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Google Sans Code', monospace !important;
 }
 
 pre {
@@ -93,6 +98,14 @@ pre {
     tab-size: 4;
     -moz-tab-size: 4;
   }
+}
+
+p > code {
+  padding: var(--lui-spacing-fluid-2) var(--lui-spacing-fluid-4) !important;
+  background-color: var(--lui-color-neutral-background-container);
+  color: var(--lui-color-neutral-text-body);
+  font-size: var(--lui-brand-typography-font-size-2xs) !important;
+  border-radius: var(--lui-border-radius-xs);
 }
 
 .code-copy-btn {
@@ -148,4 +161,11 @@ pre {
 
 .social-media-icons {
   margin-left: -8px;
+}
+
+hr {
+  background-color: var(--lui-color-neutral-background-container);
+  margin: var(--lui-spacing-fluid-40) var(--lui-spacing-fixed-0);
+  border: none;
+  height: 1px;
 }
