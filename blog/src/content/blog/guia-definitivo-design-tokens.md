@@ -14,7 +14,7 @@ tags:
   ]
 ---
 
-Se você já trabalhou com design system, provavelmente já esbarrou naquele problema clássico: manter consistência sem transformar tudo em um caos difícil de escalar. Cores duplicadas, espaçamentos inconsistentes, decisões espalhadas entre design e código… com o tempo, isso começa a cobrar um preço.
+Se você já trabalhou com design system, provavelmente já esbarrou naquele problema clássico: manter consistência sem transformar tudo em um caos difícil de escalar. Cenários como cores duplicadas, espaçamentos inconsistentes e decisões espalhadas entre design e código, com o tempo começam a cobrar um preço.
 
 É justamente nesse ponto que os design tokens entram. Eles são uma forma de organizar decisões de design como dados, algo que pode ser compartilhado, versionado e usado em qualquer plataforma.
 
