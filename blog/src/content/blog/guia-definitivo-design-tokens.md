@@ -2,9 +2,23 @@
 title: 'O Guia Definitivo dos Design Tokens: O que são e como usar?'
 description: 'Design Tokens são variáveis que armazenam valores visuais do seu design system, como cores, tipografia e espaçamentos. Saiba como usar e escalar seu design system de forma eficiente.'
 date: '2026-04-01'
-cover: '/blog/covers/design-tokens.png'
-tags: ['design tokens', 'design system']
+cover: '/blog/covers/guia-definitivo-design-tokens-1.png'
+tags:
+  [
+    'design tokens',
+    'design system',
+    'style dictionary',
+    'primitive tokens',
+    'semantic tokens',
+    'component tokens',
+  ]
 ---
+
+Se você já trabalhou com design system, provavelmente já esbarrou naquele problema clássico: manter consistência sem transformar tudo em um caos difícil de escalar. Cores duplicadas, espaçamentos inconsistentes, decisões espalhadas entre design e código… com o tempo, isso começa a cobrar um preço.
+
+É justamente nesse ponto que os design tokens entram. Eles são uma forma de organizar decisões de design como dados, algo que pode ser compartilhado, versionado e usado em qualquer plataforma.
+
+Neste guia, a ideia é sair do básico e entender de verdade como os design tokens funcionam na prática: desde o conceito até a aplicação em um design system real, passando pelos diferentes níveis de abstração e pelos desafios de escala.
 
 ## O que é um design token?
 
@@ -134,3 +148,50 @@ Nesse nível, você define como cada parte do componente deve se comportar visua
 Diferente dos dois anteriores, Component Tokens são mais difíceis de escalar e dar manutenção. Conforme vamos criando cada token a partir de cada detalhe do componente, rapidamente aumentamos o número de tokens em larga escala, o que pode causar mais bagunça ao produto do que um verdadeiro auxílio.
 
 Além disso, Component Tokens não são reutilizáveis como Semantic Tokens. Uma vez que você cria um token como `button-background-primary`, ele servirá apenas para o `Button`, diferente de um token semântico chamado `color-background-primary` que pode ser utilizado para diferentes casos de plano de fundo primário.
+
+## Uso prático
+
+A estrutura de um token nada mais é do que um JSON, para ser completamente agnóstico de plataformas. Ao mesmo que você usa tokens para web, você também pode usar para aplicativos mobile. Cada sistema vai usar uma linguagem diferente, e para não precisar recriar tokens, usamos JSON como base, e traduzimos esses tokens para a linguagem que precisamos.
+
+No caso da web, traduzimos design tokens de JSON para CSS, que é a linguagem de estilo aceita pelos navegadores. Para isso, usamos ferramentas que realizam a leitura dos tokens e geram os arquivos CSS necessários.
+
+Pegando novamente o exemplo de design tokens primitivos:
+
+```json
+{
+  "color": {
+    "neutral": {
+      "type": "color",
+      "100": {
+        "value": "#f8f9fa"
+      },
+      "200": {
+        "value": "#e9ecef"
+      },
+      "300": {
+        "value": "#dee2e6"
+      }
+    }
+  }
+}
+```
+
+Quando rodamos essa estrutura num tradutor de design tokens para CSS, recebemos o seguinte formato:
+
+```css
+:root {
+  --color-neutral-100: #f8f9fa;
+  --color-neutral-200: #e9ecef;
+  --color-neutral-300: #dee2e6;
+}
+```
+
+Com isso, conseguimos usar as cores no projeto sem precisar realizar qualquer tipo de trabalho manual.
+
+Existem algumas ferramentas que realizam essa tradução, e felizmente a maioria delas é open-source. A mais famosa entre elas e uma das mais completas é o [Style Dictionary](https://styledictionary.com/), que permite transformar seus tokens para todo tipo de plataforma (Web, iOS e Android).
+
+---
+
+Essa é apenas a primeira publicação do Guia Definitivo de Design Tokens. Nos próximos dias, trarei uma sequência de artigos aprofundando melhor em cada um dos tópicos abordados, mas indo além no conceito e aplicação.
+
+Caso não queira perder as próximas publicações, fica a recomendação: você se inscrever na newsletter e me seguir no [LinkedIn](https://www.linkedin.com/in/mateusvillain/).
