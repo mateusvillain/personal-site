@@ -162,3 +162,10 @@ p > code {
 .social-media-icons {
   margin-left: -8px;
 }
+
+hr {
+  background-color: var(--lui-color-neutral-background-container);
+  margin: var(--lui-spacing-fluid-40) var(--lui-spacing-fixed-0);
+  border: none;
+  height: 1px;
+}
