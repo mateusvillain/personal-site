@@ -12,7 +12,6 @@ a {
 }
 
 body {
-  background-color: #efebed;
   font-size: var(--lui-spacing-fluid-16);
   line-height: 1.5;
 }
@@ -85,6 +84,7 @@ main {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   margin-top: var(--lui-spacing-fluid-16);
 
   & .personal-info {
@@ -96,6 +96,8 @@ main {
   & .site-controls {
     display: flex;
     gap: var(--lui-spacing-fluid-40);
+    align-items: center;
+
     a {
       cursor: pointer;
     }
@@ -223,20 +225,68 @@ section {
 
 .theme-toggle {
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
 
   & input {
     position: absolute;
-    opacity: var(--lui-opacity-hidden);
+    opacity: 0;
     pointer-events: none;
   }
 
-  & .icon::before {
-    content: '🌙';
+  &__track {
+    width: calc(var(--lui-spacing-fixed-32) * 2);
+    height: var(--lui-spacing-fixed-32);
+    background-color: var(--lui-color-secondary-background-surface);
+    border-radius: var(--lui-border-radius-circle);
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+  }
+
+  &__thumb {
+    width: var(--lui-spacing-fixed-24);
+    height: var(--lui-spacing-fixed-24);
+    background-color: var(--lui-color-neutral-background-surface);
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__icon {
+    width: var(--lui-spacing-fixed-16);
+    height: var(--lui-spacing-fixed-16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    position: absolute;
+    top: var(--lui-spacing-fixed-8);
+  }
+
+  &__icon--sun {
+    left: var(--lui-spacing-fixed-8);
+  }
+
+  &__icon--moon {
+    right: var(--lui-spacing-fixed-8);
   }
 }
 
-:root[data-theme='dark'] .theme-toggle .icon::before {
-  content: '☀️';
+:root[data-theme='dark'] .theme-toggle {
+  &__track {
+    background-color: var(--lui-color-secondary-background-surface);
+  }
+
+  &__thumb {
+    transform: translateX(var(--lui-spacing-fixed-32));
+    background-color: var(--lui-color-neutral-background-surface);
+  }
 }
 
 .tooltip-wrapper {
