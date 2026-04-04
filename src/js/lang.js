@@ -6,7 +6,7 @@ fetch(`/lang/${lang}.json`)
   .then(data => {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
-    el.innerText = data[key];
+    el.innerHTML = data[key];
   });
   localStorage.setItem("lang", lang);
   document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
