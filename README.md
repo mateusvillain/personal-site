@@ -1,69 +1,81 @@
 # Mateus Villain
 
-Este repositório contém o código do meu site pessoal, um portfólio estático que mostra quem sou, meus projetos e conteúdos, com foco em design, desenvolvimento e experiências. 
-GitHub
+Este repositório contém o código do meu site pessoal, com páginas com conteúdo estático, suporte a múltiplos idiomas via JSON, e blog desenvolvido em Astro com posts em markdown.
 
-Está publicado em: https://mateusvillain.com
-
-## Sobre
-
-Meu site pessoal é feito com HTML, CSS/SCSS e JavaScript, organizado de forma modular:
-
-* HTML das páginas principais
-* CSS / SCSS para estilos e layout
-* JavaScript para interatividade
-* Imagens, fontes e internacionalização
-* Arquivos de idioma (lang) para suportar conteúdo multilíngue
+O site está publicado em: https://mateusvillain.com
 
 ## Tecnologias
 
-O projeto usa:
-
-* HTML — estrutura das páginas
-* CSS e SCSS — estilos e organização do design
-* JavaScript — interações
-* Estrutura simples de arquivos para modularização
+- HTML: Estrutura das páginas
+- SCSS: Estilos e organização do design
+- JavaScript: Interações
+- JSON: Arquivos de idioma
+- Astro: Blog
+- Markdown: Posts do blog
 
 ## Estrutura
+
 ```
 personal-site/
 ├── api/
-│   ├── callback.js
-│   ├── mood.js                 # Estrutura de mood conectada ao Notion
-│   ├── project.js              # Cria a estrutura do projeto e insere a senha
-│   ├── projects.js             # Realiza a conexão com a database do Notion
-│   ├── spotify.js              # Busca a música ouvida no momento no Spotify
-│   ├── time.js                 # Busca o horário atual do local
-│   └── weather.js              # Busca o clima atual do local
+│   ├── callback.js                 # Callback do Spotify
+│   ├── mood.js                     # Estrutura de mood conectada ao Notion
+│   ├── newsletter.js               # Estrutura de newsletter conectada ao Notion
+│   ├── project.js                  # Cria a estrutura do projeto e insere a senha
+│   ├── projects.js                 # Realiza a conexão com a database do Notion
+│   ├── spotify.js                  # Busca a música ouvida no momento no Spotify
+│   ├── time.js                     # Busca o horário atual do local
+│   └── weather.js                  # Busca o clima atual do local
 │
-├── css/
-│   ├── components.css          # Estilos dos componentes ilustrados na index
-│   └── style.css               # Estilos do site gerados pelo index.scss
+├── blog/                           # Blog desenvolvido em Astro
+│   ├── public/                     # Arquivos públicos do blog
+│   │   ├── covers/                 # Capas dos posts do blog
+│   │   └── js/                     # Scripts do blog
+│   │
+│   └── src/                        # Arquivos privados do blog
+│       ├── content/                # Posts do blog
+│       ├── layouts/                # Layouts do blog
+│       └── scss/                   # Arquivos .scss do blog
 │
-├── font/                       # Fontes utilizadas no site
-├── img/                        # Imagens e assets visuais
-│
-├── js/
-│   ├── analytics.js            # Eventos enviados para o Google Analytics
-│   ├── book-cover.js           # Efeito de rotação
-│   ├── horizontal-scroll.js    # Muda o sentido da página para horiontal
-│   ├── lang.js                 # Realiza a mudança de idioma do site
-│   ├── mood.js                 # Adiciona o sistema de mood no site
-│   ├── password.js             # Adiciona senha para relevar conteúdo
-│   ├── spotify.js              # Exibe a música e artista tocando no momento
-│   ├── tabs.js                 # Componente de tabs
-│   ├── time.js                 # Exibe e atualiza o horário da cidade a cada 1s
-│   ├── type-line.js            # Efeito de digitação
-│   └── weather.js              # Exibe o clima local da cidade
-│
-├── lang/                       # Arquivos de idioma do site
-│   ├── en.js
-│   └── pt.js
-│
-├── sass/
-│   ├── index.scss              # Conexão dos arquivos .scss
-│   ├── projects.scss           # Estilos das pgáinas de projeto
-│   └── style.scss              # Estilos gerais do site
+├── src/
+│   ├── font/                       # Fontes utilizadas no site
+│   ├── img/                        # Imagens e assets visuais
+│   │
+│   ├── js/
+│   │   ├── analytics.js            # Eventos enviados para o Google Analytics
+│   │   ├── copy-link.js            # Copia o link da página
+│   │   ├── images.js               # Exporta as imagens em `webp`
+│   │   ├── lang.js                 # Realiza a mudança de idioma do site
+│   │   ├── mood.js                 # Adiciona o sistema de mood no site
+│   │   ├── project-protected.js    # Adiciona senha para relevar conteúdo
+│   │   ├── spotify.js              # Exibe a música e artista tocando no momento
+│   │   ├── theme.js                # Realiza a mudança de tema do site
+│   │   ├── time.js                 # Exibe e atualiza o horário da cidade a cada 1s
+│   │   └── weather.js              # Exibe o clima local da cidade
+│   │
+│   ├── lang/                       # Arquivos de idioma do site
+│   │   ├── en.js
+│   │   └── pt.js
+|   |
+│   ├── pages/                      # Páginas do site
+│   │   ├── case/                   # Páginas de cases
+│   │   ├── 404.html                # Página de erro 404
+│   │   ├── about.html              # Página sobre mim
+│   │   ├── index.html              # Página inicial
+│   │   └── mentorship.html         # Página de mentorias e consultoria
+|   |
+│   ├── partials/                   # Partials do site
+│   │   ├── 404.html                # Conteúdo da página de erro 404
+│   │   ├── about.html              # Conteúdo da página sobre mim
+│   │   ├── index.html              # Conteúdo da página inicial
+│   │   ├── mentorship.html         # Conteúdo da página de mentorias e consultoria
+│   │   └── scripts.html            # Scripts do site
+│   │
+│   ├── sass/                       # Arquivos .scss do site
+│   │   ├── blog/                   # Arquivos .scss de blog
+│   │   ├── general/                # Arquivos .scss gerais
+│   │   ├── blog.scss               # Conexão dos arquivos .scss de blog
+│   │   └── general.scss            # Conexão dos arquivos .scss gerais
 ```
 
 ## Como rodar localmente
@@ -76,5 +88,5 @@ npm install
 
 ## Contato
 
-* [LinkedIn](https://linkedin.com/in/mateusvillain)
-* contato@mateusvillain.com
+- [LinkedIn](https://linkedin.com/in/mateusvillain)
+- contato@mateusvillain.com
