@@ -6,14 +6,14 @@ async function carregarMusica() {
     const el = document.getElementById('spotify');
 
     if (!data.isPlaying) {
-      el.textContent = 'No music playing now';
+      el.textContent = '';
     } else {
       el.innerHTML = `
         <a href="${data.songUrl}" target="_blank">${data.title}</a> 🎵
       `;
     }
   } catch (err) {
-    document.getElementById('spotify').textContent = "Can't load Spotify";
+    document.getElementById('spotify').textContent = "🎵";
   }
 }
 
