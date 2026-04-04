@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="desktop">
+  <div class="desktop m-b-fluid-80">
     <div class="personal-info">
       <p class="body--sm" id="hora"></p>
       <p class="body--sm" id="clima"></p>
@@ -17,117 +17,518 @@
         <div class="theme-toggle__track">
           <div class="theme-toggle__thumb"></div>
           <div class="theme-toggle__icon theme-toggle__icon--sun">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
-              <g clip-path="url(#a)"><path fill="var(--lui-color-secondary-icon-default)" d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 16 16"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  fill="var(--lui-color-secondary-icon-default)"
+                  d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"
+                />
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h16v16H0z" />
+                </clipPath>
+              </defs>
             </svg>
           </div>
           <div class="theme-toggle__icon theme-toggle__icon--moon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
-              <path fill="var(--lui-color-secondary-icon-default)" d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="var(--lui-color-secondary-icon-default)"
+                d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"
+              />
             </svg>
           </div>
         </div>
       </label>
     </div>
   </div>
+</div>
 
-  <main class="about">
-    <div>
-      <p class="body--md">
-        <a href="/" class="link" aria-label="Ir para a página inicial"
-          >Voltar para a página inicial</a
+<main class="about">
+  <div class="container">
+    <ul class="breadcrumb">
+      <li>
+        <a href="/" class="link">Início</a>
+      </li>
+    </ul>
+    <h1 class="title m-t-fluid-16 m-b-fluid-8" data-i18n="menu-about"></h1>
+    <p class="body--lg" data-i18n="about-1"></p>
+  </div>
+  <div class="high-container">
+    <img
+      src="../img/polaroid-1.png"
+      alt="Fotografia de Mateus Villain: Homem de barba cheia e cabeça raspada, usando óculos de armação arredondada, segura um copo de café com tampa enquanto olha para o lado. A foto tem estilo de polaroid, com fundo desfocado em ambiente interno."
+    />
+  </div>
+  <div class="container">
+    <p class="body--lg" data-i18n="about-2"></p>
+  </div>
+  <div class="container">
+    <p class="body--lg m-t-fluid-12" data-i18n="about-3"></p>
+  </div>
+  <div class="container">
+    <p class="body--lg m-t-fluid-12" data-i18n="about-4"></p>
+  </div>
+  <div class="high-container items-end">
+    <img src="../img/polaroid-2.png" alt="" class="about-image" />
+  </div>
+  <div class="container">
+    <p class="body--lg" data-i18n="about-5"></p>
+  </div>
+  <div class="container">
+    <p class="body--lg m-t-fluid-12" data-i18n="about-6"></p>
+  </div>
+</main>
+
+<div class="container m-t-fluid-80">
+  <section>
+    <div id="tab-wrapper">
+      <ul id="tab-buttons" role="tablist" aria-label="Atividades e eventos">
+        <li
+          class="active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-1"
+          id="tab-1"
+          tabindex="0"
+          data-i18n="tab-lives-podcasts-title"
+        ></li>
+        <li
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-2"
+          id="tab-2"
+          tabindex="-1"
+          data-i18n="tab-training-courses-title"
+        ></li>
+        <li
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-3"
+          id="tab-3"
+          tabindex="-1"
+          data-i18n="tab-lectures-workshops-title"
+        ></li>
+      </ul>
+      <div id="tab-content">
+        <div
+          class="tab active"
+          role="tabpanel"
+          id="panel-1"
+          aria-labelledby="tab-1"
+          tabindex="0"
         >
-      </p>
+          <p class="body--lg" data-i18n="tab-lives-podcasts-description"></p>
+
+          <!-- Lives -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline">Lives</h2>
+            <ul class="no-list">
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.youtube.com/watch?v=XQzSx8zJ6hQ"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Design System além do layout</p>
+                  <p class="body--md space-nowrap">Casa do Código, 2025</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.youtube.com/watch?v=uYTbn3Y-kOI"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Vibe Design e os novos tempos
+                  </p>
+                  <p class="body--md space-nowrap">Homem Máquina, 2025</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.youtube.com/watch?v=_OqW10C0d-Y"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Como escalar produtos sem comprometer a usabilidade?
+                  </p>
+                  <p class="body--md space-nowrap">Homem Máquina, 2025</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Podcasts -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline">Podcasts</h2>
+            <ul class="no-list">
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.hipsters.tech/techguide-figma-hipsters-ponto-tech-357/"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">TechGuide: Figma</p>
+                  <p class="body--md space-nowrap">Hipsters.Tech, 2023</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://open.spotify.com/episode/636ps6l8K6hFkaY88v40PK?si=19737ada2dee4896"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Trabalho no exterior: é a crise da bolha dev?
+                  </p>
+                  <p class="body--md space-nowrap">Podimension, 2023</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://open.spotify.com/episode/5badm2CpehDVbSzim9CYKW?si=0289c43d5e4e47d9"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Demissões em massa e layoffs: o mercado está em crise?
+                  </p>
+                  <p class="body--md space-nowrap">Podimension, 2023</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://open.spotify.com/episode/2AAXYJ9VInaGkJLwMfwN5f?nd=1&dlsi=6658f6b13ba24587"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Daily: vale ou não a pena?</p>
+                  <p class="body--md space-nowrap">Podimension, 2023</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://open.spotify.com/episode/6SrtLyBMHcGJpd65sHgFu0?si=91593b72446147af"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Trabalho Remoto: Como Manter o Foco?
+                  </p>
+                  <p class="body--md space-nowrap">Podimension, 2023</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.alura.com.br/podcast/heuristicas-de-nilsen-layers-ponto-tech-101-a1820"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Heurísticas de Nielsen</p>
+                  <p class="body--md space-nowrap">Layers.Tech, 2022</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.alura.com.br/podcast/as-microinteracoes-layers-ponto-tech-96-a1782"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">As microinterações</p>
+                  <p class="body--md space-nowrap">Layers.Tech, 2022</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.alura.com.br/podcast/prototipacao-layers-ponto-tech-81-a1540"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Prototipação</p>
+                  <p class="body--md space-nowrap">Layers.Tech, 2022</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="tab"
+          role="tabpanel"
+          id="panel-2"
+          aria-labelledby="tab-2"
+          tabindex="0"
+          hidden
+        >
+          <p class="body--lg" data-i18n="tab-training-courses-description"></p>
+          <!-- Training -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline" data-i18n="training-title"></h2>
+            <ul class="no-list">
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.alura.com.br/formacao-design-system"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Formação Design System</p>
+                  <p class="body--md space-nowrap">Alura, 2024</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.alura.com.br/formacao-ui-design-construindo-produto-digital"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Formação User Interface</p>
+                  <p class="body--md space-nowrap">Alura, 2024</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://www.alura.com.br/formacao-figma"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Formação Figma</p>
+                  <p class="body--md space-nowrap">Alura, 2025</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/formacao-acessibilidade-ux"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Acessibilidade em UX/UI</p>
+                  <p class="body--md space-nowrap">Alura, 2025</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Courses -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline" data-i18n="courses-title"></h2>
+            <ul class="no-list">
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/course/figma-construindo-produto-ia-mcp"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Figma: Construindo um produto com IA e MCP
+                  </p>
+                  <p class="body--md space-nowrap">Alura, 2026</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/course/acessibilidade-ux-tornando-interfaces-acessiveis"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Acessibilidade em UX: tornando interfaces acessíveis
+                  </p>
+                  <p class="body--md space-nowrap">Alura, 2025</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/course/ux-research-decisoes-estrategicas-curto-prazo-testes-ab"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    UX Research: decisões estratégicas em curto prazo com testes
+                    A/B
+                  </p>
+                  <p class="body--md space-nowrap">Alura, 2024</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/course/ux-design-coletando-analisando-dados-hotjar"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    UX Design: coletando e analisando dados com Hotjar
+                  </p>
+                  <p class="body--md space-nowrap">Alura, 2024</p>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/course/ux-writing-escrevendo-textos-usuarios"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    UX Writing: escrevendo textos para usuários
+                  </p>
+                  <p class="body--md space-nowrap">Alura, 2023</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Masterclass -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline">Masterclass</h2>
+            <ul class="no-list">
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://cursos.alura.com.br/course/masterclass-figma-criacao-landing-page"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">
+                    Masterclass Figma: do zero à criação de uma Landing Page
+                  </p>
+                  <p class="body--md space-nowrap">Alura, 2025</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="tab"
+          role="tabpanel"
+          id="panel-3"
+          aria-labelledby="tab-3"
+          tabindex="0"
+          hidden
+        >
+          <p
+            class="body--lg"
+            data-i18n="tab-lectures-workshops-description"
+          ></p>
+
+          <!-- Lectures -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline" data-i18n="lectures-title"></h2>
+            <ul class="no-list">
+              <li class="interaction-item flex justify-between gap-fluid-16">
+                <p class="body--lg">
+                  Desmistificando o Design System, a divindade dos produtos
+                  digitais.
+                </p>
+                <p class="body--md space-nowrap">TDC, 2023</p>
+              </li>
+              <li>
+                <a
+                  class="flex justify-between gap-fluid-16 interaction-item"
+                  href="https://medium.com/mergo/ux-team-summit-2022-design-systems-c1833afe6093#:~:text=Time%20de%20Design%20System%20da%20Locaweb"
+                  target="_blank"
+                >
+                  <p class="body--lg text-link">Locaweb Design System</p>
+                  <p class="body--md space-nowrap">UX Team Summit, 2022</p>
+                </a>
+              </li>
+              <li class="interaction-item flex justify-between gap-fluid-16">
+                <p class="body--lg">User Interface Design</p>
+                <p class="body--md space-nowrap">SEMAC XXXII, 2022</p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Workshops -->
+          <div class="m-t-fluid-40">
+            <h2 class="headline">Workshops</h2>
+            <ul class="no-list">
+              <li class="flex justify-between gap-fluid-16 interaction-item">
+                <p class="body--lg">Escalando um design system com IA</p>
+                <p class="body--md space-nowrap">Floripa Design Days, 2026</p>
+              </li>
+              <li class="flex justify-between gap-fluid-16 interaction-item">
+                <p class="body--lg">Imersão em UI Design</p>
+                <p class="body--md space-nowrap">Satc, 2021</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="about-info">
-      <h1 class="title" data-i18n="menu-about"></h1>
-      <p class="body--lg" data-i18n="about"></p>
-    </div>
-  </main>
-
-  <section>
-    <h2 class="headline">Lives</h2>
-    <ul class="list-none">
-      <li>
-        <a
-          class="link"
-          href="https://www.youtube.com/watch?v=XQzSx8zJ6hQ"
-          target="_blank"
-          >Design System além do layout</a
-        >
-        <p class="body--md">Casa do Código, 2025</p>
-      </li>
-      <li>
-        <a
-          class="link"
-          href="https://www.youtube.com/watch?v=uYTbn3Y-kOI"
-          target="_blank"
-          >Vibe Design e os novos tempos</a
-        >
-        <p class="body--md">Homem Máquina, 2025</p>
-      </li>
-      <li>
-        <a
-          class="link"
-          href="https://www.youtube.com/watch?v=_OqW10C0d-Y"
-          target="_blank"
-          >Como escalar produtos sem comprometer a usabilidade?</a
-        >
-        <p class="body--md">Homem Máquina, 2025</p>
-      </li>
-    </ul>
-  </section>
-
-  <section>
-    <h2 class="headline">Cursos</h2>
-    <ul class="list-none">
-      <li>
-        <a
-          class="link"
-          href="https://www.alura.com.br/formacao-design-system"
-          target="_blank"
-          >Formação Design System</a
-        >
-        <p class="body--md">Alura, 2024</p>
-      </li>
-      <li>
-        <a
-          class="link"
-          href="https://www.alura.com.br/formacao-ui-design-construindo-produto-digital"
-          target="_blank"
-          >Formação User Interface</a
-        >
-        <p class="body--md">Alura, 2024</p>
-      </li>
-      <li>
-        <a
-          class="link"
-          href="https://www.alura.com.br/formacao-figma"
-          target="_blank"
-          >Formação Figma</a
-        >
-        <p class="body--md">Alura, 2025</p>
-      </li>
-    </ul>
-  </section>
-
-  <section>
-    <h2 class="headline">Palestras</h2>
-    <ul class="list-none">
-      <li>
-        <p class="body--lg">
-          Desmistificando o Design System, a divindade dos produtos digitais.
-        </p>
-        <p class="body--md">TDC, 2023</p>
-      </li>
-      <li>
-        <p class="body--lg">Locaweb Design System</p>
-        <p class="body--md">UX Team Summit, 2022</p>
-      </li>
-      <li>
-        <p class="body--lg">User Interface Design</p>
-        <p class="body--md">SEMAC XXXII, 2022</p>
-      </li>
-    </ul>
   </section>
 </div>
+
+<script>
+  const tabBtns = document.getElementById('tab-buttons')
+  const buttons = Array.from(tabBtns.querySelectorAll('[role="tab"]'))
+  const tabs = Array.from(document.getElementById('tab-content').children)
+
+  let tabFocus = buttons.findIndex((btn) => btn.classList.contains('active'))
+  if (tabFocus === -1) tabFocus = 0
+
+  tabBtns.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) {
+      e.preventDefault()
+      buttons[tabFocus].setAttribute('tabindex', -1)
+
+      if (e.key === 'ArrowRight') {
+        tabFocus = (tabFocus + 1) % buttons.length
+      } else if (e.key === 'ArrowLeft') {
+        tabFocus = (tabFocus - 1 + buttons.length) % buttons.length
+      } else if (e.key === 'Home') {
+        tabFocus = 0
+      } else if (e.key === 'End') {
+        tabFocus = buttons.length - 1
+      }
+
+      buttons[tabFocus].setAttribute('tabindex', 0)
+      buttons[tabFocus].focus()
+    }
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      buttons[tabFocus].click()
+    }
+  })
+
+  tabBtns.addEventListener('click', (event) => {
+    const targetTab = event.target.closest('[role="tab"]')
+    if (!targetTab) return
+
+    buttons.forEach((button) => {
+      button.setAttribute('aria-selected', false)
+      button.classList.remove('active')
+    })
+
+    tabs.forEach((tab) => {
+      tab.classList.remove('active')
+      tab.setAttribute('hidden', true)
+    })
+
+    const index = buttons.indexOf(targetTab)
+    if (index > -1) {
+      targetTab.setAttribute('aria-selected', true)
+      targetTab.classList.add('active')
+
+      buttons.forEach((b) => b.setAttribute('tabindex', -1))
+      targetTab.setAttribute('tabindex', 0)
+      tabFocus = index
+
+      tabs[index].classList.add('active')
+      tabs[index].removeAttribute('hidden')
+    }
+  })
+</script>
