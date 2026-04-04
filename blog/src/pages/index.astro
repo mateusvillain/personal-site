@@ -3,7 +3,8 @@ import { getCollection } from 'astro:content'
 import BlogLayout from '../layouts/Blog.astro'
 
 const posts = (await getCollection('blog')).sort(
-  (a: any, b: any) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  (a: any, b: any) =>
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 )
 
 type PostList = typeof posts
@@ -19,8 +20,18 @@ const years = Object.keys(postsByYear)
   .sort((a, b) => b - a)
 
 const months = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-  'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',
+  'Jan',
+  'Fev',
+  'Mar',
+  'Abr',
+  'Mai',
+  'Jun',
+  'Jul',
+  'Ago',
+  'Set',
+  'Out',
+  'Nov',
+  'Dez',
 ]
 ---
 
@@ -28,17 +39,13 @@ const months = [
   title="Blog - Mateus Villain"
   description="Blog sobre tecnologia, design system, UI e UX. Conteúdos práticos, tendências, boas práticas e reflexões para criar produtos digitais mais consistentes, escaláveis e centrados no usuário."
 >
-  <div class="home-link">
-    <p class="body--md">
-      <a
-        href="../../../index.html"
-        class="link body--md"
-        aria-label="Ir para a página inicial">Início</a
-      >
-    </p>
-  </div>
+  <ul class="breadcrumb">
+    <li>
+      <a href="/" class="link">Início</a>
+    </li>
+  </ul>
   <div class="post-details">
-    <h1 class="title">Blog</h1>
+    <h1 class="title m-t-fluid-16">Blog</h1>
   </div>
   {
     years.map((year) => (

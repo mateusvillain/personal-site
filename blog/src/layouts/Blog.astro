@@ -55,12 +55,15 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
     <link rel="canonical" href={Astro.url.href} />
     <link rel="stylesheet" href="../blog.css" />
     <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@lets-ui/css@latest/dist/letsui.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@lets-ui/css@latest/dist/letsui.css"
+    />
     <link rel="icon" type="image/x-icon" href="img/favicon.png" />
   </head>
 
   <body data-theme="light">
-    <div class="container">
+    <div class="container gap-fluid-80 m-b-fluid-80">
       <section class="post-list">
         <slot />
       </section>
@@ -96,7 +99,9 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
           <div class="alert alert--danger">
             <div class="alert__content">
               <div class="alert__text">
-                <p class="body--lg" id="newsletter-error-message">Não foi possível enviar sua inscrição. Tente novamente.</p>
+                <p class="body--lg" id="newsletter-error-message">
+                  Não foi possível enviar sua inscrição. Tente novamente.
+                </p>
               </div>
             </div>
           </div>
@@ -106,7 +111,9 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
           <div class="alert alert--success">
             <div class="alert__content">
               <div class="alert__text">
-                <p class="body--lg">Quase lá. Enviamos um e-mail para confirmar sua inscrição.</p>
+                <p class="body--lg">
+                  Quase lá. Enviamos um e-mail para confirmar sua inscrição.
+                </p>
               </div>
             </div>
           </div>
