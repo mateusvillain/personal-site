@@ -174,3 +174,20 @@ main.project-main {
   gap: 16px;
   align-items: end;
 }
+
+p {
+  code {
+    font-family: 'Google Sans', monospace;
+    font-size: 0.875rem !important;
+  }
+}
+
+pre {
+  code {
+    font-size: 0.875rem !important;
+
+    span {
+      font-family: 'Google Sans', monospace;
+    }
+  }
+}
