@@ -19,6 +19,15 @@ function copyDir(src, dest) {
   fs.cpSync(src, dest, { recursive: true });
 }
 
+function copyLetsUiStyles() {
+  const letsUiStylesPath = path.resolve('node_modules/@lets-ui/styles/dist/letsui.min.css');
+  if (!fs.existsSync(letsUiStylesPath)) {
+    throw new Error('@lets-ui/styles CSS not found. Run npm install before building.');
+  }
+
+  fs.copyFileSync(letsUiStylesPath, path.join(DIST, 'letsui.min.css'));
+}
+
 function getHtmlFilesRecursive(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = [];
@@ -51,6 +60,7 @@ copyDir('src/js', 'dist/js');
 copyDir('src/lang', 'dist/lang');
 copyDir('src/img', 'dist/img');
 copyDir('src/fonts', 'dist/fonts');
+copyLetsUiStyles();
 
 // pages
 const files = getHtmlFilesRecursive(PAGES);

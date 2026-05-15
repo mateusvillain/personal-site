@@ -50,7 +50,9 @@
     "vercel": "^50.8.1"
   },
   "dependencies": {
+    "@lets-ui/components": "^1.1.1",
     "@lets-ui/css": "^0.17.1",
+    "@lets-ui/styles": "^1.1.1",
     "@notionhq/client": "^5.6.0",
     "dotenv": "^17.2.3",
     "glob": "^13.0.3",
