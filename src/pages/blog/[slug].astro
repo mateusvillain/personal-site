@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import BlogLayout from '../layouts/BlogLayout.astro'
+import BlogLayout from '../../layouts/BlogPostLayout.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -19,7 +19,6 @@ const postUrl = Astro.url.href
 const { Content } = await post.render()
 
 // Formata a data no formato "DD Mês YYYY"
-const date = new Date(post.data.date)
 const months = [
   'Jan',
   'Fev',
@@ -34,6 +33,8 @@ const months = [
   'Nov',
   'Dez',
 ]
+const [year, month, day] = post.data.date.split('-').map(Number)
+const date = new Date(year, month - 1, day)
 const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
 
 // Tempo de leitura (média de 200 palavras por minuto)

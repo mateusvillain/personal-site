@@ -13,6 +13,10 @@ pnpm-debug.log*
 # --- Build / Output ---
 dist/
 build/
+.astro/
+public/blog.css
+public/letsui.min.css
+public/style.css
 .out/
 .next/
 .nuxt/

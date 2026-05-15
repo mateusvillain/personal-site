@@ -1,16 +1,15 @@
 # Mateus Villain
 
-Este repositório contém o código do meu site pessoal, com páginas com conteúdo estático, suporte a múltiplos idiomas via JSON, e blog desenvolvido em Astro com posts em markdown.
+Este repositório contém o código do meu site pessoal em Astro, com páginas estáticas, suporte a múltiplos idiomas via JSON e blog com posts em Markdown.
 
 O site está publicado em: https://mateusvillain.com
 
 ## Tecnologias
 
-- HTML: Estrutura das páginas
+- Astro: Estrutura das páginas e geração estática
 - SCSS: Estilos e organização do design
 - JavaScript: Interações
 - JSON: Arquivos de idioma
-- Astro: Blog
 - Markdown: Posts do blog
 
 ## Estrutura
@@ -27,49 +26,29 @@ personal-site/
 │   ├── time.js                     # Busca o horário atual do local
 │   └── weather.js                  # Busca o clima atual do local
 │
-├── blog/                           # Blog desenvolvido em Astro
-│   ├── public/                     # Arquivos públicos do blog
-│   │   ├── covers/                 # Capas dos posts do blog
-│   │   └── js/                     # Scripts do blog
-│   │
-│   └── src/                        # Arquivos privados do blog
-│       ├── content/                # Posts do blog
-│       ├── layouts/                # Layouts do blog
-│       └── scss/                   # Arquivos .scss do blog
+├── public/                         # Assets servidos diretamente pelo Astro
+│   ├── blog/                       # Capas e scripts públicos do blog
+│   ├── fonts/                      # Fontes utilizadas no site
+│   ├── img/                        # Imagens e assets visuais
+│   ├── js/                         # Scripts públicos do site
+│   └── lang/                       # Arquivos de idioma do site
+│
+├── scripts/
+│   └── images.js                   # Exporta as imagens em `webp` no `dist`
 │
 ├── src/
-│   ├── font/                       # Fontes utilizadas no site
-│   ├── img/                        # Imagens e assets visuais
+│   ├── components/                 # Componentes e conteúdos das páginas
+│   ├── content/                    # Coleções de conteúdo do Astro
+│   │   └── blog/                   # Posts do blog
 │   │
-│   ├── js/
-│   │   ├── analytics.js            # Eventos enviados para o Google Analytics
-│   │   ├── copy-link.js            # Copia o link da página
-│   │   ├── images.js               # Exporta as imagens em `webp`
-│   │   ├── lang.js                 # Realiza a mudança de idioma do site
-│   │   ├── mood.js                 # Adiciona o sistema de mood no site
-│   │   ├── project-protected.js    # Adiciona senha para relevar conteúdo
-│   │   ├── spotify.js              # Exibe a música e artista tocando no momento
-│   │   ├── theme.js                # Realiza a mudança de tema do site
-│   │   ├── time.js                 # Exibe e atualiza o horário da cidade a cada 1s
-│   │   └── weather.js              # Exibe o clima local da cidade
-│   │
-│   ├── lang/                       # Arquivos de idioma do site
-│   │   ├── en.js
-│   │   └── pt.js
-|   |
-│   ├── pages/                      # Páginas do site
+│   ├── layouts/                    # Layouts Astro
+│   ├── pages/                      # Rotas do site
+│   │   ├── blog/                   # Blog e posts
 │   │   ├── case/                   # Páginas de cases
-│   │   ├── 404.html                # Página de erro 404
-│   │   ├── about.html              # Página sobre mim
-│   │   ├── index.html              # Página inicial
-│   │   └── mentorship.html         # Página de mentorias e consultoria
-|   |
-│   ├── partials/                   # Partials do site
-│   │   ├── 404.html                # Conteúdo da página de erro 404
-│   │   ├── about.html              # Conteúdo da página sobre mim
-│   │   ├── index.html              # Conteúdo da página inicial
-│   │   ├── mentorship.html         # Conteúdo da página de mentorias e consultoria
-│   │   └── scripts.html            # Scripts do site
+│   │   ├── 404.astro               # Página de erro 404
+│   │   ├── about.astro             # Página sobre mim
+│   │   ├── index.astro             # Página inicial
+│   │   └── mentorship.astro        # Página de mentorias e consultoria
 │   │
 │   ├── sass/                       # Arquivos .scss do site
 │   │   ├── blog/                   # Arquivos .scss de blog
@@ -84,6 +63,13 @@ personal-site/
 git clone https://github.com/mateusvillain/personal-site.git
 cd personal-site
 npm install
+npm run dev
+```
+
+Para gerar a versão de produção:
+
+```
+npm run build
 ```
 
 ## Contato

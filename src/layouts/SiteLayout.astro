@@ -1,51 +1,50 @@
+---
+import Scripts from '../components/Scripts.astro';
+
+const {
+  title,
+  description = 'Mateus Villain é product designer, especialista em design system, instrutor e escritor.',
+  keywords = 'Design System, User Interface, UI, User Experience, UX, Acessibilidade, Handoff',
+  canonicalPath = Astro.url.pathname,
+  image = 'https://mateusvillain.com/img/cover.png',
+  bodyClass = 'm-b-fluid-80',
+  brand = 'lets-ui',
+  includeScripts = true
+} = Astro.props;
+
+const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
+---
+
 <!doctype html>
-<html lang="en" data-brand="lets-ui">
+<html lang="en" data-brand={brand}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mentorias - Mateus Villain</title>
+    <title>{title}</title>
 
-    <meta name="title" content="Mateus Villain" />
-    <meta
-      name="description"
-      content="Mateus Villain é product designer, especialista em design system, instrutor e escritor."
-    />
-    <meta
-      name="keywords"
-      content="Design System, User Interface, UI, User Experience, UX, Acessibilidade, Handoff"
-    />
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Mateus Villain" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mateusvillain.com/" />
-    <meta property="og:title" content="Mateus Villain" />
-    <meta
-      property="og:description"
-      content="Mateus Villain é product designer, especialista em design system, instrutor e escritor."
-    />
-    <meta
-      property="og:image"
-      content="https://mateusvillain.com/img/cover.png"
-    />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
 
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mateusvillain.com/" />
-    <meta property="twitter:title" content="Mateus Villain" />
-    <meta
-      property="twitter:description"
-      content="Mateus Villain é product designer, especialista em design system, instrutor e escritor."
-    />
-    <meta
-      property="twitter:image"
-      content="https://mateusvillain.com/img/cover.png"
-    />
+    <meta property="twitter:url" content={canonicalUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
 
-    <link rel="canonical" href="https://mateusvillain.com/" />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
 
-    <script>
+    <script is:inline>
       ;(function (w, d, s, l, i) {
         w[l] = w[l] || []
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
@@ -60,7 +59,6 @@
 
     <link rel="stylesheet" href="/letsui.min.css" />
     <link rel="stylesheet" href="/style.css" />
-
     <link
       rel="preload"
       href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
@@ -82,8 +80,8 @@
       crossorigin
     />
   </head>
-  <body class="m-b-fluid-80">
-    <include src="partials/mentorship.html"></include>
-    <include src="partials/scripts.html"></include>
+  <body class={bodyClass}>
+    <slot />
+    {includeScripts && <Scripts />}
   </body>
 </html>

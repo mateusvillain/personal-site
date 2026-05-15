@@ -1,3 +1,7 @@
+---
+import Scripts from '../components/Scripts.astro';
+---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,7 +14,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
 
-    <script>
+    <script is:inline>
       ;(function (w, d, s, l, i) {
         w[l] = w[l] || []
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
@@ -23,7 +27,7 @@
       })(window, document, 'script', 'dataLayer', 'GTM-NTD9ZL6W')
     </script>
 
-    <style>
+    <style is:inline>
       @import 'https://fonts.googleapis.com/css?family=VT323';
 
       body,
@@ -119,7 +123,7 @@
     </style>
   </head>
   <body>
-    <include src="partials/404.html"></include>
-    <include src="partials/scripts.html"></include>
+    <slot />
+    <Scripts />
   </body>
 </html>

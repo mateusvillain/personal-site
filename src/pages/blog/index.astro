@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import BlogLayout from '../layouts/Blog.astro'
+import BlogLayout from '../../layouts/Blog.astro'
 
 const posts = (await getCollection('blog')).sort(
   (a: any, b: any) =>
@@ -10,7 +10,7 @@ const posts = (await getCollection('blog')).sort(
 type PostList = typeof posts
 const postsByYear: Record<number, PostList> = {}
 for (const post of posts) {
-  const year = new Date(post.data.date).getFullYear()
+  const year = Number(post.data.date.split('-')[0])
   if (!postsByYear[year]) postsByYear[year] = []
   postsByYear[year].push(post)
 }
@@ -33,6 +33,11 @@ const months = [
   'Nov',
   'Dez',
 ]
+
+function parsePostDate(value: string) {
+  const [year, month, day] = value.split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
 ---
 
 <BlogLayout
@@ -52,7 +57,7 @@ const months = [
       <section class="posts--group">
         <h2 class="body--lg">{year}</h2>
         {postsByYear[year]!.map((post: PostList[number]) => {
-          const date = new Date(post.data.date)
+          const date = parsePostDate(post.data.date)
           const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${months[date.getMonth()]}`
           return (
             <article class="post interaction-item">
