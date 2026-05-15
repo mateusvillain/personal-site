@@ -1,4 +1,6 @@
 ---
+import '@lets-ui/styles'
+
 const { title, description, cover } = Astro.props
 const defaultCover = '/blog/covers/cover.png'
 const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
@@ -53,7 +55,6 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
     </script>
 
     <link rel="canonical" href={Astro.url.href} />
-    <link rel="stylesheet" href="/letsui.min.css" />
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/blog.css" />
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />

@@ -1,4 +1,5 @@
 ---
+import '@lets-ui/styles';
 import Scripts from '../components/Scripts.astro';
 
 const {
@@ -57,7 +58,6 @@ const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
       })(window, document, 'script', 'dataLayer', 'GTM-NTD9ZL6W')
     </script>
 
-    <link rel="stylesheet" href="/letsui.min.css" />
     <link rel="stylesheet" href="/style.css" />
     <link
       rel="preload"
