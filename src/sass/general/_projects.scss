@@ -27,31 +27,6 @@ section {
       list-style-position: inside;
     }
   }
-
-  & .project-example {
-    margin-top: 40px;
-
-    & .project-card {
-      margin-bottom: 40px;
-
-      picture > img {
-        width: 100%;
-        object-fit: cover;
-        border-radius: 8px;
-      }
-
-      &-content {
-        display: flex;
-        flex-direction: column;
-        margin-top: 8px;
-        gap: 2px;
-
-        & p:first-of-type {
-          font-weight: 500;
-        }
-      }
-    }
-  }
 }
 
 main.project-main {
@@ -165,14 +140,6 @@ main.project-main {
       white-space: inherit;
     }
   }
-}
-
-.form-password {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  align-items: end;
 }
 
 p {
