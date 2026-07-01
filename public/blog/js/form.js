@@ -7,8 +7,8 @@ if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const button = form.querySelector("button");
-    const email = form.email.value.trim();
+    const button = form.querySelector("lui-button");
+    const email = String(new FormData(form).get("email") ?? "").trim();
 
     if (!button || !email) {
       return;

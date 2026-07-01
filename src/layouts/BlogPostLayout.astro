@@ -61,125 +61,185 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
   </head>
 
   <body>
-    <div class="container gap-fluid-80 m-b-fluid-80">
+    <div class="body-container gap-fluid-80 m-b-fluid-80">
       <section class="post-list">
         <slot />
       </section>
 
       <section class="flex gap-fixed-16">
-        <img
-          src="/img/mtsvlln.webp"
+        <lui-image
+          src="/img/mtsvlln.jpg"
           alt="Mateus Villain"
-          class="radius-sm"
+          radius="circle"
+          aspect-ratio="1/1"
           width="64px"
           height="64px"
-        />
-        <div class="flex flex-col">
-          <h2 class="headline">Mateus Villain</h2>
-          <p class="body--lg">
+        >
+        </lui-image>
+        <lui-flex direction="column" gap="4">
+          <lui-heading variant="headline">Mateus Villain</lui-heading>
+          <lui-body variant="lg">
             Mateus Villain é product designer, especialista em design system,
             professor, e autor do livro Design System além do layout, pela Casa
             do Código.
-          </p>
+          </lui-body>
+
           <div class="social-media-icons flex gap-fixed-8 m-t-fixed-8">
-            <a
+            <!-- LinkedIn -->
+            <lui-link
               href="https://www.linkedin.com/in/mateusvillain"
-              class="icon-button icon-button--lg"
               aria-label="LinkedIn, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="none"
-                viewBox="0 0 32 32"
-              >
-                <path
-                  fill="#000"
-                  d="M27 3H5a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM12 22a1 1 0 0 1-2 0v-8a1 1 0 0 1 2 0v8Zm-1-10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm12 10a1 1 0 0 1-2 0v-4.5a2.5 2.5 0 0 0-5 0V22a1 1 0 0 1-2 0v-8a1 1 0 0 1 1.974-.223A4.5 4.5 0 0 1 23 17.5V22Z"
-                ></path>
-              </svg>
-            </a>
-            <a
+              <lui-icon-button size="lg" aria-label="LinkedIn, nova janela">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+                  ><rect width="256" height="256" fill="none"></rect><rect
+                    x="32"
+                    y="32"
+                    width="192"
+                    height="192"
+                    rx="8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></rect><line
+                    x1="120"
+                    y1="112"
+                    x2="120"
+                    y2="176"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></line><line
+                    x1="88"
+                    y1="112"
+                    x2="88"
+                    y2="176"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></line><path
+                    d="M120,140a28,28,0,0,1,56,0v36"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></path><circle cx="88" cy="84" r="12"
+                  ></circle></svg
+                >
+              </lui-icon-button>
+            </lui-link>
+
+            <!-- GitHub -->
+            <lui-link
+              href="https://github.com/mateusvillain"
+              aria-label="GitHub, nova janela"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <lui-icon-button size="lg" aria-label="GitHub, nova janela">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+                  ><rect width="256" height="256" fill="none"></rect><path
+                    d="M119.83,56A52,52,0,0,0,76,32a51.92,51.92,0,0,0-3.49,44.7A49.28,49.28,0,0,0,64,104v8a48,48,0,0,0,48,48h48a48,48,0,0,0,48-48v-8a49.28,49.28,0,0,0-8.51-27.3A51.92,51.92,0,0,0,196,32a52,52,0,0,0-43.83,24Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></path><path
+                    d="M104,232V192a32,32,0,0,1,32-32h0a32,32,0,0,1,32,32v40"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></path><path
+                    d="M104,208H72a32,32,0,0,1-32-32A32,32,0,0,0,8,144"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="16"></path></svg
+                >
+              </lui-icon-button>
+            </lui-link>
+
+            <!-- Twitter -->
+            <lui-link
               href="https://www.x.com/mateusvillain"
-              class="icon-button icon-button--lg"
               aria-label="X, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="none"
-                viewBox="0 0 32 32"
-              >
-                <path
-                  fill="#000"
-                  d="m26.843 26.464-7.825-12.298 7.722-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.062-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .843-1.536ZM20.55 26 7.82 6h3.625l12.732 20h-3.63Z"
-                ></path>
-              </svg>
-            </a>
+              <lui-icon-button size="lg" aria-label="X, nova janela">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="none"
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    fill="#000"
+                    d="m26.843 26.464-7.825-12.298 7.722-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.062-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .843-1.536ZM20.55 26 7.82 6h3.625l12.732 20h-3.63Z"
+                  ></path>
+                </svg>
+              </lui-icon-button>
+            </lui-link>
           </div>
-        </div>
+        </lui-flex>
       </section>
 
-      <div class="card card__border p--fixed-24" id="newsletter-card">
-        <div class="newsletter-head">
-          <h2 class="block-title">Assine a newsletter</h2>
-          <p class="body--lg">
-            Receba os melhores conteúdos direto no seu e-mail
-          </p>
-        </div>
+      <lui-card id="newsletter-card">
+        <lui-heading variant="block-title">Assine a newsletter</lui-heading>
+        <lui-body variant="lg">
+          Receba os melhores conteúdos direto no seu e-mail
+        </lui-body>
 
-        <form class="newsletter-form" id="newsletter-form">
-          <div class="form__group form__lg">
-            <label for="email">E-mail</label>
-            <input
+        <form class="newsletter-form m-t-fluid-8" id="newsletter-form">
+          <lui-flex direction="column" gap="24">
+            <lui-input
+              id="email"
               type="email"
               name="email"
-              id="email"
+              label="E-mail"
               placeholder="seu@email.com"
-              class="form__lg"
+              size="lg"
               required
-            />
-          </div>
-
-          <input type="hidden" name="embed" value="1" />
-
-          <button type="submit" class="btn btn--primary btn--lg">
-            Assinar
-          </button>
+              error-text="Campo obrigatório."
+              inputmode="email"
+            >
+            </lui-input>
+            <input type="hidden" name="embed" value="1" />
+            <lui-button variant="primary" type="submit" block
+              >Assinar</lui-button
+            >
+          </lui-flex>
         </form>
 
         <div id="newsletter-error" hidden aria-live="polite">
-          <div class="alert alert--danger">
-            <div class="alert__content">
-              <div class="alert__text">
-                <p class="body--lg" id="newsletter-error-message">
-                  Não foi possível enviar sua inscrição. Tente novamente.
-                </p>
-              </div>
-            </div>
-          </div>
+          <lui-alert
+            id="newsletter-error-message"
+            variant="danger"
+            title="Não foi possível enviar sua inscrição."
+            content="Parece que o sistema não está funcionando no momento. Tente novamente em alguns minutos."
+          >
+          </lui-alert>
         </div>
 
         <div id="newsletter-success" hidden>
-          <div class="alert alert--success">
-            <div class="alert__content">
-              <div class="alert__text">
-                <p class="body--lg">
-                  Quase lá. Enviamos um e-mail para confirmar sua inscrição.
-                </p>
-              </div>
-            </div>
-          </div>
+          <lui-alert
+            variant="success"
+            title="E-mail de confirmação enviado!"
+            content="Confira sua caixa de entrada e spam para confirmar sua inscrição."
+          >
+          </lui-alert>
         </div>
-      </div>
+      </lui-card>
     </div>
-    <script is:inline src="/blog/js/code-copy.js" defer></script>
-    <script is:inline src="/blog/js/form.js" defer></script>
   </body>
+  <script is:inline src="/blog/js/code-copy.js" defer></script>
+  <script is:inline src="/blog/js/form.js" defer></script>
 </html>

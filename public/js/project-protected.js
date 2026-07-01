@@ -115,14 +115,40 @@ const styles = {
   image: 'content-image'
 }
 
-unlockButton.addEventListener('click', async () => {
-  errorEl.hidden = true
+const isWebComponent = passwordInput?.tagName?.toLowerCase() === 'lui-input'
 
-  const password = passwordInput.value
+function getPassword() {
+  if (isWebComponent) {
+    return passwordInput.shadowRoot?.querySelector('input')?.value ?? ''
+  }
+  return passwordInput.value
+}
+
+function showError(message) {
+  if (isWebComponent) {
+    passwordInput.errorText = message
+    passwordInput.error = true
+  } else if (errorEl) {
+    errorEl.textContent = message
+    errorEl.hidden = false
+  }
+}
+
+function clearError() {
+  if (isWebComponent) {
+    passwordInput.error = false
+  } else if (errorEl) {
+    errorEl.hidden = true
+  }
+}
+
+unlockButton.addEventListener('click', async () => {
+  clearError()
+
+  const password = getPassword()
 
   if (!password) {
-    errorEl.textContent = 'Campo obrigatório.'
-    errorEl.hidden = false
+    showError('Campo obrigatório.')
     return
   }
 
@@ -130,15 +156,13 @@ unlockButton.addEventListener('click', async () => {
     const result = await verifyPassword(password)
 
     if (!result.ok) {
-      errorEl.textContent = 'A senha informada está incorreta. Tente novamente.'
-      errorEl.hidden = false
+      showError('A senha informada está incorreta. Tente novamente.')
       return
     }
 
     passwordBox.remove()
     renderSections(result.data.sections)
   } catch (err) {
-    errorEl.textContent = 'Erro ao carregar conteúdo.'
-    errorEl.hidden = false
+    showError('Erro ao carregar conteúdo.')
   }
 })

@@ -1,6 +1,6 @@
 ---
-import '@lets-ui/styles';
-import Scripts from '../components/Scripts.astro';
+import '@lets-ui/styles'
+import Scripts from '../components/Scripts.astro'
 
 const {
   title,
@@ -10,10 +10,10 @@ const {
   image = 'https://mateusvillain.com/img/cover.png',
   bodyClass = 'm-b-fluid-80',
   brand = 'lets-ui',
-  includeScripts = true
-} = Astro.props;
+  includeScripts = true,
+} = Astro.props
 
-const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
+const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href
 ---
 
 <!doctype html>
@@ -83,5 +83,8 @@ const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href;
   <body class={bodyClass}>
     <slot />
     {includeScripts && <Scripts />}
+    <script>
+      import '@phosphor-icons/webcomponents'
+    </script>
   </body>
 </html>

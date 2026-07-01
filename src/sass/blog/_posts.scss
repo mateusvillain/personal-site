@@ -13,7 +13,7 @@
 }
 
 .post {
-  margin-bottom: var(--lui-spacing-fluid-24);
+  margin-bottom: var(--lui-spacing-fluid-8);
   transition: transform 0.2s;
   width: 100%;
 
@@ -69,11 +69,6 @@ time,
   }
 
   &-form {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    align-items: end;
-
     & > div {
       flex: 1;
     }

@@ -61,63 +61,59 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
   </head>
 
   <body>
-    <div class="container gap-fluid-80 m-b-fluid-80">
+    <div class="body-container gap-fluid-80 m-b-fluid-80">
       <section class="post-list">
         <slot />
       </section>
-      <div class="card card__border p--fixed-24" id="newsletter-card">
-        <div class="newsletter-head">
-          <h2 class="block-title">Assine a newsletter</h2>
-          <p class="body--lg">
-            Receba os melhores conteúdos direto no seu e-mail
-          </p>
-        </div>
 
-        <form class="newsletter-form" id="newsletter-form">
-          <div class="form__group form__lg">
-            <label for="email">E-mail</label>
-            <input
+      <lui-card id="newsletter-card">
+        <lui-heading variant="block-title">Assine a newsletter</lui-heading>
+        <lui-body variant="lg">
+          Receba os melhores conteúdos direto no seu e-mail
+        </lui-body>
+
+        <form class="newsletter-form m-t-fluid-8" id="newsletter-form">
+          <lui-flex direction="column" gap="24">
+            <lui-input
+              id="email"
               type="email"
               name="email"
-              id="email"
+              label="E-mail"
               placeholder="seu@email.com"
-              class="form__lg"
+              size="lg"
               required
-            />
-          </div>
-
-          <input type="hidden" name="embed" value="1" />
-
-          <button type="submit" class="btn btn--primary btn--lg">
-            Assinar
-          </button>
+              error-text="Campo obrigatório."
+              inputmode="email"
+            >
+            </lui-input>
+            <input type="hidden" name="embed" value="1" />
+            <lui-button variant="primary" type="submit" block
+              >Assinar</lui-button
+            >
+          </lui-flex>
         </form>
 
         <div id="newsletter-error" hidden aria-live="polite">
-          <div class="alert alert--danger">
-            <div class="alert__content">
-              <div class="alert__text">
-                <p class="body--lg" id="newsletter-error-message">
-                  Não foi possível enviar sua inscrição. Tente novamente.
-                </p>
-              </div>
-            </div>
-          </div>
+          <lui-alert
+            id="newsletter-error-message"
+            variant="danger"
+            title="Não foi possível enviar sua inscrição."
+            content="Parece que o sistema não está funcionando no momento. Tente novamente em alguns minutos."
+          >
+          </lui-alert>
         </div>
 
         <div id="newsletter-success" hidden>
-          <div class="alert alert--success">
-            <div class="alert__content">
-              <div class="alert__text">
-                <p class="body--lg">
-                  Quase lá. Enviamos um e-mail para confirmar sua inscrição.
-                </p>
-              </div>
-            </div>
-          </div>
+          <lui-alert
+            variant="success"
+            title="E-mail de confirmação enviado!"
+            content="Confira sua caixa de entrada e spam para confirmar sua inscrição."
+          >
+          </lui-alert>
         </div>
-      </div>
+      </lui-card>
+
+      <script is:inline src="/blog/js/form.js" defer></script>
     </div>
-    <script is:inline src="/blog/js/form.js" defer></script>
   </body>
 </html>

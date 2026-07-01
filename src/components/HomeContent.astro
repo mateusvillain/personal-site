@@ -1,255 +1,256 @@
-<div class="container gap-fluid-80">
-  <div class="desktop">
-    <div class="personal-info">
-      <p class="body--sm" id="hora"></p>
-      <p class="body--sm" id="clima"></p>
-      <p class="body--sm" id="spotify"></p>
-    </div>
-    <div class="site-controls">
-      <a
-        class="body--sm link"
-        id="lang-switch"
-        data-i18n="language"
-        data-link="language"
-      ></a>
-      <label class="theme-toggle" aria-label="Alternar tema">
-        <input type="checkbox" id="theme-toggle" />
-        <div class="theme-toggle__track">
-          <div class="theme-toggle__thumb"></div>
-          <div class="theme-toggle__icon theme-toggle__icon--sun">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 16 16"
-            >
-              <g clip-path="url(#a)">
+<div class="body-container">
+  <lui-stack gap="80">
+    <div class="desktop">
+      <div class="personal-info">
+        <lui-body variant="sm" id="hora"></lui-body>
+        <lui-body variant="sm" id="clima"></lui-body>
+        <lui-body variant="sm" id="spotify"></lui-body>
+      </div>
+      <div class="site-controls">
+        <a
+          class="body--sm link"
+          id="lang-switch"
+          data-i18n="language"
+          data-link="language"></a>
+        <label class="theme-toggle" aria-label="Alternar tema">
+          <input type="checkbox" id="theme-toggle" />
+          <div class="theme-toggle__track">
+            <div class="theme-toggle__thumb"></div>
+            <div class="theme-toggle__icon theme-toggle__icon--sun">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 16 16"
+              >
+                <g clip-path="url(#a)">
+                  <path
+                    fill="var(--lui-color-secondary-icon-default)"
+                    d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"
+                  ></path>
+                </g>
+                <defs>
+                  <clipPath id="a">
+                    <path fill="#fff" d="M0 0h16v16H0z"></path>
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="theme-toggle__icon theme-toggle__icon--moon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 16 16"
+              >
                 <path
                   fill="var(--lui-color-secondary-icon-default)"
-                  d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"
-                />
-              </g>
-              <defs>
-                <clipPath id="a">
-                  <path fill="#fff" d="M0 0h16v16H0z" />
-                </clipPath>
-              </defs>
-            </svg>
+                  d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"
+                ></path>
+              </svg>
+            </div>
           </div>
-          <div class="theme-toggle__icon theme-toggle__icon--moon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill="var(--lui-color-secondary-icon-default)"
-                d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"
-              />
-            </svg>
-          </div>
-        </div>
-      </label>
+        </label>
+      </div>
     </div>
-  </div>
 
-  <main class="hero">
-    <img src="img/mtsvlln.jpg" alt="" />
-    <section class="flex flex-row">
-      <h1 class="title">Mateus Villain</h1>
-      <!-- <div class="flex flex-row tooltip-wrapper m-l-fixed-8" aria-label="false">
-        <span id="mood" class="mood title"></span>
-        <div class="tooltip tooltip--bottom">
-          <span id="mensagem"></span>
+    <main class="hero">
+      <lui-flex direction="column" wrap="nowrap" gap="md" align="left">
+        <lui-image
+          src="img/mtsvlln.jpg"
+          width="88px"
+          aspect-ratio="1/1"
+          radius="md"
+          alt="Fotografia de Mateus Villain: Homem de barba cheia e cabeça raspada, usando óculos de armação arredondada, olha diretamente para a câmera. Ele segura um copo de café com tampa. A foto tem estilo de polaroid, com fundo desfocado em ambiente interno."
+        ></lui-image>
+
+        <div>
+          <lui-heading variant="title">Mateus Villain</lui-heading>
+          <lui-body variant="lg" data-i18n="role" italic></lui-body>
         </div>
-      </div> -->
+
+        <lui-body variant="lg" data-i18n="short-bio"></lui-body>
+      </lui-flex>
+
+      <ul class="no-list links">
+        <li>
+          <lui-link href="/blog/" data-link="blog">Blog</lui-link>
+        </li>
+        <li>
+          <lui-link href="/mentorship/" data-i18n="menu-mentorship"></lui-link>
+        </li>
+        <li>
+          <lui-link
+            href="https://linkedin.com/in/mateusvillain/"
+            target="_blank"
+            data-link="linkedin"
+            data-social="linkedin"
+          >
+            LinkedIn
+          </lui-link>
+        </li>
+        <li>
+          <lui-link
+            href="https://github.com/mateusvillain/"
+            target="_blank"
+            data-link="github"
+            data-social="github"
+          >
+            GitHub
+          </lui-link>
+          <a
+            rel="me"
+            href="https://mastodon.social/@mateusvillain"
+            style="display: none;">Mastodon</a
+          >
+        </li>
+      </ul>
+    </main>
+
+    <section>
+      <lui-flex direction="column" gap="16">
+        <lui-heading variant="headline" data-i18n="projects"></lui-heading>
+        <a
+          href="https://www.casadocodigo.com.br/products/livro-design-system"
+          target="_blank"
+          data-link="github-lets-ui"
+        >
+          <div class="project-item interaction-item">
+            <div class="project-icon">
+              <span class="body--lg" aria-hidden="true">📖</span>
+            </div>
+            <lui-flex direction="column" gap="8">
+              <lui-heading variant="block-title" data-i18n="book-title"
+              ></lui-heading>
+              <lui-body variant="lg" data-i18n="book-description"></lui-body>
+            </lui-flex>
+          </div>
+        </a>
+        <a
+          href="https://github.com/mateusvillain/lets-ui-css/"
+          target="_blank"
+          data-link="book"
+        >
+          <div class="project-item interaction-item">
+            <div class="project-icon">
+              <span class="body--lg" aria-hidden="true">🖥️</span>
+            </div>
+            <lui-flex direction="column" gap="8">
+              <lui-heading variant="block-title" data-i18n="letsui-title"
+              ></lui-heading>
+              <lui-body variant="lg" data-i18n="letsui-description"></lui-body>
+            </lui-flex>
+          </div>
+        </a>
+      </lui-flex>
     </section>
 
-    <div class="content">
-      <p class="body--lg" data-i18n="role"></p>
-      <p class="body--lg" data-i18n="short-bio"></p>
-    </div>
-
-    <ul class="no-list links">
-      <li>
-        <a
-          class="link body--lg"
-          href="/about/"
-          data-i18n="menu-about"
-          data-link="about"
-        >
-        </a>
-      </li>
-      <li><a class="link body--lg" href="/blog/" data-link="blog">Blog</a></li>
-      <li>
-        <a
-          class="link body--lg"
-          href="/mentorship/"
-          data-i18n="menu-mentorship"
-        ></a>
-      </li>
-      <li>
-        <a
-          class="link body--lg"
-          href="https://linkedin.com/in/mateusvillain/"
-          target="_blank"
-          data-link="linkedin"
-          data-social="linkedin"
-        >
-          LinkedIn</a
-        >
-      </li>
-      <li>
-        <a
-          class="link body--lg"
-          href="https://github.com/mateusvillain/"
-          target="_blank"
-          data-link="github"
-          data-social="github"
-          >GitHub</a
-        >
-      </li>
-    </ul>
-  </main>
-
-  <section class="project">
-    <h2 class="headline" data-i18n="projects"></h2>
-    <a
-      href="https://www.casadocodigo.com.br/products/livro-design-system"
-      target="_blank"
-      data-link="github-lets-ui"
-    >
-      <div class="project-item interaction-item">
-        <div class="project-icon">
-          <span class="body--lg" aria-hidden="true">📖</span>
+    <section>
+      <lui-heading variant="headline">Cases</lui-heading>
+      <a href="/case/locaweb-design-system/" data-link="locaweb-design-system">
+        <div class="case-item interaction-item">
+          <lui-image
+            src="/img/locaweb-design-system.jpg"
+            alt=""
+            width="100%"
+            radius="md"
+            loading="eager"
+          >
+          </lui-image>
+          <lui-flex direction="column" gap="4" class="m-t-fluid-8">
+            <lui-heading variant="block-title" data-i18n="locaweb-title"
+            ></lui-heading>
+            <lui-body variant="lg" data-i18n="locaweb-description"></lui-body>
+          </lui-flex>
         </div>
-        <div>
-          <h3 class="block-title" data-i18n="book-title"></h3>
-          <p class="body--lg" data-i18n="book-description"></p>
-          <div class="tag-list">
-            <div
-              class="tag tag--container-neutral body--sm"
-              data-i18n="book"
-            ></div>
-            <div class="tag tag--container-neutral body--sm">design system</div>
+      </a>
+    </section>
+
+    <section>
+      <lui-heading variant="headline" data-i18n="blog-title"></lui-heading>
+      <ul class="no-list">
+        <li>
+          <a href="/blog/escalando-um-design-system-com-ia/">
+            <article class="flex gap-fluid-16 interaction-item">
+              <lui-body variant="lg" as="h3">
+                Escalando um Design System com IA: Reduzindo trabalho e
+                automatizando processos
+              </lui-body>
+              <time class="body--md space-nowrap">25 Mar 2026</time>
+            </article>
+          </a>
+        </li>
+        <li>
+          <a href="/blog/design-no-figma-com-claude/">
+            <article class="flex gap-fluid-16 interaction-item">
+              <lui-body variant="lg" as="h3">
+                Design no Figma com Claude: como usar IA para criar interfaces e
+                controlar todo o seu Figma
+              </lui-body>
+              <time class="body--md space-nowrap">18 Mar 2026</time>
+            </article>
+          </a>
+        </li>
+        <li>
+          <a href="/blog/design-tokens-resolver">
+            <article class="flex gap-fluid-16 interaction-item">
+              <lui-body variant="lg" as="h3">
+                Design Tokens Resolver: o módulo nativo para gerar tokens e
+                condicionais
+              </lui-body>
+              <time class="body--md space-nowrap">17 Fev 2026</time>
+            </article>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="contact">
+      <lui-heading variant="headline" data-i18n="contact-title"></lui-heading>
+      <ul class="no-list">
+        <li
+          class="copy-link flex justify-between interaction-item"
+          data-email="contato@mateusvillain.com"
+        >
+          <lui-body variant="lg">E-mail</lui-body>
+          <div>
+            <p class="text-link body--lg">contato@mateusvillain.com</p>
+            <div class="tooltip tooltip--top">
+              <span data-i18n="copy">Copiado!</span>
+            </div>
           </div>
-        </div>
-      </div>
-    </a>
-    <a
-      href="https://github.com/mateusvillain/lets-ui-css/"
-      target="_blank"
-      data-link="book"
-    >
-      <div class="project-item interaction-item">
-        <div class="project-icon">
-          <span class="body--lg" aria-hidden="true">🖥️</span>
-        </div>
-        <div>
-          <h3 class="block-title" data-i18n="letsui-title"></h3>
-          <p class="body--lg" data-i18n="letsui-description"></p>
-          <div class="tag-list">
-            <div class="tag tag--container-neutral body--sm">design system</div>
-            <div class="tag tag--container-neutral body--sm">multi-brand</div>
-            <div class="tag tag--container-neutral body--sm">open source</div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </section>
-
-  <section class="case">
-    <h2 class="headline">Cases</h2>
-    <a href="/case/locaweb-design-system/" data-link="locaweb-design-system">
-      <div class="case-item interaction-item">
-        <img src="/img/locaweb-design-system.jpg" alt="" fetchpriority="high" />
-        <h3 class="block-title" data-i18n="locaweb-title"></h3>
-        <p class="body--lg" data-i18n="locaweb-description"></p>
-      </div>
-    </a>
-  </section>
-
-  <section>
-    <h2 class="headline" data-i18n="blog-title"></h2>
-    <ul class="no-list">
-      <li>
-        <a href="/blog/escalando-um-design-system-com-ia/">
-          <article class="flex gap-fixed-8 interaction-item">
-            <h3 class="body--lg text-medium">
-              Escalando um Design System com IA: Reduzindo trabalho e
-              automatizando processos
-            </h3>
-            <time class="body--md space-nowrap">25 Mar 2026</time>
-          </article>
-        </a>
-      </li>
-      <li>
-        <a href="/blog/design-no-figma-com-claude/">
-          <article class="flex gap-fixed-8 interaction-item">
-            <h3 class="body--lg text-medium">
-              Design no Figma com Claude: como usar IA para criar interfaces e
-              controlar todo o seu Figma
-            </h3>
-            <time class="body--md space-nowrap">18 Mar 2026</time>
-          </article>
-        </a>
-      </li>
-      <li>
-        <a href="/blog/design-tokens-resolver">
-          <article class="flex gap-fixed-8 interaction-item">
-            <h3 class="body--lg text-medium">
-              Design Tokens Resolver: o módulo nativo para gerar tokens e
-              condicionais
-            </h3>
-            <time class="body--md space-nowrap">17 Fev 2026</time>
-          </article>
-        </a>
-      </li>
-    </ul>
-  </section>
-
-  <section class="contact">
-    <h2 class="headline" data-i18n="contact-title"></h2>
-    <ul class="no-list">
-      <li
-        class="copy-link flex justify-between interaction-item"
-        data-email="contato@mateusvillain.com"
-      >
-        <p class="body--lg">E-mail</p>
-        <div>
-          <p class="text-link body--lg">contato@mateusvillain.com</p>
-          <div class="tooltip tooltip--top">
-            <span data-i18n="copy">Copiado!</span>
-          </div>
-        </div>
-      </li>
-      <li>
-        <a
-          class="body--lg interaction-item flex justify-between"
-          href="https://linkedin.com/in/mateusvillain"
-          data-link="linkedin"
-          data-social="linkedin"
-          target="_blank"
-        >
-          <p class="body--lg">LinkedIn</p>
-          <p class="email body--lg">in/mateusvillain</p>
-        </a>
-      </li>
-      <li>
-        <a
-          class="body--lg interaction-item flex justify-between"
-          href="https://github.com/mateusvillain"
-          data-link="github"
-          data-social="github"
-          target="_blank"
-        >
-          <p class="body--lg">GitHub</p>
-          <p class="email body--lg">@mateusvillain</p>
-        </a>
-      </li>
-    </ul>
-  </section>
+        </li>
+        <li>
+          <a
+            class="body--lg interaction-item flex justify-between"
+            href="https://linkedin.com/in/mateusvillain"
+            data-link="linkedin"
+            data-social="linkedin"
+            target="_blank"
+          >
+            <lui-body variant="lg">LinkedIn</lui-body>
+            <lui-body variant="lg">in/mateusvillain</lui-body>
+          </a>
+        </li>
+        <li>
+          <a
+            class="body--lg interaction-item flex justify-between"
+            href="https://github.com/mateusvillain"
+            data-link="github"
+            data-social="github"
+            target="_blank"
+          >
+            <lui-body variant="lg">GitHub</lui-body>
+            <lui-body variant="lg">@mateusvillain</lui-body>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </lui-stack>
 </div>
+
+<script>
+  import '@lets-ui/components'
+</script>

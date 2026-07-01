@@ -1,5 +1,5 @@
 <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
-<div class="container gap-fluid-80">
+<div class="body-container gap-fluid-80">
   <div class="desktop">
     <div class="personal-info">
       <p class="body--sm" id="hora"></p>
@@ -23,11 +23,11 @@
                 <path
                   fill="var(--lui-color-secondary-icon-default)"
                   d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"
-                />
+                ></path>
               </g>
               <defs>
                 <clipPath id="a">
-                  <path fill="#fff" d="M0 0h16v16H0z" />
+                  <path fill="#fff" d="M0 0h16v16H0z"></path>
                 </clipPath>
               </defs>
             </svg>
@@ -43,7 +43,7 @@
               <path
                 fill="var(--lui-color-secondary-icon-default)"
                 d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"
-              />
+              ></path>
             </svg>
           </div>
         </div>
@@ -52,11 +52,9 @@
   </div>
 
   <main id="main" class="project-main">
-    <ul class="breadcrumb">
-      <li>
-        <a href="/" class="link">Início</a>
-      </li>
-    </ul>
+    <lui-breadcrumb>
+      <lui-breadcrumb-item href="/">Início</lui-breadcrumb-item>
+    </lui-breadcrumb>
     <h1 class="title m-t-fluid-16 m-b-fluid-8">
       Reestruturando os tokens do Locaweb Design System
     </h1>
@@ -278,54 +276,57 @@
   </section>
 
   <!-- Password -->
-  <section id="password-box" class="project-section">
-    <h2 class="headline">Informações confidenciais</h2>
-    <div class="paragraph">
-      <p class="body--lg">
-        A solução do projeto contém informações confidenciais. Para continuar
-        lendo, é necessário informar a senha correta no campo a seguir.
-      </p>
-      <p class="body--lg">
-        Não possui a senha? Entre em contato comigo pelo
-        <a
-          class="link"
-          href="https://www.linkedin.com/in/mateusvillain/"
-          target="_blank"
-          >LinkedIn</a
-        >
-        ou pelo e-mail contato@mateusvillain.com.
-      </p>
-    </div>
-    <div class="form-password">
-      <div class="form__group form__lg">
-        <label for="password">Senha</label>
-        <input
-          type="password"
-          id="password"
-          class="password-input"
-          placeholder="Senha do projeto"
-          autocomplete="off"
-        />
-        <p id="error" hidden></p>
-      </div>
-      <button
-        id="unlock"
-        class="unlock-btn btn btn--primary btn--lg"
-        data-link="unlock"
-      >
-        Desbloquear
-      </button>
-    </div>
+  <section id="password-box">
+    <lui-card>
+      <h2 class="headline">Informações confidenciais</h2>
+
+      <lui-flex direction="column" gap="12">
+        <lui-body variant="lg">
+          A solução do projeto contém informações confidenciais. Para continuar
+          lendo, é necessário informar a senha correta no campo a seguir.
+        </lui-body>
+        <lui-body variant="lg">
+          Não possui a senha? Entre em contato comigo pelo
+          <lui-link
+            target="_blank"
+            href="https://www.linkedin.com/in/mateusvillain/">LinkedIn</lui-link
+          >
+          ou pelo e-mail <strong>contato@mateusvillain.com</strong>.
+        </lui-body>
+
+        <!-- Modelo novo -->
+        <lui-flex direction="column" gap="24" class="m-t-fluid-8">
+          <lui-input
+            id="password"
+            type="password"
+            label="Senha"
+            placeholder="Digite a senha do projeto"
+            size="lg"
+            required
+            error-text="Senha incorreta. Tente novamente."
+          >
+          </lui-input>
+          <lui-button id="unlock" variant="primary" data-link="unlock" block
+            >Desbloquear</lui-button
+          >
+        </lui-flex>
+      </lui-flex>
+    </lui-card>
   </section>
 
   <!-- Secret content -->
   <section id="protected-content" class="project-section-secret"></section>
-
-  <script
-    src="/js/project-protected.js"
-    data-slug="design-system-locaweb"
-  ></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
 </div>
+
+<script src="/js/project-protected.js" data-slug="design-system-locaweb"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"
+></script>
+
+<script>
+  import '@lets-ui/components'
+</script>

@@ -13,7 +13,7 @@ async function carregarMusica() {
       `;
     }
   } catch (err) {
-    document.getElementById('spotify').textContent = "🎵";
+    document.getElementById('spotify').textContent = "🎶";
   }
 }
 
