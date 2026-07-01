@@ -1,0 +1,317 @@
+<div class="body-container gap-fluid-80">
+  <div class="desktop">
+    <div class="personal-info">
+      <p class="body--sm" id="hora"></p>
+      <p class="body--sm" id="clima"></p>
+      <p class="body--sm" id="spotify"></p>
+    </div>
+    <div class="site-controls">
+      <label class="theme-toggle" aria-label="Alternar tema">
+        <input type="checkbox" id="theme-toggle" />
+        <div class="theme-toggle__track">
+          <div class="theme-toggle__thumb"></div>
+          <div class="theme-toggle__icon theme-toggle__icon--sun">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 16 16"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  fill="var(--lui-color-secondary-icon-default)"
+                  d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"
+                ></path>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h16v16H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="theme-toggle__icon theme-toggle__icon--moon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="var(--lui-color-secondary-icon-default)"
+                d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <main class="hero">
+    <lui-breadcrumb>
+      <lui-breadcrumb-item href="/">Início</lui-breadcrumb-item>
+    </lui-breadcrumb>
+    <div class="m-t-fluid-16 m-b-fluid-8">
+      <lui-heading variant="title"> Mentorias </lui-heading>
+    </div>
+    <lui-body variant="lg">
+      Se você precisa de ajuda com algum assunto ou quer um acompanhamento em
+      algum projeto que você está ou será responsável, fique à vontade para
+      marcar uma mentoria.
+    </lui-body>
+
+    <div class="alert alert--success m-t-fluid-24">
+      <div class="alert__content">
+        <ph-check-circle size="24" color="#23963B" weight="fill">
+        </ph-check-circle>
+        <div class="alert__text">
+          <p class="body--lg">Agenda de mentorias aberta!</p>
+          <p class="body--lg">
+            Entre em contato comigo via
+            <a href="https://linkedin.com/in/mateusvillain" class="link"
+              >LinkedIn</a
+            >
+            ou pelo e-mail
+            <a href="mailto:mentoria@mateusvillain.com" class="link"
+              >mentoria@mateusvillain.com</a
+            >
+            para agendar suas mentorias.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="flex flex-col">
+    <ul class="no-list flex flex-col gap-fluid-40">
+      <li>
+        <ph-chalkboard-simple size="32"></ph-chalkboard-simple>
+        <div class="flex flex-col gap-fluid-4">
+          <lui-body variant="lg" bold>Quais os temas?</lui-body>
+          <lui-body variant="lg">
+            O principal tema pedido nas mentorias é design system, mas podemos
+            tratar de outros assuntos, como UI, inteligência artificial ou
+            recursos de desenvolvimento mas para designers:
+          </lui-body>
+          <div class="flex flex-wrap gap-fluid-8 m-t-fluid-16">
+            <lui-tag label="Design System" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="Design Tokens" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="Git" style="surface" variant="primary"></lui-tag>
+            <lui-tag label="Figma MCP" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="User Interface" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="HTML e CSS" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="Acessibilidade" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="Handoff" style="surface" variant="primary"
+            ></lui-tag>
+            <lui-tag label="Framer" style="surface" variant="primary"></lui-tag>
+          </div>
+        </div>
+      </li>
+      <li>
+        <ph-hourglass-medium size="32"></ph-hourglass-medium>
+        <lui-body variant="lg" bold> Qual a duração de mentoria? </lui-body>
+        <lui-body variant="lg">
+          A duração mínima da mentoria é de 1 hora, mas totalmente aberto para
+          estendermos se for necessário.
+        </lui-body>
+      </li>
+      <li>
+        <ph-video-conference size="32"></ph-video-conference>
+        <lui-body variant="lg" bold> Onde a mentoria é feita? </lui-body>
+        <lui-body variant="lg">
+          As mentorias são feitas pelo Google Meet.
+        </lui-body>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Categorias e valores -->
+  <section class="flex flex-col gap-fluid-24">
+    <h2 class="headline">Categorias e valores</h2>
+
+    <!-- Mentoria -->
+    <lui-card>
+      <div class="card__body">
+        <div class="flex flex-col gap-fluid-4">
+          <h3 class="block-title">Mentoria</h3>
+          <p class="body--lg">
+            Mentoria 1:1 focada em te dar clareza e direcionamento prático.
+            Ideal para quem quer evoluir mais rápido em design system, UI ou
+            tomar decisões melhores na carreira.
+          </p>
+        </div>
+        <ul class="no-list flex flex-col gap-fluid-8 m-y-fluid-24">
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">1 hora de mentoria</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">Suporte e contato por WhatsApp</p>
+          </li>
+        </ul>
+        <p class="flex content-center gap-fluid-2">
+          <lui-heading variant="subheadline" as="span">R$ 120</lui-heading>
+          <span class="body--md m-t-fluid-2">/sessão</span>
+        </p>
+      </div>
+    </lui-card>
+
+    <!-- Acompanhamento -->
+    <lui-card>
+      <div class="card__body">
+        <div class="flex flex-col gap-fluid-4">
+          <h3 class="block-title">Acompanhamento</h3>
+          <p class="body--lg">
+            Um acompanhamento contínuo para evolução consistente. Aqui o foco é
+            sair da conversa e gerar resultado real no seu dia a dia como
+            designer.
+          </p>
+        </div>
+        <ul class="no-list flex flex-col gap-fluid-8 m-y-fluid-24">
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">1 hora de mentoria</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">4 encontros por mês</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">Acesso a materiais e ferramentas exclusivas</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">Plano de evolução personalizado</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">Suporte e contato por WhatsApp</p>
+          </li>
+        </ul>
+        <p class="flex content-center gap-fluid-2">
+          <span class="subheadline text-bold">R$ 108</span>
+          <span class="body--md m-t-fluid-2">/sessão</span>
+        </p>
+      </div>
+    </lui-card>
+
+    <!-- Consultoria -->
+    <lui-card>
+      <div class="card__body">
+        <div class="flex flex-col gap-fluid-4">
+          <h3 class="block-title">Consultoria</h3>
+          <p class="body--lg">
+            Consultoria voltada para empresas que precisam estruturar, evoluir
+            ou destravar seu design system e processos de design.
+          </p>
+        </div>
+        <ul class="no-list flex flex-col gap-fluid-8 m-y-fluid-24">
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">Criação ou evolução de design system</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">
+              Mapeamento de problemas (UI inconsistente, retrabalho, etc.)
+            </p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">
+              Plano de ação estruturado (prioridades + roadmap)
+            </p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">Workshops com time (mão na massa)</p>
+          </li>
+          <li class="flex gap-fluid-8">
+            <ph-check size="24" color="#23963B"></ph-check>
+            <p class="body--lg">
+              3 livros físicos de Design System além do layout
+            </p>
+          </li>
+        </ul>
+        <p class="body--lg">
+          Envie um e-mail para
+          <a href="mailto:contato@mateusvillain.com" class="link"
+            >contato@mateusvillain.com</a
+          >
+          para agendarmos uma conversa.
+        </p>
+      </div>
+    </lui-card>
+  </section>
+
+  <!-- FAQ -->
+  <section class="flex flex-col gap-fluid-24">
+    <lui-heading variant="headline">Perguntas frequentes</lui-heading>
+    <div class="flex flex-col gap-fluid-16">
+      <div class="faq-item flex flex-col gap-fluid-4">
+        <lui-heading variant="block-title">
+          Como funcionam as mentorias?
+        </lui-heading>
+        <lui-body variant="lg">
+          As mentorias são realizadas com um ou mais temas que você decidir, no
+          dia e horário que for mais confortável para você. Durante a mentoria,
+          fico totalmente aberto para você trazer o que quiser. Podem ser
+          dúvidas, ajuda com portfólio ou projetos na empresa, acompanhamento na
+          construção de um produto... Quem decide é você!
+        </lui-body>
+      </div>
+      <div class="faq-item flex flex-col gap-fluid-4">
+        <lui-heading variant="block-title">
+          É possível gravar as mentorias?
+        </lui-heading>
+        <lui-body variant="lg">
+          Normalmente as mentorias não são gravadas, mas podemos alinhar isso e
+          realizar a gravação pelo próprio Google Meet.
+        </lui-body>
+      </div>
+      <div class="faq-item flex flex-col gap-fluid-4">
+        <lui-heading variant="block-title">
+          Como funcionam os reagendamentos?
+        </lui-heading>
+        <lui-body variant="lg">
+          Reagendar o dia e o horário de uma mentoria é perfeitamente aceitável,
+          mas para que eu possa me organizar, peço apenas que me avise com pelo
+          menos 1 dia de antecedência.
+        </lui-body>
+      </div>
+    </div>
+    <div class="faq-item flex flex-col gap-fluid-4">
+      <lui-heading variant="block-title">
+        Qual a forma de pagamento?
+      </lui-heading>
+      <lui-body variant="lg">
+        A forma de pagamento aceita no momento é Pix.
+      </lui-body>
+    </div>
+    <div class="faq-item flex flex-col gap-fluid-4">
+      <lui-heading variant="block-title">
+        Posso solicitar nota fiscal?
+      </lui-heading>
+      <lui-body variant="lg">
+        Sim! Caso você precise solicitar a nota fiscal, basta apenas me avisar
+        que farei o emissão. Para isso, precisarei de algumas informações suas
+        ou da sua empresa.
+      </lui-body>
+    </div>
+  </section>
+</div>
+
+<script>
+  import '@lets-ui/components'
+</script>

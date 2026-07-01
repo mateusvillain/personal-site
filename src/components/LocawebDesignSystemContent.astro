@@ -1,0 +1,332 @@
+<a href="#main" class="skip-link">Ir para o conteúdo principal</a>
+<div class="body-container gap-fluid-80">
+  <div class="desktop">
+    <div class="personal-info">
+      <p class="body--sm" id="hora"></p>
+      <p class="body--sm" id="clima"></p>
+      <p class="body--sm" id="spotify"></p>
+    </div>
+    <div class="site-controls">
+      <label class="theme-toggle" aria-label="Alternar tema">
+        <input type="checkbox" id="theme-toggle" />
+        <div class="theme-toggle__track">
+          <div class="theme-toggle__thumb"></div>
+          <div class="theme-toggle__icon theme-toggle__icon--sun">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 16 16"
+            >
+              <g clip-path="url(#a)">
+                <path
+                  fill="var(--lui-color-secondary-icon-default)"
+                  d="M7.5 2.5V1a.5.5 0 0 1 1 0v1.5a.5.5 0 1 1-1 0ZM12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 0a3 3 0 1 0-6 0 3 3 0 0 0 6 0ZM3.646 4.354a.5.5 0 1 0 .708-.708l-1-1a.5.5 0 1 0-.708.708l1 1Zm0 7.292-1 1a.5.5 0 0 0 .708.708l1-1a.501.501 0 0 0-.708-.708ZM12 4.5a.5.5 0 0 0 .354-.146l1-1a.5.5 0 0 0-.708-.708l-1 1A.5.5 0 0 0 12 4.5Zm.354 7.146a.5.5 0 0 0-.708.708l1 1a.501.501 0 0 0 .708-.708l-1-1ZM3 8a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0 0 1h1.5A.5.5 0 0 0 3 8Zm5 5a.5.5 0 0 0-.5.5V15a.5.5 0 0 0 1 0v-1.5A.5.5 0 0 0 8 13Zm7-5.5h-1.5a.5.5 0 0 0 0 1H15a.5.5 0 0 0 0-1Z"
+                ></path>
+              </g>
+              <defs>
+                <clipPath id="a">
+                  <path fill="#fff" d="M0 0h16v16H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="theme-toggle__icon theme-toggle__icon--moon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill="var(--lui-color-secondary-icon-default)"
+                d="M14.596 8.89a.5.5 0 0 0-.5-.126 5.505 5.505 0 0 1-6.862-6.862.5.5 0 0 0-.625-.625A6.5 6.5 0 0 0 8.5 14a6.443 6.443 0 0 0 3.908-1.305 6.553 6.553 0 0 0 2.312-3.307.5.5 0 0 0-.124-.499Zm-2.79 3.006a5.5 5.5 0 1 1-5.74-9.327 6.507 6.507 0 0 0 7.366 7.364 5.562 5.562 0 0 1-1.626 1.963Z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <main id="main" class="project-main">
+    <lui-breadcrumb>
+      <lui-breadcrumb-item href="/">Início</lui-breadcrumb-item>
+    </lui-breadcrumb>
+    <h1 class="title m-t-fluid-16 m-b-fluid-8">
+      Reestruturando os tokens do Locaweb Design System
+    </h1>
+    <div class="tag-list">
+      <div class="tag tag--container-neutral body--sm">design system</div>
+      <div class="tag tag--container-neutral body--sm">design tokens</div>
+      <div class="tag tag--container-neutral body--sm">acessibilidade</div>
+      <div class="tag tag--container-neutral body--sm">user interface</div>
+    </div>
+    <div class="project-details">
+      <div class="info">
+        <p class="body--md">Empresa:</p>
+        <p class="body--lg">Locaweb</p>
+      </div>
+      <div class="info">
+        <p class="body--md">Atuação:</p>
+        <p class="body--lg">Product designer</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Overview -->
+  <section class="project-section">
+    <h2 class="headline">Visão geral</h2>
+    <div class="paragraph">
+      <p class="body--lg">
+        O design system da Locaweb foi criado a partir do Vuetify para agilizar
+        o desenvolvimento, mas acabou gerando componentes e tokens pouco
+        escaláveis e sem documentação clara. Nesse projeto, meu papel foi
+        revisar e melhorar esses elementos, trazendo mais escalabilidade e
+        eficiência para designers e desenvolvedores.
+      </p>
+    </div>
+    <h3 class="block-title">Resultados</h3>
+    <ul class="overview-results">
+      <li class="body--lg">
+        Novo sistema de design tokens, com separação entre tokens primitivos e
+        semânticos, nomenclaturas claras e escaláveis.
+      </li>
+      <li class="body--lg">
+        Paletas de cores recriadas, garantindo contrastes acessíveis e com uso
+        semântico definido.
+      </li>
+      <li class="body--lg">
+        Escalas tipográficas com medidas relativas e melhor adaptação a telas
+        menores
+      </li>
+      <li class="body--lg">
+        Sistema de elevação totalmente reformulado, baseado em modelos de
+        iluminação e com definição de uso em componentes e microinterações.
+      </li>
+      <li class="body--lg">
+        Documentação clara, com explicação de uso geral dos componentes e suas
+        propriedades individuais, e critérios de acessibilidade.
+      </li>
+      <li class="body--lg">
+        Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção
+        de rótulos para softwares leitura de tela com definição diretamente no
+        componente do Figma.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Discovery -->
+  <section class="project-section">
+    <h2 class="headline">Descobertas</h2>
+    <h3 class="block-title">Análise do produto</h3>
+    <div class="paragraph">
+      <p class="body--lg">
+        A primeira análise consistiu em catalogar cada design token e entender
+        qual o caso de uso que eles tinham no design system. Além disso,
+        utilizando o analytics do Figma, pude observar o número de inserções dos
+        estilos, variáveis e componentes do arquivo, além da quantidade de
+        detaches.
+      </p>
+      <p class="body--lg">
+        Avaliando o uso das cores, reparei que em todas as paletas, pelo menos
+        um dos tons nunca era utilizado, e pela falta de documentação, não havia
+        uma indicação verdadeira de como e quando utilizar cada uma,
+        considerando que apenas com exceção a paleta de cores neutras, todas as
+        outras eram apenas usadas para microinterações nos componentes, mas sem
+        nomenclaturas que indicassem isso. Além disso, também percebi que alguns
+        tons usados como background para textos em componentes não contrastavam
+        bem, seguindo as diretrizes da WCAG.
+      </p>
+      <img
+        src="/img/lw-color-tokens.png"
+        alt="Exemplo de tokens de cores com nomes inconsistentes entre a paleta principal e a escala de cinza, mostrando falta de padronização na nomenclatura."
+      />
+      <p class="body--lg">
+        A responsividade do sistema de escalas tipográficas não era bem
+        executado. Em vez de trabalhar com medidas relativas (como rem ou em),
+        como é o convencional, e reduzir o valor conforme o breakpoint, os
+        textos apenas reduziam o tamanho para uma escala abaixo, ou seja, se em
+        desktop tinhamos textos de 40, 32 e 24 pixels, em mobile o texto que
+        usava 40 atualizava para 32 pixels, e o 32 para 24 pixels, e assim por
+        diante.diante.
+      </p>
+      <p class="body--lg">
+        Essa redução ocasionava tanto em textos demasiadamente grandes em
+        dispositivos móveis, como também nas duas últimas escalas com o mesmo
+        tamanho, já que a última não possuia um valor menor para atualizar.
+      </p>
+    </div>
+    <div class="paragraph">
+      <p class="body--lg">
+        Entretanto, o maior problema que notei com relação a tipografia era o
+        seu uso prático. No próprio design system, alguns títulos eram compostos
+        por tamanhos diferentes, e os produtos não possuíam padrão entre si.
+        Isso se devia pela nomenclatura nada clara (font-size-xl, lg, md...) e
+        por não ter nenhuma indicação do que seria um h1, h2 e outras tags.
+      </p>
+      <img
+        src="/img/lw-tipografia-pouco-responsiva.png"
+        alt="Lista de textos com diferentes tamanhos de fonte, mostrando uma escala tipográfica desorganizada e pouco responsiva entre dispositivos."
+      />
+      <p class="body--lg">
+        Por fim, o design system também fornecia as mesmas escalas para as duas
+        fontes da marca, Ubuntu (principal) e Open Sans (secundária), mas a
+        última raramente era usada nos projetos, considerando que até mesmo
+        alguns designers nem sabiam da existência dela.
+      </p>
+    </div>
+
+    <h3 class="block-title">Entrevista com colaboradores</h3>
+    <div class="paragraph">
+      <p class="body--lg">
+        Para a segunda análise, preparei um roteiro e realizei uma entrevista
+        individual com cada um dos designers que já vinham utilizando o design
+        system nos seus produtos, com o objetivo de entender as percepções de
+        cada um sobre o uso dos tokens.
+      </p>
+      <p class="body--lg">
+        A pesquisa comprovou alguns dos dados que eu já havia coletado na
+        primeira análise, mas também me trouxe novos resultados:
+      </p>
+    </div>
+
+    <div class="notepad">
+      <div class="note">
+        <p class="body--lg">Pouco uso da cor secundária</p>
+        <p class="body--lg">
+          Os designers não utilizavam a cor secundária em nenhuma ocasião na
+          interface dos produtos, e como não havia documentação, não sabiam
+          dizer para que essa paleta servia.
+        </p>
+      </div>
+      <div class="note">
+        <p class="body--lg">
+          Dificuldades em entender as hierarquias tipográficas
+        </p>
+        <p class="body--lg">
+          Os designers tinham entendimentos diferentes sobre quando utilizar a
+          maioria das escalas tipográficas. Haviam diferentes definições do que
+          seria o título da página, subtítulo, e até mesmo uma chamada de seção.
+        </p>
+      </div>
+      <div class="note">
+        <p class="body--lg">Inutilização do peso "light"</p>
+        <p class="body--lg">
+          O arquivo fornecia o peso “light” para cada uma das oito escalas, e
+          mesmo que com pouquíssimas inserções vistas no analytics, todos os
+          designers afirmaram nunca usar e nem saber o seu caso de uso.
+        </p>
+      </div>
+      <div class="note">
+        <p class="body--lg">
+          Incerteza sobre o uso das escalas de cinza nos textos
+        </p>
+        <p class="body--lg">
+          Pela falta de padronização e recomendação, os designers tinham
+          diferentes entendimentos entre si sobre o uso das escalas de cinza em
+          textos, de forma a colaborar na hierarquia de títulos e parágrafos.
+        </p>
+      </div>
+    </div>
+
+    <h3 class="block-title">Comparações entre design e código</h3>
+    <div class="paragraph">
+      <p class="body--lg">
+        A terceira e última análise envolveu uma comparação direta entre Figma e
+        código de todos os design tokens e componentes.
+      </p>
+      <p class="body--lg">
+        Esse levantamento foi feito primeiramente sozinho, para ter inicialmente
+        as minhas próprias visões, mas no final decidi me reunir com o
+        responsável pelo desenvolvimento front-end do design system, tanto para
+        ter a oportunidade de coletar mais informações como já passar para ele
+        os pontos que coletei.
+      </p>
+    </div>
+
+    <div class="notepad">
+      <div class="note">
+        <p class="body--lg">Componentes com nomes diferentes</p>
+        <p class="body--lg">
+          Apesar dos designers e desenvolvedores usarem os mesmos componentes,
+          alguns deles não compartilhavam o mesmo nome, como era o caso do
+          Dialog para os designers, e Modal para os desenvolvedores.
+        </p>
+      </div>
+      <div class="note">
+        <p class="body--lg">Escalas tipográficas com nomes distintos</p>
+        <p class="body--lg">
+          Enquanto os designers reconheciam as escalas por uma determinada
+          nomenclatura no Figma, a nomenclatura do design token usada na prática
+          pelos desenvolvedores eram outras.
+        </p>
+      </div>
+      <div class="note">
+        <p class="body--lg">Diferenças nas elevações em design e código</p>
+        <p class="body--lg">
+          O arquivo do design system no Figma fornecia alguns níveis de elevação
+          (estilos de sombra), que eram completamente diferentes dos tokens,
+          tanto em nomenclatura quanto em valor.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Password -->
+  <section id="password-box">
+    <lui-card>
+      <h2 class="headline">Informações confidenciais</h2>
+
+      <lui-flex direction="column" gap="12">
+        <lui-body variant="lg">
+          A solução do projeto contém informações confidenciais. Para continuar
+          lendo, é necessário informar a senha correta no campo a seguir.
+        </lui-body>
+        <lui-body variant="lg">
+          Não possui a senha? Entre em contato comigo pelo
+          <lui-link
+            target="_blank"
+            href="https://www.linkedin.com/in/mateusvillain/">LinkedIn</lui-link
+          >
+          ou pelo e-mail <strong>contato@mateusvillain.com</strong>.
+        </lui-body>
+
+        <!-- Modelo novo -->
+        <lui-flex direction="column" gap="24" class="m-t-fluid-8">
+          <lui-input
+            id="password"
+            type="password"
+            label="Senha"
+            placeholder="Digite a senha do projeto"
+            size="lg"
+            required
+            error-text="Senha incorreta. Tente novamente."
+          >
+          </lui-input>
+          <lui-button id="unlock" variant="primary" data-link="unlock" block
+            >Desbloquear</lui-button
+          >
+        </lui-flex>
+      </lui-flex>
+    </lui-card>
+  </section>
+
+  <!-- Secret content -->
+  <section id="protected-content" class="project-section-secret"></section>
+</div>
+
+<script src="/js/project-protected.js" data-slug="design-system-locaweb"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"
+></script>
+
+<script>
+  import '@lets-ui/components'
+</script>
