@@ -153,14 +153,6 @@ section {
   }
 
   .case {
-    > a {
-      display: block;
-    }
-
-    &:last-child {
-      margin-bottom: var(--lui-spacing-fixed-0);
-    }
-
     &-item {
       picture > img {
         width: 100%;
@@ -278,10 +270,6 @@ p.text-link {
   }
 }
 
-.tooltip-wrapper {
-  position: relative;
-}
-
 .tooltip-- {
   &top {
     position: absolute !important;
@@ -292,53 +280,10 @@ p.text-link {
     pointer-events: none;
     transition: opacity 0.2s ease;
   }
-  &bottom {
-    position: absolute !important;
-    top: -60%;
-    left: 48%;
-    transform: translateX(-50%);
-    opacity: var(--lui-opacity-hidden);
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-  }
-}
-
-/* quando passar o mouse no span.mood, mostra o tooltip */
-.mood:hover + .tooltip {
-  opacity: var(--lui-opacity-visible);
 }
 
 ul.no-list {
   list-style: none;
-}
-
-ul.stack {
-  margin-top: var(--lui-spacing-fluid-16);
-  display: grid;
-  grid-template-columns: repeat(8, auto);
-  justify-content: space-between;
-  gap: 16px;
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(4, auto);
-  }
-
-  li {
-    width: fit-content;
-    justify-self: center;
-    width: var(--lui-spacing-fixed-40);
-    height: var(--lui-spacing-fixed-40);
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-}
-
-.show-tooltip:hover .tooltip {
-  opacity: var(--lui-opacity-visible);
-  visibility: visible;
 }
 
 .appear-tooltip .tooltip {
@@ -441,10 +386,4 @@ div > #tab-content > .tab.active {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-span.img-test {
-  width: 560px;
-  height: 400px;
-  background-color: var(--lui-color-neutral-background-container);
 }
