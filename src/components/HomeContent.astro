@@ -57,7 +57,7 @@
     </div>
 
     <main class="hero">
-      <lui-flex direction="column" wrap="nowrap" gap="md" align="left">
+      <lui-flex direction="column" wrap="nowrap" gap="16" align="left">
         <lui-image
           src="img/mtsvlln.jpg"
           width="88px"
@@ -67,7 +67,8 @@
         ></lui-image>
 
         <div>
-          <lui-heading variant="title">Mateus Villain</lui-heading>
+          <lui-heading variant="block-title" as="h1">Mateus Villain</lui-heading
+          >
           <lui-body variant="lg" data-i18n="role" italic></lui-body>
         </div>
 
@@ -87,6 +88,7 @@
             target="_blank"
             data-link="linkedin"
             data-social="linkedin"
+            external
           >
             LinkedIn
           </lui-link>
@@ -97,6 +99,7 @@
             target="_blank"
             data-link="github"
             data-social="github"
+            external
           >
             GitHub
           </lui-link>
@@ -111,65 +114,50 @@
 
     <section>
       <lui-flex direction="column" gap="16">
-        <lui-heading variant="headline" data-i18n="projects"></lui-heading>
+        <lui-heading variant="block-title" data-i18n="projects"></lui-heading>
+
+        <a
+          href="/case/locaweb-design-system/"
+          class="project-item interaction-item"
+          target="_blank"
+          data-link="locaweb-design-system"
+        >
+          <lui-flex direction="column" gap="8">
+            <lui-heading variant="subheadline" as="h3" data-i18n="locaweb-title"
+            ></lui-heading>
+            <lui-body variant="lg" data-i18n="locaweb-description"></lui-body>
+          </lui-flex>
+        </a>
         <a
           href="https://www.casadocodigo.com.br/products/livro-design-system"
+          class="project-item interaction-item"
           target="_blank"
           data-link="github-lets-ui"
         >
-          <div class="project-item interaction-item">
-            <div class="project-icon">
-              <span class="body--lg" aria-hidden="true">📖</span>
-            </div>
-            <lui-flex direction="column" gap="8">
-              <lui-heading variant="block-title" data-i18n="book-title"
-              ></lui-heading>
-              <lui-body variant="lg" data-i18n="book-description"></lui-body>
-            </lui-flex>
-          </div>
+          <lui-flex direction="column" gap="8">
+            <lui-heading variant="subheadline" as="h3" data-i18n="book-title"
+            ></lui-heading>
+            <lui-body variant="lg" data-i18n="book-description"></lui-body>
+          </lui-flex>
         </a>
         <a
           href="https://github.com/mateusvillain/lets-ui-css/"
+          class="project-item interaction-item"
           target="_blank"
           data-link="book"
         >
-          <div class="project-item interaction-item">
-            <div class="project-icon">
-              <span class="body--lg" aria-hidden="true">🖥️</span>
-            </div>
-            <lui-flex direction="column" gap="8">
-              <lui-heading variant="block-title" data-i18n="letsui-title"
-              ></lui-heading>
-              <lui-body variant="lg" data-i18n="letsui-description"></lui-body>
-            </lui-flex>
-          </div>
+          <lui-flex direction="column" gap="8">
+            <lui-heading variant="subheadline" as="h3" data-i18n="letsui-title"
+            ></lui-heading>
+            <lui-body variant="lg" data-i18n="letsui-description"></lui-body>
+          </lui-flex>
         </a>
       </lui-flex>
     </section>
 
     <section>
-      <lui-heading variant="headline">Cases</lui-heading>
-      <a href="/case/locaweb-design-system/" data-link="locaweb-design-system">
-        <div class="case-item interaction-item">
-          <lui-image
-            src="/img/locaweb-design-system.jpg"
-            alt=""
-            width="100%"
-            radius="md"
-            loading="eager"
-          >
-          </lui-image>
-          <lui-flex direction="column" gap="4" class="m-t-fluid-8">
-            <lui-heading variant="block-title" data-i18n="locaweb-title"
-            ></lui-heading>
-            <lui-body variant="lg" data-i18n="locaweb-description"></lui-body>
-          </lui-flex>
-        </div>
-      </a>
-    </section>
-
-    <section>
-      <lui-heading variant="headline" data-i18n="blog-title"></lui-heading>
+      <lui-heading variant="block-title" as="h2" data-i18n="blog-title"
+      ></lui-heading>
       <ul class="no-list">
         <li>
           <a href="/blog/escalando-um-design-system-com-ia/">
@@ -202,48 +190,6 @@
               </lui-body>
               <time class="body--md space-nowrap">17 Fev 2026</time>
             </article>
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <section class="contact">
-      <lui-heading variant="headline" data-i18n="contact-title"></lui-heading>
-      <ul class="no-list">
-        <li
-          class="copy-link flex justify-between interaction-item"
-          data-email="contato@mateusvillain.com"
-        >
-          <lui-body variant="lg">E-mail</lui-body>
-          <div>
-            <p class="text-link body--lg">contato@mateusvillain.com</p>
-            <div class="tooltip tooltip--top">
-              <span data-i18n="copy">Copiado!</span>
-            </div>
-          </div>
-        </li>
-        <li>
-          <a
-            class="body--lg interaction-item flex justify-between"
-            href="https://linkedin.com/in/mateusvillain"
-            data-link="linkedin"
-            data-social="linkedin"
-            target="_blank"
-          >
-            <lui-body variant="lg">LinkedIn</lui-body>
-            <lui-body variant="lg">in/mateusvillain</lui-body>
-          </a>
-        </li>
-        <li>
-          <a
-            class="body--lg interaction-item flex justify-between"
-            href="https://github.com/mateusvillain"
-            data-link="github"
-            data-social="github"
-            target="_blank"
-          >
-            <lui-body variant="lg">GitHub</lui-body>
-            <lui-body variant="lg">@mateusvillain</lui-body>
           </a>
         </li>
       </ul>
