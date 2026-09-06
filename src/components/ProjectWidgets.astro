@@ -1,0 +1,512 @@
+---
+/**
+ * Quadro de widgets de projeto.
+ *
+ * Cada widget tem um tratamento proprio, dentro do mesmo padrao de
+ * superficie, raio e arrasto:
+ *   locaweb — neutro, a paleta de tokens como peca central
+ *   livro   — a ilustracao da capa preenche o card, com filtro escuro
+ *   letsui  — superficie invertida, cara de terminal
+ */
+const { id = 'widgets' } = Astro.props
+const uid = (name) => `${id}-${name}`
+---
+
+<section class="board" aria-labelledby={uid('heading')}>
+  <div class="board__header">
+    <lui-heading
+      variant="block-title"
+      as="h2"
+      id={uid('heading')}
+      data-i18n="projects"></lui-heading>
+    <button
+      type="button"
+      class="board__reset"
+      data-reset-for={id}
+      data-i18n="projects-reset"
+      hidden></button>
+  </div>
+
+  <div class="board__stage" data-board={id}>
+    <!-- Grande 2x2: o case, com a paleta de tokens como peca central -->
+    <article
+      class="widget widget--lg widget--tokens"
+      data-widget="locaweb"
+      tabindex="0"
+      aria-roledescription="widget"
+      aria-labelledby={uid('locaweb-title')}
+    >
+      <div class="widget__body">
+        <lui-body
+          variant="lg"
+          as="h3"
+          class="widget__title"
+          id={uid('locaweb-title')}
+        >
+          <a
+            href="/case/locaweb-design-system/"
+            data-link="locaweb-design-system"
+            data-i18n="locaweb-title"></a>
+        </lui-body>
+        <lui-body variant="md" data-i18n="locaweb-description"></lui-body>
+
+        <div class="token-strip" aria-hidden="true">
+          <span style="--swatch: var(--lui-color-blue-2)">100</span>
+          <span style="--swatch: var(--lui-color-blue-3)">200</span>
+          <span style="--swatch: var(--lui-color-blue-4)">300</span>
+          <span style="--swatch: var(--lui-color-blue-5)">400</span>
+          <span style="--swatch: var(--lui-color-blue-6)">500</span>
+          <span style="--swatch: var(--lui-color-blue-7)">600</span>
+          <span style="--swatch: var(--lui-color-blue-8)">700</span>
+        </div>
+      </div>
+
+      <footer class="widget__footer">
+        <a
+          class="widget__cta"
+          href="/case/locaweb-design-system/"
+          data-link="locaweb-design-system"
+        >
+          <span data-i18n="locaweb-cta"></span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </footer>
+    </article>
+
+    <!-- Alto 1x2: texto no topo, a ilustração da capa sangrando embaixo -->
+    <article
+      class="widget widget--tall widget--book"
+      data-widget="book"
+      tabindex="0"
+      aria-roledescription="widget"
+      aria-labelledby={uid('book-title')}
+    >
+      <div class="widget__body">
+        <lui-body
+          variant="lg"
+          as="h3"
+          class="widget__title"
+          id={uid('book-title')}
+        >
+          <a
+            href="https://www.casadocodigo.com.br/products/livro-design-system"
+            target="_blank"
+            rel="noopener"
+            data-link="book"
+            data-i18n="book-title"></a>
+        </lui-body>
+
+        <a
+          class="widget__cta"
+          href="https://www.casadocodigo.com.br/products/livro-design-system"
+          target="_blank"
+          rel="noopener"
+          data-link="book"
+        >
+          <span data-i18n="book-cta"></span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M6 3h7v7M13 3 4 12"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="widget__cover" aria-hidden="true">
+        <img
+          src="/img/dscover.png"
+          width="494"
+          height="410"
+          loading="lazy"
+          draggable="false"
+          alt=""
+        />
+      </div>
+    </article>
+
+    <!-- Faixa larga 3x1: instalacao + dados ao vivo do repositorio -->
+    <article
+      class="widget widget--wide widget--code"
+      data-widget="letsui"
+      tabindex="0"
+      aria-roledescription="widget"
+      aria-labelledby={uid('letsui-title')}
+    >
+      <div class="widget__body">
+        <div class="widget__lede">
+          <lui-body
+            variant="lg"
+            as="h3"
+            class="widget__title"
+            id={uid('letsui-title')}
+          >
+            <a
+              href="https://github.com/mateusvillain/lets-ui/"
+              target="_blank"
+              rel="noopener"
+              data-link="github-lets-ui"
+              data-i18n="letsui-title"></a>
+          </lui-body>
+          <lui-body variant="md" data-i18n="letsui-description"></lui-body>
+        </div>
+
+        <div class="widget__aside">
+          <code class="terminal">npm i @lets-ui/components</code>
+          <p class="widget__stats">
+            <span class="stat" data-stat="version" hidden></span>
+            <span class="stat" data-stat="stars" hidden></span>
+          </p>
+        </div>
+      </div>
+
+      <footer class="widget__footer">
+        <a
+          class="widget__cta"
+          href="https://github.com/mateusvillain/lets-ui/"
+          target="_blank"
+          rel="noopener"
+          data-link="github-lets-ui"
+        >
+          <span data-i18n="letsui-cta"></span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M6 3h7v7M13 3 4 12"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </footer>
+    </article>
+  </div>
+</section>
+
+<script>
+  /* ---------------------------------------------------------------------
+     Arrasto livre dos widgets: mouse, caneta e toque.
+     - mouse: arrasta a partir de qualquer ponto do card (menos links)
+     - toque/caneta: pressione e segure por um instante para "levantar" o
+       card; assim o scroll vertical da pagina continua funcionando
+     O script e unico na pagina e inicializa todos os quadros presentes.
+  --------------------------------------------------------------------- */
+  const DRAG_THRESHOLD = 5
+  const HOLD_DELAY = 260
+  const HOLD_TOLERANCE = 8
+  const GUTTER = 8
+  const STAGE_SLACK = 32
+  const STEP = 12
+
+  document.querySelectorAll('.board__stage').forEach((board) => {
+    const boardId = board.dataset.board
+    const widgets = Array.from(board.querySelectorAll('.widget'))
+    const resetButton = document.querySelector(`[data-reset-for="${boardId}"]`)
+    const STORAGE_KEY = `widget-positions:${boardId}`
+
+    let topLayer = 1
+
+    const positions = (() => {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+      } catch {
+        return {}
+      }
+    })()
+
+    const syncResetButton = () => {
+      if (resetButton) resetButton.hidden = !Object.keys(positions).length
+    }
+
+    const savePositions = () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(positions))
+      } catch {
+        /* modo privado: apenas nao persiste */
+      }
+      syncResetButton()
+    }
+
+    const apply = (widget, x, y) => {
+      widget.style.setProperty('--widget-x', `${Math.round(x)}px`)
+      widget.style.setProperty('--widget-y', `${Math.round(y)}px`)
+    }
+
+    const clamp = (widget, x, y) => {
+      const rect = widget.getBoundingClientRect()
+      const stage = board.getBoundingClientRect()
+      const current = positions[widget.dataset.widget] || { x: 0, y: 0 }
+      // bordas do card sem o deslocamento atual
+      const left = rect.left - current.x
+      const right = rect.right - current.x
+      const top = rect.top - current.y
+      const bottom = rect.bottom - current.y
+      // horizontal: dentro da janela, para nao criar rolagem lateral
+      const minX = GUTTER - left
+      const maxX = window.innerWidth - GUTTER - right
+      // vertical: qualquer ponto do quadro, igual para todos os widgets
+      const minY = stage.top - STAGE_SLACK - top
+      const maxY = stage.bottom + STAGE_SLACK - bottom
+      return {
+        x: minX > maxX ? 0 : Math.min(Math.max(x, minX), maxX),
+        y: minY > maxY ? 0 : Math.min(Math.max(y, minY), maxY),
+      }
+    }
+
+    const move = (widget, x, y, persist) => {
+      const next = clamp(widget, x, y)
+      positions[widget.dataset.widget] = next
+      apply(widget, next.x, next.y)
+      if (persist) savePositions()
+    }
+
+    widgets.forEach((widget) => {
+      const saved = positions[widget.dataset.widget]
+      if (saved) apply(widget, saved.x, saved.y)
+
+      let pointerId = null
+      let startX = 0
+      let startY = 0
+      let originX = 0
+      let originY = 0
+      let armed = false
+      let dragging = false
+      let moved = false
+      let holdTimer = null
+
+      const arm = (event) => {
+        armed = true
+        moved = false
+        pointerId = event.pointerId
+        startX = event.clientX
+        startY = event.clientY
+        const current = positions[widget.dataset.widget] || { x: 0, y: 0 }
+        originX = current.x
+        originY = current.y
+      }
+
+      const lift = () => {
+        dragging = true
+        widget.style.zIndex = String(++topLayer)
+        widget.classList.add('is-dragging')
+        if (pointerId !== null) widget.setPointerCapture(pointerId)
+      }
+
+      widget.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return
+        if (event.target.closest('a, button')) return
+
+        arm(event)
+
+        if (event.pointerType === 'mouse') {
+          // no mouse o arrasto comeca assim que o cursor se move
+          widget.setPointerCapture(event.pointerId)
+          return
+        }
+
+        // toque e caneta: pressionar e segurar levanta o card
+        holdTimer = window.setTimeout(() => {
+          holdTimer = null
+          if (armed) lift()
+        }, HOLD_DELAY)
+      })
+
+      widget.addEventListener('pointermove', (event) => {
+        if (!armed || event.pointerId !== pointerId) return
+        const dx = event.clientX - startX
+        const dy = event.clientY - startY
+        const distance = Math.hypot(dx, dy)
+
+        if (holdTimer !== null) {
+          // rolou a pagina antes do tempo: nao era um arrasto
+          if (distance > HOLD_TOLERANCE) {
+            window.clearTimeout(holdTimer)
+            holdTimer = null
+            armed = false
+          }
+          return
+        }
+
+        if (!dragging) {
+          if (distance < DRAG_THRESHOLD) return
+          lift()
+        }
+
+        moved = true
+        event.preventDefault()
+        move(widget, originX + dx, originY + dy, false)
+      })
+
+      // impede o scroll nativo enquanto o card estiver levantado
+      widget.addEventListener(
+        'touchmove',
+        (event) => {
+          if (dragging) event.preventDefault()
+        },
+        { passive: false }
+      )
+
+      const endDrag = (event) => {
+        if (event.pointerId !== pointerId) return
+        if (holdTimer !== null) {
+          window.clearTimeout(holdTimer)
+          holdTimer = null
+        }
+        if (dragging) {
+          widget.classList.remove('is-dragging')
+          if (widget.hasPointerCapture(pointerId)) {
+            widget.releasePointerCapture(pointerId)
+          }
+          if (moved) savePositions()
+        }
+        armed = false
+        dragging = false
+        pointerId = null
+      }
+
+      widget.addEventListener('pointerup', endDrag)
+      widget.addEventListener('pointercancel', endDrag)
+
+      // um arrasto nao deve disparar o link que estiver sob o cursor
+      widget.addEventListener(
+        'click',
+        (event) => {
+          if (!moved) return
+          event.preventDefault()
+          event.stopPropagation()
+          moved = false
+        },
+        true
+      )
+
+      widget.addEventListener('dragstart', (event) => event.preventDefault())
+
+      // teclado: setas movem o widget em foco, Escape devolve ao lugar
+      widget.addEventListener('keydown', (event) => {
+        const current = positions[widget.dataset.widget] || { x: 0, y: 0 }
+        const step = event.shiftKey ? STEP * 4 : STEP
+
+        if (event.key === 'Escape') {
+          delete positions[widget.dataset.widget]
+          apply(widget, 0, 0)
+          savePositions()
+          return
+        }
+
+        const deltas = {
+          ArrowUp: [0, -step],
+          ArrowDown: [0, step],
+          ArrowLeft: [-step, 0],
+          ArrowRight: [step, 0],
+        }
+        const delta = deltas[event.key]
+        if (!delta) return
+
+        event.preventDefault()
+        widget.style.zIndex = String(++topLayer)
+        move(widget, current.x + delta[0], current.y + delta[1], true)
+      })
+    })
+
+    resetButton?.addEventListener('click', () => {
+      widgets.forEach((widget) => {
+        delete positions[widget.dataset.widget]
+        apply(widget, 0, 0)
+        widget.style.zIndex = ''
+      })
+      topLayer = 1
+      savePositions()
+    })
+
+    // ao redimensionar, garante que nenhum widget fique fora da tela
+    let resizeTimer
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer)
+      resizeTimer = window.setTimeout(() => {
+        widgets.forEach((widget) => {
+          const current = positions[widget.dataset.widget]
+          if (current) move(widget, current.x, current.y, false)
+        })
+      }, 150)
+    })
+
+    syncResetButton()
+  })
+
+  /* ---------------------------------------------------------------------
+     Dados ao vivo do Let's UI: versao publicada no npm e estrelas no
+     GitHub. Falha em silencio: os campos so aparecem quando ha resposta.
+  --------------------------------------------------------------------- */
+  const STATS_CACHE = 'letsui-stats'
+  const STATS_TTL = 1000 * 60 * 60 * 6
+
+  const showStat = (name, value) => {
+    document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
+      el.textContent = value
+      el.hidden = false
+    })
+  }
+
+  const renderStats = (stats) => {
+    if (stats.version) showStat('version', `v${stats.version}`)
+    if (stats.stars) showStat('stars', `★ ${stats.stars}`)
+  }
+
+  const readCache = () => {
+    try {
+      const cached = JSON.parse(sessionStorage.getItem(STATS_CACHE) || 'null')
+      if (cached && Date.now() - cached.at < STATS_TTL) return cached.stats
+    } catch {
+      /* ignora cache invalido */
+    }
+    return null
+  }
+
+  const loadStats = async () => {
+    const cached = readCache()
+    if (cached) {
+      renderStats(cached)
+      return
+    }
+
+    const stats = {}
+
+    const [npm, repo] = await Promise.allSettled([
+      fetch('https://registry.npmjs.org/@lets-ui/components/latest').then((r) =>
+        r.ok ? r.json() : null
+      ),
+      fetch('https://api.github.com/repos/mateusvillain/lets-ui').then((r) =>
+        r.ok ? r.json() : null
+      ),
+    ])
+
+    if (npm.status === 'fulfilled' && npm.value?.version) {
+      stats.version = npm.value.version
+    }
+    if (repo.status === 'fulfilled' && repo.value?.stargazers_count != null) {
+      stats.stars = repo.value.stargazers_count
+    }
+
+    renderStats(stats)
+
+    try {
+      sessionStorage.setItem(
+        STATS_CACHE,
+        JSON.stringify({ at: Date.now(), stats })
+      )
+    } catch {
+      /* modo privado: apenas nao guarda */
+    }
+  }
+
+  if (document.querySelector('[data-stat]')) loadStats()
+</script>

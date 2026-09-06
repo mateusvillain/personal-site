@@ -1,5 +1,11 @@
 /* -------------------------------------------------------------------------
-   Widget board — projetos exibidos como cards arrastáveis
+   Widget board — projetos exibidos como cards arrastáveis.
+
+   Tamanhos seguem a lógica de widgets de sistema (iOS/macOS): a área
+   ocupada define a função do card, não só o espaço.
+     .widget--lg    2x2  — o case, com espaço para hierarquia interna
+     .widget--tall  1x2  — a capa manda, texto mínimo
+     .widget--wide  3x1  — faixa: instalação + dados ao vivo
    ---------------------------------------------------------------------- */
 
 .board {
@@ -35,15 +41,18 @@
     }
   }
 
-  /* área de arrasto: deixa os widgets respirarem além da coluna de texto */
+  /* área de arrasto: rompe a coluna de texto para o grid respirar */
   &__stage {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: var(--lui-spacing-fluid-16);
     position: relative;
 
     @media (min-width: 768px) {
-      margin: 0 calc(var(--lui-spacing-fluid-40) * -1);
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(132px, auto);
+      width: min(90vw, 920px);
+      margin-left: calc(50% - min(90vw, 920px) / 2);
     }
   }
 }
@@ -51,11 +60,13 @@
 .widget {
   --widget-x: 0px;
   --widget-y: 0px;
+  --widget-accent: var(--lui-color-neutral-text-heading);
 
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background-color: var(--lui-color-neutral-background-surface);
   border: var(--lui-border-width-1, 1px) solid
     var(--lui-color-neutral-border-subtle);
@@ -72,14 +83,6 @@
   transition:
     box-shadow 0.24s ease,
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-
-  @media (min-width: 768px) {
-    width: min(100%, 30rem);
-
-    &:nth-child(even) {
-      align-self: flex-end;
-    }
-  }
 
   &:hover {
     box-shadow:
@@ -106,20 +109,35 @@
     -webkit-user-drag: none;
   }
 
+  /* --- tamanhos --------------------------------------------------------- */
+  @media (min-width: 768px) {
+    &--lg {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    &--tall {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+
+    &--wide {
+      grid-column: span 3;
+    }
+  }
+
+  /* --- estrutura interna ------------------------------------------------ */
   &__body {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: var(--lui-spacing-fluid-8);
     padding: var(--lui-spacing-fluid-16);
   }
 
+
   &__title a {
     color: var(--lui-color-neutral-text-heading);
-  }
-
-  /* peça visual de cada widget */
-  &__visual {
-    margin-top: var(--lui-spacing-fluid-4);
   }
 
   &__footer {
@@ -148,14 +166,14 @@
   }
 }
 
-/* --- Peculiaridades por widget ------------------------------------------ */
-
-/* 1. Locaweb: paleta de design tokens */
+/* --- 1. Locaweb: paleta de tokens --------------------------------------- */
 .widget--tokens {
   .token-strip {
     display: flex;
     flex-direction: row;
-    gap: var(--lui-spacing-fixed-8);
+    gap: var(--lui-spacing-fluid-4);
+    margin-top: auto;
+    padding-top: var(--lui-spacing-fluid-8);
 
     span {
       flex: 1;
@@ -163,13 +181,13 @@
       flex-direction: column;
       gap: var(--lui-spacing-fluid-4);
       font-family: 'Google Sans', monospace;
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       color: var(--lui-color-neutral-text-caption);
 
       &::before {
         content: '';
         display: block;
-        height: var(--lui-spacing-fixed-24);
+        height: var(--lui-spacing-fixed-32);
         border-radius: var(--lui-border-radius-xs);
         background-color: var(--swatch);
         border: var(--lui-border-width-1, 1px) solid
@@ -179,30 +197,78 @@
   }
 }
 
-/* 2. Livro: capa real do livro */
+/* --- 2. Livro: card quadrado, ilustração com leve zoom sangrando ------ */
 .widget--book {
+  aspect-ratio: 1;
+  align-self: start;
+
   .widget__body {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--lui-spacing-fluid-16);
+    flex: 0 0 auto;
+    gap: var(--lui-spacing-fluid-4);
+    padding-bottom: var(--lui-spacing-fluid-24);
   }
 
-  .book-cover {
-    flex: 0 0 auto;
-    width: 84px;
-    height: auto;
-    aspect-ratio: 336 / 480;
-    object-fit: cover;
-    border-radius: var(--lui-border-radius-xs);
-    border: var(--lui-border-width-1, 1px) solid var(--lui-color-black-alpha-2);
-    box-shadow: 4px 6px 16px -8px var(--lui-color-black-alpha-5);
-    user-select: none;
-    -webkit-user-drag: none;
+  /* a arte é ampliada além do card e cortada pelas bordas */
+  .widget__cover {
+    flex: 1;
+    min-height: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      scale: 1.12;
+      transform-origin: center top;
+      -webkit-user-drag: none;
+    }
   }
 }
 
-/* 3. Let's UI: bloco de terminal + chips */
+/* --- 3. Let's UI: instalação + dados ao vivo ---------------------------- */
 .widget--code {
+  /* Os tokens de texto são redefinidos no card porque o conteúdo do
+     lui-body vive no shadow DOM e só herda cor por variável. */
+  --lui-color-neutral-text-body: var(--lui-color-gray-1);
+  --lui-color-neutral-text-heading: var(--lui-color-gray-1);
+  --lui-color-neutral-text-caption: var(--lui-color-gray-4);
+  --widget-accent: var(--lui-color-green-5);
+
+  background-color: var(--lui-color-gray-8);
+  border-color: var(--lui-color-gray-8);
+
+  .widget__cta {
+    color: var(--lui-color-gray-1);
+  }
+
+  .widget__body {
+    gap: var(--lui-spacing-fluid-16);
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  .widget__lede {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-8);
+  }
+
+  .widget__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-8);
+
+    @media (min-width: 768px) {
+      flex: 0 0 auto;
+      width: 17rem;
+      align-items: flex-end;
+    }
+  }
+
   .terminal {
     display: flex;
     align-items: center;
@@ -211,7 +277,7 @@
     border-radius: var(--lui-border-radius-sm);
     background-color: transparent;
     border: var(--lui-border-width-1, 1px) dashed
-      var(--lui-color-neutral-border-subtle);
+      color-mix(in srgb, var(--lui-color-gray-1) 30%, transparent);
     font-family: 'Google Sans', monospace;
     font-size: 0.8125rem;
     color: var(--lui-color-neutral-text-body);
@@ -220,7 +286,19 @@
 
     &::before {
       content: '$';
-      color: var(--lui-color-green-6);
+      color: var(--widget-accent);
+    }
+  }
+
+  .widget__stats {
+    display: flex;
+    gap: var(--lui-spacing-fluid-16);
+    font-family: 'Google Sans', monospace;
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-caption);
+
+    .stat[hidden] {
+      display: none;
     }
   }
 }
