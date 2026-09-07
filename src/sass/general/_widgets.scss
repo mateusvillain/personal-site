@@ -4,8 +4,8 @@
    Tamanhos seguem a lógica de widgets de sistema (iOS/macOS): a área
    ocupada define a função do card, não só o espaço.
      .widget--lg    2x2  — o case, com espaço para hierarquia interna
-     .widget--tall  1x2  — a capa manda, texto mínimo
-     .widget--wide  3x1  — faixa: instalação + dados ao vivo
+     .widget--tall  1x1  — quadrado, a ilustração manda
+     .widget--md    2x1  — paisagem: uma área interativa
    ---------------------------------------------------------------------- */
 
 .board {
@@ -121,8 +121,8 @@
       grid-row: span 2;
     }
 
-    &--wide {
-      grid-column: span 3;
+    &--md {
+      grid-column: span 2;
     }
   }
 
@@ -134,7 +134,6 @@
     gap: var(--lui-spacing-fluid-8);
     padding: var(--lui-spacing-fluid-16);
   }
-
 
   &__title a {
     color: var(--lui-color-neutral-text-heading);
@@ -154,14 +153,15 @@
     gap: var(--lui-spacing-fluid-4);
     color: var(--lui-color-link-default);
     font-size: var(--lui-brand-typography-font-size-2xs, 0.875rem);
-
-    svg {
-      transition: transform 0.24s ease;
-    }
   }
 
-  &__cta:hover svg,
-  &:hover &__cta svg {
+  &__cta-icon {
+    display: inline-flex;
+    transition: transform 0.24s ease;
+  }
+
+  &__cta:hover &__cta-icon,
+  &:hover &__cta-icon {
     transform: translateX(3px);
   }
 }
@@ -225,74 +225,23 @@
   }
 }
 
-/* --- 3. Let's UI: instalação + dados ao vivo ---------------------------- */
+/* --- 3. Let's UI: card paisagem com uma área interativa --------------- */
 .widget--code {
-  /* Os tokens de texto são redefinidos no card porque o conteúdo do
-     lui-body vive no shadow DOM e só herda cor por variável. */
-  --lui-color-neutral-text-body: var(--lui-color-gray-1);
-  --lui-color-neutral-text-heading: var(--lui-color-gray-1);
-  --lui-color-neutral-text-caption: var(--lui-color-gray-4);
-  --widget-accent: var(--lui-color-green-5);
-
-  background-color: var(--lui-color-gray-8);
-  border-color: var(--lui-color-gray-8);
-
-  .widget__cta {
-    color: var(--lui-color-gray-1);
-  }
+  --widget-accent: var(--lui-color-green-6);
 
   .widget__body {
     gap: var(--lui-spacing-fluid-16);
-
-    @media (min-width: 768px) {
-      flex-direction: row;
-      align-items: flex-start;
-    }
   }
 
   .widget__lede {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--lui-spacing-fluid-8);
-  }
-
-  .widget__aside {
-    display: flex;
-    flex-direction: column;
-    gap: var(--lui-spacing-fluid-8);
-
-    @media (min-width: 768px) {
-      flex: 0 0 auto;
-      width: 17rem;
-      align-items: flex-end;
-    }
-  }
-
-  .terminal {
-    display: flex;
-    align-items: center;
-    gap: var(--lui-spacing-fixed-8);
-    padding: var(--lui-spacing-fixed-8) var(--lui-spacing-fluid-16);
-    border-radius: var(--lui-border-radius-sm);
-    background-color: transparent;
-    border: var(--lui-border-width-1, 1px) dashed
-      color-mix(in srgb, var(--lui-color-gray-1) 30%, transparent);
-    font-family: 'Google Sans', monospace;
-    font-size: 0.8125rem;
-    color: var(--lui-color-neutral-text-body);
-    overflow-x: auto;
-    white-space: nowrap;
-
-    &::before {
-      content: '$';
-      color: var(--widget-accent);
-    }
+    gap: var(--lui-spacing-fluid-4);
   }
 
   .widget__stats {
     display: flex;
-    gap: var(--lui-spacing-fluid-16);
+    gap: var(--lui-spacing-fluid-12);
     font-family: 'Google Sans', monospace;
     font-size: 0.75rem;
     color: var(--lui-color-neutral-text-caption);
@@ -301,11 +250,191 @@
       display: none;
     }
   }
+
+  /* área do conceito: ocupa o espaço livre entre o título e o comando */
+  .concept {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--lui-spacing-fluid-12);
+    min-height: 0;
+    cursor: auto;
+  }
+
+  .terminal {
+    position: relative;
+    align-self: flex-start;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fixed-8);
+    padding: var(--lui-spacing-fluid-4) var(--lui-spacing-fluid-12);
+    border-radius: var(--lui-border-radius-sm);
+    background-color: transparent;
+    border: var(--lui-border-width-1, 1px) dashed
+      var(--lui-color-neutral-border-subtle);
+    font-family: 'Google Sans', monospace;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-body);
+    overflow-x: auto;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &::before {
+      content: '$';
+      color: var(--widget-accent);
+    }
+
+    &:hover {
+      border-color: var(--lui-color-neutral-border-default);
+    }
+
+    &__feedback {
+      color: var(--widget-accent);
+
+      &[hidden] {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Conceito 1 — régua fluida */
+.concept--fluid {
+  .fluid__sample {
+    font-weight: var(--lui-typography-weight-medium, 500);
+    line-height: 1.15;
+    color: var(--lui-color-neutral-text-heading);
+    white-space: nowrap;
+
+    &--sm {
+      font-weight: var(--lui-typography-weight-regular, 400);
+      color: var(--lui-color-neutral-text-caption);
+    }
+  }
+
+  .fluid__range {
+    width: 100%;
+    max-width: 22rem;
+    accent-color: var(--widget-accent);
+    cursor: ew-resize;
+  }
+
+  .fluid__readout code {
+    font-family: 'Google Sans', monospace;
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+/* Card em duas colunas quando o conceito é uma pequena interface */
+.widget--ui {
+  .widget__body {
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-areas:
+        'lede ui'
+        'term ui';
+      align-items: start;
+      column-gap: var(--lui-spacing-fluid-24);
+    }
+  }
+
+  .widget__lede {
+    grid-area: lede;
+  }
+
+  .concept {
+    grid-area: ui;
+    justify-content: flex-start;
+  }
+
+  .terminal {
+    grid-area: term;
+    align-self: end;
+  }
+}
+
+/* Base das mini interfaces montadas com componentes do Let's UI */
+.mini-ui {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lui-spacing-fluid-12);
+  width: 100%;
+
+  &__row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--lui-spacing-fluid-8);
+
+    &--between {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    lui-input {
+      flex: 1;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-8);
+    max-height: 8.5rem;
+    overflow-y: auto;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fluid-8);
+
+    .chip {
+      appearance: none;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      border-radius: var(--lui-border-radius-circle);
+
+      &:focus-visible {
+        outline: var(--lui-border-width-2, 2px) solid
+          var(--lui-color-neutral-focus-ring);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 7.5rem;
+    overflow-y: auto;
+    font-family: 'Google Sans', monospace;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-caption);
+
+    li[hidden] {
+      display: none;
+    }
+  }
+
+  lui-alert[hidden] {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .widget,
-  .widget__cta svg {
+  .widget__cta-icon {
     transition: none;
   }
 }

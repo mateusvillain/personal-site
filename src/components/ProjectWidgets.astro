@@ -1,19 +1,30 @@
 ---
 /**
- * Quadro de widgets de projeto.
+ * Quadro de projetos — VERSAO 2.
  *
- * Cada widget tem um tratamento proprio, dentro do mesmo padrao de
- * superficie, raio e arrasto:
- *   locaweb — neutro, a paleta de tokens como peca central
- *   livro   — a ilustracao da capa preenche o card, com filtro escuro
- *   letsui  — superficie invertida, cara de terminal
+ * Segue o modelo do Figma (node 8299-326): tres cards com a mesma
+ * anatomia — capa em cima, rodape com titulo, descricao e a seta.
+ *
+ *   locaweb — capa interativa: os componentes do design system (ver
+ *             LocawebCover.astro)
+ *   livro   — capa em imagem: a ilustracao da capa do livro
+ *   letsui  — capa interativa: miniatura navegavel da documentacao
+ *             (ver LetsUiCover.astro)
+ *
+ * A versao anterior do quadro esta guardada em ProjectWidgetsV1.astro.
  */
-const { id = 'widgets' } = Astro.props
+import LocawebCover from './LocawebCover.astro'
+import LetsUiCover from './LetsUiCover.astro'
+
+const { id = 'projects' } = Astro.props
 const uid = (name) => `${id}-${name}`
+
+const bookUrl = 'https://www.casadocodigo.com.br/products/livro-design-system'
+const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 ---
 
-<section class="board" aria-labelledby={uid('heading')}>
-  <div class="board__header">
+<section class="pboard" aria-labelledby={uid('heading')}>
+  <div class="pboard__header">
     <lui-heading
       variant="block-title"
       as="h2"
@@ -21,108 +32,59 @@ const uid = (name) => `${id}-${name}`
       data-i18n="projects"></lui-heading>
     <button
       type="button"
-      class="board__reset"
+      class="pboard__reset"
       data-reset-for={id}
       data-i18n="projects-reset"
       hidden></button>
   </div>
 
-  <div class="board__stage" data-board={id}>
-    <!-- Grande 2x2: o case, com a paleta de tokens como peca central -->
+  <div class="pboard__stage" data-board={id}>
+    <!-- Locaweb: capa larga com os componentes do sistema -->
     <article
-      class="widget widget--lg widget--tokens"
+      class="pcard pcard--locaweb"
       data-widget="locaweb"
       tabindex="0"
-      aria-roledescription="widget"
+      aria-roledescription="card de projeto"
       aria-labelledby={uid('locaweb-title')}
     >
-      <div class="widget__body">
-        <lui-body
-          variant="lg"
-          as="h3"
-          class="widget__title"
-          id={uid('locaweb-title')}
-        >
-          <a
-            href="/case/locaweb-design-system/"
-            data-link="locaweb-design-system"
-            data-i18n="locaweb-title"></a>
-        </lui-body>
-        <lui-body variant="md" data-i18n="locaweb-description"></lui-body>
-
-        <div class="token-strip" aria-hidden="true">
-          <span style="--swatch: var(--lui-color-blue-2)">100</span>
-          <span style="--swatch: var(--lui-color-blue-3)">200</span>
-          <span style="--swatch: var(--lui-color-blue-4)">300</span>
-          <span style="--swatch: var(--lui-color-blue-5)">400</span>
-          <span style="--swatch: var(--lui-color-blue-6)">500</span>
-          <span style="--swatch: var(--lui-color-blue-7)">600</span>
-          <span style="--swatch: var(--lui-color-blue-8)">700</span>
-        </div>
+      <div class="pcard__cover">
+        <LocawebCover id={uid('locaweb')} />
       </div>
 
-      <footer class="widget__footer">
-        <a
-          class="widget__cta"
-          href="/case/locaweb-design-system/"
-          data-link="locaweb-design-system"
-        >
-          <span data-i18n="locaweb-cta"></span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5"
-              stroke="currentColor"
-              stroke-width="1.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
+      <footer class="pcard__foot">
+        <div class="pcard__text">
+          <lui-body
+            variant="lg"
+            as="h3"
+            class="pcard__title"
+            id={uid('locaweb-title')}
+          >
+            <a
+              href="/case/locaweb-design-system/"
+              data-link="locaweb-design-system"
+              data-i18n="locaweb-title"></a>
+          </lui-body>
+          <lui-body
+            variant="md"
+            class="pcard__desc"
+            data-i18n="locaweb-description"></lui-body>
+        </div>
+
+        <span class="pcard__go" aria-hidden="true">
+          <ph-arrow-right size="24"></ph-arrow-right>
+        </span>
       </footer>
     </article>
 
-    <!-- Alto 1x2: texto no topo, a ilustração da capa sangrando embaixo -->
+    <!-- Livro: a unica capa que continua sendo imagem -->
     <article
-      class="widget widget--tall widget--book"
+      class="pcard pcard--book"
       data-widget="book"
       tabindex="0"
-      aria-roledescription="widget"
+      aria-roledescription="card de projeto"
       aria-labelledby={uid('book-title')}
     >
-      <div class="widget__body">
-        <lui-body
-          variant="lg"
-          as="h3"
-          class="widget__title"
-          id={uid('book-title')}
-        >
-          <a
-            href="https://www.casadocodigo.com.br/products/livro-design-system"
-            target="_blank"
-            rel="noopener"
-            data-link="book"
-            data-i18n="book-title"></a>
-        </lui-body>
-
-        <a
-          class="widget__cta"
-          href="https://www.casadocodigo.com.br/products/livro-design-system"
-          target="_blank"
-          rel="noopener"
-          data-link="book"
-        >
-          <span data-i18n="book-cta"></span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M6 3h7v7M13 3 4 12"
-              stroke="currentColor"
-              stroke-width="1.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
-      </div>
-
-      <div class="widget__cover" aria-hidden="true">
+      <div class="pcard__cover pcard__cover--art">
         <img
           src="/img/dscover.png"
           width="494"
@@ -132,61 +94,68 @@ const uid = (name) => `${id}-${name}`
           alt=""
         />
       </div>
-    </article>
 
-    <!-- Faixa larga 3x1: instalacao + dados ao vivo do repositorio -->
-    <article
-      class="widget widget--wide widget--code"
-      data-widget="letsui"
-      tabindex="0"
-      aria-roledescription="widget"
-      aria-labelledby={uid('letsui-title')}
-    >
-      <div class="widget__body">
-        <div class="widget__lede">
+      <footer class="pcard__foot">
+        <div class="pcard__text">
           <lui-body
             variant="lg"
             as="h3"
-            class="widget__title"
-            id={uid('letsui-title')}
+            class="pcard__title"
+            id={uid('book-title')}
           >
             <a
-              href="https://github.com/mateusvillain/lets-ui/"
+              href={bookUrl}
               target="_blank"
               rel="noopener"
-              data-link="github-lets-ui"
-              data-i18n="letsui-title"></a>
+              data-link="book"
+              data-i18n="book-title"></a>
           </lui-body>
-          <lui-body variant="md" data-i18n="letsui-description"></lui-body>
+          <lui-body
+            variant="md"
+            class="pcard__desc"
+            data-i18n="book-description"></lui-body>
         </div>
 
-        <div class="widget__aside">
-          <code class="terminal">npm i @lets-ui/components</code>
-          <p class="widget__stats">
-            <span class="stat" data-stat="version" hidden></span>
-            <span class="stat" data-stat="stars" hidden></span>
-          </p>
-        </div>
+        <span class="pcard__go" aria-hidden="true">
+          <ph-arrow-up-right size="24"></ph-arrow-up-right>
+        </span>
+      </footer>
+    </article>
+
+    <!-- Let's UI: capa larga com a miniatura da documentacao -->
+    <article
+      class="pcard pcard--letsui"
+      data-widget="letsui"
+      tabindex="0"
+      aria-roledescription="card de projeto"
+      aria-labelledby={uid('letsui-title')}
+    >
+      <div class="pcard__cover">
+        <LetsUiCover id={uid('letsui')} />
       </div>
 
-      <footer class="widget__footer">
-        <a
-          class="widget__cta"
-          href="https://github.com/mateusvillain/lets-ui/"
-          target="_blank"
-          rel="noopener"
-          data-link="github-lets-ui"
-        >
-          <span data-i18n="letsui-cta"></span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M6 3h7v7M13 3 4 12"
-              stroke="currentColor"
-              stroke-width="1.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
+      <footer class="pcard__foot">
+        <div class="pcard__text">
+          <lui-body
+            variant="lg"
+            as="h3"
+            class="pcard__title"
+            id={uid('letsui-title')}
+          >
+            <a href={repoUrl} target="_blank" rel="noopener" data-link="github-lets-ui">
+              Let's UI
+            </a>
+            <span class="pcard__badge" data-stat="version" hidden></span>
+          </lui-body>
+          <lui-body
+            variant="md"
+            class="pcard__desc"
+            data-i18n="letsui-description"></lui-body>
+        </div>
+
+        <span class="pcard__go" aria-hidden="true">
+          <ph-arrow-up-right size="24"></ph-arrow-up-right>
+        </span>
       </footer>
     </article>
   </div>
@@ -194,11 +163,10 @@ const uid = (name) => `${id}-${name}`
 
 <script>
   /* ---------------------------------------------------------------------
-     Arrasto livre dos widgets: mouse, caneta e toque.
-     - mouse: arrasta a partir de qualquer ponto do card (menos links)
+     Arrasto livre dos cards: mouse, caneta e toque.
+     - mouse: arrasta a partir de qualquer ponto do card (menos controles)
      - toque/caneta: pressione e segure por um instante para "levantar" o
        card; assim o scroll vertical da pagina continua funcionando
-     O script e unico na pagina e inicializa todos os quadros presentes.
   --------------------------------------------------------------------- */
   const DRAG_THRESHOLD = 5
   const HOLD_DELAY = 260
@@ -207,11 +175,11 @@ const uid = (name) => `${id}-${name}`
   const STAGE_SLACK = 32
   const STEP = 12
 
-  document.querySelectorAll('.board__stage').forEach((board) => {
+  document.querySelectorAll('.pboard__stage').forEach((board) => {
     const boardId = board.dataset.board
-    const widgets = Array.from(board.querySelectorAll('.widget'))
+    const cards = Array.from(board.querySelectorAll('.pcard'))
     const resetButton = document.querySelector(`[data-reset-for="${boardId}"]`)
-    const STORAGE_KEY = `widget-positions:${boardId}`
+    const STORAGE_KEY = `card-positions:${boardId}`
 
     let topLayer = 1
 
@@ -236,15 +204,15 @@ const uid = (name) => `${id}-${name}`
       syncResetButton()
     }
 
-    const apply = (widget, x, y) => {
-      widget.style.setProperty('--widget-x', `${Math.round(x)}px`)
-      widget.style.setProperty('--widget-y', `${Math.round(y)}px`)
+    const apply = (card, x, y) => {
+      card.style.setProperty('--card-x', `${Math.round(x)}px`)
+      card.style.setProperty('--card-y', `${Math.round(y)}px`)
     }
 
-    const clamp = (widget, x, y) => {
-      const rect = widget.getBoundingClientRect()
+    const clamp = (card, x, y) => {
+      const rect = card.getBoundingClientRect()
       const stage = board.getBoundingClientRect()
-      const current = positions[widget.dataset.widget] || { x: 0, y: 0 }
+      const current = positions[card.dataset.widget] || { x: 0, y: 0 }
       // bordas do card sem o deslocamento atual
       const left = rect.left - current.x
       const right = rect.right - current.x
@@ -253,7 +221,7 @@ const uid = (name) => `${id}-${name}`
       // horizontal: dentro da janela, para nao criar rolagem lateral
       const minX = GUTTER - left
       const maxX = window.innerWidth - GUTTER - right
-      // vertical: qualquer ponto do quadro, igual para todos os widgets
+      // vertical: qualquer ponto do quadro, igual para todos os cards
       const minY = stage.top - STAGE_SLACK - top
       const maxY = stage.bottom + STAGE_SLACK - bottom
       return {
@@ -262,16 +230,16 @@ const uid = (name) => `${id}-${name}`
       }
     }
 
-    const move = (widget, x, y, persist) => {
-      const next = clamp(widget, x, y)
-      positions[widget.dataset.widget] = next
-      apply(widget, next.x, next.y)
+    const move = (card, x, y, persist) => {
+      const next = clamp(card, x, y)
+      positions[card.dataset.widget] = next
+      apply(card, next.x, next.y)
       if (persist) savePositions()
     }
 
-    widgets.forEach((widget) => {
-      const saved = positions[widget.dataset.widget]
-      if (saved) apply(widget, saved.x, saved.y)
+    cards.forEach((card) => {
+      const saved = positions[card.dataset.widget]
+      if (saved) apply(card, saved.x, saved.y)
 
       let pointerId = null
       let startX = 0
@@ -289,27 +257,33 @@ const uid = (name) => `${id}-${name}`
         pointerId = event.pointerId
         startX = event.clientX
         startY = event.clientY
-        const current = positions[widget.dataset.widget] || { x: 0, y: 0 }
+        const current = positions[card.dataset.widget] || { x: 0, y: 0 }
         originX = current.x
         originY = current.y
       }
 
       const lift = () => {
         dragging = true
-        widget.style.zIndex = String(++topLayer)
-        widget.classList.add('is-dragging')
-        if (pointerId !== null) widget.setPointerCapture(pointerId)
+        card.style.zIndex = String(++topLayer)
+        card.classList.add('is-dragging')
+        if (pointerId !== null) card.setPointerCapture(pointerId)
       }
 
-      widget.addEventListener('pointerdown', (event) => {
+      card.addEventListener('pointerdown', (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return
-        if (event.target.closest('a, button')) return
+        // os controles das capas interativas vem antes do arrasto
+        if (
+          event.target.closest(
+            'a, button, input, label, select, textarea, [data-no-drag]'
+          )
+        )
+          return
 
         arm(event)
 
         if (event.pointerType === 'mouse') {
           // no mouse o arrasto comeca assim que o cursor se move
-          widget.setPointerCapture(event.pointerId)
+          card.setPointerCapture(event.pointerId)
           return
         }
 
@@ -320,7 +294,7 @@ const uid = (name) => `${id}-${name}`
         }, HOLD_DELAY)
       })
 
-      widget.addEventListener('pointermove', (event) => {
+      card.addEventListener('pointermove', (event) => {
         if (!armed || event.pointerId !== pointerId) return
         const dx = event.clientX - startX
         const dy = event.clientY - startY
@@ -343,11 +317,11 @@ const uid = (name) => `${id}-${name}`
 
         moved = true
         event.preventDefault()
-        move(widget, originX + dx, originY + dy, false)
+        move(card, originX + dx, originY + dy, false)
       })
 
       // impede o scroll nativo enquanto o card estiver levantado
-      widget.addEventListener(
+      card.addEventListener(
         'touchmove',
         (event) => {
           if (dragging) event.preventDefault()
@@ -362,9 +336,9 @@ const uid = (name) => `${id}-${name}`
           holdTimer = null
         }
         if (dragging) {
-          widget.classList.remove('is-dragging')
-          if (widget.hasPointerCapture(pointerId)) {
-            widget.releasePointerCapture(pointerId)
+          card.classList.remove('is-dragging')
+          if (card.hasPointerCapture(pointerId)) {
+            card.releasePointerCapture(pointerId)
           }
           if (moved) savePositions()
         }
@@ -373,11 +347,11 @@ const uid = (name) => `${id}-${name}`
         pointerId = null
       }
 
-      widget.addEventListener('pointerup', endDrag)
-      widget.addEventListener('pointercancel', endDrag)
+      card.addEventListener('pointerup', endDrag)
+      card.addEventListener('pointercancel', endDrag)
 
       // um arrasto nao deve disparar o link que estiver sob o cursor
-      widget.addEventListener(
+      card.addEventListener(
         'click',
         (event) => {
           if (!moved) return
@@ -388,16 +362,17 @@ const uid = (name) => `${id}-${name}`
         true
       )
 
-      widget.addEventListener('dragstart', (event) => event.preventDefault())
+      card.addEventListener('dragstart', (event) => event.preventDefault())
 
-      // teclado: setas movem o widget em foco, Escape devolve ao lugar
-      widget.addEventListener('keydown', (event) => {
-        const current = positions[widget.dataset.widget] || { x: 0, y: 0 }
+      // teclado: setas movem o card em foco, Escape devolve ao lugar
+      card.addEventListener('keydown', (event) => {
+        if (event.target !== card) return
+        const current = positions[card.dataset.widget] || { x: 0, y: 0 }
         const step = event.shiftKey ? STEP * 4 : STEP
 
         if (event.key === 'Escape') {
-          delete positions[widget.dataset.widget]
-          apply(widget, 0, 0)
+          delete positions[card.dataset.widget]
+          apply(card, 0, 0)
           savePositions()
           return
         }
@@ -412,29 +387,29 @@ const uid = (name) => `${id}-${name}`
         if (!delta) return
 
         event.preventDefault()
-        widget.style.zIndex = String(++topLayer)
-        move(widget, current.x + delta[0], current.y + delta[1], true)
+        card.style.zIndex = String(++topLayer)
+        move(card, current.x + delta[0], current.y + delta[1], true)
       })
     })
 
     resetButton?.addEventListener('click', () => {
-      widgets.forEach((widget) => {
-        delete positions[widget.dataset.widget]
-        apply(widget, 0, 0)
-        widget.style.zIndex = ''
+      cards.forEach((card) => {
+        delete positions[card.dataset.widget]
+        apply(card, 0, 0)
+        card.style.zIndex = ''
       })
       topLayer = 1
       savePositions()
     })
 
-    // ao redimensionar, garante que nenhum widget fique fora da tela
+    // ao redimensionar, garante que nenhum card fique fora da tela
     let resizeTimer
     window.addEventListener('resize', () => {
       window.clearTimeout(resizeTimer)
       resizeTimer = window.setTimeout(() => {
-        widgets.forEach((widget) => {
-          const current = positions[widget.dataset.widget]
-          if (current) move(widget, current.x, current.y, false)
+        cards.forEach((card) => {
+          const current = positions[card.dataset.widget]
+          if (current) move(card, current.x, current.y, false)
         })
       }, 150)
     })
@@ -443,22 +418,17 @@ const uid = (name) => `${id}-${name}`
   })
 
   /* ---------------------------------------------------------------------
-     Dados ao vivo do Let's UI: versao publicada no npm e estrelas no
-     GitHub. Falha em silencio: os campos so aparecem quando ha resposta.
+     Versao publicada do Let's UI no npm, exibida ao lado do titulo.
+     Falha em silencio: o selo so aparece quando ha resposta.
   --------------------------------------------------------------------- */
   const STATS_CACHE = 'letsui-stats'
   const STATS_TTL = 1000 * 60 * 60 * 6
 
-  const showStat = (name, value) => {
-    document.querySelectorAll(`[data-stat="${name}"]`).forEach((el) => {
-      el.textContent = value
+  const showVersion = (version) => {
+    document.querySelectorAll('[data-stat="version"]').forEach((el) => {
+      el.textContent = `v${version}`
       el.hidden = false
     })
-  }
-
-  const renderStats = (stats) => {
-    if (stats.version) showStat('version', `v${stats.version}`)
-    if (stats.stars) showStat('stars', `★ ${stats.stars}`)
   }
 
   const readCache = () => {
@@ -471,42 +441,32 @@ const uid = (name) => `${id}-${name}`
     return null
   }
 
-  const loadStats = async () => {
+  const loadVersion = async () => {
     const cached = readCache()
-    if (cached) {
-      renderStats(cached)
+    if (cached?.version) {
+      showVersion(cached.version)
       return
     }
 
-    const stats = {}
+    const response = await fetch(
+      'https://registry.npmjs.org/@lets-ui/components/latest'
+    ).catch(() => null)
+    if (!response?.ok) return
 
-    const [npm, repo] = await Promise.allSettled([
-      fetch('https://registry.npmjs.org/@lets-ui/components/latest').then((r) =>
-        r.ok ? r.json() : null
-      ),
-      fetch('https://api.github.com/repos/mateusvillain/lets-ui').then((r) =>
-        r.ok ? r.json() : null
-      ),
-    ])
+    const payload = await response.json().catch(() => null)
+    if (!payload?.version) return
 
-    if (npm.status === 'fulfilled' && npm.value?.version) {
-      stats.version = npm.value.version
-    }
-    if (repo.status === 'fulfilled' && repo.value?.stargazers_count != null) {
-      stats.stars = repo.value.stargazers_count
-    }
-
-    renderStats(stats)
+    showVersion(payload.version)
 
     try {
       sessionStorage.setItem(
         STATS_CACHE,
-        JSON.stringify({ at: Date.now(), stats })
+        JSON.stringify({ at: Date.now(), stats: { version: payload.version } })
       )
     } catch {
       /* modo privado: apenas nao guarda */
     }
   }
 
-  if (document.querySelector('[data-stat]')) loadStats()
+  if (document.querySelector('[data-stat="version"]')) loadVersion()
 </script>

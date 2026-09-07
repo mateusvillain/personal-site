@@ -1,0 +1,328 @@
+---
+/**
+ * Capa do card do Let's UI.
+ *
+ * Uma miniatura navegavel do site de documentacao, montada em HTML: as
+ * secoes trocam o conteudo, as abas trocam o conjunto de secoes e a
+ * busca filtra a navegacao.
+ *
+ * A miniatura e desenhada na escala do Figma (580x310 num quadro de
+ * 724px) e reescalada pelo CSS: o container define 1em = 1px do
+ * desenho, entao todas as medidas aqui sao proporcionais.
+ */
+const { id = 'lui' } = Astro.props
+const uid = (name) => `${id}-${name}`
+
+const sections = {
+  documentation: [
+    {
+      group: 'Get started',
+      pages: [
+        {
+          title: 'Introduction',
+          lede: 'Understand the principles behind the system and how to adopt it.',
+          body: "Let's UI is built around fluid tokens: every size, space and type step is a clamp() that adapts to the viewport instead of jumping between breakpoints. Start here to understand the vocabulary, the brand layers and how a product plugs into the system without forking it.",
+        },
+        {
+          title: 'Design',
+          lede: 'Explore design guidelines, and access Figma libraries and plugins.',
+          body: "Immerse yourself in our extensive design system documentation, where you can uncover invaluable best practices, leverage our meticulously curated Figma libraries, and supercharge your workflow with a selection of essential plugins tailored for efficiency and creativity. Whether you're a novice or a seasoned designer, our resources are designed to elevate your design experience and streamline your projects.",
+        },
+        {
+          title: 'Develop',
+          lede: 'Install the packages and ship the components in any stack.',
+          body: 'The components are web components: they run the same in React, Vue, Astro or plain HTML. Install @lets-ui/components, import the styles, and the tokens arrive as CSS custom properties you can read from your own code.',
+        },
+        {
+          title: 'Changelog',
+          lede: 'Every release, with the reasoning behind each change.',
+          body: 'Releases follow semantic versioning. Breaking changes always come with a migration note and, whenever possible, a codemod. Deprecated tokens keep working for one major version before being removed.',
+        },
+      ],
+    },
+    {
+      group: 'Foundation',
+      pages: [
+        {
+          title: 'Accessibility',
+          lede: 'Contrast, focus and motion as part of the token layer.',
+          body: 'Accessibility is not a checklist at the end: contrast pairs are baked into the color tokens, focus rings are a token of their own, and every animation respects prefers-reduced-motion by default.',
+        },
+        {
+          title: 'Color',
+          lede: 'A multi-brand palette built from a single scale.',
+          body: 'Each brand declares its own primitives; the semantic layer stays the same. That is what lets the same component render in a different brand by switching a single data-brand attribute on the root element.',
+        },
+        {
+          title: 'Icons',
+          lede: 'A consistent set, sized by the type scale.',
+          body: 'Icons inherit currentColor and align to the text they sit next to. Sizes come from the same fluid scale as typography, so an icon never drifts away from its label.',
+        },
+        {
+          title: 'Spacing',
+          lede: 'Fixed and fluid spacing, side by side.',
+          body: 'Fixed spacing keeps component internals stable; fluid spacing lets layouts breathe as the viewport grows. Both live in the same scale, so mixing them stays predictable.',
+        },
+        {
+          title: 'Typography',
+          lede: 'Type that scales with the viewport, not with breakpoints.',
+          body: 'Every step of the type scale is a clamp() between a minimum and a maximum, interpolated by viewport width. The result is text that never jumps and never needs a media query.',
+        },
+      ],
+    },
+  ],
+  patterns: [
+    {
+      group: 'Forms',
+      pages: [
+        {
+          title: 'Sign in',
+          lede: 'The shortest path between a user and their account.',
+          body: 'One column, labels above the fields, errors attached to the input they belong to. The submit button stays enabled so the form can explain what is missing instead of hiding the way forward.',
+        },
+        {
+          title: 'Validation',
+          lede: 'Tell people what happened, where, and what to do next.',
+          body: 'Validate on blur, never on every keystroke. Messages are specific and actionable, and the first invalid field takes focus when the form is submitted.',
+        },
+        {
+          title: 'Filters',
+          lede: 'Narrowing a list without losing the list.',
+          body: 'Filters are additive and always reversible. The current selection is visible as chips, and clearing everything is a single action.',
+        },
+      ],
+    },
+    {
+      group: 'Feedback',
+      pages: [
+        {
+          title: 'Empty state',
+          lede: 'An empty screen is still a screen with a job to do.',
+          body: 'Say what would normally be here, why it is not, and offer the one action that fills it. Illustration is optional; the sentence is not.',
+        },
+        {
+          title: 'Loading',
+          lede: 'Skeletons for layout, spinners for actions.',
+          body: 'If the shape of the result is known, show the shape. If it is a single action, show progress on the control that started it.',
+        },
+        {
+          title: 'Errors',
+          lede: 'Blame the system, never the person.',
+          body: 'Plain language, no error codes in the headline, and always a way out: retry, go back, or contact support with the details already filled in.',
+        },
+      ],
+    },
+  ],
+}
+
+const tabs = [
+  { key: 'documentation', label: 'Documentation' },
+  { key: 'patterns', label: 'Patterns' },
+]
+
+const initial = sections.documentation[0].pages[1] // "Design", como no Figma
+---
+
+<div class="luicover">
+  <div class="luisite" data-lui-site={id}>
+    <div class="luisite__bar">
+      <span class="luisite__logo" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16.0838 16" fill="none">
+          <path
+            d="M0 1.33333C0 0.596953 0.600079 0 1.34031 0H12.0628C14.2835 0 16.0838 1.79086 16.0838 4V14.6667C16.0838 15.403 15.4837 16 14.7435 16H0V1.33333Z"
+            fill="#6270ED"></path>
+          <path d="M4.02094 9L8.04189 16H0L4.02094 9Z" fill="#01CE8A"></path>
+          <path
+            d="M16.0838 4C16.0838 6.20914 14.2835 8 12.0628 8C9.84212 8 8.04189 6.20914 8.04189 4C8.04189 1.79086 9.84212 0 12.0628 0C14.2835 0 16.0838 1.79086 16.0838 4Z"
+            fill="#FF9900"></path>
+        </svg>
+        <svg
+          width="42.32"
+          height="9.51"
+          viewBox="0 0 42.3198 9.50667"
+          fill="none"
+          class="luisite__wordmark"
+        >
+          <path d="M41.0733 9.33333V0.533334H42.3198V9.33333H41.0733Z" fill="currentColor"></path>
+          <path
+            d="M35.1375 9.50667C34.655 9.50667 34.2171 9.45333 33.824 9.34667C33.4308 9.24889 33.0868 9.10222 32.7919 8.90667C32.4971 8.70222 32.2469 8.45778 32.0414 8.17333C31.8448 7.88889 31.6929 7.56444 31.5856 7.2C31.4874 6.83556 31.4382 6.43111 31.4382 5.98667V0.533334H32.6713V5.94667C32.6713 6.48 32.7651 6.92889 32.9528 7.29333C33.1404 7.64889 33.4174 7.92 33.7838 8.10667C34.1501 8.29333 34.6014 8.38667 35.1375 8.38667C35.6915 8.38667 36.1472 8.29778 36.5046 8.12C36.871 7.93333 37.1435 7.65778 37.3222 7.29333C37.5098 6.92889 37.6037 6.48 37.6037 5.94667V0.533334H38.8233V5.98667C38.8233 7.10667 38.5106 7.97333 37.8851 8.58667C37.2596 9.2 36.3438 9.50667 35.1375 9.50667Z"
+            fill="currentColor"></path>
+          <path
+            d="M23.4874 9.50667C23.0049 9.50667 22.576 9.45333 22.2007 9.34667C21.8254 9.24889 21.5127 9.10667 21.2625 8.92C21.0123 8.72444 20.8202 8.49333 20.6862 8.22667C20.5521 7.96 20.4807 7.66667 20.4717 7.34667L21.5038 7.08C21.4859 7.37333 21.5574 7.63111 21.7182 7.85333C21.888 8.06667 22.1248 8.23111 22.4286 8.34667C22.7413 8.46222 23.1166 8.52 23.5544 8.52C24.0816 8.52 24.4882 8.43111 24.7741 8.25333C25.069 8.07556 25.2164 7.83111 25.2164 7.52C25.2164 7.27111 25.136 7.08 24.9752 6.94667C24.8143 6.80445 24.591 6.69333 24.305 6.61333C24.028 6.52445 23.6974 6.44445 23.3132 6.37333C22.9915 6.30222 22.6698 6.22222 22.3482 6.13333C22.0265 6.04445 21.7316 5.92889 21.4636 5.78667C21.2044 5.63556 20.9944 5.44 20.8336 5.2C20.6728 4.96 20.5924 4.66222 20.5924 4.30667C20.5924 3.88889 20.704 3.52889 20.9274 3.22667C21.1508 2.92445 21.468 2.68889 21.8791 2.52C22.2901 2.35111 22.7815 2.26667 23.3534 2.26667C23.9253 2.26667 24.4122 2.35556 24.8143 2.53333C25.2164 2.70222 25.5336 2.94222 25.766 3.25333C25.9983 3.56444 26.1279 3.92889 26.1547 4.34667L25.0958 4.61333C25.0869 4.32 25.0065 4.07111 24.8546 3.86667C24.7116 3.66222 24.5061 3.51111 24.238 3.41333C23.9699 3.30667 23.6572 3.25333 23.2998 3.25333C22.8262 3.25333 22.4509 3.34222 22.1739 3.52C21.8969 3.69778 21.7584 3.94222 21.7584 4.25333C21.7584 4.48445 21.8388 4.67111 21.9997 4.81333C22.1695 4.95556 22.3973 5.06667 22.6832 5.14667C22.9692 5.22667 23.2864 5.30667 23.6349 5.38667C23.9923 5.45778 24.3318 5.53778 24.6535 5.62667C24.9841 5.71556 25.279 5.83111 25.5381 5.97333C25.7972 6.11556 26.0028 6.30667 26.1547 6.54667C26.3066 6.77778 26.3825 7.07556 26.3825 7.44C26.3825 7.89333 26.2619 8.27556 26.0206 8.58667C25.7794 8.88889 25.4398 9.12 25.002 9.28C24.5731 9.43111 24.0682 9.50667 23.4874 9.50667Z"
+            fill="currentColor"></path>
+          <path d="M18.6125 3.17333L18.4382 0H19.6043L19.43 3.17333H18.6125Z" fill="currentColor"
+          ></path>
+          <path
+            d="M16.2526 9.46667C15.6092 9.46667 15.1312 9.29333 14.8184 8.94667C14.5057 8.6 14.3493 8.07111 14.3493 7.36V3.45333H13.3039L13.3173 2.44H13.974C14.1974 2.44 14.3583 2.4 14.4565 2.32C14.5638 2.24 14.6263 2.10667 14.6442 1.92L14.7782 0.880001H15.5288V2.44H17.5259V3.46667H15.5288V7.33333C15.5288 7.68889 15.6092 7.94667 15.77 8.10667C15.9398 8.25778 16.1811 8.33333 16.4938 8.33333C16.6636 8.33333 16.8378 8.31111 17.0165 8.26667C17.2042 8.22222 17.3874 8.13333 17.5661 8V9.21333C17.3069 9.31111 17.0657 9.37778 16.8423 9.41333C16.6278 9.44889 16.4313 9.46667 16.2526 9.46667Z"
+            fill="currentColor"></path>
+          <path
+            d="M9.50471 9.50667C8.95965 9.50667 8.47714 9.42667 8.05717 9.26667C7.64614 9.09778 7.29766 8.85778 7.01173 8.54667C6.7258 8.23556 6.51135 7.86667 6.36838 7.44C6.22541 7.01333 6.15393 6.53333 6.15393 6C6.15393 5.45778 6.22541 4.96 6.36838 4.50667C6.51135 4.05333 6.72133 3.65778 6.99833 3.32C7.27532 2.98222 7.61487 2.72445 8.01696 2.54667C8.41906 2.36 8.87923 2.26667 9.39749 2.26667C9.85319 2.26667 10.2687 2.34222 10.644 2.49333C11.0193 2.64445 11.3365 2.88 11.5956 3.2C11.8637 3.51111 12.0647 3.90667 12.1987 4.38667C12.3328 4.85778 12.3864 5.41333 12.3596 6.05333L6.91791 6.09333V5.26667L11.6224 5.22667L11.2069 5.78667C11.2516 5.22667 11.198 4.76445 11.0461 4.4C10.8942 4.03556 10.6753 3.76 10.3893 3.57333C10.1123 3.38667 9.78171 3.29333 9.39749 3.29333C8.98646 3.29333 8.62457 3.4 8.31183 3.61333C7.99909 3.82667 7.75784 4.13333 7.58806 4.53333C7.42723 4.93333 7.34681 5.41778 7.34681 5.98667C7.34681 6.80445 7.52998 7.43111 7.89634 7.86667C8.26269 8.29333 8.80775 8.50667 9.53152 8.50667C9.80852 8.50667 10.0498 8.47556 10.2553 8.41333C10.4697 8.34222 10.6484 8.24889 10.7914 8.13333C10.9433 8.00889 11.0639 7.86667 11.1533 7.70667C11.2516 7.54667 11.3275 7.37333 11.3812 7.18667L12.4534 7.44C12.373 7.76 12.2479 8.04889 12.0781 8.30667C11.9173 8.55556 11.7118 8.76889 11.4616 8.94667C11.2203 9.12445 10.9388 9.26222 10.6172 9.36C10.2955 9.45778 9.92468 9.50667 9.50471 9.50667Z"
+            fill="currentColor"></path>
+          <path
+            d="M0 9.33333V0.533334H1.23309V9.33333H0ZM0.402094 9.33333V8.26667H5.36126V9.33333H0.402094Z"
+            fill="currentColor"></path>
+        </svg>
+      </span>
+
+      <div class="luisite__tabs" role="group" aria-label="Let's UI docs">
+        {
+          tabs.map((tab, index) => (
+            <button
+              type="button"
+              class="luisite__tab"
+              data-lui-tab={tab.key}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+            >
+              {tab.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <input
+        type="search"
+        class="luisite__search"
+        data-lui-search
+        placeholder="Search"
+        aria-label="Search the documentation"
+      />
+    </div>
+
+    <nav class="luisite__nav" data-lui-nav aria-label="Documentation sections">
+      <!-- preenchida pelo script a partir do JSON abaixo -->
+    </nav>
+
+    <article class="luisite__panel" data-lui-panel aria-live="polite">
+      <h4 class="luisite__title" data-lui-page-title>{initial.title}</h4>
+      <p class="luisite__lede" data-lui-page-lede>{initial.lede}</p>
+      <p class="luisite__body" data-lui-page-body>{initial.body}</p>
+    </article>
+
+    <p class="luisite__empty" data-lui-empty hidden>No results.</p>
+  </div>
+
+  <script
+    type="application/json"
+    data-lui-data={id}
+    set:html={JSON.stringify(sections)}
+  />
+</div>
+
+<script>
+  /* ---------------------------------------------------------------------
+     Miniatura do site de documentacao do Let's UI.
+     - a aba troca o conjunto de secoes
+     - a secao troca o conteudo do painel
+     - a busca filtra a navegacao (e o painel some quando nada casa)
+  --------------------------------------------------------------------- */
+  document.querySelectorAll('[data-lui-site]').forEach((site) => {
+    const id = site.dataset.luiSite
+    const source = document.querySelector(`[data-lui-data="${id}"]`)
+    if (!source) return
+
+    let data
+    try {
+      data = JSON.parse(source.textContent || '{}')
+    } catch {
+      return
+    }
+
+    const nav = site.querySelector('[data-lui-nav]')
+    const panel = site.querySelector('[data-lui-panel]')
+    const empty = site.querySelector('[data-lui-empty]')
+    const search = site.querySelector('[data-lui-search]')
+    const fields = {
+      title: site.querySelector('[data-lui-page-title]'),
+      lede: site.querySelector('[data-lui-page-lede]'),
+      body: site.querySelector('[data-lui-page-body]'),
+    }
+
+    let tab = 'documentation'
+    let current = data.documentation[0].pages[1].title
+
+    const show = (page) => {
+      current = page.title
+      fields.title.textContent = page.title
+      fields.lede.textContent = page.lede
+      fields.body.textContent = page.body
+      nav.querySelectorAll('[data-lui-page]').forEach((item) => {
+        item.setAttribute(
+          'aria-current',
+          item.dataset.luiPage === page.title ? 'page' : 'false'
+        )
+      })
+    }
+
+    const findPage = (title) =>
+      data[tab]
+        .flatMap((group) => group.pages)
+        .find((page) => page.title === title)
+
+    const renderNav = (query = '') => {
+      const term = query.trim().toLowerCase()
+      nav.textContent = ''
+      let visible = 0
+
+      data[tab].forEach((group) => {
+        const pages = term
+          ? group.pages.filter((page) =>
+              `${page.title} ${page.lede}`.toLowerCase().includes(term)
+            )
+          : group.pages
+        if (!pages.length) return
+
+        const heading = document.createElement('p')
+        heading.className = 'luisite__group'
+        heading.textContent = group.group
+        nav.append(heading)
+
+        const list = document.createElement('ul')
+        list.className = 'luisite__list'
+
+        pages.forEach((page) => {
+          const item = document.createElement('li')
+          const button = document.createElement('button')
+          button.type = 'button'
+          button.className = 'luisite__link'
+          button.dataset.luiPage = page.title
+          button.textContent = page.title
+          button.setAttribute(
+            'aria-current',
+            page.title === current ? 'page' : 'false'
+          )
+          button.addEventListener('click', () => show(page))
+          item.append(button)
+          list.append(item)
+          visible += 1
+        })
+
+        nav.append(list)
+      })
+
+      const nothing = visible === 0
+      empty.hidden = !nothing
+      panel.hidden = nothing
+    }
+
+    site.querySelectorAll('[data-lui-tab]').forEach((button) => {
+      button.addEventListener('click', () => {
+        tab = button.dataset.luiTab
+        site.querySelectorAll('[data-lui-tab]').forEach((other) => {
+          other.setAttribute('aria-pressed', String(other === button))
+        })
+        const first = data[tab][0].pages[0]
+        show(first)
+        if (search) search.value = ''
+        renderNav()
+      })
+    })
+
+    search?.addEventListener('input', () => renderNav(search.value))
+
+    // o campo de busca nao deve arrastar o card junto
+    search?.addEventListener('pointerdown', (event) => event.stopPropagation())
+
+    renderNav()
+    show(findPage(current))
+  })
+</script>
