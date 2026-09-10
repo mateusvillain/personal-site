@@ -41,8 +41,8 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
-    "@lets-ui/components": "^1.7.0",
-    "@lets-ui/styles": "^1.7.0",
+    "@lets-ui/components": "^1.10.0",
+    "@lets-ui/styles": "^1.10.0",
     "@notionhq/client": "^5.6.0",
     "@phosphor-icons/webcomponents": "^2.1.5",
     "astro": "^5.18.1",
