@@ -131,8 +131,22 @@ main {
       border: none;
       background: transparent;
       padding: 0;
-      font: inherit;
-      color: inherit;
+      // Font size/family comes from the `.body--sm` class already on this
+      // button (a plain class rule); do not set `font` here, an ID
+      // selector would win specificity and override it.
+      // `.link` from @lets-ui/styles only targets `a.link`; replicate it
+      // here since this control is a <button> for keyboard operability.
+      color: var(--lui-link-color-text-default);
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        box-shadow: var(--lui-focus-ring-primary);
+        outline: none;
+        outline-offset: 3px;
+      }
     }
 
     @media (max-width: 340px) {
