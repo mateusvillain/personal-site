@@ -288,28 +288,34 @@
         <lui-body variant="lg">
           Não possui a senha? Entre em contato comigo pelo
           <lui-link
-            target="_blank"
+            external
             href="https://www.linkedin.com/in/mateusvillain/">LinkedIn</lui-link
           >
           ou pelo e-mail <strong>contato@mateusvillain.com</strong>.
         </lui-body>
 
         <!-- Modelo novo -->
-        <lui-flex direction="column" gap="24" class="m-t-fluid-8">
-          <lui-input
-            id="password"
-            type="password"
-            label="Senha"
-            placeholder="Digite a senha do projeto"
-            size="lg"
-            required
-            error-text="Senha incorreta. Tente novamente."
-          >
-          </lui-input>
-          <lui-button id="unlock" variant="primary" data-link="unlock" block
-            >Desbloquear</lui-button
-          >
-        </lui-flex>
+        <form id="unlock-form">
+          <lui-flex direction="column" gap="24" class="m-t-fluid-8">
+            <lui-input
+              id="password"
+              type="password"
+              label="Senha"
+              placeholder="Digite a senha do projeto"
+              size="lg"
+              required
+              error-text="Senha incorreta. Tente novamente."
+            >
+            </lui-input>
+            <lui-button
+              id="unlock"
+              type="submit"
+              variant="primary"
+              data-link="unlock"
+              block>Desbloquear</lui-button
+            >
+          </lui-flex>
+        </form>
       </lui-flex>
     </lui-card>
   </section>

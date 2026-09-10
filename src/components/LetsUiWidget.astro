@@ -12,6 +12,8 @@
  * Os quatro ultimos montam uma pequena interface: o card ganha duas
  * colunas (texto a esquerda, interface a direita) pela classe widget--ui.
  */
+import pt from '../../public/lang/pt.json'
+
 const { concept = 'fluid', id = 'letsui' } = Astro.props
 const miniUi = ['form', 'checklist', 'panel', 'search'].includes(concept)
 const uid = (name) => `${id}-${name}`
@@ -36,6 +38,7 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
       <lui-body variant="lg" as="h3" class="widget__title" id={uid('title')}>
         <a href={repo} target="_blank" rel="noopener" data-link="github-lets-ui">
           Let's UI
+          <span class="sr-only"> (abre em nova aba)</span>
         </a>
       </lui-body>
 
@@ -46,10 +49,11 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
         rel="noopener"
         data-link="github-lets-ui"
       >
-        <span data-i18n="letsui-cta"></span>
+        <span data-i18n="letsui-cta" set:html={pt['letsui-cta']}></span>
         <span class="widget__cta-icon" aria-hidden="true">
           <ph-arrow-up-right size="14"></ph-arrow-up-right>
         </span>
+        <span class="sr-only"> (abre em nova aba)</span>
       </a>
 
       <p class="widget__stats">

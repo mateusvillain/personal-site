@@ -1,3 +1,4 @@
+<a href="#main" class="skip-link">Ir para o conteúdo principal</a>
 <div class="body-container gap-fluid-80">
   <div class="desktop">
     <div class="personal-info">
@@ -50,7 +51,7 @@
     </div>
   </div>
 
-  <main class="hero">
+  <main id="main" class="hero">
     <lui-breadcrumb>
       <lui-breadcrumb-item href="/">Início</lui-breadcrumb-item>
     </lui-breadcrumb>
@@ -83,7 +84,6 @@
         </div>
       </div>
     </div>
-  </main>
 
   <section class="flex flex-col">
     <ul class="no-list flex flex-col gap-fluid-40">
@@ -260,7 +260,7 @@
     <lui-heading variant="headline">Perguntas frequentes</lui-heading>
     <div class="flex flex-col gap-fluid-16">
       <div class="faq-item flex flex-col gap-fluid-4">
-        <lui-heading variant="block-title">
+        <lui-heading variant="block-title" as="h4">
           Como funcionam as mentorias?
         </lui-heading>
         <lui-body variant="lg">
@@ -272,7 +272,7 @@
         </lui-body>
       </div>
       <div class="faq-item flex flex-col gap-fluid-4">
-        <lui-heading variant="block-title">
+        <lui-heading variant="block-title" as="h4">
           É possível gravar as mentorias?
         </lui-heading>
         <lui-body variant="lg">
@@ -281,7 +281,7 @@
         </lui-body>
       </div>
       <div class="faq-item flex flex-col gap-fluid-4">
-        <lui-heading variant="block-title">
+        <lui-heading variant="block-title" as="h4">
           Como funcionam os reagendamentos?
         </lui-heading>
         <lui-body variant="lg">
@@ -292,7 +292,7 @@
       </div>
     </div>
     <div class="faq-item flex flex-col gap-fluid-4">
-      <lui-heading variant="block-title">
+      <lui-heading variant="block-title" as="h4">
         Qual a forma de pagamento?
       </lui-heading>
       <lui-body variant="lg">
@@ -300,7 +300,7 @@
       </lui-body>
     </div>
     <div class="faq-item flex flex-col gap-fluid-4">
-      <lui-heading variant="block-title">
+      <lui-heading variant="block-title" as="h4">
         Posso solicitar nota fiscal?
       </lui-heading>
       <lui-body variant="lg">
@@ -310,6 +310,7 @@
       </lui-body>
     </div>
   </section>
+  </main>
 </div>
 
 <script>

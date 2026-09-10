@@ -61,10 +61,13 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
   </head>
 
   <body>
+    <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
     <div class="body-container gap-fluid-80 m-b-fluid-80">
-      <section class="post-list">
-        <slot />
-      </section>
+      <main id="main">
+        <section class="post-list">
+          <slot />
+        </section>
+      </main>
 
       <section class="flex gap-fixed-16">
         <lui-image
@@ -87,12 +90,12 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
           <div class="social-media-icons flex gap-fixed-8 m-t-fixed-8">
             <!-- LinkedIn -->
             <lui-link
+              class="icon-button icon-button--lg"
               href="https://www.linkedin.com/in/mateusvillain"
               aria-label="LinkedIn, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <lui-icon-button size="lg" aria-label="LinkedIn, nova janela">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
                   ><rect width="256" height="256" fill="none"></rect><rect
                     x="32"
@@ -131,17 +134,16 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
                     stroke-width="16"></path><circle cx="88" cy="84" r="12"
                   ></circle></svg
                 >
-              </lui-icon-button>
             </lui-link>
 
             <!-- GitHub -->
             <lui-link
+              class="icon-button icon-button--lg"
               href="https://github.com/mateusvillain"
               aria-label="GitHub, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <lui-icon-button size="lg" aria-label="GitHub, nova janela">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
                   ><rect width="256" height="256" fill="none"></rect><path
                     d="M119.83,56A52,52,0,0,0,76,32a51.92,51.92,0,0,0-3.49,44.7A49.28,49.28,0,0,0,64,104v8a48,48,0,0,0,48,48h48a48,48,0,0,0,48-48v-8a49.28,49.28,0,0,0-8.51-27.3A51.92,51.92,0,0,0,196,32a52,52,0,0,0-43.83,24Z"
@@ -163,17 +165,16 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
                     stroke-linejoin="round"
                     stroke-width="16"></path></svg
                 >
-              </lui-icon-button>
             </lui-link>
 
             <!-- Twitter -->
             <lui-link
+              class="icon-button icon-button--lg"
               href="https://www.x.com/mateusvillain"
               aria-label="X, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <lui-icon-button size="lg" aria-label="X, nova janela">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -186,7 +187,6 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
                     d="m26.843 26.464-7.825-12.298 7.722-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.062-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .843-1.536ZM20.55 26 7.82 6h3.625l12.732 20h-3.63Z"
                   ></path>
                 </svg>
-              </lui-icon-button>
             </lui-link>
           </div>
         </lui-flex>

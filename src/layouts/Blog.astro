@@ -61,10 +61,13 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
   </head>
 
   <body>
+    <a href="#main" class="skip-link">Ir para o conteúdo principal</a>
     <div class="body-container gap-fluid-80 m-b-fluid-80">
-      <section class="post-list">
-        <slot />
-      </section>
+      <main id="main">
+        <section class="post-list">
+          <slot />
+        </section>
+      </main>
 
       <lui-card id="newsletter-card">
         <lui-heading variant="block-title">Assine a newsletter</lui-heading>

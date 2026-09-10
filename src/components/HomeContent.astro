@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import ProjectWidgets from './ProjectWidgets.astro'
+import pt from '../../public/lang/pt.json'
 
 const months = [
   'Jan',
@@ -29,6 +30,7 @@ function parsePostDate(value: string) {
 }
 ---
 
+<a href="#main" class="skip-link">Ir para o conteúdo principal</a>
 <div class="body-container">
   <lui-stack gap="80">
     <div class="desktop">
@@ -38,11 +40,13 @@ function parsePostDate(value: string) {
         <lui-body variant="sm" id="spotify"></lui-body>
       </div>
       <div class="site-controls">
-        <a
+        <button
+          type="button"
           class="body--sm link"
           id="lang-switch"
           data-i18n="language"
-          data-link="language"></a>
+          data-link="language"
+          set:html={pt.language}></button>
         <label class="theme-toggle" aria-label="Alternar tema">
           <input type="checkbox" id="theme-toggle" />
           <div class="theme-toggle__track">
@@ -87,7 +91,7 @@ function parsePostDate(value: string) {
       </div>
     </div>
 
-    <main class="hero">
+    <main id="main" class="hero">
       <lui-flex direction="column" wrap="nowrap" gap="16" align="left">
         <lui-image
           src="img/mtsvlln.jpg"
@@ -100,12 +104,20 @@ function parsePostDate(value: string) {
         <div>
           <lui-heading variant="block-title" as="h1">Mateus Villain</lui-heading
           >
-          <lui-body variant="lg" data-i18n="role" italic></lui-body>
+          <lui-body variant="lg" data-i18n="role" italic set:html={pt.role}
+          ></lui-body>
         </div>
 
-        <lui-body variant="lg" data-i18n="short-bio"></lui-body>
-        <lui-body variant="lg" data-i18n="short-bio-2"></lui-body>
-        <lui-body variant="lg" data-i18n="short-bio-3"></lui-body>
+        <lui-body variant="lg" data-i18n="short-bio" set:html={pt['short-bio']}
+        ></lui-body>
+        <lui-body
+          variant="lg"
+          data-i18n="short-bio-2"
+          set:html={pt['short-bio-2']}></lui-body>
+        <lui-body
+          variant="lg"
+          data-i18n="short-bio-3"
+          set:html={pt['short-bio-3']}></lui-body>
       </lui-flex>
 
       <a
@@ -113,38 +125,44 @@ function parsePostDate(value: string) {
         href="https://mastodon.social/@mateusvillain"
         style="display: none;">Mastodon</a
       >
+
+      <ProjectWidgets />
+
+      <section>
+        <lui-flex direction="row" justify="space-between" align="center">
+          <lui-heading
+            variant="block-title"
+            as="h2"
+            data-i18n="blog-title"
+            set:html={pt['blog-title']}></lui-heading>
+          <lui-link
+            href="/blog/"
+            data-link="blog"
+            data-i18n="blog-link"
+            set:html={pt['blog-link']}></lui-link>
+        </lui-flex>
+        <ul class="no-list">
+          {
+            latestPosts.map((post) => {
+              const date = parsePostDate(post.data.date)
+              const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${months[date.getMonth()]} ${date.getFullYear()}`
+              return (
+                <li>
+                  <a href={`/blog/${post.slug}/`}>
+                    <article class="flex justify-between items-baseline gap-fluid-16 interaction-item">
+                      <lui-body variant="lg" as="h3">
+                        {post.data.title}
+                      </lui-body>
+                      <time class="body--md space-nowrap">{formattedDate}</time>
+                    </article>
+                  </a>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </section>
     </main>
-
-    <ProjectWidgets />
-
-    <section>
-      <lui-flex direction="row" justify="space-between" align="center">
-        <lui-heading variant="block-title" as="h2" data-i18n="blog-title"
-        ></lui-heading>
-        <lui-link href="/blog/" data-link="blog" data-i18n="blog-link"
-        ></lui-link>
-      </lui-flex>
-      <ul class="no-list">
-        {
-          latestPosts.map((post) => {
-            const date = parsePostDate(post.data.date)
-            const formattedDate = `${String(date.getDate()).padStart(2, '0')} ${months[date.getMonth()]} ${date.getFullYear()}`
-            return (
-              <li>
-                <a href={`/blog/${post.slug}/`}>
-                  <article class="flex justify-between items-baseline gap-fluid-16 interaction-item">
-                    <lui-body variant="lg" as="h3">
-                      {post.data.title}
-                    </lui-body>
-                    <time class="body--md space-nowrap">{formattedDate}</time>
-                  </article>
-                </a>
-              </li>
-            )
-          })
-        }
-      </ul>
-    </section>
   </lui-stack>
 </div>
 

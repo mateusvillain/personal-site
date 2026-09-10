@@ -2,7 +2,7 @@ const script = document.currentScript
 const slug = script.dataset.slug
 
 const passwordInput = document.getElementById('password')
-const unlockButton = document.getElementById('unlock')
+const unlockForm = document.getElementById('unlock-form')
 const errorEl = document.getElementById('error')
 const passwordBox = document.getElementById('password-box')
 const contentEl = document.getElementById('protected-content')
@@ -142,7 +142,17 @@ function clearError() {
   }
 }
 
-unlockButton.addEventListener('click', async () => {
+// A tecla Enter disparada dentro do shadow DOM do lui-input nem sempre
+// propaga como submit nativo do form, então garantimos aqui.
+passwordInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    unlockForm.requestSubmit()
+  }
+})
+
+unlockForm.addEventListener('submit', async (event) => {
+  event.preventDefault()
   clearError()
 
   const password = getPassword()
