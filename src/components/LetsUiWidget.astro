@@ -1,0 +1,384 @@
+---
+/**
+ * Widget do Let's UI.
+ *
+ * concept: o que ocupa a area livre do card
+ *   'fluid'     — regua que simula a viewport e recalcula os tokens clamp()
+ *   'form'      — mini tela de acesso montada com os componentes
+ *   'checklist' — lista de tarefas viva, com contador
+ *   'panel'     — painel de preferencias com abas
+ *   'search'    — busca com filtros sobre os proprios componentes
+ *
+ * Os quatro ultimos montam uma pequena interface: o card ganha duas
+ * colunas (texto a esquerda, interface a direita) pela classe widget--ui.
+ */
+const { concept = 'fluid', id = 'letsui' } = Astro.props
+const miniUi = ['form', 'checklist', 'panel', 'search'].includes(concept)
+const uid = (name) => `${id}-${name}`
+const repo = 'https://github.com/mateusvillain/lets-ui/'
+---
+
+<article
+  class={[
+    'widget widget--md widget--code',
+    `widget--${concept}`,
+    miniUi && 'widget--ui',
+  ]
+    .filter(Boolean)
+    .join(' ')}
+  data-widget="letsui"
+  tabindex="0"
+  aria-roledescription="widget"
+  aria-labelledby={uid('title')}
+>
+  <div class="widget__body">
+    <div class="widget__lede">
+      <lui-body variant="lg" as="h3" class="widget__title" id={uid('title')}>
+        <a href={repo} target="_blank" rel="noopener" data-link="github-lets-ui">
+          Let's UI
+        </a>
+      </lui-body>
+
+      <a
+        class="widget__cta"
+        href={repo}
+        target="_blank"
+        rel="noopener"
+        data-link="github-lets-ui"
+      >
+        <span data-i18n="letsui-cta"></span>
+        <span class="widget__cta-icon" aria-hidden="true">
+          <ph-arrow-up-right size="14"></ph-arrow-up-right>
+        </span>
+      </a>
+
+      <p class="widget__stats">
+        <span class="stat" data-stat="version" hidden></span>
+        <span class="stat" data-stat="stars" hidden></span>
+      </p>
+    </div>
+
+    {
+      concept === 'fluid' && (
+        <div class="concept concept--fluid" data-no-drag>
+          <p class="fluid__sample" data-fluid-sample>Fluid by default</p>
+          <p class="fluid__sample fluid__sample--sm" data-fluid-sample-sm>
+            uma escala, todas as telas
+          </p>
+
+          <input
+            class="fluid__range"
+            type="range"
+            min="320"
+            max="1440"
+            step="8"
+            value="768"
+            data-fluid-range
+            aria-label="Simular a largura da viewport"
+          />
+
+          <p class="fluid__readout">
+            <code data-fluid-readout />
+          </p>
+        </div>
+      )
+    }
+
+    {
+      concept === 'form' && (
+        <div class="concept concept--form" data-no-drag>
+          <form class="mini-ui" data-mini-form>
+            <lui-input
+              label="E-mail"
+              type="email"
+              size="md"
+              placeholder="voce@exemplo.com"
+            />
+            <lui-input label="Senha" type="password" size="md" placeholder="••••••••" />
+
+            <div class="mini-ui__row mini-ui__row--between">
+              <lui-switch label="Lembrar" size="md" />
+              <lui-button variant="primary" size="md" data-mini-submit>
+                Entrar
+              </lui-button>
+            </div>
+
+            <lui-alert
+              variant="success"
+              title="Tudo certo"
+              content="Componentes reais, estados reais."
+              data-mini-alert
+              hidden
+            />
+          </form>
+        </div>
+      )
+    }
+
+    {
+      concept === 'checklist' && (
+        <div class="concept concept--checklist" data-no-drag>
+          <div class="mini-ui">
+            <div class="mini-ui__row">
+              <lui-input size="md" placeholder="Nova tarefa" data-checklist-input />
+              <lui-button variant="secondary" size="md" data-checklist-add>
+                Adicionar
+              </lui-button>
+            </div>
+
+            <div class="mini-ui__list" data-checklist-list>
+              <lui-checkbox label="Definir os design tokens" size="md" checked />
+              <lui-checkbox label="Publicar no npm" size="md" checked />
+              <lui-checkbox label="Documentar no Storybook" size="md" />
+            </div>
+
+            <lui-tag
+              label="2 de 3 concluídas"
+              tag-style="container"
+              size="sm"
+              data-checklist-count
+            />
+          </div>
+        </div>
+      )
+    }
+
+    {
+      concept === 'panel' && (
+        <div class="concept concept--panel" data-no-drag>
+          <lui-tabs variant="line" class="mini-ui">
+            <lui-tab label="Tema" active>
+              <lui-radio-group name="tema" size="md">
+                <lui-radio label="Claro" value="light" checked />
+                <lui-radio label="Escuro" value="dark" />
+              </lui-radio-group>
+            </lui-tab>
+
+            <lui-tab label="Escala">
+              <lui-select
+                label="Densidade"
+                size="md"
+                options="Compacta,Padrão,Ampla"
+                selected="1"
+              />
+            </lui-tab>
+
+            <lui-tab label="Sobre">
+              <lui-switch label="Escalas fluidas" size="md" checked />
+              <lui-switch label="Alto contraste" size="md" />
+            </lui-tab>
+          </lui-tabs>
+        </div>
+      )
+    }
+
+    {
+      concept === 'search' && (
+        <div class="concept concept--search" data-no-drag>
+          <div class="mini-ui">
+            <lui-input
+              size="md"
+              placeholder="Buscar no design system"
+              data-search-input
+            />
+
+            <div class="mini-ui__chips" data-search-chips>
+              <button type="button" class="chip is-active" data-filter="all">
+                <lui-tag label="todos" tag-style="container" size="sm" />
+              </button>
+              <button type="button" class="chip" data-filter="form">
+                <lui-tag label="formulário" tag-style="surface" size="sm" />
+              </button>
+              <button type="button" class="chip" data-filter="layout">
+                <lui-tag label="layout" tag-style="surface" size="sm" />
+              </button>
+            </div>
+
+            <ul class="mini-ui__results" data-search-results>
+              <li data-group="form">lui-input</li>
+              <li data-group="form">lui-checkbox</li>
+              <li data-group="form">lui-select</li>
+              <li data-group="layout">lui-stack</li>
+              <li data-group="layout">lui-columns</li>
+              <li data-group="layout">lui-grid</li>
+            </ul>
+          </div>
+        </div>
+      )
+    }
+
+    <button
+      type="button"
+      class="terminal"
+      data-copy="npm i @lets-ui/components"
+      title="Copiar"
+    >
+      npm i @lets-ui/components
+      <span class="terminal__feedback" data-i18n="copy" hidden></span>
+    </button>
+  </div>
+</article>
+
+<script>
+  /* ---------------------------------------------------------------------
+     Conceitos interativos do widget do Let's UI.
+     Cada bloco só roda se o conceito correspondente estiver na página.
+  --------------------------------------------------------------------- */
+  const root = document.documentElement
+  const readToken = (name) =>
+    getComputedStyle(root).getPropertyValue(name).trim()
+
+  /* --- 1. Régua fluida --------------------------------------------------
+     Os tokens fluidos são clamp(min, base + Nvw, max). Como custom
+     properties não são resolvidas até serem usadas, dá para ler a
+     expressão original e recalcular o valor para uma largura simulada. */
+  const parseClamp = (value) => {
+    const match = value.match(
+      /clamp\(\s*([\d.]+)rem\s*,\s*([\d.]+)rem\s*\+\s*([\d.]+)vw\s*,\s*([\d.]+)rem\s*\)/
+    )
+    if (!match) return null
+    const [, min, base, vw, max] = match.map(Number)
+    return { min: min * 16, base: base * 16, vw, max: max * 16 }
+  }
+
+  const resolveAt = (token, width) => {
+    const parsed = parseClamp(readToken(token))
+    if (!parsed) return null
+    const preferred = parsed.base + (parsed.vw / 100) * width
+    return Math.min(Math.max(preferred, parsed.min), parsed.max)
+  }
+
+  document.querySelectorAll('.concept--fluid').forEach((concept) => {
+    const range = concept.querySelector('[data-fluid-range]')
+    const sample = concept.querySelector('[data-fluid-sample]')
+    const sampleSm = concept.querySelector('[data-fluid-sample-sm]')
+    const readout = concept.querySelector('[data-fluid-readout]')
+    // a fluidez do sistema mora na tipografia: 2xl varia 1.3vw, sm 0.3vw
+    const BIG = '--lui-brand-typography-font-size-2xl'
+    const SMALL = '--lui-brand-typography-font-size-sm'
+
+    const update = () => {
+      const width = Number(range.value)
+      const big = resolveAt(BIG, width)
+      const small = resolveAt(SMALL, width)
+
+      if (big) sample.style.fontSize = `${big}px`
+      if (small) sampleSm.style.fontSize = `${small}px`
+      readout.textContent = big
+        ? `2xl ${big.toFixed(1)}px · sm ${small.toFixed(1)}px @ ${width}px`
+        : `viewport ${width}px`
+    }
+
+    range.addEventListener('input', update)
+    update()
+  })
+
+  /* --- 2. Mini tela de acesso ------------------------------------------ */
+  document.querySelectorAll('.concept--form').forEach((concept) => {
+    const form = concept.querySelector('[data-mini-form]')
+    const alert = concept.querySelector('[data-mini-alert]')
+    const submit = concept.querySelector('[data-mini-submit]')
+    let timer
+
+    const confirm = (event) => {
+      event.preventDefault()
+      alert.hidden = false
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        alert.hidden = true
+      }, 2400)
+    }
+
+    form.addEventListener('submit', confirm)
+    submit.addEventListener('click', confirm)
+  })
+
+  /* --- 3. Lista de tarefas viva ---------------------------------------- */
+  document.querySelectorAll('.concept--checklist').forEach((concept) => {
+    const list = concept.querySelector('[data-checklist-list]')
+    const input = concept.querySelector('[data-checklist-input]')
+    const add = concept.querySelector('[data-checklist-add]')
+    const counter = concept.querySelector('[data-checklist-count]')
+
+    const count = () => {
+      const items = Array.from(list.querySelectorAll('lui-checkbox'))
+      const done = items.filter((item) => item.checked).length
+      counter.setAttribute('label', `${done} de ${items.length} concluídas`)
+    }
+
+    const addItem = () => {
+      const label = (input.value || '').trim()
+      if (!label) return
+      const item = document.createElement('lui-checkbox')
+      item.setAttribute('label', label)
+      item.setAttribute('size', 'md')
+      list.appendChild(item)
+      input.value = ''
+      count()
+    }
+
+    list.addEventListener('change', count)
+    add.addEventListener('click', addItem)
+    input.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return
+      event.preventDefault()
+      addItem()
+    })
+  })
+
+  /* --- 4. Busca com filtros -------------------------------------------- */
+  document.querySelectorAll('.concept--search').forEach((concept) => {
+    const input = concept.querySelector('[data-search-input]')
+    const chips = concept.querySelectorAll('[data-search-chips] .chip')
+    const results = Array.from(
+      concept.querySelectorAll('[data-search-results] li')
+    )
+    let filter = 'all'
+
+    const render = () => {
+      const term = (input.value || '').trim().toLowerCase()
+      results.forEach((item) => {
+        const matchesGroup = filter === 'all' || item.dataset.group === filter
+        const matchesTerm = item.textContent.toLowerCase().includes(term)
+        item.hidden = !(matchesGroup && matchesTerm)
+      })
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        filter = chip.dataset.filter
+        chips.forEach((other) => {
+          const active = other === chip
+          other.classList.toggle('is-active', active)
+          other
+            .querySelector('lui-tag')
+            ?.setAttribute('tag-style', active ? 'container' : 'surface')
+        })
+        render()
+      })
+    })
+
+    input.addEventListener('input', render)
+    render()
+  })
+
+  /* --- 4. Copiar o comando de instalação -------------------------------- */
+  document.querySelectorAll('[data-copy]').forEach((button) => {
+    const feedback = button.querySelector('.terminal__feedback')
+    let timer
+
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy)
+      } catch {
+        return
+      }
+      if (!feedback) return
+      feedback.hidden = false
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        feedback.hidden = true
+      }, 1600)
+    })
+  })
+</script>

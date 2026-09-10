@@ -1,0 +1,440 @@
+/* -------------------------------------------------------------------------
+   Widget board — projetos exibidos como cards arrastáveis.
+
+   Tamanhos seguem a lógica de widgets de sistema (iOS/macOS): a área
+   ocupada define a função do card, não só o espaço.
+     .widget--lg    2x2  — o case, com espaço para hierarquia interna
+     .widget--tall  1x1  — quadrado, a ilustração manda
+     .widget--md    2x1  — paisagem: uma área interativa
+   ---------------------------------------------------------------------- */
+
+.board {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--lui-spacing-fluid-8);
+    margin-bottom: var(--lui-spacing-fluid-16);
+  }
+
+  &__reset {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: var(--lui-spacing-fluid-4) var(--lui-spacing-fixed-8);
+    margin-right: calc(var(--lui-spacing-fixed-8) * -1);
+    border-radius: var(--lui-border-radius-sm);
+    cursor: pointer;
+    color: var(--lui-color-link-default);
+    font: inherit;
+    font-size: var(--lui-brand-typography-font-size-2xs, 0.875rem);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--lui-color-black-alpha-1);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  /* área de arrasto: rompe a coluna de texto para o grid respirar */
+  &__stage {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--lui-spacing-fluid-16);
+    position: relative;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(132px, auto);
+      width: min(90vw, 920px);
+      margin-left: calc(50% - min(90vw, 920px) / 2);
+    }
+  }
+}
+
+.widget {
+  --widget-x: 0px;
+  --widget-y: 0px;
+  --widget-accent: var(--lui-color-neutral-text-heading);
+
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--lui-color-neutral-background-surface);
+  border: var(--lui-border-width-1, 1px) solid
+    var(--lui-color-neutral-border-subtle);
+  border-radius: var(--lui-border-radius-lg);
+  box-shadow:
+    0 1px 2px var(--lui-color-black-alpha-1),
+    0 12px 32px -20px var(--lui-color-black-alpha-3);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate3d(var(--widget-x), var(--widget-y), 0);
+  transition:
+    box-shadow 0.24s ease,
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    box-shadow:
+      0 1px 2px var(--lui-color-black-alpha-1),
+      0 20px 40px -24px var(--lui-color-black-alpha-4);
+  }
+
+  &:focus-visible {
+    outline: var(--lui-border-width-2, 2px) solid
+      var(--lui-color-neutral-focus-ring);
+    outline-offset: 3px;
+  }
+
+  &.is-dragging {
+    cursor: grabbing;
+    touch-action: none;
+    transition: box-shadow 0.24s ease;
+    box-shadow:
+      0 2px 4px var(--lui-color-black-alpha-2),
+      0 32px 60px -28px var(--lui-color-black-alpha-5);
+  }
+
+  a {
+    -webkit-user-drag: none;
+  }
+
+  /* --- tamanhos --------------------------------------------------------- */
+  @media (min-width: 768px) {
+    &--lg {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    &--tall {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+
+    &--md {
+      grid-column: span 2;
+    }
+  }
+
+  /* --- estrutura interna ------------------------------------------------ */
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-8);
+    padding: var(--lui-spacing-fluid-16);
+  }
+
+  &__title a {
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fluid-8);
+    padding: var(--lui-spacing-fixed-8) var(--lui-spacing-fluid-16)
+      var(--lui-spacing-fluid-16);
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lui-spacing-fluid-4);
+    color: var(--lui-color-link-default);
+    font-size: var(--lui-brand-typography-font-size-2xs, 0.875rem);
+  }
+
+  &__cta-icon {
+    display: inline-flex;
+    transition: transform 0.24s ease;
+  }
+
+  &__cta:hover &__cta-icon,
+  &:hover &__cta-icon {
+    transform: translateX(3px);
+  }
+}
+
+/* --- 1. Locaweb: paleta de tokens --------------------------------------- */
+.widget--tokens {
+  .token-strip {
+    display: flex;
+    flex-direction: row;
+    gap: var(--lui-spacing-fluid-4);
+    margin-top: auto;
+    padding-top: var(--lui-spacing-fluid-8);
+
+    span {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--lui-spacing-fluid-4);
+      font-family: 'Google Sans', monospace;
+      font-size: 0.625rem;
+      color: var(--lui-color-neutral-text-caption);
+
+      &::before {
+        content: '';
+        display: block;
+        height: var(--lui-spacing-fixed-32);
+        border-radius: var(--lui-border-radius-xs);
+        background-color: var(--swatch);
+        border: var(--lui-border-width-1, 1px) solid
+          var(--lui-color-black-alpha-1);
+      }
+    }
+  }
+}
+
+/* --- 2. Livro: card quadrado, ilustração com leve zoom sangrando ------ */
+.widget--book {
+  aspect-ratio: 1;
+  align-self: start;
+
+  .widget__body {
+    flex: 0 0 auto;
+    gap: var(--lui-spacing-fluid-4);
+    padding-bottom: var(--lui-spacing-fluid-24);
+  }
+
+  /* a arte é ampliada além do card e cortada pelas bordas */
+  .widget__cover {
+    flex: 1;
+    min-height: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      scale: 1.12;
+      transform-origin: center top;
+      -webkit-user-drag: none;
+    }
+  }
+}
+
+/* --- 3. Let's UI: card paisagem com uma área interativa --------------- */
+.widget--code {
+  --widget-accent: var(--lui-color-green-6);
+
+  .widget__body {
+    gap: var(--lui-spacing-fluid-16);
+  }
+
+  .widget__lede {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-4);
+  }
+
+  .widget__stats {
+    display: flex;
+    gap: var(--lui-spacing-fluid-12);
+    font-family: 'Google Sans', monospace;
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-caption);
+
+    .stat[hidden] {
+      display: none;
+    }
+  }
+
+  /* área do conceito: ocupa o espaço livre entre o título e o comando */
+  .concept {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--lui-spacing-fluid-12);
+    min-height: 0;
+    cursor: auto;
+  }
+
+  .terminal {
+    position: relative;
+    align-self: flex-start;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fixed-8);
+    padding: var(--lui-spacing-fluid-4) var(--lui-spacing-fluid-12);
+    border-radius: var(--lui-border-radius-sm);
+    background-color: transparent;
+    border: var(--lui-border-width-1, 1px) dashed
+      var(--lui-color-neutral-border-subtle);
+    font-family: 'Google Sans', monospace;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-body);
+    overflow-x: auto;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &::before {
+      content: '$';
+      color: var(--widget-accent);
+    }
+
+    &:hover {
+      border-color: var(--lui-color-neutral-border-default);
+    }
+
+    &__feedback {
+      color: var(--widget-accent);
+
+      &[hidden] {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Conceito 1 — régua fluida */
+.concept--fluid {
+  .fluid__sample {
+    font-weight: var(--lui-typography-weight-medium, 500);
+    line-height: 1.15;
+    color: var(--lui-color-neutral-text-heading);
+    white-space: nowrap;
+
+    &--sm {
+      font-weight: var(--lui-typography-weight-regular, 400);
+      color: var(--lui-color-neutral-text-caption);
+    }
+  }
+
+  .fluid__range {
+    width: 100%;
+    max-width: 22rem;
+    accent-color: var(--widget-accent);
+    cursor: ew-resize;
+  }
+
+  .fluid__readout code {
+    font-family: 'Google Sans', monospace;
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+/* Card em duas colunas quando o conceito é uma pequena interface */
+.widget--ui {
+  .widget__body {
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-areas:
+        'lede ui'
+        'term ui';
+      align-items: start;
+      column-gap: var(--lui-spacing-fluid-24);
+    }
+  }
+
+  .widget__lede {
+    grid-area: lede;
+  }
+
+  .concept {
+    grid-area: ui;
+    justify-content: flex-start;
+  }
+
+  .terminal {
+    grid-area: term;
+    align-self: end;
+  }
+}
+
+/* Base das mini interfaces montadas com componentes do Let's UI */
+.mini-ui {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lui-spacing-fluid-12);
+  width: 100%;
+
+  &__row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--lui-spacing-fluid-8);
+
+    &--between {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    lui-input {
+      flex: 1;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-8);
+    max-height: 8.5rem;
+    overflow-y: auto;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fluid-8);
+
+    .chip {
+      appearance: none;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      border-radius: var(--lui-border-radius-circle);
+
+      &:focus-visible {
+        outline: var(--lui-border-width-2, 2px) solid
+          var(--lui-color-neutral-focus-ring);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 7.5rem;
+    overflow-y: auto;
+    font-family: 'Google Sans', monospace;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-caption);
+
+    li[hidden] {
+      display: none;
+    }
+  }
+
+  lui-alert[hidden] {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .widget,
+  .widget__cta-icon {
+    transition: none;
+  }
+}

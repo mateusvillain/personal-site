@@ -1,0 +1,859 @@
+/* -------------------------------------------------------------------------
+   Quadro de projetos — versão 2 (Figma: 📘 Let's UI, node 8299-326).
+
+   Três cards com a mesma anatomia: capa em cima, rodapé com título,
+   descrição e seta. Duas das capas são interface de verdade, feitas em
+   HTML e operáveis por cursor, toque e teclado; só a do livro é imagem.
+
+   A versão anterior do quadro vive em _widgets.scss e continua intacta.
+   ---------------------------------------------------------------------- */
+
+/*
+   Unidade de desenho da miniatura do Let's UI: u(12) vale 12px do
+   Figma. E uma variavel, e nao `em`, porque `em` composta — num
+   elemento com font-size proprio as outras medidas mudariam de escala.
+*/
+@function u($px) {
+  @return calc(#{$px} * var(--site-unit));
+}
+
+
+/*
+   O projeto nao tem `box-sizing` global e este quadro combina medidas
+   explicitas com padding e borda em varios pontos (capas, controles,
+   miniatura). O reset local evita que a borda estique o desenho.
+*/
+.pboard,
+.pboard *,
+.pboard *::before,
+.pboard *::after {
+  box-sizing: border-box;
+}
+
+.pboard {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--lui-spacing-fluid-8);
+    margin-bottom: var(--lui-spacing-fluid-16);
+  }
+
+  &__reset {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: var(--lui-spacing-fluid-4) var(--lui-spacing-fixed-8);
+    margin-right: calc(var(--lui-spacing-fixed-8) * -1);
+    border-radius: var(--lui-border-radius-sm);
+    cursor: pointer;
+    color: var(--lui-color-link-default);
+    font: inherit;
+    font-size: var(--lui-brand-typography-font-size-2xs, 0.875rem);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--lui-color-black-alpha-1);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  /* área de arrasto: rompe a coluna de texto para o quadro respirar */
+  &__stage {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--lui-spacing-fluid-16);
+    position: relative;
+
+    /*
+       14 colunas para chegar nas proporções do desenho: 9 + 5 na primeira
+       linha, e 10 centralizadas na segunda. `1fr` nas linhas iguala a
+       altura dos três cards, mesmo estando em linhas diferentes.
+    */
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(14, 1fr);
+      grid-auto-rows: 1fr;
+      width: min(92vw, 1040px);
+      margin-left: calc(50% - min(92vw, 1040px) / 2);
+    }
+  }
+}
+
+/* --- anatomia comum ----------------------------------------------------- */
+.pcard {
+  --card-x: 0px;
+  --card-y: 0px;
+
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: var(--lui-spacing-fixed-8);
+  background-color: var(--lui-color-neutral-background-surface);
+  border: var(--lui-border-width-1, 1px) solid
+    var(--lui-color-neutral-border-subtle);
+  border-radius: calc(var(--lui-border-radius-xl) + var(--lui-spacing-fixed-8));
+  box-shadow:
+    0 1px 2px var(--lui-color-black-alpha-1),
+    0 12px 32px -20px var(--lui-color-black-alpha-3);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate3d(var(--card-x), var(--card-y), 0);
+  transition:
+    box-shadow 0.24s ease,
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    box-shadow:
+      0 1px 2px var(--lui-color-black-alpha-1),
+      0 20px 40px -24px var(--lui-color-black-alpha-4);
+  }
+
+  &:focus-visible {
+    outline: var(--lui-border-width-2, 2px) solid
+      var(--lui-color-neutral-focus-ring);
+    outline-offset: 3px;
+  }
+
+  &.is-dragging {
+    cursor: grabbing;
+    touch-action: none;
+    transition: box-shadow 0.24s ease;
+    box-shadow:
+      0 2px 4px var(--lui-color-black-alpha-2),
+      0 32px 60px -28px var(--lui-color-black-alpha-5);
+  }
+
+  a {
+    -webkit-user-drag: none;
+  }
+
+  @media (min-width: 768px) {
+    &--locaweb {
+      grid-column: 1 / span 9;
+    }
+
+    &--book {
+      grid-column: 10 / span 5;
+    }
+
+    &--letsui {
+      grid-column: 3 / span 10;
+    }
+  }
+
+  /* --- capa ------------------------------------------------------------- */
+  &__cover {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--lui-border-radius-xl);
+  }
+
+  &__cover--art {
+    aspect-ratio: 366 / 292;
+    background: linear-gradient(180deg, #f5f5f5 0%, rgb(245 245 245 / 0) 100%);
+    padding: 5.4% 7.4% 0;
+
+    :root[data-theme='dark'] & {
+      background: linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.08) 0%,
+        rgb(255 255 255 / 0) 100%
+      );
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center top;
+      -webkit-user-drag: none;
+    }
+  }
+
+  /* --- rodapé ----------------------------------------------------------- */
+  &__foot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fixed-8);
+    padding: var(--lui-spacing-fixed-16);
+  }
+
+  &__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fluid-4);
+    min-width: 0;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fixed-8);
+
+    a {
+      color: var(--lui-color-neutral-text-heading);
+
+      /* o rodapé inteiro é a área de clique do card */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  &__badge {
+    font-size: var(--lui-brand-typography-font-size-2xs, 0.75rem);
+    color: var(--lui-color-neutral-text-caption);
+    white-space: nowrap;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  &__go {
+    flex: none;
+    display: inline-flex;
+    color: var(--lui-color-neutral-text-heading);
+    transition: transform 0.24s ease;
+  }
+
+  &:hover &__go {
+    transform: translateX(3px);
+  }
+}
+
+/* --- capa 1: Locaweb, os componentes do design system ------------------- */
+.pcard--locaweb .pcard__cover {
+  aspect-ratio: 629 / 292;
+  container-type: inline-size;
+}
+
+.lwcover {
+  --lw: #e55c5c;
+  --lw-muted: #b27474;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(180deg, #fddfdf 0%, rgb(253 223 223 / 0) 100%);
+  padding: clamp(16px, 5cqw, 44px) clamp(16px, 5cqw, 32px);
+  cursor: auto;
+
+  /*
+     Em dark mode o degradê não pode ir a um pastel claro: ele choca
+     com o fundo escuro do card. Em vez disso, funde uma versão escura
+     do tom da marca até revelar o próprio fundo do card, mantendo o
+     "brilho" do desenho original sem o corte abrupto.
+  */
+  :root[data-theme='dark'] & {
+    --lw-muted: #d9a3a3;
+
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--lw) 26%, #000) 0%,
+      rgb(0 0 0 / 0) 100%
+    );
+  }
+
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 4cqw, 32px);
+  }
+}
+
+/* escala de cor: cada degrau revela o seu valor ao ser apontado */
+.lwscale {
+  display: flex;
+  gap: var(--lui-spacing-fixed-8);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__step {
+    appearance: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: clamp(40px, 13cqw, 82px);
+    padding: 0;
+    border: none;
+    border-radius: var(--lui-border-radius-xl);
+    background-color: color-mix(
+      in srgb,
+      var(--lw) calc(var(--step) * 100%),
+      transparent
+    );
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px -10px var(--lw);
+    }
+
+    &:focus-visible {
+      outline: var(--lui-border-width-2, 2px) solid var(--lw);
+      outline-offset: 2px;
+    }
+  }
+
+  &__value {
+    font-family: 'Google Sans', monospace;
+    font-size: 0.6875rem;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: var(--lui-border-radius-sm);
+    background-color: var(--lui-color-brand-accent-background-surface, #fff);
+    color: var(--lw);
+    opacity: 0;
+    transform: scale(0.9);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+
+    &::after {
+      content: '%';
+    }
+  }
+
+  &__step:hover &__value,
+  &__step:focus-visible &__value {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lwrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lui-spacing-fixed-16);
+
+  &--controls {
+    gap: var(--lui-spacing-fixed-16);
+  }
+}
+
+/* botões nas três ênfases, incluindo a versão só de ícone */
+.lwbtn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lui-spacing-fixed-8);
+  padding: 8px 16px;
+  border: var(--lui-border-width-1, 1px) solid transparent;
+  border-radius: var(--lui-border-radius-md);
+  background: none;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.12s ease;
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: var(--lui-border-width-2, 2px) solid var(--lw);
+    outline-offset: 2px;
+  }
+
+  &--primary {
+    background-color: var(--lw);
+    color: var(--lui-color-brand-accent-background-surface, #fff);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--lw) 86%, #000);
+    }
+  }
+
+  &--secondary {
+    border-color: var(--lw);
+    color: var(--lw);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--lw) 12%, transparent);
+    }
+  }
+
+  &--ghost {
+    color: var(--lw);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--lw) 10%, transparent);
+    }
+  }
+
+  &--icon {
+    padding: 8px;
+  }
+}
+
+/* abas: radios nativos, o sublinhado segue o :checked */
+.lwtabs {
+  display: flex;
+  align-items: flex-start;
+
+  &__item {
+    position: relative;
+
+    input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: var(--lw-muted);
+      border-bottom: var(--lui-border-width-1, 1px) solid transparent;
+      cursor: pointer;
+      transition:
+        color 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    label:hover {
+      color: var(--lw);
+    }
+
+    input:checked + label {
+      color: var(--lw);
+      border-bottom-color: var(--lw);
+    }
+
+    input:focus-visible + label {
+      outline: var(--lui-border-width-2, 2px) solid var(--lw);
+      outline-offset: 2px;
+    }
+  }
+}
+
+/* controles de seleção: switch, radio e checkbox, todos nativos */
+.lwswitch,
+.lwradio,
+.lwcheck {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+
+  input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  input:focus-visible + label {
+    outline: var(--lui-border-width-2, 2px) solid var(--lw);
+    outline-offset: 2px;
+  }
+
+  label {
+    /* a borda entra no tamanho: os tres controles tem 24px de altura */
+    flex: none;
+    pointer-events: none;
+  }
+}
+
+.lwswitch {
+  width: 48px;
+  height: 24px;
+
+  label {
+    position: relative;
+    width: 48px;
+    height: 24px;
+    border-radius: var(--lui-border-radius-circle);
+    background-color: color-mix(in srgb, var(--lw) 22%, #fff);
+    transition: background-color 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: var(--lui-border-radius-circle);
+      background-color: var(--lui-color-brand-accent-background-surface, #fff);
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+
+  input:checked + label {
+    background-color: var(--lw);
+
+    &::after {
+      transform: translateX(24px);
+    }
+  }
+}
+
+.lwradio {
+  width: 24px;
+  height: 24px;
+
+  label {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border: var(--lui-border-width-2, 2px) solid var(--lw);
+    border-radius: var(--lui-border-radius-circle);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: var(--lui-border-radius-circle);
+      background-color: var(--lw);
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+
+  input:checked + label::after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.lwcheck {
+  width: 24px;
+  height: 24px;
+
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: var(--lui-border-width-2, 2px) solid var(--lw);
+    border-radius: var(--lui-border-radius-md);
+    color: var(--lui-color-brand-accent-background-surface, #fff);
+    transition: background-color 0.18s ease;
+
+    svg {
+      opacity: 0;
+      transform: scale(0.7);
+      transition:
+        opacity 0.18s ease,
+        transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+
+  input:checked + label {
+    background-color: var(--lw);
+
+    svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* --- capa 2: Let's UI, a documentação em miniatura ---------------------- */
+.pcard--letsui .pcard__cover {
+  aspect-ratio: 724 / 292;
+  background: linear-gradient(180deg, #dfeafd 0%, rgb(223 234 253 / 0) 100%);
+  container-type: inline-size;
+
+  :root[data-theme='dark'] & {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, #6270ed 24%, #000) 0%,
+      rgb(0 0 0 / 0) 100%
+    );
+  }
+}
+
+/*
+   A miniatura é desenhada na escala do Figma: u(1) vale 1px do arquivo,
+   então todas as medidas abaixo são as do desenho e o conjunto acompanha
+   a largura do card. O piso evita texto ilegível no celular.
+*/
+.luicover {
+  --site-unit: max(0.62px, 0.1381cqw);
+
+  position: absolute;
+  inset: 0;
+  cursor: auto;
+}
+
+.luisite {
+  position: absolute;
+  left: u(72);
+  top: u(72);
+  width: u(580);
+  height: u(310);
+  overflow: hidden;
+  background-color: #f8f8f9;
+  border: 1px solid var(--lui-color-neutral-light-border-divisor, #eeecf1);
+  border-radius: u(16);
+  color: #282b33;
+
+  &__bar {
+    position: absolute;
+    top: u(12);
+    left: u(15);
+    right: u(15);
+    display: flex;
+    align-items: center;
+    gap: u(27);
+  }
+
+  &__logo {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: u(5.4);
+
+    svg {
+      display: block;
+      width: auto;
+      height: u(16);
+    }
+
+    .luisite__wordmark {
+      height: u(9.5);
+      color: #131519;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    gap: u(8);
+  }
+
+  &__tab {
+    appearance: none;
+    padding: u(4) u(6);
+    border: none;
+    border-radius: u(4);
+    background: none;
+    font: inherit;
+    font-size: u(9);
+    line-height: 1.5;
+    color: #282b33;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.18s ease;
+
+    &:hover {
+      background-color: rgb(0 0 0 / 0.06);
+    }
+
+    &[aria-pressed='true'] {
+      background-color: rgb(0 0 0 / 0.04);
+    }
+
+    &:focus-visible {
+      outline: u(2) solid #6270ed;
+      outline-offset: u(1);
+    }
+  }
+
+  &__search {
+    flex: none;
+    appearance: none;
+    margin-left: auto;
+    width: u(148);
+    height: u(20);
+    padding: 0 u(6);
+    border: 1px solid var(--lui-color-neutral-light-border-divisor, #eeecf1);
+    border-radius: u(4);
+    background-color: var(--lui-color-brand-accent-background-surface, #fff);
+    font: inherit;
+    font-size: u(9);
+    color: #282b33;
+    cursor: text;
+    user-select: text;
+    -webkit-user-select: text;
+
+    &::placeholder {
+      color: #6c7081;
+    }
+
+    &:focus-visible {
+      outline: u(2) solid #6270ed;
+      outline-offset: u(1);
+    }
+  }
+
+  &__nav {
+    position: absolute;
+    top: u(55);
+    left: u(15);
+    width: u(76);
+    display: flex;
+    flex-direction: column;
+    gap: u(16);
+  }
+
+  &__group {
+    margin: 0;
+    font-size: u(8);
+    line-height: 1.5;
+    color: #6c7081;
+
+    + .luisite__list {
+      margin-top: u(4);
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: u(4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link {
+    appearance: none;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: u(9);
+    line-height: 1.5;
+    text-align: left;
+    color: #282b33;
+    cursor: pointer;
+    transition: color 0.18s ease;
+
+    &:hover {
+      color: #6270ed;
+    }
+
+    &[aria-current='page'] {
+      color: #6270ed;
+      font-weight: 700;
+    }
+
+    &:focus-visible {
+      outline: u(2) solid #6270ed;
+      outline-offset: u(1);
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    top: u(47);
+    left: u(107);
+    width: u(458);
+    height: u(196);
+    overflow: hidden;
+    padding: u(32);
+    border-radius: u(8);
+    background-color: var(--lui-color-brand-accent-background-surface, #fff);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: u(14);
+    font-weight: 700;
+    line-height: 1.5;
+    color: #282b33;
+  }
+
+  &__lede {
+    margin: u(2) 0 0;
+    font-size: u(10);
+    line-height: 1.5;
+    color: #6c7081;
+  }
+
+  &__body {
+    margin: u(20) 0 0;
+    width: u(322);
+    font-size: u(9);
+    line-height: 1.5;
+    color: #282b33;
+  }
+
+  &__empty {
+    position: absolute;
+    top: u(55);
+    left: u(107);
+    font-size: u(10);
+    line-height: 1.5;
+    color: #6c7081;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard,
+  .pcard__go,
+  .lwscale__step,
+  .lwscale__value,
+  .lwbtn,
+  .lwswitch label::after,
+  .lwradio label::after,
+  .lwcheck svg {
+    transition: none;
+  }
+}

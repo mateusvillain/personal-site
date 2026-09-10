@@ -1,3 +1,7 @@
+---
+import ProjectWidgets from './ProjectWidgets.astro'
+---
+
 <div class="body-container">
   <lui-stack gap="80">
     <div class="desktop">
@@ -112,48 +116,7 @@
       </ul>
     </main>
 
-    <section>
-      <lui-flex direction="column" gap="16">
-        <lui-heading variant="block-title" data-i18n="projects"></lui-heading>
-
-        <a
-          href="/case/locaweb-design-system/"
-          class="project-item interaction-item"
-          target="_blank"
-          data-link="locaweb-design-system"
-        >
-          <lui-flex direction="column" gap="8">
-            <lui-heading variant="subheadline" as="h3" data-i18n="locaweb-title"
-            ></lui-heading>
-            <lui-body variant="lg" data-i18n="locaweb-description"></lui-body>
-          </lui-flex>
-        </a>
-        <a
-          href="https://www.casadocodigo.com.br/products/livro-design-system"
-          class="project-item interaction-item"
-          target="_blank"
-          data-link="github-lets-ui"
-        >
-          <lui-flex direction="column" gap="8">
-            <lui-heading variant="subheadline" as="h3" data-i18n="book-title"
-            ></lui-heading>
-            <lui-body variant="lg" data-i18n="book-description"></lui-body>
-          </lui-flex>
-        </a>
-        <a
-          href="https://github.com/mateusvillain/lets-ui-css/"
-          class="project-item interaction-item"
-          target="_blank"
-          data-link="book"
-        >
-          <lui-flex direction="column" gap="8">
-            <lui-heading variant="subheadline" as="h3" data-i18n="letsui-title"
-            ></lui-heading>
-            <lui-body variant="lg" data-i18n="letsui-description"></lui-body>
-          </lui-flex>
-        </a>
-      </lui-flex>
-    </section>
+    <ProjectWidgets />
 
     <section>
       <lui-heading variant="block-title" as="h2" data-i18n="blog-title"
