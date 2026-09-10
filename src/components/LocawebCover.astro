@@ -27,6 +27,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
             <button
               type="button"
               class="lwscale__step"
+              tabindex="-1"
               style={`--step: ${step / 100}`}
             >
               <span class="lwscale__value">{step}</span>
@@ -37,13 +38,14 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
     </ul>
 
     <div class="lwrow">
-      <button type="button" class="lwbtn lwbtn--primary">Button</button>
-      <button type="button" class="lwbtn lwbtn--secondary">Button</button>
-      <button type="button" class="lwbtn lwbtn--ghost">Button</button>
+      <button type="button" class="lwbtn lwbtn--primary" tabindex="-1">Button</button>
+      <button type="button" class="lwbtn lwbtn--secondary" tabindex="-1">Button</button>
+      <button type="button" class="lwbtn lwbtn--ghost" tabindex="-1">Button</button>
 
       <button
         type="button"
         class="lwbtn lwbtn--primary lwbtn--icon"
+        tabindex="-1"
         aria-label="Fechar"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -56,6 +58,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
       <button
         type="button"
         class="lwbtn lwbtn--secondary lwbtn--icon"
+        tabindex="-1"
         aria-label="Avancar"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -68,6 +71,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
       <button
         type="button"
         class="lwbtn lwbtn--ghost lwbtn--icon"
+        tabindex="-1"
         aria-label="Menu"
       >
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -86,6 +90,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
                 type="radio"
                 name={uid('tabs')}
                 id={uid(`tab-${index}`)}
+                tabindex="-1"
                 checked={index === 0}
               />
               <label for={uid(`tab-${index}`)}>{label}</label>
@@ -97,7 +102,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
 
     <div class="lwrow lwrow--controls">
       <span class="lwswitch">
-        <input type="checkbox" id={uid('switch-a')} aria-label="Switch" />
+        <input type="checkbox" id={uid('switch-a')} tabindex="-1" aria-label="Switch" />
         <label for={uid('switch-a')}></label>
       </span>
       <span class="lwswitch">
@@ -105,6 +110,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
           type="checkbox"
           id={uid('switch-b')}
           checked
+          tabindex="-1"
           aria-label="Switch selecionado"
         />
         <label for={uid('switch-b')}></label>
@@ -115,6 +121,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
           type="radio"
           name={uid('choice')}
           id={uid('radio-a')}
+          tabindex="-1"
           aria-label="Radio"
         />
         <label for={uid('radio-a')}></label>
@@ -125,13 +132,14 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
           name={uid('choice')}
           id={uid('radio-b')}
           checked
+          tabindex="-1"
           aria-label="Radio selecionado"
         />
         <label for={uid('radio-b')}></label>
       </span>
 
       <span class="lwcheck">
-        <input type="checkbox" id={uid('check-a')} aria-label="Checkbox" />
+        <input type="checkbox" id={uid('check-a')} tabindex="-1" aria-label="Checkbox" />
         <label for={uid('check-a')}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
@@ -145,6 +153,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
           type="checkbox"
           id={uid('check-b')}
           checked
+          tabindex="-1"
           aria-label="Checkbox marcado"
         />
         <label for={uid('check-b')}>

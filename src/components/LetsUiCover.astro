@@ -171,6 +171,7 @@ const initial = sections.documentation[0].pages[1] // "Design", como no Figma
               type="button"
               class="luisite__tab"
               data-lui-tab={tab.key}
+              tabindex="-1"
               aria-pressed={index === 0 ? 'true' : 'false'}
             >
               {tab.label}
@@ -183,6 +184,7 @@ const initial = sections.documentation[0].pages[1] // "Design", como no Figma
         type="search"
         class="luisite__search"
         data-lui-search
+        tabindex="-1"
         placeholder="Search"
         aria-label="Search the documentation"
       />
@@ -284,6 +286,7 @@ const initial = sections.documentation[0].pages[1] // "Design", como no Figma
           const button = document.createElement('button')
           button.type = 'button'
           button.className = 'luisite__link'
+          button.tabIndex = -1
           button.dataset.luiPage = page.title
           button.textContent = page.title
           button.setAttribute(
