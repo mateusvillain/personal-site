@@ -20,6 +20,16 @@ a {
   color: var(--lui-color-neutral-text-body);
 }
 
+// lui-link renders its own shadow-DOM anchor as `display: inline`; when we
+// reuse the (light-DOM-only) `.icon-button` utility classes on it directly
+// instead of wrapping a real lui-icon-button, force the flex layout those
+// classes expect so the icon centers instead of following inline flow.
+lui-link.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .body-container {
   display: flex;
   flex-direction: column;
