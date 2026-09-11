@@ -44,6 +44,14 @@ import Scripts from '../components/Scripts.astro';
         padding: 0;
       }
 
+      #lang-switch {
+        color: #e0e2f4;
+        font: inherit;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
       body,
       p {
         font:
@@ -94,15 +102,34 @@ import Scripts from '../components/Scripts.astro';
         margin-bottom: 24px;
       }
 
-      a {
+      a,
+      #lang-switch {
         margin-left: -8px;
         text-decoration: none;
         padding: 0 9px 2px 8px;
       }
       a:hover,
-      a:focus {
+      a:focus,
+      #lang-switch:hover,
+      #lang-switch:focus {
         background: #aaaaaa;
         color: #0414a7;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 8px 12px;
+        z-index: 1000;
+        background: #aaaaaa;
+        color: #0414a7;
+        transform: translateY(-150%);
+      }
+
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        transform: translateY(0);
       }
 
       nav {

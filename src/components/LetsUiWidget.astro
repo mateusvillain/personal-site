@@ -12,6 +12,8 @@
  * Os quatro ultimos montam uma pequena interface: o card ganha duas
  * colunas (texto a esquerda, interface a direita) pela classe widget--ui.
  */
+import lang from '../../public/lang/en.json'
+
 const { concept = 'fluid', id = 'letsui' } = Astro.props
 const miniUi = ['form', 'checklist', 'panel', 'search'].includes(concept)
 const uid = (name) => `${id}-${name}`
@@ -36,6 +38,7 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
       <lui-body variant="lg" as="h3" class="widget__title" id={uid('title')}>
         <a href={repo} target="_blank" rel="noopener" data-link="github-lets-ui">
           Let's UI
+          <span class="sr-only"> (abre em nova aba)</span>
         </a>
       </lui-body>
 
@@ -46,10 +49,11 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
         rel="noopener"
         data-link="github-lets-ui"
       >
-        <span data-i18n="letsui-cta"></span>
+        <span data-i18n="letsui-cta" set:html={lang['letsui-cta']}></span>
         <span class="widget__cta-icon" aria-hidden="true">
           <ph-arrow-up-right size="14"></ph-arrow-up-right>
         </span>
+        <span class="sr-only"> (abre em nova aba)</span>
       </a>
 
       <p class="widget__stats">
@@ -249,10 +253,10 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
   }
 
   document.querySelectorAll('.concept--fluid').forEach((concept) => {
-    const range = concept.querySelector('[data-fluid-range]')
-    const sample = concept.querySelector('[data-fluid-sample]')
-    const sampleSm = concept.querySelector('[data-fluid-sample-sm]')
-    const readout = concept.querySelector('[data-fluid-readout]')
+    const range = concelang.querySelector('[data-fluid-range]')
+    const sample = concelang.querySelector('[data-fluid-sample]')
+    const sampleSm = concelang.querySelector('[data-fluid-sample-sm]')
+    const readout = concelang.querySelector('[data-fluid-readout]')
     // a fluidez do sistema mora na tipografia: 2xl varia 1.3vw, sm 0.3vw
     const BIG = '--lui-brand-typography-font-size-2xl'
     const SMALL = '--lui-brand-typography-font-size-sm'
@@ -275,9 +279,9 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
 
   /* --- 2. Mini tela de acesso ------------------------------------------ */
   document.querySelectorAll('.concept--form').forEach((concept) => {
-    const form = concept.querySelector('[data-mini-form]')
-    const alert = concept.querySelector('[data-mini-alert]')
-    const submit = concept.querySelector('[data-mini-submit]')
+    const form = concelang.querySelector('[data-mini-form]')
+    const alert = concelang.querySelector('[data-mini-alert]')
+    const submit = concelang.querySelector('[data-mini-submit]')
     let timer
 
     const confirm = (event) => {
@@ -295,10 +299,10 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
 
   /* --- 3. Lista de tarefas viva ---------------------------------------- */
   document.querySelectorAll('.concept--checklist').forEach((concept) => {
-    const list = concept.querySelector('[data-checklist-list]')
-    const input = concept.querySelector('[data-checklist-input]')
-    const add = concept.querySelector('[data-checklist-add]')
-    const counter = concept.querySelector('[data-checklist-count]')
+    const list = concelang.querySelector('[data-checklist-list]')
+    const input = concelang.querySelector('[data-checklist-input]')
+    const add = concelang.querySelector('[data-checklist-add]')
+    const counter = concelang.querySelector('[data-checklist-count]')
 
     const count = () => {
       const items = Array.from(list.querySelectorAll('lui-checkbox'))
@@ -328,10 +332,10 @@ const repo = 'https://github.com/mateusvillain/lets-ui/'
 
   /* --- 4. Busca com filtros -------------------------------------------- */
   document.querySelectorAll('.concept--search').forEach((concept) => {
-    const input = concept.querySelector('[data-search-input]')
-    const chips = concept.querySelectorAll('[data-search-chips] .chip')
+    const input = concelang.querySelector('[data-search-input]')
+    const chips = concelang.querySelectorAll('[data-search-chips] .chip')
     const results = Array.from(
-      concept.querySelectorAll('[data-search-results] li')
+      concelang.querySelectorAll('[data-search-results] li')
     )
     let filter = 'all'
 

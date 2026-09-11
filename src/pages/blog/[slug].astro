@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import BlogLayout from '../../layouts/BlogPostLayout.astro'
+import IconLinkButton from '../../components/IconLinkButton.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -83,57 +84,58 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
                 ></path>
               </svg>
             </lui-icon-button>
+            <span
+              id="copy-link-status"
+              class="sr-only"
+              role="status"
+              aria-live="polite"></span>
 
             <!-- LinkedIn -->
-            <lui-link
+            <IconLinkButton
               href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`}
               target="_blank"
-              aria-label="Compartilhar no LinkedIn"
+              ariaLabel="Compartilhar no LinkedIn (abre em nova aba)"
             >
-              <lui-icon-button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  fill="none"
-                  viewBox="0 0 32 32"
-                >
-                  <g clip-path="url(#a)">
-                    <path
-                      fill="#000"
-                      d="M5.25 9.625a1 1 0 0 1 1 1v17.5a1 1 0 1 1-2 0v-17.5a1 1 0 0 1 1-1Zm13.75 0c2.317 0 4.541.91 6.183 2.531a8.61 8.61 0 0 1 2.567 6.125v9.844a1 1 0 1 1-2 0v-9.844a6.61 6.61 0 0 0-1.973-4.702A6.798 6.798 0 0 0 19 11.625a6.798 6.798 0 0 0-4.777 1.954 6.61 6.61 0 0 0-1.973 4.702v9.844a1 1 0 1 1-2 0v-17.5a1 1 0 1 1 2 0v2.148A8.799 8.799 0 0 1 19 9.625ZM5.312 4.5a1.563 1.563 0 1 1 0 3.125 1.563 1.563 0 0 1 0-3.125Z"
-                    ></path>
-                  </g>
-                  <defs>
-                    <clipPath id="a">
-                      <path fill="#fff" d="M0 0h32v32H0z"></path>
-                    </clipPath>
-                  </defs>
-                </svg>
-              </lui-icon-button>
-            </lui-link>
-
-            <!-- X -->
-            <lui-link
-              href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
-              target="_blank"
-              aria-label="Compartilhar no X"
-            >
-              <lui-icon-button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  fill="none"
-                  viewBox="0 0 32 32"
-                >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 32 32"
+              >
+                <g clip-path="url(#a)">
                   <path
                     fill="#000"
-                    d="m26.844 26.464-7.825-12.298 7.721-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.061-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .844-1.536ZM20.549 26 7.82 6h3.625L24.18 26h-3.63Z"
+                    d="M5.25 9.625a1 1 0 0 1 1 1v17.5a1 1 0 1 1-2 0v-17.5a1 1 0 0 1 1-1Zm13.75 0c2.317 0 4.541.91 6.183 2.531a8.61 8.61 0 0 1 2.567 6.125v9.844a1 1 0 1 1-2 0v-9.844a6.61 6.61 0 0 0-1.973-4.702A6.798 6.798 0 0 0 19 11.625a6.798 6.798 0 0 0-4.777 1.954 6.61 6.61 0 0 0-1.973 4.702v9.844a1 1 0 1 1-2 0v-17.5a1 1 0 1 1 2 0v2.148A8.799 8.799 0 0 1 19 9.625ZM5.312 4.5a1.563 1.563 0 1 1 0 3.125 1.563 1.563 0 0 1 0-3.125Z"
                   ></path>
-                </svg>
-              </lui-icon-button>
-            </lui-link>
+                </g>
+                <defs>
+                  <clipPath id="a">
+                    <path fill="#fff" d="M0 0h32v32H0z"></path>
+                  </clipPath>
+                </defs>
+              </svg>
+            </IconLinkButton>
+
+            <!-- X -->
+            <IconLinkButton
+              href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
+              target="_blank"
+              ariaLabel="Compartilhar no X (abre em nova aba)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="#000"
+                  d="m26.844 26.464-7.825-12.298 7.721-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.061-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .844-1.536ZM20.549 26 7.82 6h3.625L24.18 26h-3.63Z"
+                ></path>
+              </svg>
+            </IconLinkButton>
           </lui-flex>
         </lui-flex>
       </lui-flex>
@@ -145,12 +147,15 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
 <script>
   const copy = document.getElementById('copy-link')
+  const copyStatus = document.getElementById('copy-link-status')
 
   copy?.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
+      if (copyStatus) copyStatus.textContent = 'Link copiado!'
     } catch (err) {
       console.error('Erro ao copiar', err)
+      if (copyStatus) copyStatus.textContent = 'Não foi possível copiar o link.'
     }
   })
 </script>

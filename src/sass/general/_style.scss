@@ -3,9 +3,31 @@ body {
   line-height: var(--lui-brand-typography-line-height-body);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 a {
   text-decoration: none;
   color: var(--lui-color-neutral-text-body);
+}
+
+// lui-link renders its own shadow-DOM anchor as `display: inline`; when we
+// reuse the (light-DOM-only) `.icon-button` utility classes on it directly
+// instead of wrapping a real lui-icon-button, force the flex layout those
+// classes expect so the icon centers instead of following inline flow.
+lui-link.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .body-container {
@@ -100,8 +122,31 @@ main {
     gap: var(--lui-spacing-fluid-40);
     align-items: center;
 
-    a {
+    a,
+    button {
       cursor: pointer;
+    }
+
+    button#lang-switch {
+      border: none;
+      background: transparent;
+      padding: 0;
+      // Font size/family comes from the `.body--sm` class already on this
+      // button (a plain class rule); do not set `font` here, an ID
+      // selector would win specificity and override it.
+      // `.link` from @lets-ui/styles only targets `a.link`; replicate it
+      // here since this control is a <button> for keyboard operability.
+      color: var(--lui-link-color-text-default);
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        box-shadow: var(--lui-focus-ring-primary);
+        outline: none;
+        outline-offset: 3px;
+      }
     }
 
     @media (max-width: 340px) {
@@ -200,11 +245,15 @@ p.text-link {
   left: 8px;
   padding: 8px 12px;
   z-index: 1000;
-  transform: translateY(-100%);
+  background-color: var(--lui-color-neutral-background-surface);
+  color: var(--lui-color-neutral-text-body);
+  border-radius: var(--lui-border-radius-md);
+  transform: translateY(-150%);
 
   &:focus,
   &:focus-visible {
     transform: translateY(0);
+    box-shadow: var(--lui-focus-ring-primary);
   }
 }
 
@@ -218,6 +267,10 @@ p.text-link {
     position: absolute;
     opacity: 0;
     pointer-events: none;
+  }
+
+  & input:focus-visible ~ .theme-toggle__track {
+    box-shadow: var(--lui-focus-ring-primary);
   }
 
   &__track {

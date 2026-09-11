@@ -1,0 +1,36 @@
+---
+/**
+ * Icon-only external link styled like <lui-icon-button>, without nesting
+ * one inside the <a> that <lui-link> renders — that pattern produces an
+ * invalid `<a><button></button></a>` (two nested interactive elements).
+ *
+ * The icon-button visual classes come from @lets-ui/styles as plain,
+ * non-shadow-scoped CSS, so they apply fine directly on <lui-link>. What
+ * they DON'T provide here is icon sizing (that's normally done via a
+ * shadow-DOM ::slotted rule inside <lui-icon-button>, which doesn't run
+ * for content slotted into a different component). So the SVG passed via
+ * the slot must already be sized to match `size`: 24px for "lg", 16px for
+ * "md". If it uses `stroke="currentColor"`, also set the svg's own
+ * `color` explicitly — slotted content inherits color from the flat tree
+ * (lui-link's own shadow-rendered anchor), not from this host element.
+ */
+interface Props {
+  href: string
+  ariaLabel: string
+  size?: 'md' | 'lg'
+  target?: string
+  rel?: string
+}
+
+const { href, ariaLabel, size = 'md', target, rel } = Astro.props
+---
+
+<lui-link
+  class={`icon-button icon-button--${size}`}
+  href={href}
+  aria-label={ariaLabel}
+  target={target}
+  rel={rel}
+>
+  <slot />
+</lui-link>

@@ -15,6 +15,7 @@
  */
 import LocawebCover from './LocawebCover.astro'
 import LetsUiCover from './LetsUiCover.astro'
+import lang from '../../public/lang/en.json'
 
 const { id = 'projects' } = Astro.props
 const uid = (name) => `${id}-${name}`
@@ -29,14 +30,27 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       variant="block-title"
       as="h2"
       id={uid('heading')}
-      data-i18n="projects"></lui-heading>
+      data-i18n="projects"
+      set:html={lang.projects}></lui-heading>
     <button
       type="button"
       class="pboard__reset"
       data-reset-for={id}
       data-i18n="projects-reset"
-      hidden></button>
+      hidden
+      set:html={lang['projects-reset']}></button>
   </div>
+
+  <p id={uid('drag-instructions')} class="sr-only">
+    Card arrastável. Use o mouse ou toque para reposicionar, ou as setas do
+    teclado para mover e Escape para retornar à posição original.
+  </p>
+  <div
+    id={uid('drag-status')}
+    class="sr-only"
+    role="status"
+    aria-live="polite"
+  ></div>
 
   <div class="pboard__stage" data-board={id}>
     <!-- Locaweb: capa larga com os componentes do sistema -->
@@ -46,6 +60,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       tabindex="0"
       aria-roledescription="card de projeto"
       aria-labelledby={uid('locaweb-title')}
+      aria-describedby={uid('drag-instructions')}
     >
       <div class="pcard__cover" aria-hidden="true">
         <LocawebCover id={uid('locaweb')} />
@@ -62,12 +77,14 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
             <a
               href="/case/locaweb-design-system/"
               data-link="locaweb-design-system"
-              data-i18n="locaweb-title"></a>
+              data-i18n="locaweb-title"
+              set:html={lang['locaweb-title']}></a>
           </lui-body>
           <lui-body
             variant="md"
             class="pcard__desc"
-            data-i18n="locaweb-description"></lui-body>
+            data-i18n="locaweb-description"
+            set:html={lang['locaweb-description']}></lui-body>
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -83,6 +100,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       tabindex="0"
       aria-roledescription="card de projeto"
       aria-labelledby={uid('book-title')}
+      aria-describedby={uid('drag-instructions')}
     >
       <div class="pcard__cover pcard__cover--art">
         <img
@@ -108,12 +126,15 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
               target="_blank"
               rel="noopener"
               data-link="book"
-              data-i18n="book-title"></a>
+              data-i18n="book-title"
+              set:html={`${lang['book-title']} <span class="sr-only"> (abre em nova aba)</span>`}
+            ></a>
           </lui-body>
           <lui-body
             variant="md"
             class="pcard__desc"
-            data-i18n="book-description"></lui-body>
+            data-i18n="book-description"
+            set:html={lang['book-description']}></lui-body>
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -129,6 +150,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       tabindex="0"
       aria-roledescription="card de projeto"
       aria-labelledby={uid('letsui-title')}
+      aria-describedby={uid('drag-instructions')}
     >
       <div class="pcard__cover" aria-hidden="true">
         <LetsUiCover id={uid('letsui')} />
@@ -142,15 +164,22 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
             class="pcard__title"
             id={uid('letsui-title')}
           >
-            <a href={repoUrl} target="_blank" rel="noopener" data-link="github-lets-ui">
+            <a
+              href={repoUrl}
+              target="_blank"
+              rel="noopener"
+              data-link="github-lets-ui"
+            >
               Let's UI
+              <span class="sr-only"> (abre em nova aba)</span>
             </a>
             <span class="pcard__badge" data-stat="version" hidden></span>
           </lui-body>
           <lui-body
             variant="md"
             class="pcard__desc"
-            data-i18n="letsui-description"></lui-body>
+            data-i18n="letsui-description"
+            set:html={lang['letsui-description']}></lui-body>
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -179,7 +208,12 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
     const boardId = board.dataset.board
     const cards = Array.from(board.querySelectorAll('.pcard'))
     const resetButton = document.querySelector(`[data-reset-for="${boardId}"]`)
+    const statusEl = document.getElementById(`${boardId}-drag-status`)
     const STORAGE_KEY = `card-positions:${boardId}`
+
+    const announce = (message) => {
+      if (statusEl) statusEl.textContent = message
+    }
 
     let topLayer = 1
 
@@ -370,10 +404,16 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
         const current = positions[card.dataset.widget] || { x: 0, y: 0 }
         const step = event.shiftKey ? STEP * 4 : STEP
 
+        const cardName =
+          document
+            .getElementById(card.getAttribute('aria-labelledby') || '')
+            ?.textContent?.trim() || 'Card'
+
         if (event.key === 'Escape') {
           delete positions[card.dataset.widget]
           apply(card, 0, 0)
           savePositions()
+          announce(`${cardName} voltou para a posição original.`)
           return
         }
 
@@ -389,6 +429,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
         event.preventDefault()
         card.style.zIndex = String(++topLayer)
         move(card, current.x + delta[0], current.y + delta[1], true)
+        announce(`${cardName} movido.`)
       })
     })
 
@@ -398,6 +439,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
         apply(card, 0, 0)
         card.style.zIndex = ''
       })
+      announce('Todos os cards voltaram para a posição original.')
       topLayer = 1
       savePositions()
     })
