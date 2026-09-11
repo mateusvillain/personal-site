@@ -15,7 +15,7 @@
  */
 import LocawebCover from './LocawebCover.astro'
 import LetsUiCover from './LetsUiCover.astro'
-import pt from '../../public/lang/pt.json'
+import lang from '../../public/lang/en.json'
 
 const { id = 'projects' } = Astro.props
 const uid = (name) => `${id}-${name}`
@@ -31,14 +31,14 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       as="h2"
       id={uid('heading')}
       data-i18n="projects"
-      set:html={pt.projects}></lui-heading>
+      set:html={lang.projects}></lui-heading>
     <button
       type="button"
       class="pboard__reset"
       data-reset-for={id}
       data-i18n="projects-reset"
       hidden
-      set:html={pt['projects-reset']}></button>
+      set:html={lang['projects-reset']}></button>
   </div>
 
   <p id={uid('drag-instructions')} class="sr-only">
@@ -78,13 +78,13 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
               href="/case/locaweb-design-system/"
               data-link="locaweb-design-system"
               data-i18n="locaweb-title"
-              set:html={pt['locaweb-title']}></a>
+              set:html={lang['locaweb-title']}></a>
           </lui-body>
           <lui-body
             variant="md"
             class="pcard__desc"
             data-i18n="locaweb-description"
-            set:html={pt['locaweb-description']}></lui-body>
+            set:html={lang['locaweb-description']}></lui-body>
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -127,14 +127,14 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
               rel="noopener"
               data-link="book"
               data-i18n="book-title"
-              set:html={`${pt['book-title']} <span class="sr-only"> (abre em nova aba)</span>`}
+              set:html={`${lang['book-title']} <span class="sr-only"> (abre em nova aba)</span>`}
             ></a>
           </lui-body>
           <lui-body
             variant="md"
             class="pcard__desc"
             data-i18n="book-description"
-            set:html={pt['book-description']}></lui-body>
+            set:html={lang['book-description']}></lui-body>
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -179,7 +179,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
             variant="md"
             class="pcard__desc"
             data-i18n="letsui-description"
-            set:html={pt['letsui-description']}></lui-body>
+            set:html={lang['letsui-description']}></lui-body>
         </div>
 
         <span class="pcard__go" aria-hidden="true">

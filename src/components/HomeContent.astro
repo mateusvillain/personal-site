@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import ProjectWidgets from './ProjectWidgets.astro'
-import pt from '../../public/lang/pt.json'
+import lang from '../../public/lang/en.json'
 
 const months = [
   'Jan',
@@ -46,7 +46,7 @@ function parsePostDate(value: string) {
           id="lang-switch"
           data-i18n="language"
           data-link="language"
-          set:html={pt.language}></button>
+          set:html={lang.language}></button>
         <label class="theme-toggle" aria-label="Alternar tema">
           <input type="checkbox" id="theme-toggle" />
           <div class="theme-toggle__track">
@@ -105,20 +105,20 @@ function parsePostDate(value: string) {
         <div>
           <lui-heading variant="block-title" as="h1">Mateus Villain</lui-heading
           >
-          <lui-body variant="lg" data-i18n="role" italic set:html={pt.role}
+          <lui-body variant="lg" data-i18n="role" italic set:html={lang.role}
           ></lui-body>
         </div>
 
-        <lui-body variant="lg" data-i18n="short-bio" set:html={pt['short-bio']}
+        <lui-body variant="lg" data-i18n="short-bio" set:html={lang['short-bio']}
         ></lui-body>
         <lui-body
           variant="lg"
           data-i18n="short-bio-2"
-          set:html={pt['short-bio-2']}></lui-body>
+          set:html={lang['short-bio-2']}></lui-body>
         <lui-body
           variant="lg"
           data-i18n="short-bio-3"
-          set:html={pt['short-bio-3']}></lui-body>
+          set:html={lang['short-bio-3']}></lui-body>
       </lui-flex>
 
       <a
@@ -135,12 +135,12 @@ function parsePostDate(value: string) {
             variant="block-title"
             as="h2"
             data-i18n="blog-title"
-            set:html={pt['blog-title']}></lui-heading>
+            set:html={lang['blog-title']}></lui-heading>
           <lui-link
             href="/blog/"
             data-link="blog"
             data-i18n="blog-link"
-            set:html={pt['blog-link']}></lui-link>
+            set:html={lang['blog-link']}></lui-link>
         </lui-flex>
         <ul class="no-list">
           {

@@ -1,5 +1,6 @@
 ---
 import '@lets-ui/styles'
+import IconLinkButton from '../components/IconLinkButton.astro'
 
 const { title, description, cover } = Astro.props
 const defaultCover = '/blog/covers/cover.png'
@@ -89,10 +90,10 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
 
           <div class="social-media-icons flex gap-fixed-8 m-t-fixed-8">
             <!-- LinkedIn -->
-            <lui-link
-              class="icon-button icon-button--lg"
+            <IconLinkButton
+              size="lg"
               href="https://www.linkedin.com/in/mateusvillain"
-              aria-label="LinkedIn, nova janela"
+              ariaLabel="LinkedIn, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -139,13 +140,13 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
                     stroke-width="16"></path><circle cx="88" cy="84" r="12"
                   ></circle></svg
                 >
-            </lui-link>
+            </IconLinkButton>
 
             <!-- GitHub -->
-            <lui-link
-              class="icon-button icon-button--lg"
+            <IconLinkButton
+              size="lg"
               href="https://github.com/mateusvillain"
-              aria-label="GitHub, nova janela"
+              ariaLabel="GitHub, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -175,13 +176,13 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
                     stroke-linejoin="round"
                     stroke-width="16"></path></svg
                 >
-            </lui-link>
+            </IconLinkButton>
 
             <!-- Twitter -->
-            <lui-link
-              class="icon-button icon-button--lg"
+            <IconLinkButton
+              size="lg"
               href="https://www.x.com/mateusvillain"
-              aria-label="X, nova janela"
+              ariaLabel="X, nova janela"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -197,7 +198,7 @@ const imageUrl = new URL(cover ?? defaultCover, Astro.site ?? Astro.url).href
                     d="m26.843 26.464-7.825-12.298 7.722-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.062-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .843-1.536ZM20.55 26 7.82 6h3.625l12.732 20h-3.63Z"
                   ></path>
                 </svg>
-            </lui-link>
+            </IconLinkButton>
           </div>
         </lui-flex>
       </section>

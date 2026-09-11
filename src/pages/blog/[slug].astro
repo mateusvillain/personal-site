@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import BlogLayout from '../../layouts/BlogPostLayout.astro'
+import IconLinkButton from '../../components/IconLinkButton.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -90,11 +91,10 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
               aria-live="polite"></span>
 
             <!-- LinkedIn -->
-            <lui-link
-              class="icon-button icon-button--md"
+            <IconLinkButton
               href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`}
               target="_blank"
-              aria-label="Compartilhar no LinkedIn (abre em nova aba)"
+              ariaLabel="Compartilhar no LinkedIn (abre em nova aba)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -115,14 +115,13 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
                   </clipPath>
                 </defs>
               </svg>
-            </lui-link>
+            </IconLinkButton>
 
             <!-- X -->
-            <lui-link
-              class="icon-button icon-button--md"
+            <IconLinkButton
               href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
               target="_blank"
-              aria-label="Compartilhar no X (abre em nova aba)"
+              ariaLabel="Compartilhar no X (abre em nova aba)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +135,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
                   d="m26.844 26.464-7.825-12.298 7.721-8.494a1 1 0 0 0-1.48-1.345l-7.355 8.09-5.061-7.953A1 1 0 0 0 12 4H6a1 1 0 0 0-.844 1.537l7.825 12.297-7.721 8.5a1 1 0 1 0 1.48 1.345l7.355-8.09 5.061 7.954A1 1 0 0 0 20 28h6a1 1 0 0 0 .844-1.536ZM20.549 26 7.82 6h3.625L24.18 26h-3.63Z"
                 ></path>
               </svg>
-            </lui-link>
+            </IconLinkButton>
           </lui-flex>
         </lui-flex>
       </lui-flex>
