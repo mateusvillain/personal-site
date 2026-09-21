@@ -27,6 +27,8 @@ interface Props {
   alternates?: Partial<Record<Locale, string>>
   image?: string
   robots?: string
+  /** Data de publicacao (YYYY-MM-DD); presente so em posts do blog. */
+  publishedTime?: string
 }
 
 const strings = ui[Astro.props.locale]
@@ -40,6 +42,7 @@ const {
   alternates,
   image = '/img/cover.png',
   robots = 'index, follow',
+  publishedTime,
 } = Astro.props
 
 const site = Astro.site ?? Astro.url
@@ -67,7 +70,12 @@ const hasTranslation = links.some(
 <meta name="author" content="Mateus Villain" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={publishedTime ? 'article' : 'website'} />
+{
+  publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )
+}
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />

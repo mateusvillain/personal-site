@@ -61,6 +61,16 @@ function getAlternates(file) {
   return links
 }
 
+// Posts declaram <meta property="article:published_time">; vira o <lastmod>.
+// Páginas fixas não têm data confiável e ficam sem.
+function getLastmod(file) {
+  const html = fs.readFileSync(path.join(DIST_DIR, file), 'utf8')
+  const match = html.match(
+    /<meta\s+property="article:published_time"\s+content="([^"]+)"/,
+  )
+  return match ? match[1] : null
+}
+
 function getPriority(url) {
   const path = url.replace(/^\/pt(?=\/|$)/, '') || '/'
   if (path === '/') return '1.0'
@@ -74,15 +84,21 @@ const escapeXml = (value) => value.replace(/&/g, '&amp;')
 const pages = getAllHtmlFiles(DIST_DIR).map((file) => ({
   url: toUrl(file),
   alternates: getAlternates(file),
+  lastmod: getLastmod(file),
 }))
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${pages
   .map(
-    ({ url, alternates }) => `
+    ({ url, alternates, lastmod }) => `
   <url>
-    <loc>${SITE_URL}${url}</loc>
+    <loc>${SITE_URL}${url}</loc>${
+      lastmod
+        ? `
+    <lastmod>${lastmod}</lastmod>`
+        : ''
+    }
     <priority>${getPriority(url)}</priority>${alternates
       .map(
         ({ hreflang, href }) => `

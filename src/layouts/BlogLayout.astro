@@ -17,6 +17,7 @@ interface Props {
   canonicalPath: string
   alternates?: Partial<Record<Locale, string>>
   cover?: string
+  publishedTime?: string
   showAuthor?: boolean
 }
 
@@ -27,6 +28,7 @@ const {
   canonicalPath,
   alternates,
   cover,
+  publishedTime,
   showAuthor = false,
 } = Astro.props
 
@@ -44,6 +46,7 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
       canonicalPath={canonicalPath}
       alternates={alternates}
       image={cover ?? defaultCover}
+      publishedTime={publishedTime}
     />
 
     <link rel="stylesheet" href="/style.css" />
