@@ -1,35 +1,49 @@
-function renderRichText(richText = []) {
-  return richText
-    .map(item => {
-      let text = item.plain_text || ''
+import { createHmac, timingSafeEqual } from 'node:crypto'
+import { sanity, blocksToSections } from './_sanity.js'
 
-      if (item.annotations?.code) {
-        text = `<code>${text}</code>`
-      }
+// Por quanto tempo o desbloqueio vale sem pedir a senha de novo
+// (refresh, troca de idioma). Cookie HttpOnly assinado — a senha em si
+// nunca vai pro browser.
+const UNLOCK_TTL_SECONDS = 30 * 60
 
-      if (item.annotations?.bold) {
-        text = `<strong>${text}</strong>`
-      }
+function cookieName(slug) {
+  return `case_unlock_${slug.replace(/[^a-z0-9]/gi, '_')}`
+}
 
-      if (item.annotations?.italic) {
-        text = `<em>${text}</em>`
-      }
+function sign(slug, exp, secret) {
+  return createHmac('sha256', secret).update(`${slug}:${exp}`).digest('hex')
+}
 
-      if (item.annotations?.underline) {
-        text = `<u>${text}</u>`
-      }
+function readCookie(req, name) {
+  const raw = req.headers.cookie || ''
+  for (const part of raw.split(';')) {
+    const [k, ...v] = part.trim().split('=')
+    if (k === name) return decodeURIComponent(v.join('='))
+  }
+  return null
+}
 
-      if (item.annotations?.strikethrough) {
-        text = `<s>${text}</s>`
-      }
+function hasValidUnlockCookie(req, slug, secret) {
+  const value = readCookie(req, cookieName(slug))
+  if (!value) return false
 
-      if (item.href) {
-        text = `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${text}</a>`
-      }
+  const [exp, sig] = value.split('.')
+  if (!exp || !sig || Number(exp) < Math.floor(Date.now() / 1000)) return false
 
-      return text
-    })
-    .join('')
+  const expected = sign(slug, exp, secret)
+  if (sig.length !== expected.length) return false
+  return timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
+}
+
+function setUnlockCookie(res, slug, secret) {
+  const exp = Math.floor(Date.now() / 1000) + UNLOCK_TTL_SECONDS
+  const value = `${exp}.${sign(slug, exp, secret)}`
+  const secure = process.env.VERCEL_ENV ? '; Secure' : ''
+
+  res.setHeader(
+    'Set-Cookie',
+    `${cookieName(slug)}=${value}; Path=/; Max-Age=${UNLOCK_TTL_SECONDS}; HttpOnly; SameSite=Lax${secure}`
+  )
 }
 
 export default async function handler(req, res) {
@@ -37,165 +51,56 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' })
   }
 
-  const { slug, password } = req.body || {}
+  const { slug, password, locale = 'pt' } = req.body || {}
 
   if (!slug) {
     return res.status(400).json({ error: 'Slug não informado' })
   }
 
-  const NOTION_TOKEN = process.env.NOTION_PROJECT_API
-  const DATABASE_ID = process.env.NOTION_PROJECT_DB
-
   try {
     /* =====================================================
-       1. Buscar projeto pelo slug
+       1. Buscar case pelo slug
     ====================================================== */
-    const queryResponse = await fetch(
-      `https://api.notion.com/v1/databases/${DATABASE_ID}/query`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${NOTION_TOKEN}`,
-          'Notion-Version': '2022-06-28',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          filter: {
-            property: 'slug',
-            rich_text: { equals: slug }
-          }
-        })
-      }
+    const doc = await sanity.fetch(
+      `*[_type == "caseStudy" && slug.current == $slug][0]{
+        title, isPublic, requiresPassword, passwordKey, content
+      }`,
+      { slug }
     )
 
-    const queryData = await queryResponse.json()
-    const page = queryData.results[0]
-
-    if (!page || !page.properties.public?.checkbox) {
+    if (!doc || !doc.isPublic) {
       return res.status(404).json({ error: 'Projeto não encontrado' })
     }
 
-    const props = page.properties
-
     /* =====================================================
-       2. Verificar senha (por projeto)
+       2. Verificar senha (por projeto) ou cookie de desbloqueio
     ====================================================== */
-    if (props.requires_password?.checkbox) {
-      const passwordKey =
-        props.password_key?.rich_text?.[0]?.plain_text
+    if (doc.requiresPassword) {
+      const expectedPassword = process.env[`PASSWORD_${doc.passwordKey}`]
 
-      const expectedPassword =
-        process.env[`PASSWORD_${passwordKey}`]
+      if (!expectedPassword) {
+        console.error(`PASSWORD_${doc.passwordKey} não configurada`)
+        return res.status(500).json({ error: 'Erro interno' })
+      }
 
-      if (!password || password !== expectedPassword) {
+      if (password) {
+        if (password !== expectedPassword) {
+          return res.status(401).json({ error: 'Senha inválida' })
+        }
+        setUnlockCookie(res, slug, expectedPassword)
+      } else if (!hasValidUnlockCookie(req, slug, expectedPassword)) {
         return res.status(401).json({ error: 'Senha inválida' })
       }
     }
 
     /* =====================================================
-       3. Buscar blocks da página
+       3. Portable Text (por idioma) -> sections
     ====================================================== */
-    const blocksResponse = await fetch(
-      `https://api.notion.com/v1/blocks/${page.id}/children`,
-      {
-        headers: {
-          Authorization: `Bearer ${NOTION_TOKEN}`,
-          'Notion-Version': '2022-06-28'
-        }
-      }
-    )
-
-    const blocksData = await blocksResponse.json()
-
-    /* =====================================================
-       4. Converter blocks → sections (HTML)
-    ====================================================== */
-    const sections = []
-
-    for (const block of blocksData.results) {
-      switch (block.type) {
-        case 'heading_1':
-        case 'heading_2':
-        case 'heading_3': {
-          const level = Number(block.type.split('_')[1])
-          sections.push({
-            type: 'heading',
-            level,
-            html: renderRichText(block[block.type].rich_text)
-          })
-          break
-        }
-
-        case 'image':
-          sections.push({
-            type: 'image',
-            src:
-              block.image.file?.url ||
-              block.image.external?.url ||
-              null,
-            alt: renderRichText(block.image.caption) || ''
-          })
-          break
-
-        case 'paragraph':
-          sections.push({
-            type: 'text',
-            html: renderRichText(block.paragraph.rich_text)
-          })
-          break
-
-        case 'bulleted_list_item':
-          sections.push({
-            type: 'list-item',
-            listType: 'ul',
-            html: renderRichText(block.bulleted_list_item.rich_text)
-          })
-          break
-
-        case 'numbered_list_item':
-          sections.push({
-            type: 'list-item',
-            listType: 'ol',
-            html: renderRichText(block.numbered_list_item.rich_text)
-          })
-          break
-
-        case 'quote':
-          sections.push({
-            type: 'quote',
-            html: renderRichText(block.quote.rich_text)
-          })
-          break
-
-        // case 'code':
-        //   sections.push({
-        //     type: 'code',
-        //     language: block.code.language,
-        //     html: block.code.rich_text[0]?.plain_text || ''
-        //   })
-        //   break
-
-        case 'code': {
-          const text = block.code?.rich_text
-            ?.map(t => t.plain_text)
-            .join('') || ''
-
-          sections.push({
-            type: 'code',
-            html: text,
-            language: block.code?.language || 'css'
-          })
-          break
-        }
-
-        case 'divider':
-          sections.push({ type: 'divider' })
-          break
-      }
-    }
+    const blocks = doc.content?.[locale] ?? doc.content?.pt ?? []
+    const sections = blocksToSections(blocks)
 
     return res.status(200).json({
-      title: props.Name?.title?.[0]?.plain_text || '',
+      title: doc.title?.[locale] || doc.title?.pt || '',
       sections
     })
   } catch (error) {

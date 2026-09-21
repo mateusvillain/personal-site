@@ -2,8 +2,7 @@ import type { Dictionary } from './ui'
 
 /**
  * Textos da parte publica do case do Locaweb Design System. A parte
- * protegida vem do Notion e existe apenas em portugues (ver
- * `protected.notice`).
+ * protegida vem do Sanity (ver studio/) em PT e EN.
  */
 const en = {
   metaTitle: 'Locaweb Design System - Mateus Villain',
@@ -95,7 +94,7 @@ const en = {
     text: 'The solution of this project contains confidential information. To keep reading, you need to enter the correct password in the field below.',
     noPasswordHtml:
       "Don't have the password? Get in touch with me on <lui-link external href='https://www.linkedin.com/in/mateusvillain/'>LinkedIn</lui-link> or by e-mail at <strong>contato@mateusvillain.com</strong>.",
-    notice: 'The protected content is available in Portuguese only.',
+    notice: '',
     passwordLabel: 'Password',
     passwordPlaceholder: 'Enter the project password',
     passwordError: 'Incorrect password. Please try again.',

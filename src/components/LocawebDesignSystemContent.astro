@@ -14,8 +14,8 @@ const strings = caseLocaweb[locale]
 const common = ui[locale]
 const { overview, discovery, protected: locked } = strings
 
-// O conteudo protegido vem do Notion e so existe em portugues.
-const protectedLang = htmlLang.pt
+// Conteudo protegido vem do Sanity, com pt/en por campo (ver studio/).
+const protectedLang = htmlLang[locale]
 ---
 
 <a href="#main" class="skip-link">{common.skipLink}</a>
@@ -157,7 +157,8 @@ const protectedLang = htmlLang.pt
 
 <script
   src="/js/project-protected.js"
-  data-slug="design-system-locaweb"
+  data-slug="locaweb-design-system"
+  data-locale={locale}
   data-msg-required={locked.required}
   data-msg-wrong-password={locked.wrongPassword}
   data-msg-load-error={locked.loadError}></script>
