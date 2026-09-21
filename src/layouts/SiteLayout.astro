@@ -14,6 +14,7 @@ interface Props {
   /** Caminhos desta pagina por idioma; omitido = mesma rota nos dois. */
   alternates?: Partial<Record<Locale, string>>
   image?: string
+  jsonLd?: object | object[]
   bodyClass?: string
   brand?: string
   includeScripts?: boolean
@@ -27,6 +28,7 @@ const {
   canonicalPath,
   alternates,
   image,
+  jsonLd,
   bodyClass = 'm-b-fluid-80',
   brand = 'lets-ui',
   includeScripts = true,
@@ -44,6 +46,7 @@ const {
       canonicalPath={canonicalPath}
       alternates={alternates}
       image={image}
+      jsonLd={jsonLd}
     />
 
     <link rel="stylesheet" href="/style.css" />

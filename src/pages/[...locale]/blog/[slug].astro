@@ -11,6 +11,7 @@ import {
 } from '../../../i18n/config'
 import { ui } from '../../../i18n/ui'
 import { blog } from '../../../i18n/blog'
+import { blogPostingJsonLd, breadcrumbJsonLd } from '../../../lib/seo'
 import {
   formatPostDate,
   postAlternates,
@@ -53,6 +54,25 @@ const switchPath =
 
 const formattedDate = formatPostDate(post.data.date, locale)
 const minutes = readingTime(post.body)
+
+const cover = post.data.cover ?? '/blog/covers/cover.png'
+const jsonLd = [
+  blogPostingJsonLd({
+    locale,
+    url: postUrl,
+    title: post.data.title,
+    description: post.data.description,
+    image: new URL(cover, Astro.site).href,
+    datePublished: post.data.date,
+    tags: post.data.tags,
+    wordCount: (post.body ?? '').trim().split(/\s+/).length,
+  }),
+  breadcrumbJsonLd([
+    { name: common.home, url: new URL(localizePath('/', locale), Astro.site).href },
+    { name: common.blog, url: new URL(localizePath('/blog/', locale), Astro.site).href },
+    { name: post.data.title, url: postUrl },
+  ]),
+]
 ---
 
 <BlogLayout
@@ -63,6 +83,8 @@ const minutes = readingTime(post.body)
   alternates={alternates}
   cover={post.data.cover}
   publishedTime={post.data.date}
+  tags={post.data.tags}
+  jsonLd={jsonLd}
   showAuthor
 >
   <div class="flex justify-between items-center">

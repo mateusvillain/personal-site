@@ -18,6 +18,8 @@ interface Props {
   alternates?: Partial<Record<Locale, string>>
   cover?: string
   publishedTime?: string
+  tags?: string[]
+  jsonLd?: object | object[]
   showAuthor?: boolean
 }
 
@@ -29,6 +31,8 @@ const {
   alternates,
   cover,
   publishedTime,
+  tags,
+  jsonLd,
   showAuthor = false,
 } = Astro.props
 
@@ -47,6 +51,8 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
       alternates={alternates}
       image={cover ?? defaultCover}
       publishedTime={publishedTime}
+      tags={tags}
+      jsonLd={jsonLd}
     />
 
     <link rel="stylesheet" href="/style.css" />

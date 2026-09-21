@@ -4,7 +4,7 @@ import type { Dictionary } from './ui'
 const en = {
   metaTitle: 'Blog - Mateus Villain',
   metaDescription:
-    'A blog about technology, design systems, UI and UX. Practical content, trends, best practices and reflections to create more consistent, scalable and user-centered digital products.',
+    'Practical content on design systems, design tokens, UI and UX to build more consistent, scalable and user-centered digital products.',
   title: 'Blog',
   readTime: (minutes: number) => `${minutes} min read`,
   minutes: 'minutes',
@@ -22,7 +22,7 @@ const en = {
 const pt: typeof en = {
   metaTitle: 'Blog - Mateus Villain',
   metaDescription:
-    'Blog sobre tecnologia, design system, UI e UX. Conteúdos práticos, tendências, boas práticas e reflexões para criar produtos digitais mais consistentes, escaláveis e centrados no usuário.',
+    'Conteúdos práticos sobre design system, design tokens, UI e UX para criar produtos digitais mais consistentes, escaláveis e centrados no usuário.',
   title: 'Blog',
   readTime: (minutes: number) => `${minutes} min de leitura`,
   minutes: 'minutos',
