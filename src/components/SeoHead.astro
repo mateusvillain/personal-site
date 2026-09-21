@@ -38,6 +38,8 @@ interface Props {
   tags?: string[]
   /** Objetos JSON-LD (schema.org) a serem embutidos no <head>. */
   jsonLd?: object | object[]
+  /** Caminho da versao em markdown desta pagina (posts do blog). */
+  markdownPath?: string
 }
 
 const strings = ui[Astro.props.locale]
@@ -55,6 +57,7 @@ const {
   publishedTime,
   tags = [],
   jsonLd,
+  markdownPath,
 } = Astro.props
 
 const site = Astro.site ?? Astro.url
@@ -137,6 +140,15 @@ const hasTranslation = links.some(
   title={`${strings.siteName} - ${strings.blog}`}
   href={feedUrl}
 />
+{
+  markdownPath && (
+    <link
+      rel="alternate"
+      type="text/markdown"
+      href={new URL(markdownPath, site).href}
+    />
+  )
+}
 {
   jsonLdList.map((data) => (
     <script type="application/ld+json" set:html={JSON.stringify(data)} />

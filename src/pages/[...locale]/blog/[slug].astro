@@ -85,6 +85,7 @@ const jsonLd = [
   publishedTime={post.data.date}
   tags={post.data.tags}
   jsonLd={jsonLd}
+  markdownPath={localizePath(`/blog/${postSlug(post)}.md`, locale)}
   showAuthor
 >
   <div class="flex justify-between items-center">

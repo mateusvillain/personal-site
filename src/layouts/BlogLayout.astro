@@ -20,6 +20,7 @@ interface Props {
   publishedTime?: string
   tags?: string[]
   jsonLd?: object | object[]
+  markdownPath?: string
   showAuthor?: boolean
 }
 
@@ -33,6 +34,7 @@ const {
   publishedTime,
   tags,
   jsonLd,
+  markdownPath,
   showAuthor = false,
 } = Astro.props
 
@@ -53,6 +55,7 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
       publishedTime={publishedTime}
       tags={tags}
       jsonLd={jsonLd}
+      markdownPath={markdownPath}
     />
 
     <link rel="stylesheet" href="/style.css" />
