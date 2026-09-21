@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, 'dist');
 const outputPath = path.join(distPath, 'robots.txt');
 
-const SITE_URL = 'https://mateusvillain.com';
+const SITE_URL = 'https://www.mateusvillain.com';
 
 function getAllHtmlFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir);

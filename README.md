@@ -2,12 +2,12 @@
 
 Este repositório contém o código do meu site pessoal em Astro, com páginas estáticas, dois idiomas e blog com posts em Markdown.
 
-O site está publicado em: https://mateusvillain.com
+O site está publicado em: https://www.mateusvillain.com
 
 ## Idiomas
 
-- `mateusvillain.com` — inglês (padrão, sem prefixo)
-- `mateusvillain.com/pt/` — português brasileiro
+- `www.mateusvillain.com` — inglês (padrão, sem prefixo)
+- `www.mateusvillain.com/pt/` — português brasileiro
 
 As rotas ficam em `src/pages/[...locale]/` e são geradas uma vez por idioma. Os textos de interface ficam em `src/i18n/` (um arquivo por página, com `en` e `pt` tipados a partir do mesmo objeto). Cada página declara `canonical`, `hreflang` (`en`, `pt-BR`, `x-default`) e `og:locale`, e o `sitemap.xml` repete os mesmos pares.
 
