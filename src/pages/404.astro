@@ -1,8 +1,27 @@
 ---
-import NotFoundLayout from '../layouts/NotFoundLayout.astro';
-import NotFoundContent from '../components/NotFoundContent.astro';
+/**
+ * Pagina 404 unica para os dois idiomas. A Vercel serve `dist/404.html`
+ * para qualquer rota desconhecida, entao nao da para ter uma 404 por
+ * idioma; o script abaixo mostra o bloco do idioma da URL (`/pt/...`) e
+ * ajusta o `lang` do documento. Sem JS, fica a versao em ingles.
+ */
+import NotFoundLayout from '../layouts/NotFoundLayout.astro'
+import NotFoundContent from '../components/NotFoundContent.astro'
 ---
 
 <NotFoundLayout>
-  <NotFoundContent />
+  <NotFoundContent locale="en" />
+  <NotFoundContent locale="pt" hidden />
 </NotFoundLayout>
+
+<script is:inline>
+  ;(function () {
+    var isPt = /^\/pt(\/|$)/.test(location.pathname)
+    if (!isPt) return
+    document.documentElement.lang = 'pt-BR'
+    document.title = 'Página não encontrada - Mateus Villain'
+    document.querySelectorAll('[data-locale]').forEach(function (block) {
+      block.hidden = block.getAttribute('data-locale') !== 'pt'
+    })
+  })()
+</script>

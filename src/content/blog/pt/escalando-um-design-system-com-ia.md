@@ -53,7 +53,7 @@ Nesse primeiro momento, vamos analisar o arquivo do Figma para entender como ele
 
 Ninguém merece ter que ficar criando um botão do zero sempre que for construir um novo design system no Figma. A questão não é ser um processo difícil, porque não é, mas sim pelo fato de ser um processo moroso. Você sabe como é, como funciona, o que precisa ser feito. Já correu por essa estrada várias vezes. Pra não precisar ter que fazer tudo isso mais uma vez manualmente, use IA. Domine ela para ela não dominar você.
 
-Eu já escrevi um outro artigo aqui falando sobre a aplicação de IA dentro do Figma para controlar tudo: protótipos, estilos, variáveis, componentes, auto layout, dev mode... Praticamente não tem limites. Então antes de continuar, dê uma olhada na minha outra publicação: [Design no Figma com Claude: como usar IA para criar interfaces e controlar todo o seu Figma](https://www.mateusvillain.com/blog/design-no-figma-com-claude).
+Eu já escrevi um outro artigo aqui falando sobre a aplicação de IA dentro do Figma para controlar tudo: protótipos, estilos, variáveis, componentes, auto layout, dev mode... Praticamente não tem limites. Então antes de continuar, dê uma olhada na minha outra publicação: [Design no Figma com Claude: como usar IA para criar interfaces e controlar todo o seu Figma](/pt/blog/design-no-figma-com-claude/).
 
 Esse processo não usa o Figma MCP, então você não precisa se preocupar com pagar algum plano do Figma para ter o Dev Mode, e nem mesmo precisa ter um plano do Claude pago.
 
@@ -236,7 +236,7 @@ Se estiver trabalhando com um workflow que avalia um componente no Figma para em
 
 A Design Tokens Community Group lançou, junto da primeira versão estável dos design tokens, um arquivo de configuração chamado "resolver". De forma sucinta, ele serve para identificar quais são os arquivos de design tokens inseridos no repositório, quais deles fazem condicionais (mesmo nomenclatura mas com valores diferentes), para preparar para uma geração saudável.
 
-Felizmente, eu já publiquei isso aqui no meu site, você pode ler em [Design Tokens Resolver: o módulo nativo para gerar tokens e condicionais](https://www.mateusvillain.com/blog/design-tokens-resolver).
+Felizmente, eu já publiquei isso aqui no meu site, você pode ler em [Design Tokens Resolver: o módulo nativo para gerar tokens e condicionais](/pt/blog/design-tokens-resolver/).
 
 No repositório, você vai encontrar esse arquivo com algumas configurações já feitas, para facilitar o seu processo:
 

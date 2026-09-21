@@ -14,8 +14,14 @@ if (form) {
       return;
     }
 
+    // Textos no idioma da pagina, definidos nos atributos data-* do form
+    const idleText = button.textContent;
+    const submittingText = form.dataset.submittingText || "Enviando...";
+    const genericError =
+      form.dataset.errorText || "Não foi possível enviar sua inscrição agora.";
+
     button.disabled = true;
-    button.textContent = "Enviando...";
+    button.textContent = submittingText;
 
     if (errorBox) {
       errorBox.hidden = true;
@@ -33,7 +39,7 @@ if (form) {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || "Não foi possível enviar sua inscrição agora.");
+        throw new Error(data.error || genericError);
       }
 
       form.style.display = "none";
@@ -42,11 +48,11 @@ if (form) {
       }
     } catch (error) {
       button.disabled = false;
-      button.textContent = "Assinar";
+      button.textContent = idleText;
 
       if (errorBox && errorMessage) {
         errorMessage.textContent =
-          error instanceof Error ? error.message : "Erro ao enviar inscrição.";
+          error instanceof Error ? error.message : genericError;
         errorBox.hidden = false;
       }
     }

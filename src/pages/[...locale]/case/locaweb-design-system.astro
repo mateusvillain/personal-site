@@ -1,0 +1,31 @@
+---
+import SiteLayout from '../../../layouts/SiteLayout.astro'
+import LocawebDesignSystemContent from '../../../components/LocawebDesignSystemContent.astro'
+import {
+  localeStaticPaths,
+  localizePath,
+  otherLocale,
+  type Locale,
+} from '../../../i18n/config'
+import { caseLocaweb } from '../../../i18n/case-locaweb'
+
+export function getStaticPaths() {
+  return localeStaticPaths()
+}
+
+const { locale } = Astro.props as { locale: Locale }
+const strings = caseLocaweb[locale]
+const path = '/case/locaweb-design-system/'
+---
+
+<SiteLayout
+  locale={locale}
+  title={strings.metaTitle}
+  description={strings.metaDescription}
+  canonicalPath={localizePath(path, locale)}
+>
+  <LocawebDesignSystemContent
+    locale={locale}
+    switchPath={localizePath(path, otherLocale(locale))}
+  />
+</SiteLayout>

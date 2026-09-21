@@ -166,7 +166,7 @@ A definição dos sets no resolver corresponde a quais arquivos de design tokens
 }
 ```
 
-No exemplo, criei dois sets, sendo o primeiro para cores referenciando apenas um único arquivo, e o segundo para espaçamentos, também fazendo referência a um único arquivo. O formato exige que cada `source` seja obrigatoriamente um array, mesmo que haja apenas um único arquivo de referência. A ordem dos sets não é importante, pois é definida no `resolutionOrder` (já falaremos dele), mas dos `sources` é importante. Caso hajam valores repetidos entre os arquivos, apenas o último valor mencionado na ordem será gerada.
+No exemplo, criei dois sets, sendo o primeiro para cores referenciando dois arquivos, e o segundo para espaçamentos, também fazendo referência a dois arquivos. O formato exige que cada `source` seja obrigatoriamente um array, mesmo que haja apenas um único arquivo de referência. A ordem dos sets não é importante, pois é definida no `resolutionOrder` (já falaremos dele), mas dos `sources` é importante. Caso hajam valores repetidos entre os arquivos, apenas o último valor mencionado na ordem será gerada.
 
 Além disso, também é possível definir uma `description` para cada set criado, para dar maior contexto do seu uso.
 

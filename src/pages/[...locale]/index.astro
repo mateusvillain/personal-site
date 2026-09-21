@@ -1,0 +1,33 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HomeContent from '../../components/HomeContent.astro'
+import {
+  localeStaticPaths,
+  localizePath,
+  otherLocale,
+  type Locale,
+} from '../../i18n/config'
+import { home } from '../../i18n/home'
+import { ui } from '../../i18n/ui'
+import { homeJsonLd } from '../../lib/seo'
+
+export function getStaticPaths() {
+  return localeStaticPaths()
+}
+
+const { locale } = Astro.props as { locale: Locale }
+const strings = home[locale]
+const jsonLd = homeJsonLd(locale, ui[locale].siteDescription)
+---
+
+<SiteLayout
+  locale={locale}
+  title={strings.metaTitle}
+  canonicalPath={localizePath('/', locale)}
+  jsonLd={jsonLd}
+>
+  <HomeContent
+    locale={locale}
+    switchPath={localizePath('/', otherLocale(locale))}
+  />
+</SiteLayout>

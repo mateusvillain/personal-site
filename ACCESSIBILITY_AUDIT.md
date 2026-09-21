@@ -1,6 +1,26 @@
 # Auditoria de acessibilidade — mateusvillain.com
 
-Levantamento estático (sem execução em navegador) do código-fonte Astro, baseado em WCAG 2.1/2.2 nível AA. Nenhuma alteração foi feita no código.
+Levantamento estático (sem execução em navegador) do código-fonte Astro, baseado em WCAG 2.1/2.2 nível AA. O texto dos itens abaixo é o original da auditoria; os caminhos de arquivo citados podem ter mudado.
+
+## Status (atualizado em 2026-09-21)
+
+| # | Item | Status |
+|---|------|--------|
+| 1 | Trocador de idioma inoperável via teclado | Resolvido — virou `<a href>` para a mesma página no outro idioma (`src/components/LangSwitch.astro`) |
+| 2 | `/about` renderiza "undefined" | Resolvido — página removida; `/about` redireciona para `/` |
+| 3 | Conteúdo i18n sem fallback no HTML | Resolvido — textos vêm de `src/i18n/` e são renderizados no build; não há mais `data-i18n` nem fetch |
+| 4 | Skip link em uma página só | Resolvido — presente em todas as páginas, no idioma da página |
+| 5 | Conteúdo fora do `<main>` na Home | Resolvido — `<main>` envolve hero, quadro de projetos e posts |
+| 6 | Pulo de heading no FAQ | Resolvido — perguntas usam `as="h4"` |
+| 7 | Toggle de tema sem foco visível | Resolvido — `input:focus-visible ~ .theme-toggle__track` |
+| 8 | Cards arrastáveis sem instrução/anúncio | Resolvido — `aria-describedby` com instruções e `role="status"` para movimentos, nos dois idiomas |
+| 9 | Cópia sem feedback assistivo | Resolvido — `#copy-link-status` com `role="status"` |
+| 10 | Alt inconsistente nas polaroids | Não se aplica — página About removida |
+| 11 | Links externos sem aviso de nova aba | Resolvido — `<span class="sr-only">` traduzido por idioma |
+| 12 | Campo de senha fora de `<form>` | Resolvido — `#unlock-form` |
+| 13 | Interativos aninhados nos botões de compartilhar | Resolvido — `IconLinkButton.astro` |
+
+Além disso, cada página declara `<html lang>` correto (`en` ou `pt-BR`), e o conteúdo protegido do case (só em português) recebe `lang="pt-BR"` na versão em inglês.
 
 ## Críticos
 

@@ -1,0 +1,38 @@
+---
+/**
+ * Link para a mesma pagina no outro idioma. E um <a> de verdade (nao um
+ * botao com JS): funciona sem script, e navegavel por teclado e informa ao
+ * leitor de tela o idioma de destino via `hreflang` e `lang`.
+ *
+ * Quando a pagina nao existe no outro idioma, `href` deve apontar para a
+ * raiz daquele idioma.
+ */
+import { htmlLang, otherLocale, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+  href: string
+  id?: string
+  class?: string
+}
+
+const {
+  locale,
+  href,
+  id = 'lang-switch',
+  class: className = 'body--sm link',
+} = Astro.props
+const target = otherLocale(locale)
+const strings = ui[locale].langSwitch
+---
+
+<a
+  id={id}
+  class={className}
+  href={href}
+  hreflang={htmlLang[target]}
+  lang={htmlLang[target]}
+  aria-label={strings.ariaLabel}
+  data-link="language">{strings.label}</a
+>

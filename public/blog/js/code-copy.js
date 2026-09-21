@@ -1,5 +1,12 @@
 // Adiciona botões de copiar automaticamente em todos os blocos de código
 (function() {
+  // Textos do botao no idioma da pagina
+  const LABELS = {
+    en: { copy: 'Copy', copyCode: 'Copy code', copied: 'Copied!', error: 'Error' },
+    'pt-BR': { copy: 'Copiar', copyCode: 'Copiar código', copied: 'Copiado!', error: 'Erro' },
+  };
+  const labels = LABELS[document.documentElement.lang] || LABELS.en;
+
   function initCodeCopyButtons() {
     // Encontra todos os blocos pre que contêm code
     document.querySelectorAll('pre code').forEach((codeElement) => {
@@ -14,8 +21,8 @@
       const copyButton = document.createElement('button');
       copyButton.className = 'code-copy-btn';
       copyButton.type = 'button';
-      copyButton.textContent = 'Copiar';
-      copyButton.setAttribute('aria-label', 'Copiar código');
+      copyButton.textContent = labels.copy;
+      copyButton.setAttribute('aria-label', labels.copyCode);
 
       // Adiciona o botão ao pre
       preElement.appendChild(copyButton);
@@ -43,7 +50,7 @@
 
           // Feedback visual
           const originalText = copyButton.textContent;
-          copyButton.textContent = 'Copiado!';
+          copyButton.textContent = labels.copied;
           copyButton.classList.add('copied');
 
           setTimeout(() => {
@@ -53,7 +60,7 @@
         } catch (err) {
           console.error('Erro ao copiar código:', err);
           const originalText = copyButton.textContent;
-          copyButton.textContent = 'Erro';
+          copyButton.textContent = labels.error;
           setTimeout(() => {
             copyButton.textContent = originalText;
           }, 2000);

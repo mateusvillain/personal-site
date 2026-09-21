@@ -1,0 +1,82 @@
+---
+/**
+ * Layout da listagem e dos posts do blog. `showAuthor` liga o bloco do
+ * autor e o botao de copiar codigo (so fazem sentido dentro de um post).
+ */
+import '@lets-ui/styles'
+import SeoHead from '../components/SeoHead.astro'
+import NewsletterCard from '../components/NewsletterCard.astro'
+import AuthorCard from '../components/AuthorCard.astro'
+import { htmlLang, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+  title: string
+  description: string
+  canonicalPath: string
+  alternates?: Partial<Record<Locale, string>>
+  cover?: string
+  publishedTime?: string
+  tags?: string[]
+  jsonLd?: object | object[]
+  markdownPath?: string
+  showAuthor?: boolean
+}
+
+const {
+  locale,
+  title,
+  description,
+  canonicalPath,
+  alternates,
+  cover,
+  publishedTime,
+  tags,
+  jsonLd,
+  markdownPath,
+  showAuthor = false,
+} = Astro.props
+
+const strings = ui[locale]
+const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
+---
+
+<!doctype html>
+<html lang={htmlLang[locale]} data-brand="lets-ui" data-theme="light">
+  <head>
+    <SeoHead
+      locale={locale}
+      title={title}
+      description={description}
+      canonicalPath={canonicalPath}
+      alternates={alternates}
+      image={cover ?? defaultCover}
+      publishedTime={publishedTime}
+      tags={tags}
+      jsonLd={jsonLd}
+      markdownPath={markdownPath}
+    />
+
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/blog.css" />
+  </head>
+
+  <body>
+    <a href="#main" class="skip-link">{strings.skipLink}</a>
+    <div class="body-container gap-fluid-80 m-b-fluid-80">
+      <main id="main">
+        <section class="post-list">
+          <slot />
+        </section>
+      </main>
+
+      {showAuthor && <AuthorCard locale={locale} />}
+
+      <NewsletterCard locale={locale} />
+    </div>
+
+    {showAuthor && <script is:inline src="/blog/js/code-copy.js" defer></script>}
+    <script is:inline src="/blog/js/form.js" defer></script>
+  </body>
+</html>

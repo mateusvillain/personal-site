@@ -1,0 +1,66 @@
+---
+/**
+ * Formulario de assinatura da newsletter (blog). Os textos usados pelo
+ * `public/blog/js/form.js` durante o envio vao em atributos `data-*` para
+ * que o script nao precise conhecer o idioma da pagina.
+ */
+import type { Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const strings = ui[locale].newsletter
+---
+
+<lui-card id="newsletter-card">
+  <lui-heading variant="block-title">{strings.title}</lui-heading>
+  <lui-body variant="lg">{strings.description}</lui-body>
+
+  <form
+    class="newsletter-form m-t-fluid-8"
+    id="newsletter-form"
+    data-submitting-text={strings.submitting}
+    data-error-text={strings.errorGeneric}
+  >
+    <lui-flex direction="column" gap="24">
+      <lui-input
+        id="email"
+        type="email"
+        name="email"
+        label={strings.emailLabel}
+        placeholder={strings.emailPlaceholder}
+        size="lg"
+        required
+        error-text={strings.required}
+        inputmode="email"
+      >
+      </lui-input>
+      <input type="hidden" name="embed" value="1" />
+      <lui-button variant="primary" type="submit" block
+        >{strings.submit}</lui-button
+      >
+    </lui-flex>
+  </form>
+
+  <div id="newsletter-error" hidden aria-live="polite">
+    <lui-alert
+      id="newsletter-error-message"
+      variant="danger"
+      title={strings.errorTitle}
+      content={strings.errorContent}
+    >
+    </lui-alert>
+  </div>
+
+  <div id="newsletter-success" hidden>
+    <lui-alert
+      variant="success"
+      title={strings.successTitle}
+      content={strings.successContent}
+    >
+    </lui-alert>
+  </div>
+</lui-card>
