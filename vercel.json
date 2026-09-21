@@ -1,9 +1,23 @@
 {
   "cleanUrls": true,
+  "trailingSlash": true,
   "outputDirectory": "dist",
   "buildCommand": "npm run build",
 
   "redirects": [
-    { "source": "/locaweb-design-system", "destination": "/case/locaweb-design-system", "permanent": true }
+    { "source": "/blog/design-no-figma-com-claude", "destination": "/pt/blog/design-no-figma-com-claude/", "permanent": true },
+    { "source": "/blog/design-no-figma-com-claude/", "destination": "/pt/blog/design-no-figma-com-claude/", "permanent": true },
+    { "source": "/blog/design-tokens-resolver", "destination": "/pt/blog/design-tokens-resolver/", "permanent": true },
+    { "source": "/blog/design-tokens-resolver/", "destination": "/pt/blog/design-tokens-resolver/", "permanent": true },
+    { "source": "/blog/escalando-um-design-system-com-ia", "destination": "/pt/blog/escalando-um-design-system-com-ia/", "permanent": true },
+    { "source": "/blog/escalando-um-design-system-com-ia/", "destination": "/pt/blog/escalando-um-design-system-com-ia/", "permanent": true },
+    { "source": "/blog/guia-definitivo-design-tokens", "destination": "/pt/blog/guia-definitivo-design-tokens/", "permanent": true },
+    { "source": "/blog/guia-definitivo-design-tokens/", "destination": "/pt/blog/guia-definitivo-design-tokens/", "permanent": true },
+    { "source": "/locaweb-design-system", "destination": "/case/locaweb-design-system/", "permanent": true },
+    { "source": "/locaweb-design-system/", "destination": "/case/locaweb-design-system/", "permanent": true },
+    { "source": "/about", "destination": "/", "permanent": true },
+    { "source": "/about/", "destination": "/", "permanent": true },
+    { "source": "/pt/about", "destination": "/pt/", "permanent": true },
+    { "source": "/pt/about/", "destination": "/pt/", "permanent": true }
   ]
 }

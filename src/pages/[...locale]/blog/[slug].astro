@@ -1,57 +1,80 @@
 ---
-import { getCollection } from 'astro:content'
-import BlogLayout from '../../layouts/BlogPostLayout.astro'
-import IconLinkButton from '../../components/IconLinkButton.astro'
+import { getCollection, render } from 'astro:content'
+import BlogLayout from '../../../layouts/BlogLayout.astro'
+import IconLinkButton from '../../../components/IconLinkButton.astro'
+import LangSwitch from '../../../components/LangSwitch.astro'
+import {
+  defaultLocale,
+  localizePath,
+  otherLocale,
+  type Locale,
+} from '../../../i18n/config'
+import { ui } from '../../../i18n/ui'
+import { blog } from '../../../i18n/blog'
+import {
+  formatPostDate,
+  postAlternates,
+  postLocale,
+  postPath,
+  postSlug,
+  readingTime,
+  type Post,
+} from '../../../lib/posts'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
 
-  return posts.map((post: any) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }))
+  return posts.map((post) => {
+    const locale = postLocale(post)
+    return {
+      params: {
+        locale: locale === defaultLocale ? undefined : locale,
+        slug: postSlug(post),
+      },
+      props: { post, locale },
+    }
+  })
 }
 
-const { post } = Astro.props
+const { post, locale } = Astro.props as { post: Post; locale: Locale }
+const strings = blog[locale]
+const common = ui[locale]
 
-const postUrl = Astro.url.href
+const { Content } = await render(post)
 
-// ⬇️ AQUI está a parte importante
-const { Content } = await post.render()
+const canonicalPath = postPath(post)
+const postUrl = new URL(canonicalPath, Astro.site).href
 
-// Formata a data no formato "DD Mês YYYY"
-const months = [
-  'Jan',
-  'Fev',
-  'Mar',
-  'Abr',
-  'Mai',
-  'Jun',
-  'Jul',
-  'Ago',
-  'Set',
-  'Out',
-  'Nov',
-  'Dez',
-]
-const [year, month, day] = post.data.date.split('-').map(Number)
-const date = new Date(year, month - 1, day)
-const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+// Caminhos deste post em cada idioma; se nao houver traducao, o link de
+// troca de idioma leva para a listagem do blog no outro idioma.
+const alternates = await postAlternates(post)
+const switchPath =
+  alternates[otherLocale(locale)] ?? localizePath('/blog/', otherLocale(locale))
 
-// Tempo de leitura (média de 200 palavras por minuto)
-const wordCount = post.body.trim().split(/\s+/).length
-const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+const formattedDate = formatPostDate(post.data.date, locale)
+const minutes = readingTime(post.body)
 ---
 
 <BlogLayout
+  locale={locale}
   title={post.data.title}
   description={post.data.description}
+  canonicalPath={canonicalPath}
+  alternates={alternates}
   cover={post.data.cover}
+  showAuthor
 >
-  <lui-breadcrumb>
-    <lui-breadcrumb-item href="/">Início</lui-breadcrumb-item>
-    <lui-breadcrumb-item href="/blog/">Blog</lui-breadcrumb-item>
-  </lui-breadcrumb>
+  <div class="flex justify-between items-center">
+    <lui-breadcrumb>
+      <lui-breadcrumb-item href={localizePath('/', locale)}
+        >{common.home}</lui-breadcrumb-item
+      >
+      <lui-breadcrumb-item href={localizePath('/blog/', locale)}
+        >{common.blog}</lui-breadcrumb-item
+      >
+    </lui-breadcrumb>
+    <LangSwitch locale={locale} href={switchPath} />
+  </div>
 
   <article class="full-post">
     <section class="post-details">
@@ -62,15 +85,18 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
             <time class="body--md" datetime={post.data.date}
               >{formattedDate}</time
             >
-            <p class="read-time body--md">
-              {readingTime}
-              <span aria-label="minutos">min</span> de leitura
-            </p>
+            <p class="read-time body--md">{strings.readTime(minutes)}</p>
           </lui-flex>
 
           <lui-flex direction="row" gap="8">
             <!-- Copy link -->
-            <lui-icon-button aria-label="Copiar link" size="md" id="copy-link">
+            <lui-icon-button
+              aria-label={strings.copyLink}
+              size="md"
+              id="copy-link"
+              data-copied-text={strings.linkCopied}
+              data-failed-text={strings.copyFailed}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -94,7 +120,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
             <IconLinkButton
               href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`}
               target="_blank"
-              ariaLabel="Compartilhar no LinkedIn (abre em nova aba)"
+              ariaLabel={strings.shareLinkedin}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +147,7 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
             <IconLinkButton
               href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
               target="_blank"
-              ariaLabel="Compartilhar no X (abre em nova aba)"
+              ariaLabel={strings.shareX}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -152,10 +178,10 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200))
   copy?.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
-      if (copyStatus) copyStatus.textContent = 'Link copiado!'
+      if (copyStatus) copyStatus.textContent = copy.dataset.copiedText ?? ''
     } catch (err) {
       console.error('Erro ao copiar', err)
-      if (copyStatus) copyStatus.textContent = 'Não foi possível copiar o link.'
+      if (copyStatus) copyStatus.textContent = copy.dataset.failedText ?? ''
     }
   })
 </script>

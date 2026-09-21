@@ -1,0 +1,30 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import MentorshipContent from '../../components/MentorshipContent.astro'
+import {
+  localeStaticPaths,
+  localizePath,
+  otherLocale,
+  type Locale,
+} from '../../i18n/config'
+import { mentorship } from '../../i18n/mentorship'
+
+export function getStaticPaths() {
+  return localeStaticPaths()
+}
+
+const { locale } = Astro.props as { locale: Locale }
+const strings = mentorship[locale]
+---
+
+<SiteLayout
+  locale={locale}
+  title={strings.metaTitle}
+  description={strings.metaDescription}
+  canonicalPath={localizePath('/mentorship/', locale)}
+>
+  <MentorshipContent
+    locale={locale}
+    switchPath={localizePath('/mentorship/', otherLocale(locale))}
+  />
+</SiteLayout>

@@ -4,7 +4,9 @@ async function carregarClima() {
     const data = await res.json();
     document.getElementById('clima').textContent = data.clima;
   } catch (err) {
-    document.getElementById('clima').textContent = "Can't load weather";
+    document.getElementById('clima').textContent = document.documentElement.lang === 'pt-BR'
+      ? 'Não foi possível carregar o clima'
+      : "Can't load weather";
   }
 }
 

@@ -11,14 +11,24 @@
  *   letsui  — capa interativa: miniatura navegavel da documentacao
  *             (ver LetsUiCover.astro)
  *
- * A versao anterior do quadro esta guardada em ProjectWidgetsV1.astro.
+ * A versao anterior do quadro (ProjectWidgetsV1 + LetsUiWidget) foi
+ * removida junto com o sistema antigo de idiomas; esta no historico do git.
  */
 import LocawebCover from './LocawebCover.astro'
 import LetsUiCover from './LetsUiCover.astro'
-import lang from '../../public/lang/en.json'
+import { localizePath, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+import { home } from '../i18n/home'
 
-const { id = 'projects' } = Astro.props
-const uid = (name) => `${id}-${name}`
+interface Props {
+  locale: Locale
+  id?: string
+}
+
+const { locale, id = 'projects' } = Astro.props
+const uid = (name: string) => `${id}-${name}`
+const strings = home[locale].projects
+const newWindow = ui[locale].newWindow
 
 const bookUrl = 'https://www.casadocodigo.com.br/products/livro-design-system'
 const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
@@ -26,24 +36,16 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 
 <section class="pboard" aria-labelledby={uid('heading')}>
   <div class="pboard__header">
-    <lui-heading
-      variant="block-title"
-      as="h2"
-      id={uid('heading')}
-      data-i18n="projects"
-      set:html={lang.projects}></lui-heading>
-    <button
-      type="button"
-      class="pboard__reset"
-      data-reset-for={id}
-      data-i18n="projects-reset"
-      hidden
-      set:html={lang['projects-reset']}></button>
+    <lui-heading variant="block-title" as="h2" id={uid('heading')}
+      >{strings.title}</lui-heading
+    >
+    <button type="button" class="pboard__reset" data-reset-for={id} hidden
+      >{strings.reset}</button
+    >
   </div>
 
   <p id={uid('drag-instructions')} class="sr-only">
-    Card arrastável. Use o mouse ou toque para reposicionar, ou as setas do
-    teclado para mover e Escape para retornar à posição original.
+    {strings.dragInstructions}
   </p>
   <div
     id={uid('drag-status')}
@@ -58,7 +60,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       class="pcard pcard--locaweb"
       data-widget="locaweb"
       tabindex="0"
-      aria-roledescription="card de projeto"
+      aria-roledescription={strings.cardRole}
       aria-labelledby={uid('locaweb-title')}
       aria-describedby={uid('drag-instructions')}
     >
@@ -75,16 +77,13 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
             id={uid('locaweb-title')}
           >
             <a
-              href="/case/locaweb-design-system/"
-              data-link="locaweb-design-system"
-              data-i18n="locaweb-title"
-              set:html={lang['locaweb-title']}></a>
+              href={localizePath('/case/locaweb-design-system/', locale)}
+              data-link="locaweb-design-system">{strings.locawebTitle}</a
+            >
           </lui-body>
-          <lui-body
-            variant="md"
-            class="pcard__desc"
-            data-i18n="locaweb-description"
-            set:html={lang['locaweb-description']}></lui-body>
+          <lui-body variant="md" class="pcard__desc"
+            >{strings.locawebDescription}</lui-body
+          >
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -98,7 +97,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       class="pcard pcard--book"
       data-widget="book"
       tabindex="0"
-      aria-roledescription="card de projeto"
+      aria-roledescription={strings.cardRole}
       aria-labelledby={uid('book-title')}
       aria-describedby={uid('drag-instructions')}
     >
@@ -121,20 +120,14 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
             class="pcard__title"
             id={uid('book-title')}
           >
-            <a
-              href={bookUrl}
-              target="_blank"
-              rel="noopener"
-              data-link="book"
-              data-i18n="book-title"
-              set:html={`${lang['book-title']} <span class="sr-only"> (abre em nova aba)</span>`}
-            ></a>
+            <a href={bookUrl} target="_blank" rel="noopener" data-link="book">
+              {strings.bookTitle}
+              <span class="sr-only"> {newWindow}</span>
+            </a>
           </lui-body>
-          <lui-body
-            variant="md"
-            class="pcard__desc"
-            data-i18n="book-description"
-            set:html={lang['book-description']}></lui-body>
+          <lui-body variant="md" class="pcard__desc"
+            >{strings.bookDescription}</lui-body
+          >
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -148,7 +141,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
       class="pcard pcard--letsui"
       data-widget="letsui"
       tabindex="0"
-      aria-roledescription="card de projeto"
+      aria-roledescription={strings.cardRole}
       aria-labelledby={uid('letsui-title')}
       aria-describedby={uid('drag-instructions')}
     >
@@ -171,15 +164,13 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
               data-link="github-lets-ui"
             >
               Let's UI
-              <span class="sr-only"> (abre em nova aba)</span>
+              <span class="sr-only"> {newWindow}</span>
             </a>
             <span class="pcard__badge" data-stat="version" hidden></span>
           </lui-body>
-          <lui-body
-            variant="md"
-            class="pcard__desc"
-            data-i18n="letsui-description"
-            set:html={lang['letsui-description']}></lui-body>
+          <lui-body variant="md" class="pcard__desc"
+            >{strings.letsuiDescription}</lui-body
+          >
         </div>
 
         <span class="pcard__go" aria-hidden="true">
@@ -203,6 +194,23 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
   const GUTTER = 8
   const STAGE_SLACK = 32
   const STEP = 12
+
+  // Mensagens da regiao aria-live, no idioma da pagina
+  const MESSAGES = {
+    en: {
+      card: 'Card',
+      reset: (name) => `${name} returned to its original position.`,
+      moved: (name) => `${name} moved.`,
+      resetAll: 'All cards returned to their original position.',
+    },
+    'pt-BR': {
+      card: 'Card',
+      reset: (name) => `${name} voltou para a posição original.`,
+      moved: (name) => `${name} movido.`,
+      resetAll: 'Todos os cards voltaram para a posição original.',
+    },
+  }
+  const msg = MESSAGES[document.documentElement.lang] ?? MESSAGES.en
 
   document.querySelectorAll('.pboard__stage').forEach((board) => {
     const boardId = board.dataset.board
@@ -407,13 +415,13 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
         const cardName =
           document
             .getElementById(card.getAttribute('aria-labelledby') || '')
-            ?.textContent?.trim() || 'Card'
+            ?.textContent?.trim() || msg.card
 
         if (event.key === 'Escape') {
           delete positions[card.dataset.widget]
           apply(card, 0, 0)
           savePositions()
-          announce(`${cardName} voltou para a posição original.`)
+          announce(msg.reset(cardName))
           return
         }
 
@@ -429,7 +437,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
         event.preventDefault()
         card.style.zIndex = String(++topLayer)
         move(card, current.x + delta[0], current.y + delta[1], true)
-        announce(`${cardName} movido.`)
+        announce(msg.moved(cardName))
       })
     })
 
@@ -439,7 +447,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
         apply(card, 0, 0)
         card.style.zIndex = ''
       })
-      announce('Todos os cards voltaram para a posição original.')
+      announce(msg.resetAll)
       topLayer = 1
       savePositions()
     })

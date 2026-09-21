@@ -1,62 +1,50 @@
 ---
 import '@lets-ui/styles'
 import Scripts from '../components/Scripts.astro'
+import SeoHead from '../components/SeoHead.astro'
+import { htmlLang, type Locale } from '../i18n/config'
+
+interface Props {
+  locale: Locale
+  title: string
+  description?: string
+  keywords?: string
+  /** Caminho canonico desta pagina, ja com o prefixo do idioma. */
+  canonicalPath: string
+  /** Caminhos desta pagina por idioma; omitido = mesma rota nos dois. */
+  alternates?: Partial<Record<Locale, string>>
+  image?: string
+  bodyClass?: string
+  brand?: string
+  includeScripts?: boolean
+}
 
 const {
+  locale,
   title,
-  description = 'Mateus Villain é product designer, especialista em design system, professor e autor do livro Design System além do layout.',
-  keywords = 'Design System, User Interface, UI, User Experience, UX, Acessibilidade, Handoff',
-  canonicalPath = Astro.url.pathname,
-  image = 'https://mateusvillain.com/img/cover.png',
+  description,
+  keywords,
+  canonicalPath,
+  alternates,
+  image,
   bodyClass = 'm-b-fluid-80',
   brand = 'lets-ui',
   includeScripts = true,
 } = Astro.props
-
-const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url).href
 ---
 
 <!doctype html>
-<html lang="en" data-brand={brand}>
+<html lang={htmlLang[locale]} data-brand={brand}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta name="keywords" content={keywords} />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="Mateus Villain" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalUrl} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={image} />
-
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
-
-    <script is:inline>
-      ;(function (w, d, s, l, i) {
-        w[l] = w[l] || []
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : ''
-        j.async = true
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
-        f.parentNode.insertBefore(j, f)
-      })(window, document, 'script', 'dataLayer', 'GTM-NTD9ZL6W')
-    </script>
+    <SeoHead
+      locale={locale}
+      title={title}
+      description={description}
+      keywords={keywords}
+      canonicalPath={canonicalPath}
+      alternates={alternates}
+      image={image}
+    />
 
     <link rel="stylesheet" href="/style.css" />
     <link

@@ -1,0 +1,32 @@
+import { defineCollection, z } from 'astro:content'
+import { glob } from 'astro/loaders'
+
+/**
+ * Posts do blog, um arquivo por idioma:
+ *
+ *   src/content/blog/en/<key>.md   -> /blog/<slug>/
+ *   src/content/blog/pt/<key>.md   -> /pt/blog/<slug>/
+ *
+ * O nome do arquivo (`key`) e o que liga as traducoes entre si; o `slug`
+ * da URL pode ser sobrescrito no frontmatter para ficar no idioma do post.
+ * Veja `src/lib/posts.ts` para os helpers.
+ */
+export const collections = {
+  blog: defineCollection({
+    loader: glob({
+      pattern: '**/*.md',
+      base: './src/content/blog',
+      // O id e sempre o caminho do arquivo (`en/chave`, `pt/chave`); o
+      // glob, por padrao, usaria o `slug` do frontmatter e perderia o idioma.
+      generateId: ({ entry }) => entry.replace(/\.mdx?$/, ''),
+    }),
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.string(),
+      cover: z.string().optional(),
+      tags: z.array(z.string()).optional(),
+      slug: z.string().optional(),
+    }),
+  }),
+}

@@ -1,0 +1,111 @@
+---
+/**
+ * Conteudo do <head> comum a todos os layouts: meta, Open Graph, Twitter,
+ * canonical, alternates por idioma (hreflang) e Google Tag Manager.
+ *
+ * `alternates` deve trazer o caminho desta mesma pagina em cada idioma em
+ * que ela existe (veja `alternates()` em `src/i18n/config.ts`).
+ */
+import {
+  alternates as buildAlternates,
+  htmlLang,
+  localePrefix,
+  ogLocale,
+  otherLocale,
+  type Locale,
+} from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+  title: string
+  description?: string
+  keywords?: string
+  /** Caminho canonico desta pagina, ja com o prefixo do idioma. */
+  canonicalPath: string
+  /** Caminhos desta pagina por idioma; omitido = mesma rota nos dois. */
+  alternates?: Partial<Record<Locale, string>>
+  image?: string
+  robots?: string
+}
+
+const strings = ui[Astro.props.locale]
+
+const {
+  locale,
+  title,
+  description = strings.siteDescription,
+  keywords = strings.keywords,
+  canonicalPath,
+  alternates,
+  image = '/img/cover.png',
+  robots = 'index, follow',
+} = Astro.props
+
+const site = Astro.site ?? Astro.url
+const canonicalUrl = new URL(canonicalPath, site).href
+const imageUrl = new URL(image, site).href
+
+// Sem `alternates`, assume que a pagina existe com a mesma rota nos dois
+// idiomas: tira o prefixo do idioma atual e monta os dois caminhos.
+const prefix = localePrefix(locale)
+const basePath = prefix ? canonicalPath.replace(prefix, '') || '/' : canonicalPath
+const links = buildAlternates(alternates ?? basePath)
+const hasTranslation = links.some(
+  (link) => link.hreflang === htmlLang[otherLocale(locale)],
+)
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="robots" content={robots} />
+<meta name="author" content="Mateus Villain" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:locale" content={ogLocale[locale]} />
+{
+  hasTranslation && (
+    <meta property="og:locale:alternate" content={ogLocale[otherLocale(locale)]} />
+  )
+}
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalUrl} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageUrl} />
+
+<link rel="canonical" href={canonicalUrl} />
+{
+  links.map((link) => (
+    <link
+      rel="alternate"
+      hreflang={link.hreflang}
+      href={new URL(link.path, site).href}
+    />
+  ))
+}
+<link rel="icon" type="image/x-icon" href="/img/favicon.png" />
+
+<script is:inline>
+  ;(function (w, d, s, l, i) {
+    w[l] = w[l] || []
+    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : ''
+    j.async = true
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+    f.parentNode.insertBefore(j, f)
+  })(window, document, 'script', 'dataLayer', 'GTM-NTD9ZL6W')
+</script>

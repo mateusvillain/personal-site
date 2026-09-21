@@ -1,6 +1,15 @@
 const script = document.currentScript
 const slug = script.dataset.slug
 
+// Mensagens no idioma da pagina, definidas nos atributos data-msg-* da tag
+const messages = {
+  required: script.dataset.msgRequired || 'Campo obrigatório.',
+  wrongPassword:
+    script.dataset.msgWrongPassword ||
+    'A senha informada está incorreta. Tente novamente.',
+  loadError: script.dataset.msgLoadError || 'Erro ao carregar conteúdo.',
+}
+
 const passwordInput = document.getElementById('password')
 const unlockForm = document.getElementById('unlock-form')
 const errorEl = document.getElementById('error')
@@ -158,7 +167,7 @@ unlockForm.addEventListener('submit', async (event) => {
   const password = getPassword()
 
   if (!password) {
-    showError('Campo obrigatório.')
+    showError(messages.required)
     return
   }
 
@@ -166,13 +175,13 @@ unlockForm.addEventListener('submit', async (event) => {
     const result = await verifyPassword(password)
 
     if (!result.ok) {
-      showError('A senha informada está incorreta. Tente novamente.')
+      showError(messages.wrongPassword)
       return
     }
 
     passwordBox.remove()
     renderSections(result.data.sections)
   } catch (err) {
-    showError('Erro ao carregar conteúdo.')
+    showError(messages.loadError)
   }
 })
