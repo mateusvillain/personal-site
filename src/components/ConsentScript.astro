@@ -1,0 +1,93 @@
+---
+/**
+ * Consent Mode v2 + carregamento condicional do GTM.
+ *
+ * Fica no <head>, antes de qualquer tag. Padrao: tudo negado e o GTM nem
+ * e baixado. So carrega quando o visitante aceita (no aviso ou numa visita
+ * anterior, guardado em localStorage por 12 meses).
+ *
+ * Tambem define `gtag()` — o public/js/analytics.js ja chamava esse
+ * global sem ninguem declarar.
+ *
+ * API: window.mvConsent.grant() / .deny() / .open() / .status()
+ * Qualquer elemento com [data-consent-open] reabre o aviso.
+ */
+const GTM_ID = 'GTM-NTD9ZL6W'
+---
+
+<script is:inline define:vars={{ GTM_ID }}>
+  ;(function () {
+    var KEY = 'mv:consent'
+    var MAX_AGE = 365 * 24 * 60 * 60 * 1000
+    var loaded = false
+
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function () {
+      dataLayer.push(arguments)
+    }
+
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500,
+    })
+
+    function read() {
+      try {
+        var raw = localStorage.getItem(KEY)
+        if (!raw) return null
+        var data = JSON.parse(raw)
+        if (!data || Date.now() - data.at > MAX_AGE) return null
+        return data.analytics
+      } catch (e) {
+        return null
+      }
+    }
+
+    function write(value) {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({ analytics: value, at: Date.now() }))
+      } catch (e) {}
+    }
+
+    function loadGtm() {
+      if (loaded) return
+      loaded = true
+      dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+      var s = document.createElement('script')
+      s.async = true
+      s.src = 'https://www.googletagmanager.com/gtm.js?id=' + GTM_ID
+      document.head.appendChild(s)
+    }
+
+    function grant() {
+      write('granted')
+      gtag('consent', 'update', { analytics_storage: 'granted' })
+      loadGtm()
+      document.dispatchEvent(new CustomEvent('mv:consent', { detail: 'granted' }))
+    }
+
+    function deny() {
+      write('denied')
+      gtag('consent', 'update', { analytics_storage: 'denied' })
+      document.dispatchEvent(new CustomEvent('mv:consent', { detail: 'denied' }))
+    }
+
+    function open() {
+      document.dispatchEvent(new CustomEvent('mv:consent-open'))
+    }
+
+    window.mvConsent = { grant: grant, deny: deny, open: open, status: read }
+
+    if (read() === 'granted') loadGtm()
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('[data-consent-open]')) {
+        e.preventDefault()
+        open()
+      }
+    })
+  })()
+</script>

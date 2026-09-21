@@ -1,0 +1,169 @@
+---
+/**
+ * Aviso de cookies. Uma frase em primeira pessoa e duas respostas com o
+ * mesmo peso visual (LGPD/GDPR: recusar tem que ser tao facil quanto
+ * aceitar). Nao bloqueia nada: sem overlay, sem roubar foco.
+ *
+ * Aparece so quando nao ha decisao guardada (ver ConsentScript.astro) e
+ * pode ser reaberto por window.mvConsent.open() ou [data-consent-open].
+ */
+import type { Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const strings = ui[locale].consent
+---
+
+<aside class="consent" role="region" aria-label={strings.region} hidden>
+  <p class="consent__message">{strings.message}</p>
+  <div class="consent__actions">
+    <button type="button" class="consent__button" data-consent="deny">
+      {strings.decline}
+    </button>
+    <button
+      type="button"
+      class="consent__button consent__button--accept"
+      data-consent="grant"
+    >
+      {strings.accept}
+    </button>
+  </div>
+</aside>
+
+<style>
+  .consent {
+    --consent-enter: 360ms;
+    --consent-exit: 200ms;
+
+    position: fixed;
+    inset: auto auto 1rem 1rem;
+    z-index: 50;
+    box-sizing: border-box;
+    width: min(360px, calc(100vw - 2rem));
+    padding: var(--lui-spacing-fixed-16, 1rem);
+    border: 1px solid var(--lui-color-neutral-border-subtle, #e5e5e5);
+    border-radius: var(--lui-border-radius-lg, 12px);
+    background: var(--lui-color-neutral-background-surface, #fff);
+    color: var(--lui-color-neutral-text-body, #222);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 12px 32px -12px rgba(0, 0, 0, 0.18);
+    font-family: inherit;
+    font-size: var(--lui-brand-typography-font-size-2xs, 0.875rem);
+    line-height: 1.5;
+
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity var(--consent-exit) ease,
+      transform var(--consent-exit) ease,
+      visibility 0s linear var(--consent-exit);
+    visibility: hidden;
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  .consent.is-visible {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition:
+      opacity var(--consent-enter) cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform var(--consent-enter) cubic-bezier(0.2, 0.8, 0.2, 1),
+      visibility 0s;
+  }
+
+  .consent__message {
+    margin: 0;
+    max-width: 38ch;
+  }
+
+  .consent__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--lui-spacing-fixed-8, 0.5rem);
+    margin-top: var(--lui-spacing-fixed-12, 0.75rem);
+  }
+
+  .consent__button {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: var(--lui-border-radius-sm, 6px);
+    padding: 0.375rem 0.75rem;
+    background: transparent;
+    color: var(--lui-color-neutral-text-body, #222);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 160ms ease;
+  }
+
+  .consent__button:hover {
+    background: var(--lui-color-black-alpha-1, rgba(0, 0, 0, 0.05));
+  }
+
+  .consent__button:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring, currentColor);
+    outline-offset: 2px;
+  }
+
+  .consent__button--accept {
+    color: var(--lui-color-link-default, #0b57d0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .consent,
+    .consent.is-visible {
+      transform: none;
+      transition-duration: 120ms, 0s, 0s;
+    }
+  }
+</style>
+
+<script is:inline>
+  ;(function () {
+    var el = document.querySelector('.consent')
+    if (!el || !window.mvConsent) return
+
+    var ENTER_DELAY = 1200
+
+    function show() {
+      el.hidden = false
+      // reflow forcado: garante que o estado inicial (opacity 0) foi
+      // aplicado antes da classe, senao a transicao de entrada nao roda
+      void el.offsetWidth
+      el.classList.add('is-visible')
+    }
+
+    function hide() {
+      el.classList.remove('is-visible')
+      el.addEventListener(
+        'transitionend',
+        function () {
+          el.hidden = true
+        },
+        { once: true }
+      )
+    }
+
+    el.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-consent]')
+      if (!btn) return
+      if (btn.dataset.consent === 'grant') window.mvConsent.grant()
+      else window.mvConsent.deny()
+      hide()
+    })
+
+    document.addEventListener('mv:consent-open', show)
+
+    if (window.mvConsent.status() === null) {
+      setTimeout(show, ENTER_DELAY)
+    }
+  })()
+</script>

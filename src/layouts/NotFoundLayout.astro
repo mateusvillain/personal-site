@@ -1,4 +1,6 @@
 ---
+import ConsentScript from '../components/ConsentScript.astro'
+import CookieConsent from '../components/CookieConsent.astro'
 import Scripts from '../components/Scripts.astro';
 ---
 
@@ -14,18 +16,8 @@ import Scripts from '../components/Scripts.astro';
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
 
-    <script is:inline>
-      ;(function (w, d, s, l, i) {
-        w[l] = w[l] || []
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : ''
-        j.async = true
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
-        f.parentNode.insertBefore(j, f)
-      })(window, document, 'script', 'dataLayer', 'GTM-NTD9ZL6W')
-    </script>
+    
+    <ConsentScript />
 
     <style is:inline>
       @import 'https://fonts.googleapis.com/css?family=VT323';
@@ -141,5 +133,6 @@ import Scripts from '../components/Scripts.astro';
   <body>
     <slot />
     <Scripts />
+    <CookieConsent locale="en" />
   </body>
 </html>
