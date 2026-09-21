@@ -19,7 +19,7 @@ const contentEl = document.getElementById('protected-content')
 let currentList = null
 
 async function verifyPassword(password) {
-  const res = await fetch('../../api/project', {
+  const res = await fetch('/api/project', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ slug, password })
