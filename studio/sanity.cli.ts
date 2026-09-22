@@ -17,15 +17,6 @@ export default defineCliConfig({
 
   vite: (config) => ({
     ...config,
-    server: {
-      ...config.server,
-      fs: {
-        ...config.server?.fs,
-        // O callback de login chega como GET /?url=https://api.sanity.io/...
-        // e o fs.allow estrito do Vite barra isso com 403 antes do SPA fallback.
-        strict: false,
-      },
-    },
     plugins: [
       ...(config.plugins || []),
       {
