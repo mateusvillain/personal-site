@@ -3,12 +3,13 @@
  * (Portable Text em `content.pt`, imagens enviadas como assets).
  *
  * Uso:
- *   node --env-file=.env.local scripts/migrate-notion-to-sanity.mjs <slug-notion> <slug-sanity> [--write]
+ *   node --env-file=.env.local scripts/migrate-notion-to-sanity.mjs <slug-notion> <slug-sanity> [--write] [--reset-en]
  *
  * Sem --write só imprime o resumo do que seria gravado. Com --write
- * SOBRESCREVE `content.pt` e remove `content.en` (a API cai no PT
- * quando o EN está vazio, então a página em inglês continua funcionando
- * até a tradução ser feita no Studio).
+ * SOBRESCREVE `content.pt`. `content.en` é removido apenas se estiver
+ * vazio ou com --reset-en (a API cai no PT quando o EN está vazio, então
+ * a página em inglês continua funcionando até a tradução no Studio).
+ * Recusa rodar se o documento tiver um draft aberto no Studio.
  */
 import { randomBytes } from 'node:crypto'
 import { createClient } from '@sanity/client'
@@ -55,11 +56,20 @@ const key = () => randomBytes(6).toString('hex')
 /* =====================================================
    Notion
 ====================================================== */
-async function notion(path, init) {
+async function notion(path, init, attempt = 0) {
   const res = await fetch(`https://api.notion.com/v1${path}`, { headers: notionHeaders, ...init })
-  const data = await res.json()
-  if (!res.ok) throw new Error(`Notion ${path}: ${data.message}`)
-  return data
+  if (res.status === 429 && attempt < 5) {
+    const wait = Number(res.headers.get('retry-after') || 1) * 1000
+    await new Promise((r) => setTimeout(r, wait))
+    return notion(path, init, attempt + 1)
+  }
+  if (!res.ok) {
+    const body = await res.text()
+    let message = body
+    try { message = JSON.parse(body).message || body } catch {}
+    throw new Error(`Notion ${path}: ${res.status} ${message}`)
+  }
+  return res.json()
 }
 
 async function findPage(slug) {
@@ -130,7 +140,9 @@ const CODE_ALIASES = { shell: 'bash', sh: 'bash', zsh: 'bash', js: 'javascript',
 
 function codeLanguage(lang = '') {
   const l = CODE_ALIASES[lang] || lang
-  return CODE_LANGUAGES.includes(l) ? l : 'css'
+  if (CODE_LANGUAGES.includes(l)) return l
+  console.warn(`linguagem "${lang}" não existe no schema — gravada como css, ajuste no Studio`)
+  return 'css'
 }
 
 /* =====================================================
@@ -218,7 +230,10 @@ async function convert(blocks, level = 1) {
     }
 
     // Sub-itens (listas aninhadas) viram itens de nível seguinte.
-    if (block.has_children && block.type !== 'code') {
+    // child_page/child_database também têm has_children, mas são outra
+    // página inteira — não pertencem ao conteúdo do case.
+    const NO_RECURSE = ['code', 'child_page', 'child_database']
+    if (block.has_children && !NO_RECURSE.includes(block.type)) {
       out.push(...(await convert(await children(block.id), level + 1)))
     }
   }
@@ -235,13 +250,25 @@ if (!page) {
   process.exit(1)
 }
 
-const doc = await sanity.fetch(`*[_type == "caseStudy" && slug.current == $slug && !(_id in path("drafts.**"))][0]{ _id, "pt": count(content.pt), "en": count(content.en) }`, {
-  slug: sanitySlug,
-})
+const doc = await sanity.fetch(
+  `*[_type == "caseStudy" && slug.current == $slug && !(_id in path("drafts.**"))][0]{
+    _id, "pt": count(content.pt), "en": count(content.en),
+    "hasDraft": defined(*[_id == "drafts." + ^._id][0])
+  }`,
+  { slug: sanitySlug },
+)
 if (!doc) {
   console.error(`documento "${sanitySlug}" não encontrado no Sanity`)
   process.exit(1)
 }
+// O patch vai só no publicado; um draft aberto no Studio esconderia o
+// conteúdo migrado e o sobrescreveria no próximo Publish.
+if (doc.hasDraft) {
+  console.error(`"${sanitySlug}" tem um draft no Studio — publique ou descarte antes de migrar`)
+  process.exit(1)
+}
+// EN só é limpo se ainda não foi traduzido (ou se --reset-en for passado).
+const resetEn = flags.includes('--reset-en') || !(doc.en > 0)
 
 const notionBlocks = await children(page.id)
 const pt = await convert(notionBlocks)
@@ -254,12 +281,14 @@ const summary = pt.reduce((acc, b) => {
 
 console.log(`Notion: ${notionBlocks.length} blocos -> Portable Text: ${pt.length}`)
 console.log(summary)
-console.log(`Sanity ${doc._id}: content.pt ${doc.pt ?? 0} -> ${pt.length}, content.en ${doc.en ?? 0} -> (removido)`)
+console.log(`Sanity ${doc._id}: content.pt ${doc.pt ?? 0} -> ${pt.length}, content.en ${doc.en ?? 0} -> ${resetEn ? '(removido)' : '(mantido; use --reset-en para limpar)'}`)
 
 if (!WRITE) {
   console.log('\ndry-run — rode com --write para gravar')
   process.exit(0)
 }
 
-await sanity.patch(doc._id).set({ 'content.pt': pt }).unset(['content.en']).commit()
+let patch = sanity.patch(doc._id).set({ 'content.pt': pt })
+if (resetEn) patch = patch.unset(['content.en'])
+await patch.commit()
 console.log('gravado')
