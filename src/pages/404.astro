@@ -7,6 +7,9 @@
  */
 import NotFoundLayout from '../layouts/NotFoundLayout.astro'
 import NotFoundContent from '../components/NotFoundContent.astro'
+import { ui } from '../i18n/ui'
+
+const consentPt = ui.pt.consent
 ---
 
 <NotFoundLayout>
@@ -14,7 +17,7 @@ import NotFoundContent from '../components/NotFoundContent.astro'
   <NotFoundContent locale="pt" hidden />
 </NotFoundLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ consentPt }}>
   ;(function () {
     var isPt = /^\/pt(\/|$)/.test(location.pathname)
     if (!isPt) return
@@ -23,5 +26,14 @@ import NotFoundContent from '../components/NotFoundContent.astro'
     document.querySelectorAll('[data-locale]').forEach(function (block) {
       block.hidden = block.getAttribute('data-locale') !== 'pt'
     })
+
+    // O aviso de cookies e renderizado em ingles no layout; troca as
+    // strings junto com o resto da pagina.
+    var consent = document.querySelector('.consent')
+    if (!consent) return
+    consent.setAttribute('aria-label', consentPt.region)
+    consent.querySelector('.consent__message').textContent = consentPt.message
+    consent.querySelector('[data-consent="grant"]').textContent = consentPt.accept
+    consent.querySelector('[data-consent="deny"]').textContent = consentPt.decline
   })()
 </script>

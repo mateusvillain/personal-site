@@ -5,6 +5,7 @@
  */
 import '@lets-ui/styles'
 import SeoHead from '../components/SeoHead.astro'
+import CookieConsent from '../components/CookieConsent.astro'
 import NewsletterCard from '../components/NewsletterCard.astro'
 import AuthorCard from '../components/AuthorCard.astro'
 import { htmlLang, type Locale } from '../i18n/config'
@@ -78,5 +79,6 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
 
     {showAuthor && <script is:inline src="/blog/js/code-copy.js" defer></script>}
     <script is:inline src="/blog/js/form.js" defer></script>
+    <CookieConsent locale={locale} />
   </body>
 </html>

@@ -1,6 +1,7 @@
 ---
 import '@lets-ui/styles'
 import Scripts from '../components/Scripts.astro'
+import CookieConsent from '../components/CookieConsent.astro'
 import SeoHead from '../components/SeoHead.astro'
 import { htmlLang, type Locale } from '../i18n/config'
 
@@ -74,6 +75,7 @@ const {
   <body class={bodyClass}>
     <slot />
     {includeScripts && <Scripts />}
+    <CookieConsent locale={locale} />
     <script>
       import '@phosphor-icons/webcomponents'
     </script>

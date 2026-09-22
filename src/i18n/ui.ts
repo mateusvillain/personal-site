@@ -29,6 +29,14 @@ const en = {
     ariaLabel: 'Ler em português',
   },
   newWindow: '(opens in a new tab)',
+  consent: {
+    /** Nome acessivel da regiao do aviso. */
+    region: 'Cookies',
+    message:
+      "I'm nosy: I use Google Analytics to see what people read around here. Okay if that includes you?",
+    accept: 'Okay',
+    decline: 'Leave me out',
+  },
   newsletter: {
     title: 'Subscribe to the newsletter',
     description: 'Get the best content straight to your inbox',
@@ -82,6 +90,13 @@ const pt: typeof en = {
     ariaLabel: 'Read in English',
   },
   newWindow: '(abre em nova aba)',
+  consent: {
+    region: 'Cookies',
+    message:
+      'Sou curioso: uso o Google Analytics pra ver o que as pessoas leem por aqui. Tudo bem contar você?',
+    accept: 'Tudo bem',
+    decline: 'Fico de fora',
+  },
   newsletter: {
     title: 'Assine a newsletter',
     description: 'Receba os melhores conteúdos direto no seu e-mail',
