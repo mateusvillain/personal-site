@@ -18,20 +18,22 @@ function readCookie(req, name) {
   const raw = req.headers.cookie || ''
   for (const part of raw.split(';')) {
     const [k, ...v] = part.trim().split('=')
-    if (k === name) return decodeURIComponent(v.join('='))
+    if (k === name) return v.join('=')
   }
   return null
 }
 
+// Cookie malformado (encoding inválido, assinatura truncada, etc.) conta
+// como "sem cookie" — nunca deve virar 500.
 function hasValidUnlockCookie(req, slug, secret) {
   const value = readCookie(req, cookieName(slug))
   if (!value) return false
 
   const [exp, sig] = value.split('.')
-  if (!exp || !sig || Number(exp) < Math.floor(Date.now() / 1000)) return false
+  if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return false
+  if (Number(exp) < Math.floor(Date.now() / 1000)) return false
 
   const expected = sign(slug, exp, secret)
-  if (sig.length !== expected.length) return false
   return timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
 }
 
@@ -51,9 +53,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' })
   }
 
-  const { slug, password, locale = 'pt' } = req.body || {}
+  const { slug, password, locale: rawLocale } = req.body || {}
+  const locale = rawLocale === 'en' ? 'en' : 'pt'
 
-  if (!slug) {
+  if (typeof slug !== 'string' || !slug) {
     return res.status(400).json({ error: 'Slug não informado' })
   }
 
@@ -96,7 +99,9 @@ export default async function handler(req, res) {
     /* =====================================================
        3. Portable Text (por idioma) -> sections
     ====================================================== */
-    const blocks = doc.content?.[locale] ?? doc.content?.pt ?? []
+    // Aba EN tocada no Studio mas vazia persiste `en: []` — cai no PT também.
+    const localized = doc.content?.[locale]
+    const blocks = localized?.length ? localized : doc.content?.pt ?? []
     const sections = blocksToSections(blocks)
 
     return res.status(200).json({

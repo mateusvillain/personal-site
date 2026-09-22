@@ -1,6 +1,13 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
+// Sem projectId o createClient lança na importação e a function morre com
+// FUNCTION_INVOCATION_FAILED (sem JSON). Falha explícita aqui é mais fácil
+// de diagnosticar num `vercel dev` sem `vercel env pull`.
+if (!process.env.SANITY_API_PROJECT_ID) {
+  throw new Error('SANITY_API_PROJECT_ID não configurada (rode `vercel env pull`)')
+}
+
 export const sanity = createClient({
   projectId: process.env.SANITY_API_PROJECT_ID,
   dataset: process.env.SANITY_API_DATASET || 'production',
@@ -21,6 +28,7 @@ function escapeHtml(str = '') {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 }
 
 function renderChild(child, markDefs = []) {
@@ -30,7 +38,10 @@ function renderChild(child, markDefs = []) {
     const markDef = markDefs.find((m) => m._key === mark)
 
     if (markDef?._type === 'link') {
-      text = `<a href="${markDef.href}" target="_blank" rel="noopener noreferrer">${text}</a>`
+      // Link sem href (annotation criada e não preenchida) vira texto puro.
+      if (markDef.href) {
+        text = `<a href="${escapeHtml(markDef.href)}" target="_blank" rel="noopener noreferrer">${text}</a>`
+      }
       continue
     }
 

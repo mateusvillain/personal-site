@@ -164,6 +164,17 @@ passwordInput.addEventListener('keydown', (event) => {
   }
 })
 
+// O auto-unlock (cookie) e o submit manual correm em paralelo; só o
+// primeiro sucesso pode renderizar, senão o conteúdo aparece duplicado.
+let unlocked = false
+
+function unlock(sections) {
+  if (unlocked) return
+  unlocked = true
+  passwordBox.remove()
+  renderSections(sections)
+}
+
 unlockForm.addEventListener('submit', async (event) => {
   event.preventDefault()
   clearError()
@@ -179,14 +190,13 @@ unlockForm.addEventListener('submit', async (event) => {
     const result = await verifyPassword(password)
 
     if (!result.ok) {
-      showError(messages.wrongPassword)
+      if (!unlocked) showError(messages.wrongPassword)
       return
     }
 
-    passwordBox.remove()
-    renderSections(result.data.sections)
+    unlock(result.data.sections)
   } catch (err) {
-    showError(messages.loadError)
+    if (!unlocked) showError(messages.loadError)
   }
 })
 
@@ -196,8 +206,7 @@ unlockForm.addEventListener('submit', async (event) => {
   try {
     const result = await verifyPassword(undefined)
     if (!result.ok) return
-    passwordBox.remove()
-    renderSections(result.data.sections)
+    unlock(result.data.sections)
   } catch (err) {
     /* segue com o formulario */
   }

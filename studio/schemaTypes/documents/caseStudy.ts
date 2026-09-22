@@ -41,6 +41,12 @@ export default defineType({
       type: 'string',
       description: 'Deve casar com uma env var PASSWORD_<CHAVE> na Vercel (ex.: locaweb_ds).',
       hidden: ({ document }) => !document?.requiresPassword,
+      validation: (Rule) =>
+        Rule.custom((value, context) =>
+          context.document?.requiresPassword && !value
+            ? 'Obrigatório quando o case exige senha'
+            : true,
+        ),
     }),
     defineField({
       name: 'coverImage',
