@@ -1,5 +1,6 @@
 const script = document.currentScript
 const slug = script.dataset.slug
+const locale = script.dataset.locale || 'pt'
 
 // Mensagens no idioma da pagina, definidas nos atributos data-msg-* da tag
 const messages = {
@@ -18,11 +19,14 @@ const contentEl = document.getElementById('protected-content')
 
 let currentList = null
 
+// Sem `password`, a API aceita o cookie HttpOnly de desbloqueio gravado
+// no ultimo acerto (vale por alguns minutos: refresh e troca de idioma
+// nao pedem a senha de novo).
 async function verifyPassword(password) {
   const res = await fetch('/api/project', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ slug, password })
+    body: JSON.stringify({ slug, password, locale })
   })
 
   if (res.status === 401) return { ok: false }
@@ -160,6 +164,17 @@ passwordInput.addEventListener('keydown', (event) => {
   }
 })
 
+// O auto-unlock (cookie) e o submit manual correm em paralelo; só o
+// primeiro sucesso pode renderizar, senão o conteúdo aparece duplicado.
+let unlocked = false
+
+function unlock(sections) {
+  if (unlocked) return
+  unlocked = true
+  passwordBox.remove()
+  renderSections(sections)
+}
+
 unlockForm.addEventListener('submit', async (event) => {
   event.preventDefault()
   clearError()
@@ -175,13 +190,24 @@ unlockForm.addEventListener('submit', async (event) => {
     const result = await verifyPassword(password)
 
     if (!result.ok) {
-      showError(messages.wrongPassword)
+      if (!unlocked) showError(messages.wrongPassword)
       return
     }
 
-    passwordBox.remove()
-    renderSections(result.data.sections)
+    unlock(result.data.sections)
   } catch (err) {
-    showError(messages.loadError)
+    if (!unlocked) showError(messages.loadError)
   }
 })
+
+// Tenta destravar com o cookie de sessao antes de mostrar o formulario.
+// Qualquer falha (401, rede) so mantem o form visivel, sem mensagem.
+;(async () => {
+  try {
+    const result = await verifyPassword(undefined)
+    if (!result.ok) return
+    unlock(result.data.sections)
+  } catch (err) {
+    /* segue com o formulario */
+  }
+})()
