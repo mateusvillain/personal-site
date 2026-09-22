@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from 'node:crypto'
+import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { sanity, blocksToSections } from './_sanity.js'
 
 // Por quanto tempo o desbloqueio vale sem pedir a senha de novo
@@ -6,12 +6,21 @@ import { sanity, blocksToSections } from './_sanity.js'
 // nunca vai pro browser.
 const UNLOCK_TTL_SECONDS = 30 * 60
 
+// Segredo aleatório do servidor. Sem ele o cookie de desbloqueio fica
+// desativado (a senha é pedida a cada carregamento) em vez de assinar
+// com algo previsível.
+const COOKIE_SECRET = process.env.UNLOCK_COOKIE_SECRET
+
 function cookieName(slug) {
   return `case_unlock_${slug.replace(/[^a-z0-9]/gi, '_')}`
 }
 
-function sign(slug, exp, secret) {
-  return createHmac('sha256', secret).update(`${slug}:${exp}`).digest('hex')
+// Chave = hash(segredo + senha do case): um cookie capturado não permite
+// brute-force offline da senha (o segredo tem 256 bits de entropia), e
+// trocar a senha continua invalidando os cookies antigos.
+function sign(slug, exp, password) {
+  const key = createHash('sha256').update(`${COOKIE_SECRET}:${password}`).digest()
+  return createHmac('sha256', key).update(`${slug}:${exp}`).digest('hex')
 }
 
 function readCookie(req, name) {
@@ -25,7 +34,8 @@ function readCookie(req, name) {
 
 // Cookie malformado (encoding inválido, assinatura truncada, etc.) conta
 // como "sem cookie" — nunca deve virar 500.
-function hasValidUnlockCookie(req, slug, secret) {
+function hasValidUnlockCookie(req, slug, password) {
+  if (!COOKIE_SECRET) return false
   const value = readCookie(req, cookieName(slug))
   if (!value) return false
 
@@ -33,13 +43,17 @@ function hasValidUnlockCookie(req, slug, secret) {
   if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return false
   if (Number(exp) < Math.floor(Date.now() / 1000)) return false
 
-  const expected = sign(slug, exp, secret)
+  const expected = sign(slug, exp, password)
   return timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
 }
 
-function setUnlockCookie(res, slug, secret) {
+function setUnlockCookie(res, slug, password) {
+  if (!COOKIE_SECRET) {
+    console.warn('UNLOCK_COOKIE_SECRET não configurada — cookie de desbloqueio desativado')
+    return
+  }
   const exp = Math.floor(Date.now() / 1000) + UNLOCK_TTL_SECONDS
-  const value = `${exp}.${sign(slug, exp, secret)}`
+  const value = `${exp}.${sign(slug, exp, password)}`
   const secure = process.env.VERCEL_ENV ? '; Secure' : ''
 
   res.setHeader(
