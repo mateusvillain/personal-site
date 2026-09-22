@@ -9,6 +9,12 @@ export default defineCliConfig({
     dataset: 'production',
   },
 
+  // Host do `sanity deploy` → https://mateusvillain.sanity.studio
+  studioHost: 'mateusvillain',
+  deployment: {
+    appId: 'r2sdst0szrskufdzcekzmxek',
+  },
+
   vite: (config) => ({
     ...config,
     server: {
