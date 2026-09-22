@@ -81,7 +81,13 @@ const GTM_ID = 'GTM-NTD9ZL6W'
 
     window.mvConsent = { grant: grant, deny: deny, open: open, status: read }
 
-    if (read() === 'granted') loadGtm()
+    // Visita de retorno com consentimento guardado: precisa reenviar o
+    // `update` antes do GTM subir, senao ele fica no `default` (tudo
+    // negado) e o GA4 roda sem cookies mesmo com o aceite.
+    if (read() === 'granted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' })
+      loadGtm()
+    }
 
     document.addEventListener('click', function (e) {
       if (e.target.closest && e.target.closest('[data-consent-open]')) {

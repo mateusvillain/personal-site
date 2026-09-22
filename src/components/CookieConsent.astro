@@ -133,7 +133,18 @@ const strings = ui[locale].consent
 
     var ENTER_DELAY = 1200
 
+    function onExitEnd(e) {
+      // transitionend borbulha do hover dos botoes (background-color);
+      // so o fade do proprio container encerra a saida.
+      if (e.target !== el || e.propertyName !== 'opacity') return
+      el.removeEventListener('transitionend', onExitEnd)
+      el.hidden = true
+    }
+
     function show() {
+      // reabrir durante a saida: cancela o listener pendente para ele
+      // nao esconder o banner recem-aberto
+      el.removeEventListener('transitionend', onExitEnd)
       el.hidden = false
       // reflow forcado: garante que o estado inicial (opacity 0) foi
       // aplicado antes da classe, senao a transicao de entrada nao roda
@@ -143,13 +154,7 @@ const strings = ui[locale].consent
 
     function hide() {
       el.classList.remove('is-visible')
-      el.addEventListener(
-        'transitionend',
-        function () {
-          el.hidden = true
-        },
-        { once: true }
-      )
+      el.addEventListener('transitionend', onExitEnd)
     }
 
     el.addEventListener('click', function (e) {
