@@ -18,7 +18,7 @@ Se você já trabalhou com design system, provavelmente já esbarrou naquele pro
 
 É justamente nesse ponto que os design tokens entram. Eles são uma forma de organizar decisões de design como dados, algo que pode ser compartilhado, versionado e usado em qualquer plataforma.
 
-Neste guia, a ideia é sair do básico e entender de verdade como os design tokens funcionam na prática: desde o conceito até a aplicação em um design system real, passando pelos diferentes níveis de abstração e pelos desafios de escala.
+Neste guia, a ideia é ==sair do básico e entender de verdade como os design tokens funcionam na prática: desde o conceito== até a aplicação em um design system real, passando pelos diferentes níveis de abstração e pelos desafios de escala.
 
 ## O que é um design token?
 
@@ -26,7 +26,7 @@ Design tokens são unidades de dados estruturadas que representam decisões de d
 
 Quando falamos sobre representar decisões de design, nos referimos a cada atributo utilizado num produto digital. Cada decisão, por menor que seja, possui um significado, e esses significados são representados pelos design tokens.
 
-Por exemplo, uma cor azul solta pode não ter significado algum, mas quando inserida numa interface, como um botão de hierarquia primária, ele ganha uma atribuição, representando a cor de fundo para botões com o maior nível de hierarquia do produto.
+Por exemplo, uma cor azul ==solta pode não== ter significado algum, mas quando inserida numa interface, como um botão de hierarquia primária, ele ganha uma atribuição, representando a cor de fundo para botões com o maior nível de hierarquia do produto.
 
 Já quando tratamos de ser independente de plataforma, é importante lembrarmos que um design token não é uma variável ou estilo no Figma, muito menos um CSS custom property. Design tokens são estruturados em JSON, de forma que possuam um formato agnóstico que possa ser interpretado por qual sistema ou linguagem, permitindo serem transformados em linguagens usáveis como CSS, Sass, JavaScript, Flutter, Swift, entre várias outras.
 
