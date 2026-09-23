@@ -68,6 +68,36 @@ $markers: (
   }
 }
 
+/**
+ * O traco sendo desenhado.
+ *
+ * Crescer o `background-size` da esquerda para a direita faz o proprio SVG ser
+ * espremido e esticado, entao a borda que avanca e a ponta cortada do marcador
+ * - nao um corte reto, que e o que `clip-path` daria (e que ainda por cima
+ * recortaria a caixa inteira num destaque de duas linhas).
+ *
+ * O `[data-hl-animate]` e ligado pelo boot script do layout: sem JS ou com
+ * "reduzir movimento" nada disso vale e o destaque nasce desenhado.
+ */
+[data-hl-animate] .full-post mark {
+  background-position: left center;
+  background-size: 0% 100%;
+  transition: background-size var(--hl-duration, 420ms)
+    cubic-bezier(0.22, 0.61, 0.36, 1) var(--hl-delay, 0ms);
+
+  &.is-drawn {
+    background-size: 100% 100%;
+  }
+}
+
+// Se o "reduzir movimento" for ligado depois da pagina carregar.
+@media (prefers-reduced-motion: reduce) {
+  [data-hl-animate] .full-post mark {
+    background-size: 100% 100%;
+    transition: none;
+  }
+}
+
 // No alto contraste do Windows o background-image some; usa as cores do sistema.
 @media (forced-colors: active) {
   .full-post mark {

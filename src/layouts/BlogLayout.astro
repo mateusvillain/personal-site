@@ -61,6 +61,15 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
 
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/blog.css" />
+
+    <script is:inline>
+      // Liga o marca-texto animado antes da primeira pintura, para o destaque
+      // nao aparecer pronto e so entao encolher. Sem JS ou com "reduzir
+      // movimento" a flag nunca entra e o traco ja nasce desenhado.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.dataset.hlAnimate = ''
+      }
+    </script>
   </head>
 
   <body>
@@ -78,6 +87,7 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
     </div>
 
     {showAuthor && <script is:inline src="/blog/js/code-copy.js" defer></script>}
+    {showAuthor && <script is:inline src="/blog/js/highlight.js" defer></script>}
     <script is:inline src="/blog/js/form.js" defer></script>
     <CookieConsent locale={locale} />
   </body>
