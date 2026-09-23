@@ -28,7 +28,7 @@ O `==` vira `<mark>` (`src/lib/remark-highlight.mjs`) e recebe um dos quatro tra
 - Formatação aninhada funciona: `==um **destaque** forte==`.
 - Escrever a tag na mão também funciona, inclusive escolhendo o traço: `<mark data-hl="3">trecho</mark>`.
 
-Quando o trecho entra na tela, o traço é desenhado da esquerda para a direita (`public/blog/js/highlight.js`), como quem passa a caneta — uma vez só, com duração proporcional ao tamanho do destaque. Sem JavaScript, ou com "reduzir movimento" ligado no sistema, o destaque simplesmente já aparece pronto.
+Quando o trecho entra na tela, o traço é desenhado da esquerda para a direita (`public/blog/js/highlight.js`), como quem passa a caneta — uma vez só, com duração proporcional ao tamanho do destaque. Num destaque que quebra de linha, o traço termina uma linha antes de começar a próxima, na ordem da leitura. Sem JavaScript, ou com "reduzir movimento" ligado no sistema, o destaque simplesmente já aparece pronto.
 
 ## Tecnologias
 

@@ -7,8 +7,8 @@
  *
  * O fundo nao e um retangulo: cada variante e um tracinho de marcador
  * desenhado torto, como quem passa a caneta na mao. O SVG entra como
- * background da propria `<mark>`, entao o texto continua por cima e a
- * marcacao acompanha quebras de linha.
+ * background da propria `<mark>`, entao o texto continua por cima e um
+ * destaque que quebra de linha vira um traco so, esticado pelas linhas.
  */
 
 $highlight-color: #ffd43b;
@@ -45,8 +45,13 @@ $markers: (
   background-image: marker(map.get($markers, 1));
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  // `slice` (que ja e o padrao, mas aqui e escolha): num destaque que quebra,
+  // o navegador pinta o traco como se as linhas fossem uma so, continua, e
+  // depois fatia. E isso que faz a animacao desenhar linha apos linha em vez
+  // de todas as linhas ao mesmo tempo - com `clone` cada linha teria o seu
+  // proprio traco, e os tres cresceriam juntos.
+  box-decoration-break: slice;
+  -webkit-box-decoration-break: slice;
   color: inherit;
   // O tracinho precisa sobrar um pouco em volta do texto para parecer caneta.
   padding: 0.16em 0.32em;
@@ -75,6 +80,10 @@ $markers: (
  * espremido e esticado, entao a borda que avanca e a ponta cortada do marcador
  * - nao um corte reto, que e o que `clip-path` daria (e que ainda por cima
  * recortaria a caixa inteira num destaque de duas linhas).
+ *
+ * Os 100% sao da caixa inteira do destaque, com as linhas enfileiradas (veja
+ * o `slice` la em cima), entao o traco termina uma linha antes de comecar a
+ * proxima, na ordem da leitura.
  *
  * O `[data-hl-animate]` e ligado pelo boot script do layout: sem JS ou com
  * "reduzir movimento" nada disso vale e o destaque nasce desenhado.
