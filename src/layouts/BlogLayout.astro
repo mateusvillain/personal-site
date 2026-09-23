@@ -41,6 +41,22 @@ const {
 
 const strings = ui[locale]
 const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
+
+/**
+ * Liga o marca-texto animado antes da primeira pintura, para o destaque nao
+ * aparecer pronto e so entao encolher para animar. Se o script do marca-texto
+ * nao assumir o controle a tempo - deploy pela metade, asset bloqueado -, a
+ * flag cai sozinha: destaque escondido seria pior que destaque sem animacao.
+ */
+const highlightBoot = `
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  var root = document.documentElement
+  root.dataset.hlAnimate = ''
+  window.__hlFallback = setTimeout(function () {
+    root.removeAttribute('data-hl-animate')
+  }, 3000)
+}
+`
 ---
 
 <!doctype html>
@@ -62,14 +78,7 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/blog.css" />
 
-    <script is:inline>
-      // Liga o marca-texto animado antes da primeira pintura, para o destaque
-      // nao aparecer pronto e so entao encolher. Sem JS ou com "reduzir
-      // movimento" a flag nunca entra e o traco ja nasce desenhado.
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.dataset.hlAnimate = ''
-      }
-    </script>
+    {showAuthor && <script is:inline set:html={highlightBoot} />}
   </head>
 
   <body>

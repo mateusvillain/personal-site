@@ -7,6 +7,10 @@
     return
   }
 
+  // A partir daqui quem manda é este script, então a rede de segurança do boot
+  // (que desligaria a flag se este arquivo não carregasse) pode ser desarmada.
+  clearTimeout(window.__hlFallback)
+
   // Velocidade de caneta: ~900px/s, com piso e teto para um trecho de duas
   // palavras não ficar instantâneo nem um trecho de duas linhas ficar arrastado.
   const SPEED = 900
@@ -16,9 +20,8 @@
   // Destaques que entram juntos saem um atrás do outro, não em bloco.
   const STAGGER = 70
 
-  function drawAll(marks) {
-    marks.forEach((mark) => mark.classList.add('is-drawn'))
-  }
+  // Espera para conferir o que ficou para trás na faixa morta do rodapé.
+  const TAIL_DELAY = 1200
 
   // Num destaque de várias linhas cada linha é um retângulo: o que importa para
   // a duração é o tanto de traço somado, não a largura da caixa.
@@ -42,30 +45,40 @@
     }
 
     if (!('IntersectionObserver' in window)) {
-      drawAll(marks)
+      marks.forEach((mark) => mark.classList.add('is-drawn'))
       return
+    }
+
+    const pending = new Set(marks)
+
+    function draw(mark, order) {
+      mark.style.setProperty('--hl-duration', duration(mark) + 'ms')
+
+      if (order > 0) {
+        mark.style.setProperty('--hl-delay', order * STAGGER + 'ms')
+      }
+
+      mark.classList.add('is-drawn')
+      observer.unobserve(mark)
+      pending.delete(mark)
     }
 
     const observer = new IntersectionObserver(
       (entries) => {
-        let index = 0
+        let order = 0
 
         entries.forEach((entry) => {
           if (!entry.isIntersecting) {
             return
           }
 
-          const mark = entry.target
-          mark.style.setProperty('--hl-duration', duration(mark) + 'ms')
-
-          if (index > 0) {
-            mark.style.setProperty('--hl-delay', index * STAGGER + 'ms')
-          }
-
-          mark.classList.add('is-drawn')
-          observer.unobserve(mark)
-          index += 1
+          draw(entry.target, order)
+          order += 1
         })
+
+        if (pending.size === 0) {
+          window.removeEventListener('scroll', drawTail)
+        }
       },
       {
         // Espera o trecho entrar de fato na leitura, não encostar na borda.
@@ -74,7 +87,27 @@
       },
     )
 
+    // Esse `rootMargin` deixa uma faixa morta no rodapé, e um destaque que pare
+    // ali com a página já no fim nunca cruzaria a linha: ficaria invisível para
+    // sempre. Chegou ao fim, desenha o que sobrou.
+    function drawTail() {
+      const reachedEnd =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2
+
+      if (!reachedEnd || pending.size === 0) {
+        return
+      }
+
+      Array.from(pending).forEach(draw)
+      window.removeEventListener('scroll', drawTail)
+    }
+
     marks.forEach((mark) => observer.observe(mark))
+    window.addEventListener('scroll', drawTail, { passive: true })
+
+    // Página curta demais para rolar já nasce "no fim".
+    setTimeout(drawTail, TAIL_DELAY)
   }
 
   if (document.readyState === 'loading') {

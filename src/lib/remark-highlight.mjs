@@ -5,13 +5,11 @@
  *
  * vira `<mark data-hl="N">trecho destacado</mark>`, onde `N` escolhe qual dos
  * tracinhos de marcador o CSS desenha (veja `src/sass/blog/_highlight.scss`).
- * A variante sai de um hash do proprio texto: o mesmo trecho sempre recebe o
- * mesmo tracinho, entao a pagina nao muda de forma a cada build, mas dois
- * destaques diferentes dificilmente ficam iguais.
  *
  * Regras da marcacao:
  * - a abertura precisa colar no texto (`==assim`), e o fechamento tambem
  *   (`assim==`), para nao capturar comparacoes soltas como `x == y`;
+ * - um `==` sem par fica como texto e nao engole o destaque seguinte;
  * - o destaque nao atravessa paragrafo, item de lista ou celula de tabela;
  * - dentro de bloco de codigo ou de `code` inline nada e tocado;
  * - formatacao aninhada continua funcionando: `==um **destaque** forte==`.
@@ -22,6 +20,13 @@
 
 // Precisa bater com o mapa `$markers` de `src/sass/blog/_highlight.scss`.
 const VARIANTS = 8
+
+// Passo coprimo com o total de variantes: andando de 3 em 3 a lista inteira e
+// percorrida antes de qualquer traco repetir, entao destaques vizinhos nunca
+// saem iguais - que e o que denunciava o truque quando o sorteio era so hash.
+const STRIDE = 3
+
+const DELIMITER = '=='
 
 /**
  * FNV-1a: hash curtinho e estavel, so para espalhar as variantes.
@@ -37,11 +42,6 @@ function hash(text) {
 
   return value >>> 0
 }
-
-// Passo coprimo com o total de variantes: andando de 3 em 3 a lista inteira e
-// percorrida antes de qualquer traco repetir, entao destaques vizinhos nunca
-// saem iguais - que e o que denunciava o truque quando o sorteio era so hash.
-const STRIDE = 3
 
 /**
  * Sorteia o traco. Parece aleatorio na leitura, mas o ponto de partida sai do
@@ -70,30 +70,6 @@ function plainText(nodes) {
     .join('')
 }
 
-/**
- * `==` que abre: precisa vir seguido de algo que nao seja espaco. No fim do
- * node o que vem depois e o proximo irmao (`==**negrito** assim==`), entao
- * `edge` diz se aquela ponta ainda tem conteudo pela frente.
- */
-function findOpen(value, { edge = false } = {}) {
-  for (let i = value.indexOf('=='); i !== -1; i = value.indexOf('==', i + 1)) {
-    const next = value[i + 2]
-    if (next === undefined ? edge : !/\s/.test(next)) return i
-  }
-
-  return -1
-}
-
-/** `==` que fecha: precisa vir colado no fim do trecho destacado. */
-function findClose(value, { edge = false } = {}) {
-  for (let i = value.indexOf('=='); i !== -1; i = value.indexOf('==', i + 1)) {
-    const previous = value[i - 1]
-    if (previous === undefined ? edge : !/\s/.test(previous)) return i
-  }
-
-  return -1
-}
-
 function text(value) {
   return { type: 'text', value }
 }
@@ -114,81 +90,133 @@ function mark(children, state) {
 }
 
 /**
- * Varre os filhos de um node procurando os pares de `==`. O destaque pode
- * comecar e terminar em nodes diferentes (`==com **negrito** dentro==`), por
- * isso a varredura e feita na lista inteira e nao node a node.
+ * Quebra os filhos em pedacos de texto, nodes intactos (um `**negrito**`, um
+ * link) e os `==` encontrados pelo caminho. Trabalhar com a lista achatada e o
+ * que faz um destaque poder comecar num node e terminar em outro.
  */
-function highlightChildren(children, state) {
-  const queue = [...children]
-  const out = []
+function tokenize(children) {
+  const tokens = []
 
-  while (queue.length > 0) {
-    const node = queue.shift()
-
-    if (node.type !== 'text') {
-      out.push(node)
+  for (const child of children) {
+    if (child.type !== 'text') {
+      tokens.push({ kind: 'node', node: child })
       continue
     }
 
-    const open = findOpen(node.value, { edge: queue.length > 0 })
+    const value = child.value
+    let start = 0
+    let at = value.indexOf(DELIMITER)
 
-    if (open === -1) {
-      out.push(node)
-      continue
+    while (at !== -1) {
+      if (at > start)
+        tokens.push({ kind: 'text', value: value.slice(start, at) })
+      tokens.push({
+        kind: 'delimiter',
+        before: value[at - 1],
+        after: value[at + 2],
+      })
+      start = at + DELIMITER.length
+      at = value.indexOf(DELIMITER, start)
     }
 
-    const before = node.value.slice(0, open)
-    const rest = node.value.slice(open + 2)
-    const content = []
-    // Irmaos consumidos na busca pelo fechamento, para poder desfazer.
-    const consumed = []
-    let closed = false
-
-    // Fechamento no mesmo node de texto.
-    const close = findClose(rest)
-
-    if (close !== -1) {
-      if (close > 0) content.push(text(rest.slice(0, close)))
-      queue.unshift(text(rest.slice(close + 2)))
-      closed = true
-    } else {
-      if (rest) content.push(text(rest))
-
-      // Senao, segue pelos irmaos ate achar o fechamento.
-      while (queue.length > 0) {
-        const next = queue.shift()
-        consumed.push(next)
-
-        if (next.type !== 'text') {
-          content.push(next)
-          continue
-        }
-
-        const end = findClose(next.value, { edge: true })
-
-        if (end === -1) {
-          content.push(next)
-          continue
-        }
-
-        if (end > 0) content.push(text(next.value.slice(0, end)))
-        queue.unshift(text(next.value.slice(end + 2)))
-        closed = true
-        break
-      }
-    }
-
-    // Sem fechamento: o `==` era so um `==`. Devolve tudo como estava.
-    if (!closed) {
-      out.push(node, ...consumed)
-      continue
-    }
-
-    if (before) out.push(text(before))
-    if (content.length > 0) out.push(mark(content, state))
+    if (start < value.length)
+      tokens.push({ kind: 'text', value: value.slice(start) })
   }
 
-  return out.filter((node) => node.type !== 'text' || node.value !== '')
+  return tokens
+}
+
+/**
+ * O caractere vizinho do `==`. Quando o delimitador esta na ponta do node, o
+ * vizinho e o token do lado: um `**negrito**` colado conta como conteudo, e
+ * outro `==` nao conta como nada.
+ */
+function neighbour(tokens, index, direction) {
+  const token = tokens[index + direction]
+
+  if (!token) return ''
+  if (token.kind === 'node') return 'x'
+  if (token.kind === 'text') {
+    return direction < 0 ? token.value.slice(-1) : token.value.slice(0, 1)
+  }
+
+  return ''
+}
+
+function canOpen(tokens, index) {
+  const after = tokens[index].after ?? neighbour(tokens, index, 1)
+  return after !== '' && !/\s/.test(after)
+}
+
+function canClose(tokens, index) {
+  const before = tokens[index].before ?? neighbour(tokens, index, -1)
+  return before !== '' && !/\s/.test(before)
+}
+
+/** Junta textos vizinhos que sobraram picados pelos `==` sem par. */
+function mergeText(nodes) {
+  const merged = []
+
+  for (const node of nodes) {
+    const last = merged[merged.length - 1]
+
+    if (node.type === 'text' && last && last.type === 'text') {
+      last.value += node.value
+      continue
+    }
+
+    merged.push(node)
+  }
+
+  return merged.filter((node) => node.type !== 'text' || node.value !== '')
+}
+
+/**
+ * Casa os `==` dois a dois. O fechamento procura a abertura mais proxima (a
+ * pilha guarda as que ainda estao em aberto), entao um `==` solto no meio do
+ * paragrafo fica como texto em vez de engolir o destaque que vem depois.
+ */
+function highlightChildren(children, state) {
+  const tokens = tokenize(children)
+  const out = []
+  // Onde, dentro de `out`, cada abertura ainda em aberto comecou.
+  const open = []
+
+  tokens.forEach((token, index) => {
+    if (token.kind === 'node') {
+      out.push(token.node)
+      return
+    }
+
+    if (token.kind === 'text') {
+      out.push(text(token.value))
+      return
+    }
+
+    if (open.length > 0 && canClose(tokens, index)) {
+      const start = open.pop()
+      // O primeiro e o `==` da abertura, que agora vira a tag.
+      const content = mergeText(out.splice(start).slice(1))
+
+      if (content.length > 0) {
+        out.push(mark(content, state))
+        return
+      }
+
+      // `====`: nada entre os dois. Devolve os dois como texto.
+      out.push(text(DELIMITER), text(DELIMITER))
+      return
+    }
+
+    if (canOpen(tokens, index)) {
+      open.push(out.length)
+    }
+
+    // Enquanto nao fechar, o delimitador e texto comum.
+    out.push(text(DELIMITER))
+  })
+
+  return mergeText(out)
 }
 
 const SKIP = new Set(['code', 'inlineCode', 'html', 'highlight'])

@@ -1,5 +1,5 @@
+@use 'sass:color';
 @use 'sass:map';
-@use 'sass:meta';
 @use 'sass:string';
 
 /**
@@ -13,9 +13,11 @@
 
 $highlight-color: #ffd43b;
 
-// O `#` nao pode ir cru dentro do data URI.
+// O `#` nao pode ir cru dentro do data URI. O `ie-hex-str` da `#AARRGGBB` para
+// qualquer formato de cor - `gold` e `rgb(...)` inclusive -, entao basta cortar
+// o `#` e o alfa; ler o valor cru quebraria em tudo que nao fosse hexadecimal.
 @function svg-color($color) {
-  @return '%23' + string.slice(meta.inspect($color), 2);
+  @return '%23' + string.slice(color.ie-hex-str($color), 4);
 }
 
 /**
@@ -123,10 +125,25 @@ $markers: (
   }
 }
 
-// No alto contraste do Windows o background-image some; usa as cores do sistema.
+// No papel nao ha scroll para desenhar o traco: o que o leitor nao tivesse
+// passado sairia sem marcacao nenhuma.
+@media print {
+  [data-hl-animate] .full-post mark {
+    background-size: 100% 100%;
+    transition: none;
+  }
+}
+
+// No alto contraste do Windows o `background-image` nao e substituido pelas
+// cores do sistema, entao o traco amarelo ficaria por cima do fundo `Mark` -
+// e `MarkText` e a cor pensada para esse fundo, nao para o amarelo.
 @media (forced-colors: active) {
-  .full-post mark {
+  .full-post mark,
+  [data-hl-animate] .full-post mark {
     background-color: Mark;
+    background-image: none;
+    background-size: 100% 100%;
     color: MarkText;
+    transition: none;
   }
 }
