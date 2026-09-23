@@ -20,21 +20,43 @@
  * (ou `<mark data-hl="3">`) funciona igual, porque o estilo e da tag.
  */
 
-const VARIANTS = 4
+// Precisa bater com o mapa `$markers` de `src/sass/blog/_highlight.scss`.
+const VARIANTS = 8
 
 /**
  * FNV-1a: hash curtinho e estavel, so para espalhar as variantes.
  * @param {string} text
  */
-function pickVariant(text) {
-  let hash = 0x811c9dc5
+function hash(text) {
+  let value = 0x811c9dc5
 
   for (let i = 0; i < text.length; i += 1) {
-    hash ^= text.charCodeAt(i)
-    hash = Math.imul(hash, 0x01000193)
+    value ^= text.charCodeAt(i)
+    value = Math.imul(value, 0x01000193)
   }
 
-  return ((hash >>> 0) % VARIANTS) + 1
+  return value >>> 0
+}
+
+// Passo coprimo com o total de variantes: andando de 3 em 3 a lista inteira e
+// percorrida antes de qualquer traco repetir, entao destaques vizinhos nunca
+// saem iguais - que e o que denunciava o truque quando o sorteio era so hash.
+const STRIDE = 3
+
+/**
+ * Sorteia o traco. Parece aleatorio na leitura, mas o ponto de partida sai do
+ * texto do primeiro destaque e o resto anda com a posicao, entao o mesmo post
+ * rende sempre o mesmo desenho - nao muda de forma a cada build.
+ */
+function pickVariant(text, state) {
+  if (state.seed === null) {
+    state.seed = hash(text) % VARIANTS
+  }
+
+  const variant = ((state.seed + state.index * STRIDE) % VARIANTS) + 1
+  state.index += 1
+
+  return variant
 }
 
 /** Texto cru de um trecho, usado so para calcular a variante. */
@@ -80,12 +102,12 @@ function text(value) {
  * Node fora do mdast padrao: o `data.hName`/`data.hProperties` e o que o
  * remark-rehype usa para montar a tag final, sem precisar de HTML cru.
  */
-function mark(children) {
+function mark(children, state) {
   return {
     type: 'highlight',
     data: {
       hName: 'mark',
-      hProperties: { 'data-hl': pickVariant(plainText(children)) },
+      hProperties: { 'data-hl': pickVariant(plainText(children), state) },
     },
     children,
   }
@@ -96,7 +118,7 @@ function mark(children) {
  * comecar e terminar em nodes diferentes (`==com **negrito** dentro==`), por
  * isso a varredura e feita na lista inteira e nao node a node.
  */
-function highlightChildren(children) {
+function highlightChildren(children, state) {
   const queue = [...children]
   const out = []
 
@@ -163,7 +185,7 @@ function highlightChildren(children) {
     }
 
     if (before) out.push(text(before))
-    if (content.length > 0) out.push(mark(content))
+    if (content.length > 0) out.push(mark(content, state))
   }
 
   return out.filter((node) => node.type !== 'text' || node.value !== '')
@@ -171,15 +193,16 @@ function highlightChildren(children) {
 
 const SKIP = new Set(['code', 'inlineCode', 'html', 'highlight'])
 
-function walk(node) {
+function walk(node, state) {
   if (SKIP.has(node.type) || !Array.isArray(node.children)) return
 
-  node.children = highlightChildren(node.children)
-  node.children.forEach(walk)
+  node.children = highlightChildren(node.children, state)
+  node.children.forEach((child) => walk(child, state))
 }
 
 export default function remarkHighlight() {
   return (tree) => {
-    walk(tree)
+    // O sorteio anda com o documento: ponto de partida e posicao do destaque.
+    walk(tree, { index: 0, seed: null })
   }
 }

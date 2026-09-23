@@ -21,7 +21,7 @@ Para destacar um trecho do post, envolva o texto em `==`:
 Duas linhas para ==colocar dentro do app==.
 ```
 
-O `==` vira `<mark>` (`src/lib/remark-highlight.mjs`) e recebe um dos quatro traços de marcador desenhados em `src/sass/blog/_highlight.scss` — cada um torto de um jeito, como caneta de verdade. A variante sai de um hash do próprio texto, então o mesmo trecho mantém sempre o mesmo traço e dois destaques seguidos dificilmente ficam iguais.
+O `==` vira `<mark>` (`src/lib/remark-highlight.mjs`) e recebe um dos oito traços de marcador desenhados em `src/sass/blog/_highlight.scss` — uns cheios, outros finos passando só na parte de baixo do texto, cada um torto de um jeito, como caneta de verdade. O sorteio parte do texto do primeiro destaque e anda com a posição dos seguintes, percorrendo os oito antes de repetir qualquer um: parece aleatório na leitura, mas o mesmo post rende sempre o mesmo desenho, sem mudar de forma a cada build.
 
 - O `==` precisa colar no texto (`==assim==`), então comparações soltas como `x == y` continuam texto normal.
 - Dentro de bloco de código ou de `code` inline nada é convertido.

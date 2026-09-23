@@ -27,8 +27,16 @@ $highlight-color: #ffd43b;
   @return url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2030'%20preserveAspectRatio='none'%3E%3Cpath%20fill='#{svg-color($color)}'%20d='#{$path}'/%3E%3C/svg%3E");
 }
 
-// 1: desce para a direita  2: sobe para a direita
-// 3: quase reto, base ondulada  4: comeco em ponta, descida mais forte
+/**
+ * A variedade precisa sobreviver ao esticamento: num trecho longo qualquer
+ * desenho vira quase um retangulo, entao o que diferencia um traco do outro
+ * e a espessura, a altura em que ele passa e o formato das pontas.
+ *
+ * 1: cheio, desce para a direita   2: cheio, sobe para a direita
+ * 3: cheio, quase reto, base ondulada   4: cheio, comeco em ponta, descida forte
+ * 5: barriga no meio, pontas finas   6: fino e baixo, so a parte de baixo do texto
+ * 7: fino, subindo para a direita   8: comeco seco, abrindo depois do primeiro quinto
+ */
 $markers: (
   1:
     'M1,23.6L2.6,0.8C32,0.4,66,2.6,98,5C104,5.5,109,5.9,112.4,6.4L119.4,11L117.6,29C86,28.6,48,26.4,16,24.4C11,24.1,5,23.8,1,23.6Z',
@@ -38,6 +46,14 @@ $markers: (
     'M0.7,22.4L2.2,1.2C36,0.6,72,2.4,106,2C112,1.9,116.4,2.4,119,3.6L117.8,26C92,27.6,62,29.4,32,26.8C21,25.8,9,27,3.6,25.6L0.7,22.4Z',
   4:
     'M0.4,21L4.6,0.6C38,1.8,76,3.2,110,5.6C114,5.9,117,6.6,118.6,7.6L119.2,11.4L117,28.8C84,27.6,46,26,13,24C8,23.7,2.6,23.4,0.4,21Z',
+  5:
+    'M1.4,24.6L3,4.6C24,2.2,48,0.9,72,1.2C92,1.45,108,2.6,118.4,4.2L117.2,25.2C96,27.8,70,29.4,44,28.6C28,28.1,12,26.6,1.4,24.6Z',
+  6:
+    'M0.8,24.6L2,10.6C34,9.8,68,11,100,12.4C106,12.65,112,13,118.8,13.6L117.8,27.4C88,26.8,52,25.8,16,25C11,24.9,5,24.75,0.8,24.6Z',
+  7:
+    'M1.6,28.4L0.8,13.2C32,11.4,66,9.4,100,8C106,7.75,112,7.6,118.6,7.8L117.6,22.6C88,23.4,52,25.6,16,27.6C11,27.9,5,28.2,1.6,28.4Z',
+  8:
+    'M1,21.6L2.2,8.4C8,7.6,14,6.2,20,4.2C22,3.5,24,2.8,26,2.4C56,1.4,88,2.2,118.6,3.6L117.6,27.4C88,27,56,26.6,26,25.8C20,25.65,12,24.4,1,21.6Z',
 );
 
 .full-post mark {
