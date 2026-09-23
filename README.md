@@ -13,6 +13,24 @@ As rotas ficam em `src/pages/[...locale]/` e são geradas uma vez por idioma. Os
 
 Os posts do blog têm um arquivo por idioma em `src/content/blog/{en,pt}/`. O nome do arquivo liga as traduções; o `slug` do frontmatter define a URL naquele idioma.
 
+### Marca-texto
+
+Para destacar um trecho do post, envolva o texto em `==`:
+
+```markdown
+Duas linhas para ==colocar dentro do app==.
+```
+
+O `==` vira `<mark>` (`src/lib/remark-highlight.mjs`) e recebe um dos oito traços de marcador desenhados em `src/sass/blog/_highlight.scss` — uns cheios, outros finos passando só na parte de baixo do texto, cada um torto de um jeito, como caneta de verdade. O sorteio parte do texto do primeiro destaque e anda com a posição dos seguintes, percorrendo os oito antes de repetir qualquer um: parece aleatório na leitura, mas o mesmo post rende sempre o mesmo desenho, sem mudar de forma a cada build.
+
+- O `==` precisa colar no texto (`==assim==`), então comparações soltas como `x == y` continuam texto normal.
+- Um `==` sem par fica como texto e não engole o destaque seguinte.
+- Dentro de bloco de código ou de `code` inline nada é convertido.
+- Formatação aninhada funciona: `==um **destaque** forte==`.
+- Escrever a tag na mão também funciona, inclusive escolhendo o traço: `<mark data-hl="3">trecho</mark>`.
+
+Quando o trecho entra na tela, o traço é desenhado da esquerda para a direita (`public/blog/js/highlight.js`), como quem passa a caneta — uma vez só, com duração proporcional ao tamanho do destaque. Num destaque que quebra de linha, o traço termina uma linha antes de começar a próxima, na ordem da leitura. Sem JavaScript, ou com "reduzir movimento" ligado no sistema, o destaque simplesmente já aparece pronto.
+
 ## Tecnologias
 
 - Astro: Estrutura das páginas e geração estática

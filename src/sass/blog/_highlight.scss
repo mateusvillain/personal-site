@@ -1,0 +1,149 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:string';
+
+/**
+ * Marca-texto dos posts.
+ *
+ * O fundo nao e um retangulo: cada variante e um tracinho de marcador
+ * desenhado torto, como quem passa a caneta na mao. O SVG entra como
+ * background da propria `<mark>`, entao o texto continua por cima e um
+ * destaque que quebra de linha vira um traco so, esticado pelas linhas.
+ */
+
+$highlight-color: #ffd43b;
+
+// O `#` nao pode ir cru dentro do data URI. O `ie-hex-str` da `#AARRGGBB` para
+// qualquer formato de cor - `gold` e `rgb(...)` inclusive -, entao basta cortar
+// o `#` e o alfa; ler o valor cru quebraria em tudo que nao fosse hexadecimal.
+@function svg-color($color) {
+  @return '%23' + string.slice(color.ie-hex-str($color), 4);
+}
+
+/**
+ * O tracinho e esticado ate a largura do trecho (`preserveAspectRatio='none'`),
+ * mas o desvio vertical continua preso a altura da linha: trechos curtos ficam
+ * mais tortos que os longos, que e justamente o que acontece no papel.
+ */
+@function marker($path, $color: $highlight-color) {
+  @return url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2030'%20preserveAspectRatio='none'%3E%3Cpath%20fill='#{svg-color($color)}'%20d='#{$path}'/%3E%3C/svg%3E");
+}
+
+/**
+ * A variedade precisa sobreviver ao esticamento: num trecho longo qualquer
+ * desenho vira quase um retangulo, entao o que diferencia um traco do outro
+ * e a espessura, a altura em que ele passa e o formato das pontas.
+ *
+ * 1: cheio, desce para a direita   2: cheio, sobe para a direita
+ * 3: cheio, quase reto, base ondulada   4: cheio, comeco em ponta, descida forte
+ * 5: barriga no meio, pontas finas   6: fino e baixo, so a parte de baixo do texto
+ * 7: fino, subindo para a direita   8: comeco seco, abrindo depois do primeiro quinto
+ */
+$markers: (
+  1:
+    'M1,23.6L2.6,0.8C32,0.4,66,2.6,98,5C104,5.5,109,5.9,112.4,6.4L119.4,11L117.6,29C86,28.6,48,26.4,16,24.4C11,24.1,5,23.8,1,23.6Z',
+  2:
+    'M2.2,29.4L0.9,7.2C30,5.4,64,3.2,98,1.8C104,1.55,111,1.2,118.6,1.6L117.8,19.6L111.6,25.4C80,26.6,42,28.4,2.2,29.4Z',
+  3:
+    'M0.7,22.4L2.2,1.2C36,0.6,72,2.4,106,2C112,1.9,116.4,2.4,119,3.6L117.8,26C92,27.6,62,29.4,32,26.8C21,25.8,9,27,3.6,25.6L0.7,22.4Z',
+  4:
+    'M0.4,21L4.6,0.6C38,1.8,76,3.2,110,5.6C114,5.9,117,6.6,118.6,7.6L119.2,11.4L117,28.8C84,27.6,46,26,13,24C8,23.7,2.6,23.4,0.4,21Z',
+  5:
+    'M1.4,24.6L3,4.6C24,2.2,48,0.9,72,1.2C92,1.45,108,2.6,118.4,4.2L117.2,25.2C96,27.8,70,29.4,44,28.6C28,28.1,12,26.6,1.4,24.6Z',
+  6:
+    'M0.8,24.6L2,10.6C34,9.8,68,11,100,12.4C106,12.65,112,13,118.8,13.6L117.8,27.4C88,26.8,52,25.8,16,25C11,24.9,5,24.75,0.8,24.6Z',
+  7:
+    'M1.6,28.4L0.8,13.2C32,11.4,66,9.4,100,8C106,7.75,112,7.6,118.6,7.8L117.6,22.6C88,23.4,52,25.6,16,27.6C11,27.9,5,28.2,1.6,28.4Z',
+  8:
+    'M1,21.6L2.2,8.4C8,7.6,14,6.2,20,4.2C22,3.5,24,2.8,26,2.4C56,1.4,88,2.2,118.6,3.6L117.6,27.4C88,27,56,26.6,26,25.8C20,25.65,12,24.4,1,21.6Z',
+);
+
+.full-post mark {
+  background-color: transparent;
+  background-image: marker(map.get($markers, 1));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  // `slice` (que ja e o padrao, mas aqui e escolha): num destaque que quebra,
+  // o navegador pinta o traco como se as linhas fossem uma so, continua, e
+  // depois fatia. E isso que faz a animacao desenhar linha apos linha em vez
+  // de todas as linhas ao mesmo tempo - com `clone` cada linha teria o seu
+  // proprio traco, e os tres cresceriam juntos.
+  box-decoration-break: slice;
+  -webkit-box-decoration-break: slice;
+  color: inherit;
+  // O tracinho precisa sobrar um pouco em volta do texto para parecer caneta.
+  padding: 0.16em 0.32em;
+  // Devolve o espaco do padding para o texto nao "empurrar" os vizinhos.
+  margin: 0 -0.2em;
+  // Marca-texto que nao imprime nao e marca-texto.
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+
+  @each $variant, $path in $markers {
+    &[data-hl='#{$variant}'] {
+      background-image: marker($path);
+    }
+  }
+
+  // Link marcado continua parecendo link.
+  a {
+    text-decoration: underline;
+  }
+}
+
+/**
+ * O traco sendo desenhado.
+ *
+ * Crescer o `background-size` da esquerda para a direita faz o proprio SVG ser
+ * espremido e esticado, entao a borda que avanca e a ponta cortada do marcador
+ * - nao um corte reto, que e o que `clip-path` daria (e que ainda por cima
+ * recortaria a caixa inteira num destaque de duas linhas).
+ *
+ * Os 100% sao da caixa inteira do destaque, com as linhas enfileiradas (veja
+ * o `slice` la em cima), entao o traco termina uma linha antes de comecar a
+ * proxima, na ordem da leitura.
+ *
+ * O `[data-hl-animate]` e ligado pelo boot script do layout: sem JS ou com
+ * "reduzir movimento" nada disso vale e o destaque nasce desenhado.
+ */
+[data-hl-animate] .full-post mark {
+  background-position: left center;
+  background-size: 0% 100%;
+  transition: background-size var(--hl-duration, 420ms)
+    cubic-bezier(0.22, 0.61, 0.36, 1) var(--hl-delay, 0ms);
+
+  &.is-drawn {
+    background-size: 100% 100%;
+  }
+}
+
+// Se o "reduzir movimento" for ligado depois da pagina carregar.
+@media (prefers-reduced-motion: reduce) {
+  [data-hl-animate] .full-post mark {
+    background-size: 100% 100%;
+    transition: none;
+  }
+}
+
+// No papel nao ha scroll para desenhar o traco: o que o leitor nao tivesse
+// passado sairia sem marcacao nenhuma.
+@media print {
+  [data-hl-animate] .full-post mark {
+    background-size: 100% 100%;
+    transition: none;
+  }
+}
+
+// No alto contraste do Windows o `background-image` nao e substituido pelas
+// cores do sistema, entao o traco amarelo ficaria por cima do fundo `Mark` -
+// e `MarkText` e a cor pensada para esse fundo, nao para o amarelo.
+@media (forced-colors: active) {
+  .full-post mark,
+  [data-hl-animate] .full-post mark {
+    background-color: Mark;
+    background-image: none;
+    background-size: 100% 100%;
+    color: MarkText;
+    transition: none;
+  }
+}
