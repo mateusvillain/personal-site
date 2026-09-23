@@ -13,6 +13,21 @@ As rotas ficam em `src/pages/[...locale]/` e são geradas uma vez por idioma. Os
 
 Os posts do blog têm um arquivo por idioma em `src/content/blog/{en,pt}/`. O nome do arquivo liga as traduções; o `slug` do frontmatter define a URL naquele idioma.
 
+### Marca-texto
+
+Para destacar um trecho do post, envolva o texto em `==`:
+
+```markdown
+Duas linhas para ==colocar dentro do app==.
+```
+
+O `==` vira `<mark>` (`src/lib/remark-highlight.mjs`) e recebe um dos quatro traços de marcador desenhados em `src/sass/blog/_highlight.scss` — cada um torto de um jeito, como caneta de verdade. A variante sai de um hash do próprio texto, então o mesmo trecho mantém sempre o mesmo traço e dois destaques seguidos dificilmente ficam iguais.
+
+- O `==` precisa colar no texto (`==assim==`), então comparações soltas como `x == y` continuam texto normal.
+- Dentro de bloco de código ou de `code` inline nada é convertido.
+- Formatação aninhada funciona: `==um **destaque** forte==`.
+- Escrever a tag na mão também funciona, inclusive escolhendo o traço: `<mark data-hl="3">trecho</mark>`.
+
 ## Tecnologias
 
 - Astro: Estrutura das páginas e geração estática
