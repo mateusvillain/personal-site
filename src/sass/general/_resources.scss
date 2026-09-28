@@ -1,87 +1,58 @@
-// Tabela de sites recomendados (/resources/). O link do nome se estende
-// pela linha inteira, entao qualquer ponto da linha abre o site.
+// Lista de sites recomendados (/resources/). Cada linha e o proprio link,
+// entao qualquer ponto dela abre o site; o cabecalho e so visual.
 
 .resources {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
+  // Vaza o padding das linhas para o texto alinhar com o titulo.
+  margin-inline: calc(-1 * var(--lui-spacing-fixed-16));
 
-  th,
-  td {
+  &__row {
+    display: grid;
+    grid-template-columns: 52% 1fr;
+    align-items: start;
     padding: var(--lui-spacing-fixed-16);
-    text-align: left;
-    vertical-align: top;
-    font-weight: var(--lui-typography-font-weight-regular);
+    border-radius: var(--lui-border-radius-md);
     overflow-wrap: anywhere;
   }
 
-  th:first-child,
-  td:first-child {
-    width: 52%;
-  }
-
-  thead th {
+  &__head {
     color: var(--lui-color-neutral-text-heading);
     background-color: var(--lui-color-gray-2);
-
-    &:first-child {
-      border-radius: var(--lui-border-radius-md) 0 0
-        var(--lui-border-radius-md);
-    }
-
-    &:last-child {
-      border-radius: 0 var(--lui-border-radius-md) var(--lui-border-radius-md)
-        0;
-    }
   }
 
-  // Espaco entre o cabecalho e a primeira/ultima linha, como no layout.
-  tbody::before,
-  tbody::after {
-    content: '';
-    display: table-row;
-    height: var(--lui-spacing-fixed-8);
-  }
-
-  tbody tr {
+  &__body {
     position: relative;
-    transition: background-color 0.2s ease;
+  }
 
-    &:hover {
-      background-color: var(--lui-color-gray-2);
-    }
+  &__list {
+    padding-block: var(--lui-spacing-fixed-8);
 
-    &:has(a:focus-visible) {
-      box-shadow: var(--lui-focus-ring-primary);
-      border-radius: var(--lui-border-radius-md);
-    }
+    a {
+      position: relative;
+      color: var(--lui-color-neutral-text-heading);
+      transition: background-color 0.2s ease;
 
-    td:first-child {
-      border-radius: var(--lui-border-radius-md) 0 0
-        var(--lui-border-radius-md);
-    }
+      &:hover {
+        background-color: var(--lui-color-gray-2);
+      }
 
-    td:last-child {
-      border-radius: 0 var(--lui-border-radius-md) var(--lui-border-radius-md)
-        0;
+      &:focus-visible {
+        outline: none;
+        box-shadow: var(--lui-focus-ring-primary);
+      }
     }
+  }
+
+  // Com JS, o fundo de hover vira um unico elemento que desliza entre as
+  // linhas (ver .hover-highlight); sem JS, cada linha mantem o :hover acima.
+  &__body.is-enhanced a:hover {
+    background-color: transparent;
   }
 
   &__name {
     display: flex;
     align-items: flex-start;
     gap: var(--lui-spacing-fixed-16);
-
-    a {
-      color: var(--lui-color-neutral-text-heading);
-      outline: none;
-
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-      }
-    }
+    padding-right: var(--lui-spacing-fixed-16);
   }
 
   &__icon {

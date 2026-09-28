@@ -36,48 +36,55 @@ const sites = (await getCollection('resources')).map(({ data }) => ({
       </div>
     </div>
 
-    <table class="resources">
-      <thead>
-        <tr>
-          <th scope="col">{strings.columns.name}</th>
-          <th scope="col">{strings.columns.site}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          sites.map((site) => (
-            <tr>
-              <td>
-                <span class="resources__name">
-                  {site.icon ? (
-                    <img
-                      class="resources__icon"
-                      src={site.icon}
-                      alt=""
-                      width="24"
-                      height="24"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span class="resources__icon" aria-hidden="true">
-                      {site.name.charAt(0)}
-                    </span>
-                  )}
-                  <a href={site.url} target="_blank" rel="noopener">
+    <div class="resources">
+      <div class="resources__head resources__row" aria-hidden="true">
+        <span>{strings.columns.name}</span>
+        <span>{strings.columns.site}</span>
+      </div>
+      <div class="resources__body" data-resources-list>
+        <ul class="no-list resources__list">
+          {
+            sites.map((site) => (
+              <li>
+                <a
+                  class="resources__row"
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="resources__name">
+                    {site.icon ? (
+                      <img
+                        class="resources__icon"
+                        src={site.icon}
+                        alt=""
+                        width="24"
+                        height="24"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="resources__icon" aria-hidden="true">
+                        {site.name.charAt(0)}
+                      </span>
+                    )}
                     {site.name}
-                    <span class="sr-only"> {common.newWindow}</span>
-                  </a>
-                </span>
-              </td>
-              <td class="resources__host">{site.host}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+                  </span>
+                  <span class="resources__host">{site.host}</span>
+                  <span class="sr-only"> {common.newWindow}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
   </main>
 </div>
 
 <script>
   import '@lets-ui/components'
+  import { initHoverHighlight } from '../lib/hover-highlight'
+
+  const list = document.querySelector<HTMLElement>('[data-resources-list]')
+  if (list) initHoverHighlight(list, 'a.resources__row')
 </script>
