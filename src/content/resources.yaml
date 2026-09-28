@@ -17,3 +17,31 @@ desengs:
   name: DesEngs
   url: https://desengs.com
   icon: /img/resources/desengs.png
+fluid-functionalism:
+  name: Fluid Functionalism
+  url: https://www.fluidfunctionalism.com
+  icon: /img/resources/fluid-functionalism.png
+magic-ui:
+  name: Magic UI
+  url: https://www.magicui.design/
+  icon: /img/resources/magic-ui.png
+devl-dev:
+  name: DevL Dev
+  url: https://devl.dev/
+  icon: /img/resources/devl-dev.png
+fancy-components:
+  name: Fancy Components
+  url: https://www.fancycomponents.dev
+  icon: /img/resources/fancy-components.png
+dock-ui:
+  name: Dock UI
+  url: https://dockui.com/
+  icon: /img/resources/dock-ui.png
+interfaces-cheat-sheet:
+  name: Interfaces Cheat Sheet
+  url: https://interfaces.dev/cheat-sheet/
+  icon: /img/resources/interfaces-cheat-sheet.png
+beautiful-ui:
+  name: Beautiful UI
+  url: https://www.beautifului.dev/
+  icon: /img/resources/beautiful-ui.png
