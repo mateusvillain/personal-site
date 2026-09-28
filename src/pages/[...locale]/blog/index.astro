@@ -1,6 +1,5 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro'
-import LangSwitch from '../../../components/LangSwitch.astro'
 import {
   localeStaticPaths,
   localizePath,
@@ -35,21 +34,16 @@ const years = Object.keys(postsByYear)
 
 <BlogLayout
   locale={locale}
+  switchPath={localizePath('/blog/', otherLocale(locale))}
   title={strings.metaTitle}
   description={strings.metaDescription}
   canonicalPath={localizePath('/blog/', locale)}
 >
-  <div class="flex justify-between items-center">
-    <lui-breadcrumb>
-      <lui-breadcrumb-item href={localizePath('/', locale)}
-        >{common.home}</lui-breadcrumb-item
-      >
-    </lui-breadcrumb>
-    <LangSwitch
-      locale={locale}
-      href={localizePath('/blog/', otherLocale(locale))}
-    />
-  </div>
+  <lui-breadcrumb>
+    <lui-breadcrumb-item href={localizePath('/', locale)}
+      >{common.home}</lui-breadcrumb-item
+    >
+  </lui-breadcrumb>
   <div class="post-details">
     <h1 class="title m-t-fluid-16">{strings.title}</h1>
   </div>
