@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content'
-import { glob } from 'astro/loaders'
+import { file, glob } from 'astro/loaders'
 
 /**
  * Posts do blog, um arquivo por idioma:
@@ -27,6 +27,19 @@ export const collections = {
       cover: z.string().optional(),
       tags: z.array(z.string()).optional(),
       slug: z.string().optional(),
+    }),
+  }),
+
+  /**
+   * Sites recomendados da pagina de recursos, na ordem do arquivo. O
+   * formato de cada entrada esta documentado no proprio YAML.
+   */
+  resources: defineCollection({
+    loader: file('src/content/resources.yaml'),
+    schema: z.object({
+      name: z.string(),
+      url: z.string().url(),
+      icon: z.string().optional(),
     }),
   }),
 }

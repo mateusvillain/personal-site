@@ -1,0 +1,114 @@
+// Tabela de sites recomendados (/resources/). O link do nome se estende
+// pela linha inteira, entao qualquer ponto da linha abre o site.
+
+.resources {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th,
+  td {
+    padding: var(--lui-spacing-fixed-16);
+    text-align: left;
+    vertical-align: top;
+    font-weight: var(--lui-typography-font-weight-regular);
+    overflow-wrap: anywhere;
+  }
+
+  th:first-child,
+  td:first-child {
+    width: 52%;
+  }
+
+  thead th {
+    color: var(--lui-color-neutral-text-heading);
+    background-color: var(--lui-color-gray-2);
+
+    &:first-child {
+      border-radius: var(--lui-border-radius-md) 0 0
+        var(--lui-border-radius-md);
+    }
+
+    &:last-child {
+      border-radius: 0 var(--lui-border-radius-md) var(--lui-border-radius-md)
+        0;
+    }
+  }
+
+  // Espaco entre o cabecalho e a primeira/ultima linha, como no layout.
+  tbody::before,
+  tbody::after {
+    content: '';
+    display: table-row;
+    height: var(--lui-spacing-fixed-8);
+  }
+
+  tbody tr {
+    position: relative;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--lui-color-gray-2);
+    }
+
+    &:has(a:focus-visible) {
+      box-shadow: var(--lui-focus-ring-primary);
+      border-radius: var(--lui-border-radius-md);
+    }
+
+    td:first-child {
+      border-radius: var(--lui-border-radius-md) 0 0
+        var(--lui-border-radius-md);
+    }
+
+    td:last-child {
+      border-radius: 0 var(--lui-border-radius-md) var(--lui-border-radius-md)
+        0;
+    }
+  }
+
+  &__name {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--lui-spacing-fixed-16);
+
+    a {
+      color: var(--lui-color-neutral-text-heading);
+      outline: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: var(--lui-spacing-fixed-24);
+    height: var(--lui-spacing-fixed-24);
+    object-fit: cover;
+  }
+
+  // Inicial do nome quando o site nao tem icone.
+  span.resources__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--lui-border-radius-sm);
+    background-color: var(--lui-color-gray-2);
+    color: var(--lui-color-neutral-text-caption);
+    font-size: var(--lui-brand-typography-font-size-3xs);
+  }
+
+  &__host {
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+// scripts/images.js envolve os <img> PNG/JPG em <picture> no build.
+.resources__name picture {
+  display: flex;
+  flex-shrink: 0;
+}

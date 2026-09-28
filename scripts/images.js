@@ -6,7 +6,7 @@ import path from "path";
 const DIST_DIR = path.resolve("dist");
 
 // 1. Gerar WebP dentro do dist
-const imageFiles = await glob(`${DIST_DIR}/img/*.{jpg,jpeg,png}`);
+const imageFiles = await glob(`${DIST_DIR}/img/**/*.{jpg,jpeg,png}`);
 
 for (const file of imageFiles) {
   const webpPath = file.replace(/\.(jpg|jpeg|png)$/i, ".webp");

@@ -1,0 +1,19 @@
+# Sites recomendados, listados em /resources/ e /pt/resources/.
+#
+# Cada entrada comeca com uma chave unica (so letras, numeros e hifens) e
+# aparece na pagina na mesma ordem deste arquivo:
+#
+#   chave-do-site:
+#     name: Nome exibido
+#     url: https://endereco-completo.com
+#     icon: /img/resources/arquivo.png   # opcional
+#
+# `icon` e um caminho dentro de `public/` (ex.: salve o arquivo em
+# `public/img/resources/` e use `/img/resources/arquivo.png`). Sem icone, a
+# pagina mostra a inicial do nome. O endereco exibido na coluna "Site" sai
+# da propria `url`, sem `https://` e `www.`.
+
+desengs:
+  name: DesEngs
+  url: https://desengs.com
+  icon: /img/resources/desengs.png

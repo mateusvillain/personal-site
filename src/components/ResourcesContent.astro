@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content'
+import SiteHeader from './SiteHeader.astro'
+import { localizePath, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+import { resources } from '../i18n/resources'
+
+interface Props {
+  locale: Locale
+  switchPath: string
+}
+
+const { locale, switchPath } = Astro.props
+const strings = resources[locale]
+const common = ui[locale]
+
+const sites = (await getCollection('resources')).map(({ data }) => ({
+  ...data,
+  host: new URL(data.url).host.replace(/^www\./, ''),
+}))
+---
+
+<a href="#main" class="skip-link">{common.skipLink}</a>
+<div class="body-container gap-fluid-80">
+  <SiteHeader locale={locale} switchPath={switchPath} />
+
+  <main id="main" class="hero flex flex-col gap-fluid-40">
+    <div>
+      <lui-breadcrumb>
+        <lui-breadcrumb-item href={localizePath('/', locale)}
+          >{common.home}</lui-breadcrumb-item
+        >
+      </lui-breadcrumb>
+      <div class="m-t-fluid-16">
+        <lui-heading variant="title">{strings.title}</lui-heading>
+      </div>
+    </div>
+
+    <table class="resources">
+      <thead>
+        <tr>
+          <th scope="col">{strings.columns.name}</th>
+          <th scope="col">{strings.columns.site}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          sites.map((site) => (
+            <tr>
+              <td>
+                <span class="resources__name">
+                  {site.icon ? (
+                    <img
+                      class="resources__icon"
+                      src={site.icon}
+                      alt=""
+                      width="24"
+                      height="24"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span class="resources__icon" aria-hidden="true">
+                      {site.name.charAt(0)}
+                    </span>
+                  )}
+                  <a href={site.url} target="_blank" rel="noopener">
+                    {site.name}
+                    <span class="sr-only"> {common.newWindow}</span>
+                  </a>
+                </span>
+              </td>
+              <td class="resources__host">{site.host}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<script>
+  import '@lets-ui/components'
+</script>
