@@ -21,10 +21,13 @@ const sites = (await getCollection('resources'))
   }))
   .sort((a, b) => a.name.localeCompare(b.name, locale))
 
-// So as categorias que tem algum site, na ordem de `resourceCategories`.
-const categories = resourceCategories.filter((category) =>
-  sites.some((site) => site.category === category),
-)
+// So as categorias que tem algum site, em ordem alfabetica pelo nome no idioma
+// da pagina ("Todos" vem antes, fora desta lista).
+const categories = resourceCategories
+  .filter((category) => sites.some((site) => site.category === category))
+  .sort((a, b) =>
+    strings.categories[a].localeCompare(strings.categories[b], locale),
+  )
 ---
 
 <a href="#main" class="skip-link">{common.skipLink}</a>
