@@ -53,8 +53,8 @@ const years = Object.keys(postsByYear)
         <section class="posts--group">
           <h2 class="body--lg">{year}</h2>
           {postsByYear[year]!.map((post) => (
-            <article class="post interaction-item">
-              <a href={postPath(post)}>
+            <article class="post">
+              <a class="interaction-item" href={postPath(post)}>
                 <div class="post-header">
                   <h3 class="body--lg">{post.data.title}</h3>
                   <p class="body--lg">{post.data.description}</p>
