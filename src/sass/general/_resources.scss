@@ -14,6 +14,33 @@
     overflow-wrap: anywhere;
   }
 
+  // Tags de categoria acima da lista; o botao so da o clique e o foco, o
+  // visual vem do lui-tag.
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fluid-8);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__filter {
+    padding: 0;
+    border: 0;
+    border-radius: var(--lui-border-radius-md);
+    background: none;
+    font: inherit;
+    line-height: 0;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+  }
+
   &__head {
     color: var(--lui-color-neutral-text-heading);
     background-color: var(--lui-color-gray-2);

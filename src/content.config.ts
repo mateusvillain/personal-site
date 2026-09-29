@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content'
 import { file, glob } from 'astro/loaders'
+import { resourceCategories } from './i18n/resources'
 
 /**
  * Posts do blog, um arquivo por idioma:
@@ -31,7 +32,7 @@ export const collections = {
   }),
 
   /**
-   * Sites recomendados da pagina de recursos, na ordem do arquivo. O
+   * Sites recomendados da pagina de recursos (a pagina ordena pelo nome). O
    * formato de cada entrada esta documentado no proprio YAML.
    */
   resources: defineCollection({
@@ -40,6 +41,7 @@ export const collections = {
       name: z.string(),
       url: z.string().url(),
       icon: z.string().optional(),
+      category: z.enum(resourceCategories),
     }),
   }),
 }

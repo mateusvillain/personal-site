@@ -1,12 +1,19 @@
 # Sites recomendados, listados em /resources/ e /pt/resources/.
 #
-# Cada entrada comeca com uma chave unica (so letras, numeros e hifens) e
-# aparece na pagina na mesma ordem deste arquivo:
+# Cada entrada comeca com uma chave unica (so letras, numeros e hifens). A
+# pagina lista os sites em ordem alfabetica pelo `name`, entao a ordem deste
+# arquivo nao importa:
 #
 #   chave-do-site:
 #     name: Nome exibido
 #     url: https://endereco-completo.com
+#     category: components
 #     icon: /img/resources/arquivo.png   # opcional
+#
+# `category` define em qual filtro o site aparece. Use uma das chaves de
+# `resourceCategories` em `src/i18n/resources.ts` (hoje: components,
+# inspiration, learning); o nome exibido de cada uma fica no mesmo arquivo.
+# Para criar uma categoria, adicione a chave la e o nome nos dois idiomas.
 #
 # `icon` e um caminho dentro de `public/` (ex.: salve o arquivo em
 # `public/img/resources/` e use `/img/resources/arquivo.png`). Sem icone, a
@@ -16,32 +23,70 @@
 desengs:
   name: DesEngs
   url: https://desengs.com
+  category: inspiration
   icon: /img/resources/desengs.png
 fluid-functionalism:
   name: Fluid Functionalism
   url: https://www.fluidfunctionalism.com
+  category: components
   icon: /img/resources/fluid-functionalism.png
 magic-ui:
   name: Magic UI
   url: https://www.magicui.design/
+  category: components
   icon: /img/resources/magic-ui.png
 devl-dev:
   name: DevL Dev
   url: https://devl.dev/
+  category: inspiration
   icon: /img/resources/devl-dev.png
 fancy-components:
   name: Fancy Components
   url: https://www.fancycomponents.dev
+  category: components
   icon: /img/resources/fancy-components.png
 dock-ui:
   name: Dock UI
   url: https://dockui.com/
+  category: components
   icon: /img/resources/dock-ui.png
 interfaces-cheat-sheet:
   name: Interfaces Cheat Sheet
   url: https://interfaces.dev/cheat-sheet/
+  category: components
   icon: /img/resources/interfaces-cheat-sheet.png
 beautiful-ui:
   name: Beautiful UI
   url: https://www.beautifului.dev/
+  category: inspiration
   icon: /img/resources/beautiful-ui.png
+bencho:
+  name: Bencho
+  url: https://bencho.dev/
+  category: inspiration
+  icon: /img/resources/bencho.png
+ui-land:
+  name: UI Land
+  url: https://ui.land/
+  category: inspiration
+  icon: /img/resources/ui-land.png
+will-king:
+  name: Will King
+  url: https://www.wking.dev/
+  category: people
+  icon: /img/resources/will-king.png
+joe-bell:
+  name: Joe Bell
+  url: https://joebell.studio/
+  category: people
+  icon: /img/resources/joe-bell.png
+benji-taylor:
+  name: Benji Taylor
+  url: https://benji.org/
+  category: people
+  icon: /img/resources/benji-taylor.png
+brian-lovin:
+  name: Brian Lovin
+  url: https://brianlovin.com/
+  category: people
+  icon: /img/resources/brian-lovin.png
