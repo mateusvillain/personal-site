@@ -1,6 +1,5 @@
 .post {
   margin-bottom: var(--lui-spacing-fluid-8);
-  transition: transform 0.2s;
   width: 100%;
 
   a {
@@ -12,13 +11,7 @@
     gap: var(--lui-spacing-fluid-16);
   }
 
-  &:hover {
-    transform: translateY(-4px);
-  }
-
-  .is-enhanced &:hover {
-    transform: none;
-  }
+  // O hover (fundo e deslocamento) vem do .interaction-item no link.
 
   &-header {
     display: flex;
