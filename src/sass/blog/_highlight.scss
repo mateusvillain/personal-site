@@ -89,6 +89,16 @@ $markers: (
   a {
     text-decoration: underline;
   }
+
+  // No tema escuro o texto herdado e claro e sumiria no amarelo; o gray-1
+  // do tema escuro e quase preto.
+  :root[data-theme='dark'] & {
+    color: var(--lui-color-gray-1);
+
+    a {
+      color: inherit;
+    }
+  }
 }
 
 /**
