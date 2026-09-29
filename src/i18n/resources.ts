@@ -1,14 +1,15 @@
 import type { Dictionary } from './ui'
 
 /**
- * Categorias aceitas no campo `category` de `src/content/resources.yaml`, na
- * ordem em que aparecem nos filtros. O nome exibido de cada uma fica em
+ * Categorias aceitas no campo `category` de `src/content/resources.yaml`. Os
+ * filtros as mostram em ordem alfabetica pelo nome exibido, que fica em
  * `categories`, abaixo, em cada idioma.
  */
 export const resourceCategories = [
   'components',
   'inspiration',
   'people',
+  'companies',
 ] as const
 
 export type ResourceCategory = (typeof resourceCategories)[number]
@@ -29,6 +30,7 @@ const en = {
     components: 'Components',
     inspiration: 'Inspiration',
     people: 'People',
+    companies: 'Companies',
   } satisfies Record<ResourceCategory, string>,
 }
 
@@ -47,6 +49,7 @@ const pt: typeof en = {
     components: 'Componentes',
     inspiration: 'Inspiração',
     people: 'Pessoas',
+    companies: 'Empresas',
   },
 }
 
