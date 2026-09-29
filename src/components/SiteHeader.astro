@@ -1,6 +1,6 @@
 ---
 /**
- * Barra do topo das paginas do site: hora, clima e musica (preenchidos por
+ * Barra do topo das paginas do site: hora e clima (preenchidos por
  * `public/js/*.js`) a esquerda; troca de idioma e de tema a direita.
  */
 import LangSwitch from './LangSwitch.astro'
@@ -22,7 +22,6 @@ const strings = ui[locale]
   <div class="personal-info">
     <p class="body--sm" id="hora"></p>
     <p class="body--sm" id="clima"></p>
-    <p class="body--sm" id="spotify"></p>
   </div>
   <div class="site-controls">
     <LangSwitch locale={locale} href={switchPath} />

@@ -17,6 +17,11 @@ const en = {
     "You can find me on <a class='link' data-link='x-twitter' data-social='x-twitter' href='https://x.com/mateusvillain' target='_blank'>X</a>, <a class='link' data-link='linkedin' data-social='linkedin' href='https://www.linkedin.com/in/mateusvillain/' target='_blank'>LinkedIn</a> and <a class='link' data-link='github' data-social='github' href='https://github.com/mateusvillain' target='_blank'>GitHub</a>.",
   blogTitle: 'Latest posts',
   blogLink: 'Go to blog',
+  nowPlaying: {
+    label: 'Listening now on Spotify',
+    lyricsUnavailable: 'Lyrics unavailable',
+    instrumental: 'Instrumental',
+  },
   projects: {
     title: 'Works',
     reset: 'Reset layout',
@@ -47,6 +52,11 @@ const pt: typeof en = {
     "Você pode me encontrar no <a class='link' data-link='x-twitter' data-social='x-twitter' href='https://x.com/mateusvillain' target='_blank'>X</a>, <a class='link' data-link='linkedin' data-social='linkedin' href='https://www.linkedin.com/in/mateusvillain/' target='_blank'>LinkedIn</a> e no <a class='link' data-link='github' data-social='github' href='https://github.com/mateusvillain' target='_blank'>GitHub</a>.",
   blogTitle: 'Últimos posts',
   blogLink: 'Ir para o blog',
+  nowPlaying: {
+    label: 'Ouvindo agora no Spotify',
+    lyricsUnavailable: 'Letra indisponível',
+    instrumental: 'Instrumental',
+  },
   projects: {
     title: 'Trabalhos',
     reset: 'Reorganizar',

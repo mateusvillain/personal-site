@@ -1,0 +1,81 @@
+---
+/**
+ * Balao "ouvindo agora" sobre a foto da home. Fica escondido ate
+ * `public/js/spotify.js` encontrar uma musica tocando; no hover (ou clique)
+ * expande num card com artista, musica, letra sincronizada e progresso.
+ */
+import type { Locale } from '../i18n/config'
+import { home } from '../i18n/home'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const strings = home[locale].nowPlaying
+
+// Barras do icone de wave (x, altura) no viewBox 16.5 x 19.5, centradas em y.
+const bars = [
+  [0, 7.5],
+  [3.75, 19.5],
+  [7.5, 13.5],
+  [11.25, 7.5],
+  [15, 10.5],
+]
+---
+
+<div
+  class="now-playing"
+  id="now-playing"
+  hidden
+  data-lyrics-unavailable={strings.lyricsUnavailable}
+  data-instrumental={strings.instrumental}
+>
+  <button
+    type="button"
+    class="now-playing__toggle"
+    aria-expanded="false"
+    aria-controls="now-playing-card"
+    aria-label={strings.label}
+  >
+    <svg
+      class="now-playing__wave"
+      viewBox="0 0 16.5 19.5"
+      width="16.5"
+      height="19.5"
+      aria-hidden="true"
+    >
+      {
+        bars.map(([x, h]) => (
+          <rect x={x} y={(19.5 - h) / 2} width="1.5" height={h} rx="0.75" />
+        ))
+      }
+    </svg>
+  </button>
+
+  <div class="now-playing__card" id="now-playing-card">
+    <p class="sr-only">{strings.label}</p>
+    <div class="now-playing__header">
+      <p class="now-playing__artist" data-np-artist></p>
+      <a
+        class="now-playing__title"
+        data-np-title
+        target="_blank"
+        rel="noopener noreferrer"></a>
+    </div>
+
+    <div class="now-playing__lyrics" data-np-lyrics hidden>
+      <ol data-np-lyrics-list></ol>
+    </div>
+
+    <div class="now-playing__progress">
+      <div class="now-playing__track" aria-hidden="true">
+        <div class="now-playing__bar" data-np-bar></div>
+      </div>
+      <div class="now-playing__times">
+        <span data-np-elapsed>0:00</span>
+        <span data-np-duration>0:00</span>
+      </div>
+    </div>
+  </div>
+</div>
