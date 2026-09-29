@@ -1,0 +1,76 @@
+// Brand "mateus-villain" on top of Let's UI. Semantic tokens
+// (--lui-color-primary-*, --lui-color-link-*, typography classes) read from
+// the --lui-brand-* layer, so overriding it here is enough to re-skin the
+// components. The structure mirrors the lets-ui brand blocks in
+// @lets-ui/styles: system preference by default, data-theme when forced.
+//
+// `html` raises specificity above the :root defaults from @lets-ui/styles,
+// so the result doesn't depend on stylesheet order.
+//
+// Palette: OKLCH scales built on the ultramarine #0414a7 (hue ~265).
+// primary-4 is the main shade (links, containers); 5/6 are hover/visited.
+
+$font-stack:
+  -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue',
+  'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+@mixin light-colors {
+  color-scheme: light;
+  --lui-brand-color-primary-1: #f0f5ff;
+  --lui-brand-color-primary-2: #d4e2fe;
+  --lui-brand-color-primary-3: #a8c4fe;
+  --lui-brand-color-primary-4: #0722d7;
+  --lui-brand-color-primary-5: #050bb8;
+  --lui-brand-color-primary-6: #03068f;
+  --lui-brand-color-primary-7: #01065a;
+  --lui-brand-color-primary-8: #01052c;
+  --lui-brand-color-secondary-1: #ffffff;
+  --lui-brand-color-secondary-2: #e9ebef;
+  --lui-brand-color-secondary-3: #c7cbd1;
+  --lui-brand-color-secondary-4: #666c78;
+  --lui-brand-color-secondary-5: #505561;
+  --lui-brand-color-secondary-6: #3b404a;
+  --lui-brand-color-secondary-7: #252930;
+  --lui-brand-color-secondary-8: #0f1216;
+}
+
+@mixin dark-colors {
+  color-scheme: dark;
+  --lui-brand-color-primary-1: #08122a;
+  --lui-brand-color-primary-2: #0e1e47;
+  --lui-brand-color-primary-3: #162f72;
+  --lui-brand-color-primary-4: #6493ff;
+  --lui-brand-color-primary-5: #81a8fe;
+  --lui-brand-color-primary-6: #9ebdff;
+  --lui-brand-color-primary-7: #c5d8ff;
+  --lui-brand-color-primary-8: #e7effe;
+  --lui-brand-color-secondary-1: #14161b;
+  --lui-brand-color-secondary-2: #282b33;
+  --lui-brand-color-secondary-3: #383d47;
+  --lui-brand-color-secondary-4: #818794;
+  --lui-brand-color-secondary-5: #8a909d;
+  --lui-brand-color-secondary-6: #a3a8b1;
+  --lui-brand-color-secondary-7: #c7cbd1;
+  --lui-brand-color-secondary-8: #f4f5f8;
+}
+
+html[data-brand='mateus-villain'] {
+  --lui-brand-typography-font-family-body: 'Geist', #{$font-stack};
+  --lui-brand-typography-font-family-heading: 'Geist', #{$font-stack};
+
+  @include light-colors;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-brand='mateus-villain'] {
+    @include dark-colors;
+  }
+}
+
+html[data-brand='mateus-villain'][data-theme='light'] {
+  @include light-colors;
+}
+
+html[data-brand='mateus-villain'][data-theme='dark'] {
+  @include dark-colors;
+}
