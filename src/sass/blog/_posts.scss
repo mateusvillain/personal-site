@@ -16,6 +16,10 @@
     transform: translateY(-4px);
   }
 
+  .is-enhanced &:hover {
+    transform: none;
+  }
+
   &-header {
     display: flex;
     flex-direction: column;

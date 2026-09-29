@@ -1,0 +1,143 @@
+---
+import { getCollection } from 'astro:content'
+import SiteHeader from './SiteHeader.astro'
+import { localizePath, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+import { resourceCategories, resources } from '../i18n/resources'
+
+interface Props {
+  locale: Locale
+  switchPath: string
+}
+
+const { locale, switchPath } = Astro.props
+const strings = resources[locale]
+const common = ui[locale]
+
+const sites = (await getCollection('resources'))
+  .map(({ data }) => ({
+    ...data,
+    host: new URL(data.url).host.replace(/^www\./, ''),
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name, locale))
+
+// So as categorias que tem algum site, na ordem de `resourceCategories`.
+const categories = resourceCategories.filter((category) =>
+  sites.some((site) => site.category === category),
+)
+---
+
+<a href="#main" class="skip-link">{common.skipLink}</a>
+<div class="body-container gap-fluid-80">
+  <SiteHeader locale={locale} switchPath={switchPath} />
+
+  <main id="main" class="hero flex flex-col gap-fluid-40">
+    <div>
+      <lui-breadcrumb>
+        <lui-breadcrumb-item href={localizePath('/', locale)}
+          >{common.home}</lui-breadcrumb-item
+        >
+      </lui-breadcrumb>
+      <div class="m-t-fluid-16">
+        <lui-heading variant="title">{strings.title}</lui-heading>
+      </div>
+    </div>
+
+    {/* Sem JS a lista fica completa, entao os filtros so aparecem com ele. */}
+    <div
+      class="resources__filters"
+      role="group"
+      aria-label={strings.filterLabel}
+      data-resources-filters
+      hidden
+    >
+      <button type="button" class="resources__filter" data-category="" aria-pressed="true">
+        <lui-tag label={strings.allCategories} tag-style="container" variant="primary" />
+      </button>
+      {
+        categories.map((category) => (
+          <button type="button" class="resources__filter" data-category={category} aria-pressed="false">
+            <lui-tag label={strings.categories[category]} tag-style="surface" variant="neutral" />
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="resources">
+      <div class="resources__head resources__row" aria-hidden="true">
+        <span>{strings.columns.name}</span>
+        <span>{strings.columns.site}</span>
+      </div>
+      <div class="resources__body" data-resources-list>
+        <ul class="no-list resources__list">
+          {
+            sites.map((site) => (
+              <li data-category={site.category}>
+                <a
+                  class="resources__row"
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="resources__name">
+                    {site.icon ? (
+                      <img
+                        class="resources__icon"
+                        src={site.icon}
+                        alt=""
+                        width="24"
+                        height="24"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="resources__icon" aria-hidden="true">
+                        {site.name.charAt(0)}
+                      </span>
+                    )}
+                    {site.name}
+                  </span>
+                  <span class="resources__host">{site.host}</span>
+                  <span class="sr-only"> {common.newWindow}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  import '@lets-ui/components'
+  import { initHoverHighlight } from '../lib/hover-highlight'
+
+  const list = document.querySelector<HTMLElement>('[data-resources-list]')
+  if (list) initHoverHighlight(list, 'a.resources__row')
+
+  // Filtro por categoria: um botao ativo por vez; "Todos" tem categoria vazia.
+  const filters = document.querySelector<HTMLElement>('[data-resources-filters]')
+  if (filters && list) {
+    const buttons = filters.querySelectorAll<HTMLButtonElement>('button')
+    const items = list.querySelectorAll<HTMLElement>('li[data-category]')
+
+    filters.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest('button')
+      if (!button) return
+      const category = button.dataset.category
+
+      for (const other of buttons) {
+        const active = other === button
+        other.setAttribute('aria-pressed', String(active))
+        const tag = other.querySelector('lui-tag')
+        tag?.setAttribute('tag-style', active ? 'container' : 'surface')
+        tag?.setAttribute('variant', active ? 'primary' : 'neutral')
+      }
+      for (const item of items) {
+        item.hidden = Boolean(category) && item.dataset.category !== category
+      }
+    })
+
+    filters.hidden = false
+  }
+</script>

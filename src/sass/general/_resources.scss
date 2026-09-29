@@ -1,0 +1,112 @@
+// Lista de sites recomendados (/resources/). Cada linha e o proprio link,
+// entao qualquer ponto dela abre o site; o cabecalho e so visual.
+
+.resources {
+  // Vaza o padding das linhas para o texto alinhar com o titulo.
+  margin-inline: calc(-1 * var(--lui-spacing-fixed-16));
+
+  &__row {
+    display: grid;
+    grid-template-columns: 52% 1fr;
+    align-items: start;
+    padding: var(--lui-spacing-fixed-16);
+    border-radius: var(--lui-border-radius-md);
+    overflow-wrap: anywhere;
+  }
+
+  // Tags de categoria acima da lista; o botao so da o clique e o foco, o
+  // visual vem do lui-tag.
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fluid-8);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__filter {
+    padding: 0;
+    border: 0;
+    border-radius: var(--lui-border-radius-md);
+    background: none;
+    font: inherit;
+    line-height: 0;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+  }
+
+  &__head {
+    color: var(--lui-color-neutral-text-heading);
+    background-color: var(--lui-color-gray-2);
+  }
+
+  &__body {
+    position: relative;
+  }
+
+  &__list {
+    padding-block: var(--lui-spacing-fixed-8);
+
+    a {
+      position: relative;
+      color: var(--lui-color-neutral-text-heading);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--lui-color-gray-2);
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: var(--lui-focus-ring-primary);
+      }
+    }
+  }
+
+  // Com JS, o fundo de hover vira um unico elemento que desliza entre as
+  // linhas (ver .hover-highlight); sem JS, cada linha mantem o :hover acima.
+  &__body.is-enhanced a:hover {
+    background-color: transparent;
+  }
+
+  &__name {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--lui-spacing-fixed-16);
+    padding-right: var(--lui-spacing-fixed-16);
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: var(--lui-spacing-fixed-24);
+    height: var(--lui-spacing-fixed-24);
+    object-fit: cover;
+  }
+
+  // Inicial do nome quando o site nao tem icone.
+  span.resources__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--lui-border-radius-sm);
+    background-color: var(--lui-color-gray-2);
+    color: var(--lui-color-neutral-text-caption);
+    font-size: var(--lui-brand-typography-font-size-3xs);
+  }
+
+  &__host {
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+// scripts/images.js envolve os <img> PNG/JPG em <picture> no build.
+.resources__name picture {
+  display: flex;
+  flex-shrink: 0;
+}
