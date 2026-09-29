@@ -1,0 +1,22 @@
+---
+/**
+ * Aplica o tema salvo (ou o do sistema) antes da primeira pintura, para a
+ * pagina nao piscar no tema errado nem o thumb do seletor deslizar no load.
+ * `public/js/theme.js` cuida das trocas depois; as regras precisam bater.
+ */
+---
+
+<script is:inline>
+  ;(function () {
+    var saved = localStorage.getItem('theme')
+    var mode = saved === 'light' || saved === 'dark' ? saved : 'system'
+    var theme =
+      mode === 'system'
+        ? matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light'
+        : mode
+    document.documentElement.setAttribute('data-theme', theme)
+    document.documentElement.setAttribute('data-theme-mode', mode)
+  })()
+</script>

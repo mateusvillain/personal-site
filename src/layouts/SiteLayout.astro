@@ -1,6 +1,7 @@
 ---
 import '@lets-ui/styles'
 import Scripts from '../components/Scripts.astro'
+import ThemeInit from '../components/ThemeInit.astro'
 import CookieConsent from '../components/CookieConsent.astro'
 import SeoHead from '../components/SeoHead.astro'
 import { htmlLang, type Locale } from '../i18n/config'
@@ -39,6 +40,7 @@ const {
 <!doctype html>
 <html lang={htmlLang[locale]} data-brand={brand}>
   <head>
+    <ThemeInit />
     <SeoHead
       locale={locale}
       title={title}

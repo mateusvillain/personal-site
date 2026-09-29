@@ -9,6 +9,7 @@ import '@lets-ui/styles'
 import SeoHead from '../components/SeoHead.astro'
 import CookieConsent from '../components/CookieConsent.astro'
 import Scripts from '../components/Scripts.astro'
+import ThemeInit from '../components/ThemeInit.astro'
 import SiteHeader from '../components/SiteHeader.astro'
 import NewsletterCard from '../components/NewsletterCard.astro'
 import AuthorCard from '../components/AuthorCard.astro'
@@ -67,6 +68,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 <!doctype html>
 <html lang={htmlLang[locale]} data-brand="mateus-villain">
   <head>
+    <ThemeInit />
     <SeoHead
       locale={locale}
       title={title}
