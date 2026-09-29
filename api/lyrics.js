@@ -52,7 +52,12 @@ async function fetchFromLrclib({ title, artist, album, duration }) {
 
   if (!record) {
     const results = await lrclib('/search', { track_name: title, artist_name: artist });
-    record = results?.find(r => r.syncedLyrics) ?? results?.[0] ?? null;
+    // A busca é aberta: descarta gravações de outra duração (ao vivo, versão estendida),
+    // senão a letra sincronizada sai fora do tempo.
+    const matches = duration
+      ? results?.filter(r => Math.abs(r.duration - Number(duration)) <= 2)
+      : results;
+    record = matches?.find(r => r.syncedLyrics) ?? matches?.[0] ?? null;
   }
 
   if (!record) return empty;

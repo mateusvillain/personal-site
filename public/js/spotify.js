@@ -7,6 +7,8 @@
 
   const POLL_MS = 30000;
   const TICK_MS = 250;
+  // Intervalo minimo entre consultas enquanto a faixa acabou e a proxima nao chegou.
+  const END_RETRY_MS = 5000;
 
   const toggle = root.querySelector('.now-playing__toggle');
   const card = root.querySelector('.now-playing__card');
@@ -26,13 +28,18 @@
   let lyricsRequest = null;
   let pollTimer = null;
   let tickTimer = null;
-  let waitingNextTrack = false;
+  let nextEndRetryAt = 0;
 
   function formatTime(ms) {
     const total = Math.max(0, Math.floor(ms / 1000));
     const minutes = Math.floor(total / 60);
     const seconds = String(total % 60).padStart(2, '0');
     return `${minutes}:${seconds}`;
+  }
+
+  // Arquivos locais chegam sem `id`; cai para o link ou para titulo + artista.
+  function trackKey(t) {
+    return t.id || t.songUrl || `${t.artist}\n${t.title}`;
   }
 
   function currentProgress() {
@@ -140,7 +147,7 @@
     try {
       const res = await fetch(`/api/lyrics?${params}`, { signal: lyricsRequest.signal });
       const data = await res.json();
-      if (track?.id !== forTrack.id) return;
+      if (!track || trackKey(track) !== trackKey(forTrack)) return;
 
       if (data.synced?.length) {
         renderSyncedLyrics(data.synced);
@@ -167,9 +174,11 @@
     barEl.style.transform = `scaleX(${progress / track.durationMs})`;
     updateLyrics(progress);
 
-    // A faixa acabou: busca a proxima sem esperar o intervalo.
-    if (progress >= track.durationMs && !waitingNextTrack) {
-      waitingNextTrack = true;
+    // A faixa acabou: busca a proxima sem esperar o intervalo, mas sem martelar a
+    // API enquanto o Spotify ainda informa a mesma faixa ou a consulta falha.
+    const now = performance.now();
+    if (progress >= track.durationMs && now >= nextEndRetryAt) {
+      nextEndRetryAt = now + END_RETRY_MS;
       poll();
     }
   }
@@ -201,17 +210,20 @@
       const res = await fetch('/api/spotify');
       data = await res.json();
     } catch (err) {
+      // Mantem o progresso local andando ate a proxima tentativa.
+      if (track && !document.hidden) startTicking();
       return;
-    } finally {
-      waitingNextTrack = false;
     }
+
+    // A aba pode ter sido escondida durante a consulta; ao voltar, poll() roda de novo.
+    if (document.hidden) return;
 
     if (!data.isPlaying || !data.durationMs) {
       hide();
       return;
     }
 
-    const changed = track?.id !== data.id;
+    const changed = !track || trackKey(track) !== trackKey(data);
     track = data;
     anchor = { progressMs: data.progressMs, at: performance.now() };
 
