@@ -12,7 +12,7 @@
 #
 # `category` define em qual filtro o site aparece. Use uma das chaves de
 # `resourceCategories` em `src/i18n/resources.ts` (hoje: components,
-# inspiration, learning); o nome exibido de cada uma fica no mesmo arquivo.
+# inspiration, people, companies); o nome exibido de cada uma fica no mesmo arquivo.
 # Para criar uma categoria, adicione a chave la e o nome nos dois idiomas.
 #
 # `icon` e um caminho dentro de `public/` (ex.: salve o arquivo em
@@ -90,3 +90,33 @@ brian-lovin:
   url: https://brianlovin.com/
   category: people
   icon: /img/resources/brian-lovin.png
+grizz:
+  name: Grizz
+  url: https://grizz.fyi
+  category: people
+  icon: /img/resources/grizz.png
+marco-cornacchia:
+  name: Marco Cornacchia
+  url: https://www.marco.fyi
+  category: people
+  icon: /img/resources/marco-cornacchia.png
+robert-pavlinic:
+  name: Robert Pavlinić
+  url: https://rpavlini.com/#code
+  category: people
+  icon: /img/resources/robert-pavlinic.png
+marijana-pavlinic:
+  name: Marijana Pavlinić
+  url: https://marijanapav.com
+  category: people
+  icon: /img/resources/marijana-pavlinic.png
+mike-barton:
+  name: Mike Barton
+  url: https://www.mikes.cv
+  category: people
+  icon: /img/resources/mike-barton.png
+echotab:
+  name: EchoTab
+  url: https://echotab.buka.studio
+  category: companies
+  icon: /img/resources/echotab.png

@@ -9,6 +9,7 @@ export const resourceCategories = [
   'components',
   'inspiration',
   'people',
+  'companies',
 ] as const
 
 export type ResourceCategory = (typeof resourceCategories)[number]
@@ -29,6 +30,7 @@ const en = {
     components: 'Components',
     inspiration: 'Inspiration',
     people: 'People',
+    companies: 'Companies',
   } satisfies Record<ResourceCategory, string>,
 }
 
@@ -47,6 +49,7 @@ const pt: typeof en = {
     components: 'Componentes',
     inspiration: 'Inspiração',
     people: 'Pessoas',
+    companies: 'Empresas',
   },
 }
 
