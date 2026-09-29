@@ -21,7 +21,13 @@ const en = {
   skipLink: 'Skip to main content',
   home: 'Home',
   blog: 'Blog',
-  themeToggle: 'Toggle theme',
+  theme: {
+    /** Nome acessivel do grupo de opcoes de tema. */
+    label: 'Theme',
+    light: 'Light',
+    dark: 'Dark',
+    system: 'System',
+  },
   langSwitch: {
     /** Rotulo do link que leva para a versao no outro idioma. */
     label: 'PT',
@@ -84,7 +90,12 @@ const pt: typeof en = {
   skipLink: 'Ir para o conteúdo principal',
   home: 'Início',
   blog: 'Blog',
-  themeToggle: 'Alternar tema',
+  theme: {
+    label: 'Tema',
+    light: 'Claro',
+    dark: 'Escuro',
+    system: 'Sistema',
+  },
   langSwitch: {
     label: 'EN',
     ariaLabel: 'Read in English',
