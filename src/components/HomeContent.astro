@@ -1,6 +1,7 @@
 ---
 import ProjectWidgets from './ProjectWidgets.astro'
 import SiteHeader from './SiteHeader.astro'
+import NowPlaying from './NowPlaying.astro'
 import { localizePath, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 import { home } from '../i18n/home'
@@ -26,13 +27,16 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
     <main id="main" class="hero">
       <lui-stack gap="80">
         <lui-flex direction="column" wrap="nowrap" gap="16" align="left">
-          <lui-image
-            src="/img/mtsvlln.jpg"
-            width="88px"
-            aspect-ratio="1/1"
-            radius="md"
-            alt={strings.photoAlt}
-          ></lui-image>
+          <div class="profile-photo">
+            <lui-image
+              src="/img/mtsvlln.jpg"
+              width="88px"
+              aspect-ratio="1/1"
+              radius="md"
+              alt={strings.photoAlt}
+            ></lui-image>
+            <NowPlaying locale={locale} />
+          </div>
 
           <div>
             <lui-heading variant="block-title" as="h1"

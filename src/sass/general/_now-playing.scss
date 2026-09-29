@@ -1,0 +1,252 @@
+// Balao "ouvindo agora" sobre a foto da home (src/components/NowPlaying.astro).
+// Recolhido e um circulo de 48px meio para fora da foto; expandido vira um card
+// de 263px. Como o raio (24px) e o mesmo nos dois estados, animar so largura e
+// altura faz o circulo "crescer" ate virar o card.
+
+.profile-photo {
+  position: relative;
+  width: fit-content;
+}
+
+.now-playing {
+  --np-size: 48px;
+  --np-width: min(263px, calc(100vw - 92px));
+  --np-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  position: absolute;
+  top: -12px;
+  left: calc(100% - 28px);
+  z-index: 10;
+  width: var(--np-size);
+  height: var(--np-size);
+  overflow: hidden;
+  border-radius: 24px;
+  background-color: color-mix(
+    in srgb,
+    var(--lui-color-neutral-background-surface) 92%,
+    transparent
+  );
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 8px rgb(0 0 0 / 0.02),
+    0 4px 12px rgb(0 0 0 / 0.04);
+  transition:
+    width 320ms var(--np-ease),
+    height 320ms var(--np-ease);
+
+  &[hidden] {
+    display: none;
+  }
+
+  &.is-open {
+    width: var(--np-width);
+    height: var(--np-height, 270px);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      width: var(--np-width);
+      height: var(--np-height, 270px);
+    }
+  }
+}
+
+.now-playing__toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--np-size);
+  height: var(--np-size);
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: none;
+  color: var(--lui-color-neutral-icon-default);
+  cursor: pointer;
+  transition: transform 320ms var(--np-ease);
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--lui-focus-ring-primary);
+  }
+
+  // No card, o icone desce para ficar centralizado com artista + musica.
+  .now-playing.is-open & {
+    transform: translateY(10px);
+  }
+
+  @media (hover: hover) {
+    .now-playing:hover & {
+      transform: translateY(10px);
+    }
+  }
+}
+
+.now-playing__wave {
+  overflow: visible;
+
+  rect {
+    fill: currentColor;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: now-playing-wave 1.1s ease-in-out infinite alternate;
+
+    &:nth-child(1) { animation-duration: 0.9s; animation-delay: -0.4s; }
+    &:nth-child(2) { animation-duration: 1.2s; animation-delay: -0.9s; }
+    &:nth-child(3) { animation-duration: 1s; animation-delay: -0.2s; }
+    &:nth-child(4) { animation-duration: 0.8s; animation-delay: -0.6s; }
+    &:nth-child(5) { animation-duration: 1.1s; animation-delay: -0.3s; }
+  }
+}
+
+@keyframes now-playing-wave {
+  from { transform: scaleY(0.35); }
+  to { transform: scaleY(1); }
+}
+
+.now-playing__card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+  width: var(--np-width);
+  padding: 16px;
+  color: var(--lui-color-neutral-text-body);
+  font-size: var(--lui-brand-typography-font-size-2xs);
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 120ms ease-out,
+    visibility 0s 120ms;
+
+  .now-playing.is-open & {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 200ms 120ms ease-out;
+  }
+
+  @media (hover: hover) {
+    .now-playing:hover & {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 200ms 120ms ease-out;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.now-playing__header {
+  display: flex;
+  flex-direction: column;
+  // Espaco para o icone de wave no canto direito.
+  padding-right: 32px;
+  min-width: 0;
+}
+
+.now-playing__artist {
+  font-size: var(--lui-brand-typography-font-size-3xs);
+}
+
+.now-playing__title {
+  color: var(--lui-color-neutral-text-body);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-radius: 2px;
+    box-shadow: var(--lui-focus-ring-primary);
+  }
+}
+
+// Janela de 5 linhas com a linha atual na 3a posicao; as vizinhas somem aos poucos.
+.now-playing__lyrics {
+  height: 136px;
+  overflow: hidden;
+
+  &[hidden] {
+    display: none;
+  }
+
+  ol {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: transform 400ms var(--np-ease);
+  }
+
+  li {
+    opacity: 0.1;
+    transition: opacity 400ms ease-out;
+
+    &[data-distance='0'] { opacity: 1; }
+    &[data-distance='1'] { opacity: 0.2; }
+  }
+
+  // Sem tempos (letra simples ou aviso): lista rolavel, sem destaque.
+  &.is-static {
+    height: auto;
+    max-height: 136px;
+    overflow-y: auto;
+    color: var(--lui-color-neutral-text-caption);
+
+    li {
+      opacity: 1;
+    }
+  }
+}
+
+.now-playing__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+}
+
+.now-playing__track {
+  height: 4px;
+  overflow: hidden;
+  border-radius: var(--lui-border-radius-circle);
+  background-color: var(--lui-color-neutral-background-container);
+}
+
+.now-playing__bar {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--lui-color-primary-background-container);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.now-playing__times {
+  display: flex;
+  justify-content: space-between;
+  color: var(--lui-color-neutral-text-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .now-playing,
+  .now-playing__toggle,
+  .now-playing__lyrics ol,
+  .now-playing__lyrics li {
+    transition: none;
+  }
+
+  .now-playing__wave rect {
+    animation: none;
+  }
+}
