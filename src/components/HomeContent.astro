@@ -63,24 +63,26 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
               >{strings.blogLink}</lui-link
             >
           </lui-flex>
-          <ul class="no-list">
-            {
-              latestPosts.map((post) => (
-                <li>
-                  <a href={postPath(post)}>
-                    <article class="flex justify-between items-baseline gap-fluid-16 interaction-item">
-                      <lui-body variant="lg" as="h3">
-                        {post.data.title}
-                      </lui-body>
-                      <time class="body--md space-nowrap" datetime={post.data.date}>
-                        {formatPostDate(post.data.date, locale)}
-                      </time>
-                    </article>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
+          <div data-hover-highlight>
+            <ul class="no-list">
+              {
+                latestPosts.map((post) => (
+                  <li>
+                    <a href={postPath(post)}>
+                      <article class="flex justify-between items-baseline gap-fluid-16 interaction-item">
+                        <lui-body variant="lg" as="h3">
+                          {post.data.title}
+                        </lui-body>
+                        <time class="body--md space-nowrap" datetime={post.data.date}>
+                          {formatPostDate(post.data.date, locale)}
+                        </time>
+                      </article>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </section>
       </lui-stack>
     </main>
@@ -89,4 +91,9 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
 
 <script>
   import '@lets-ui/components'
+  import { initHoverHighlight } from '../lib/hover-highlight'
+
+  document
+    .querySelectorAll<HTMLElement>('[data-hover-highlight]')
+    .forEach((list) => initHoverHighlight(list, '.interaction-item'))
 </script>

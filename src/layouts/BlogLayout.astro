@@ -2,10 +2,14 @@
 /**
  * Layout da listagem e dos posts do blog. `showAuthor` liga o bloco do
  * autor e o botao de copiar codigo (so fazem sentido dentro de um post).
+ * `switchPath` e o caminho desta pagina no outro idioma, usado pela troca de
+ * idioma do cabecalho.
  */
 import '@lets-ui/styles'
 import SeoHead from '../components/SeoHead.astro'
 import CookieConsent from '../components/CookieConsent.astro'
+import Scripts from '../components/Scripts.astro'
+import SiteHeader from '../components/SiteHeader.astro'
 import NewsletterCard from '../components/NewsletterCard.astro'
 import AuthorCard from '../components/AuthorCard.astro'
 import { htmlLang, type Locale } from '../i18n/config'
@@ -13,6 +17,7 @@ import { ui } from '../i18n/ui'
 
 interface Props {
   locale: Locale
+  switchPath: string
   title: string
   description: string
   canonicalPath: string
@@ -27,6 +32,7 @@ interface Props {
 
 const {
   locale,
+  switchPath,
   title,
   description,
   canonicalPath,
@@ -50,17 +56,16 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
  */
 const highlightBoot = `
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  var root = document.documentElement
-  root.dataset.hlAnimate = ''
+  document.documentElement.dataset.hlAnimate = ''
   window.__hlFallback = setTimeout(function () {
-    root.removeAttribute('data-hl-animate')
+    document.documentElement.removeAttribute('data-hl-animate')
   }, 3000)
 }
 `
 ---
 
 <!doctype html>
-<html lang={htmlLang[locale]} data-brand="mateus-villain" data-theme="light">
+<html lang={htmlLang[locale]} data-brand="mateus-villain">
   <head>
     <SeoHead
       locale={locale}
@@ -84,6 +89,8 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   <body>
     <a href="#main" class="skip-link">{strings.skipLink}</a>
     <div class="body-container gap-fluid-80 m-b-fluid-80">
+      <SiteHeader locale={locale} switchPath={switchPath} />
+
       <main id="main">
         <section class="post-list">
           <slot />
@@ -98,6 +105,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     {showAuthor && <script is:inline src="/blog/js/code-copy.js" defer></script>}
     {showAuthor && <script is:inline src="/blog/js/highlight.js" defer></script>}
     <script is:inline src="/blog/js/form.js" defer></script>
+    <Scripts />
     <CookieConsent locale={locale} />
   </body>
 </html>

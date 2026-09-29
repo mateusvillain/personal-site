@@ -1,6 +1,5 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro'
-import LangSwitch from '../../../components/LangSwitch.astro'
 import {
   localeStaticPaths,
   localizePath,
@@ -35,46 +34,47 @@ const years = Object.keys(postsByYear)
 
 <BlogLayout
   locale={locale}
+  switchPath={localizePath('/blog/', otherLocale(locale))}
   title={strings.metaTitle}
   description={strings.metaDescription}
   canonicalPath={localizePath('/blog/', locale)}
 >
-  <div class="flex justify-between items-center">
-    <lui-breadcrumb>
-      <lui-breadcrumb-item href={localizePath('/', locale)}
-        >{common.home}</lui-breadcrumb-item
-      >
-    </lui-breadcrumb>
-    <LangSwitch
-      locale={locale}
-      href={localizePath('/blog/', otherLocale(locale))}
-    />
-  </div>
+  <lui-breadcrumb>
+    <lui-breadcrumb-item href={localizePath('/', locale)}
+      >{common.home}</lui-breadcrumb-item
+    >
+  </lui-breadcrumb>
   <div class="post-details">
     <h1 class="title m-t-fluid-16">{strings.title}</h1>
   </div>
-  {
-    years.map((year) => (
-      <section class="posts--group">
-        <h2 class="body--lg">{year}</h2>
-        {postsByYear[year]!.map((post) => (
-          <article class="post interaction-item">
-            <a href={postPath(post)}>
-              <div class="post-header">
-                <h3 class="body--lg">{post.data.title}</h3>
-                <p class="body--lg">{post.data.description}</p>
-              </div>
-              <time class="body--lg" datetime={post.data.date}>
-                {formatPostDate(post.data.date, locale, { withYear: false })}
-              </time>
-            </a>
-          </article>
-        ))}
-      </section>
-    ))
-  }
+  <div data-hover-highlight>
+    {
+      years.map((year) => (
+        <section class="posts--group">
+          <h2 class="body--lg">{year}</h2>
+          {postsByYear[year]!.map((post) => (
+            <article class="post">
+              <a class="interaction-item" href={postPath(post)}>
+                <div class="post-header">
+                  <h3 class="body--lg">{post.data.title}</h3>
+                  <p class="body--lg">{post.data.description}</p>
+                </div>
+                <time class="body--lg" datetime={post.data.date}>
+                  {formatPostDate(post.data.date, locale, { withYear: false })}
+                </time>
+              </a>
+            </article>
+          ))}
+        </section>
+      ))
+    }
+  </div>
 </BlogLayout>
 
 <script>
   import '@lets-ui/components'
+  import { initHoverHighlight } from '../../../lib/hover-highlight'
+
+  const list = document.querySelector<HTMLElement>('[data-hover-highlight]')
+  if (list) initHoverHighlight(list, '.interaction-item')
 </script>
