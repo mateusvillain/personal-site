@@ -288,6 +288,8 @@ const socials = [
     const slide = 600
     const slideStart = appear + rise
 
+    // No centro a foto aparece maior e volta ao tamanho do header na subida.
+    const startScale = 2
     const box = logo.getBoundingClientRect()
     const dx = window.innerWidth / 2 - (box.left + box.width / 2)
     const dy = window.innerHeight / 2 - (box.top + box.height / 2)
@@ -295,22 +297,22 @@ const socials = [
     logo.animate(
       [
         {
-          transform: `translate(${dx}px, ${dy}px) scale(0.8)`,
+          transform: `translate(${dx}px, ${dy}px) scale(${startScale * 0.8})`,
           opacity: 0,
           easing: ease,
         },
         {
-          transform: `translate(${dx}px, ${dy}px)`,
+          transform: `translate(${dx}px, ${dy}px) scale(${startScale})`,
           opacity: 1,
           offset: appear / (slideStart + slide),
           easing: ease,
         },
         {
-          transform: `translate(${dx}px, 0)`,
+          transform: `translate(${dx}px, 0) scale(1)`,
           offset: slideStart / (slideStart + slide),
           easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
         },
-        { transform: 'none' },
+        { transform: 'translate(0, 0) scale(1)' },
       ],
       { duration: slideStart + slide, fill: 'backwards', id: INTRO_ID },
     )
