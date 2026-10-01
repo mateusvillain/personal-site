@@ -257,6 +257,8 @@ const socials = [
   const desktop = window.matchMedia('(min-width: 768px)')
   // O resto da pagina, que entra depois do header (bate com o CSS de
   // html[data-intro] em _site-header.scss).
+  const INTRO_ID = 'site-intro'
+  const SKIP_EVENTS = ['keydown', 'pointerdown', 'wheel', 'touchstart'] as const
   const INTRO_CONTENT =
     'body > :not(.site-header, .site-topbar, .skip-link, script)'
 
@@ -310,7 +312,7 @@ const socials = [
         },
         { transform: 'none' },
       ],
-      { duration: slideStart + slide, fill: 'backwards' },
+      { duration: slideStart + slide, fill: 'backwards', id: INTRO_ID },
     )
 
     header.querySelector('.site-header__panel')?.animate(
@@ -322,7 +324,7 @@ const socials = [
           backdropFilter: 'blur(0px)',
         },
       ],
-      { duration: slide, delay: slideStart, easing: ease, fill: 'backwards' },
+      { duration: slide, delay: slideStart, easing: ease, fill: 'backwards', id: INTRO_ID },
     )
 
     header
@@ -335,6 +337,7 @@ const socials = [
           delay: slideStart + 200,
           easing: 'ease',
           fill: 'backwards',
+        id: INTRO_ID,
         }),
       )
 
@@ -345,6 +348,7 @@ const socials = [
         delay: slideStart + 200,
         easing: 'ease',
         fill: 'backwards',
+      id: INTRO_ID,
       })
 
     document.querySelectorAll(INTRO_CONTENT).forEach((element) =>
@@ -353,10 +357,33 @@ const socials = [
         delay: slideStart + slide,
         easing: 'ease',
         fill: 'backwards',
+      id: INTRO_ID,
       }),
     )
 
     root.removeAttribute('data-intro')
+
+    // A entrada nao pode atrasar quem ja quer usar a pagina: qualquer tecla,
+    // clique, toque ou rolagem leva tudo ao estado final na hora. Sem isso, o
+    // Tab poderia focar links ainda invisiveis.
+    const skip = () => {
+      document
+        .getAnimations()
+        .filter((animation) => animation.id === INTRO_ID)
+        .forEach((animation) => animation.finish())
+      SKIP_EVENTS.forEach((type) =>
+        window.removeEventListener(type, skip, true),
+      )
+    }
+    SKIP_EVENTS.forEach((type) =>
+      window.addEventListener(type, skip, { capture: true, passive: true }),
+    )
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((animation) => animation.id === INTRO_ID)
+        .map((animation) => animation.finished),
+    ).then(skip, () => {})
   }
 
   playIntro()
