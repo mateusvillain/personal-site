@@ -120,3 +120,8 @@ echotab:
   url: https://echotab.buka.studio
   category: companies
   icon: /img/resources/echotab.png
+mobbin-glossary:
+  name: Mobbin Glossary
+  url: https://mobbin.com/glossary
+  category: inspiration
+  icon: /img/resources/mobbin-glossary.png
