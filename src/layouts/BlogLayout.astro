@@ -90,9 +90,8 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 
   <body>
     <a href="#main" class="skip-link">{strings.skipLink}</a>
+    <SiteHeader locale={locale} switchPath={switchPath} />
     <div class="body-container gap-fluid-80 m-b-fluid-80">
-      <SiteHeader locale={locale} switchPath={switchPath} />
-
       <main id="main">
         <section class="post-list">
           <slot />

@@ -36,8 +36,11 @@ const strings = ui[locale].consent
 
 <style>
   .consent {
-    --consent-enter: 360ms;
-    --consent-exit: 200ms;
+    --consent-enter: 560ms;
+    --consent-exit: 320ms;
+    /* Entra desacelerando ate parar; sai acelerando, como quem vai embora. */
+    --consent-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+    --consent-ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
     position: fixed;
     inset: auto auto 1rem 1rem;
@@ -57,10 +60,11 @@ const strings = ui[locale].consent
     line-height: 1.5;
 
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(16px) scale(0.98);
+    transform-origin: bottom left;
     transition:
-      opacity var(--consent-exit) ease,
-      transform var(--consent-exit) ease,
+      opacity var(--consent-exit) var(--consent-ease-exit),
+      transform var(--consent-exit) var(--consent-ease-exit),
       visibility 0s linear var(--consent-exit);
     visibility: hidden;
   }
@@ -74,8 +78,8 @@ const strings = ui[locale].consent
     transform: none;
     visibility: visible;
     transition:
-      opacity var(--consent-enter) cubic-bezier(0.2, 0.8, 0.2, 1),
-      transform var(--consent-enter) cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity var(--consent-enter) var(--consent-ease-enter),
+      transform var(--consent-enter) var(--consent-ease-enter),
       visibility 0s;
   }
 
@@ -121,7 +125,7 @@ const strings = ui[locale].consent
     .consent,
     .consent.is-visible {
       transform: none;
-      transition-duration: 120ms, 0s, 0s;
+      transition-duration: 160ms, 0s, 0s;
     }
   }
 </style>
@@ -131,7 +135,12 @@ const strings = ui[locale].consent
     var el = document.querySelector('.consent')
     if (!el || !window.mvConsent) return
 
-    var ENTER_DELAY = 1200
+    // Com a animacao de entrada do site rodando (html[data-intro], ver
+    // SiteHeader.astro), o aviso espera ela terminar para nao disputar a
+    // atencao nem entrar com o conteudo ainda invisivel.
+    var ENTER_DELAY = document.documentElement.hasAttribute('data-intro')
+      ? 2600
+      : 1200
 
     function onExitEnd(e) {
       // transitionend borbulha do hover dos botoes (background-color);

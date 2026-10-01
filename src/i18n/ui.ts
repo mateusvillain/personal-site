@@ -33,6 +33,27 @@ const en = {
     label: 'PT',
     /** Nome acessivel completo do link. */
     ariaLabel: 'Ler em português',
+    /** Nome acessivel do grupo de idiomas. */
+    group: 'Language',
+    /** Lido no lugar da sigla do idioma atual. */
+    current: 'English, current language',
+  },
+  nav: {
+    /** Nome acessivel da navegacao principal. */
+    label: 'Main',
+    home: 'Home',
+    blog: 'Blog',
+    mentorship: 'Mentoring',
+    resources: 'Resources',
+    social: 'Social media',
+    menu: 'Menu',
+  },
+  topbar: {
+    /** Nome acessivel da barra de hora, clima, idioma e tema. */
+    label: 'Time, weather and preferences',
+    /** Contexto lido antes da hora e do clima, so para leitores de tela. */
+    time: 'Time in Criciúma, Brazil:',
+    weather: 'Weather in Criciúma, Brazil:',
   },
   newWindow: '(opens in a new tab)',
   consent: {
@@ -99,6 +120,22 @@ const pt: typeof en = {
   langSwitch: {
     label: 'EN',
     ariaLabel: 'Read in English',
+    group: 'Idioma',
+    current: 'Português, idioma atual',
+  },
+  nav: {
+    label: 'Principal',
+    home: 'Início',
+    blog: 'Blog',
+    mentorship: 'Mentorias',
+    resources: 'Recursos',
+    social: 'Redes sociais',
+    menu: 'Menu',
+  },
+  topbar: {
+    label: 'Hora, clima e preferências',
+    time: 'Hora em Criciúma:',
+    weather: 'Clima em Criciúma:',
   },
   newWindow: '(abre em nova aba)',
   consent: {

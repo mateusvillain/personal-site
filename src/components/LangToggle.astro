@@ -1,0 +1,44 @@
+---
+/**
+ * Troca de idioma em formato de seletor (PT | EN), no mesmo visual do seletor
+ * de tema. O idioma atual e so marcado; o outro e um <a> de verdade para a
+ * mesma pagina no outro idioma, entao funciona sem script e informa o idioma
+ * de destino via `hreflang` e `lang`.
+ */
+import { htmlLang, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+  /** Caminho desta pagina no outro idioma. */
+  href: string
+}
+
+const { locale, href } = Astro.props
+const strings = ui[locale].langSwitch
+const order: Locale[] = ['pt', 'en']
+---
+
+<div class="lang-toggle" role="group" aria-label={strings.group}>
+  {
+    order.map((option) =>
+      option === locale ? (
+        <span class="lang-toggle__option is-active">
+          <span class="sr-only">{strings.current}</span>
+          <span aria-hidden="true">{option.toUpperCase()}</span>
+        </span>
+      ) : (
+        <a
+          class="lang-toggle__option"
+          href={href}
+          hreflang={htmlLang[option]}
+          lang={htmlLang[option]}
+          aria-label={strings.ariaLabel}
+          data-link="language"
+        >
+          {option.toUpperCase()}
+        </a>
+      ),
+    )
+  }
+</div>

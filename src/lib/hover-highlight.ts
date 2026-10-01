@@ -14,12 +14,15 @@ export function initHoverHighlight(container: HTMLElement, rowSelector: string) 
 
   let current: HTMLElement | null = null
 
-  // O item pode ser o proprio link ou estar dentro/fora dele.
+  // O item pode ser o proprio link ou estar dentro/fora dele. Descer para
+  // dentro do alvo so vale se ele envolver um unico item: no vao entre itens
+  // o alvo e a propria lista, e o primeiro item acenderia sem cursor em cima.
   const rowFrom = (target: EventTarget | null) => {
     if (!(target instanceof Element)) return null
+    const inside = target.querySelectorAll<HTMLElement>(rowSelector)
     const row =
       target.closest<HTMLElement>(rowSelector) ??
-      target.querySelector<HTMLElement>(rowSelector)
+      (inside.length === 1 ? inside[0] : null)
     return row && container.contains(row) ? row : null
   }
 

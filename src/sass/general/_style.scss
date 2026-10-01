@@ -76,36 +76,6 @@ main {
   }
 }
 
-.desktop {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: var(--lui-spacing-fluid-16);
-
-  & .personal-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--lui-spacing-fluid-16);
-  }
-
-  & .site-controls {
-    display: flex;
-    gap: var(--lui-spacing-fluid-40);
-    align-items: center;
-
-    a,
-    button {
-      cursor: pointer;
-    }
-
-    @media (max-width: 340px) {
-      margin-top: var(--lui-spacing-fluid-16);
-    }
-  }
-}
-
 .interaction-item {
   position: relative;
   margin: var(--lui-spacing-fixed-0) -14px;
@@ -253,8 +223,8 @@ p.text-link {
   align-items: center;
   gap: var(--lui-spacing-fixed-8);
   box-sizing: border-box;
-  height: var(--lui-spacing-fixed-32);
-  padding: 4px;
+  height: var(--lui-spacing-fixed-40);
+  padding: var(--lui-spacing-fixed-8);
   background-color: var(--lui-color-gray-2);
   border-radius: var(--lui-border-radius-circle);
   transition: background-color 0.3s ease;
@@ -290,8 +260,8 @@ p.text-link {
 
   &__thumb {
     position: absolute;
-    top: 4px;
-    left: 4px;
+    top: var(--lui-spacing-fixed-8);
+    left: var(--lui-spacing-fixed-8);
     width: var(--lui-spacing-fixed-24);
     height: var(--lui-spacing-fixed-24);
     background-color: var(--lui-color-neutral-background-surface);
