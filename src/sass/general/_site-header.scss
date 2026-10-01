@@ -1,0 +1,426 @@
+// Cabecalho do site (src/components/SiteHeader.astro).
+//
+// < 768px: barra de hora/clima e idioma/tema no fluxo, header sticky com
+//          menu hamburguer; no scroll o header cobre a barra ate o topo.
+// >= 768px: navegacao completa dentro do header.
+// >= 1280px: a barra sai do fluxo e fica fixa nas laterais, alinhada ao
+//            centro vertical do header.
+//
+// O header e 12px mais largo que o .body-container de cada lado a partir de
+// 768px; abaixo disso acompanha a largura do container.
+
+$header-height: 64px;
+$header-top-mobile: var(--lui-spacing-fixed-16);
+$header-top-desktop: var(--lui-spacing-fixed-24);
+$header-bleed: 12px;
+$ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+.site-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lui-spacing-fixed-16);
+  margin: var(--lui-spacing-fixed-16) 1rem 0;
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 1280px) {
+    position: fixed;
+    z-index: 100;
+    top: $header-top-desktop;
+    right: var(--lui-spacing-fixed-24);
+    left: var(--lui-spacing-fixed-24);
+    height: $header-height;
+    max-width: none;
+    margin: 0;
+    // A faixa cruza a pagina inteira; so os controles recebem clique.
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--lui-spacing-fluid-4);
+
+    p {
+      color: var(--lui-color-neutral-text-caption);
+    }
+
+    @media (min-width: 1280px) {
+      flex-direction: row;
+      gap: var(--lui-spacing-fixed-16);
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fixed-16);
+  }
+}
+
+.site-header {
+  position: sticky;
+  z-index: 100;
+  top: $header-top-mobile;
+  min-height: $header-height;
+  margin: 28px 1rem var(--lui-spacing-fluid-56);
+
+  @media (min-width: 768px) {
+    max-width: calc(720px + #{$header-bleed * 2});
+    margin-inline: auto;
+  }
+
+  @media (min-width: 1280px) {
+    top: $header-top-desktop;
+    max-width: calc(560px + #{$header-bleed * 2});
+    margin-top: $header-top-desktop;
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    background-color: color-mix(
+      in srgb,
+      var(--lui-color-neutral-background-surface) 90%,
+      transparent
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow:
+      0 0 8px rgb(0 0 0 / 2%),
+      0 4px 12px rgb(0 0 0 / 4%);
+
+    @media (min-width: 768px) {
+      border-radius: var(--lui-border-radius-circle);
+    }
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    min-height: $header-height;
+    padding: 12px var(--lui-spacing-fixed-16);
+
+    @media (min-width: 768px) {
+      padding: 12px;
+    }
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--lui-spacing-fixed-8);
+  }
+
+  &__logo {
+    display: flex;
+    border-radius: 50%;
+
+    img {
+      display: block;
+      width: var(--lui-spacing-fixed-32);
+      height: var(--lui-spacing-fixed-32);
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+  }
+
+  &__nav {
+    display: none;
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+
+    ul {
+      display: flex;
+      gap: var(--lui-spacing-fixed-8);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  }
+
+  &__link,
+  &__menu-link {
+    display: flex;
+    align-items: center;
+    padding: var(--lui-spacing-fixed-8) 12px;
+    font: var(--lui-typography-weight-regular)
+      var(--lui-brand-typography-font-size-1xs) /
+      var(--lui-brand-typography-line-height-body)
+      var(--lui-brand-typography-font-family-body);
+    color: var(--lui-color-neutral-text-body);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--lui-color-gray-2);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+  }
+
+  &__link {
+    position: relative;
+    border-radius: var(--lui-border-radius-circle);
+  }
+
+  // Com o fundo deslizante (src/lib/hover-highlight.ts) ativo, o hover
+  // proprio de cada link sai para nao somar dois fundos.
+  .is-enhanced &__link:hover {
+    background-color: transparent;
+  }
+
+  &__social {
+    display: none;
+    gap: var(--lui-spacing-fluid-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 768px) {
+      display: flex;
+    }
+
+    .icon-button {
+      color: var(--lui-color-neutral-icon-default);
+    }
+  }
+
+  &__menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: var(--lui-spacing-fixed-40);
+    height: var(--lui-spacing-fixed-40);
+    padding: var(--lui-spacing-fixed-8);
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--lui-color-neutral-icon-default);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+      background-color: var(--lui-color-gray-2);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  // Tres tracos que viram um X: os das pontas vao ate o centro e giram em
+  // torno dele; o do meio encolhe. Origem no centro do viewBox (24x24).
+  &__menu-icon {
+    display: block;
+
+    line {
+      transform-box: view-box;
+      transform-origin: 12px 12px;
+      transition:
+        transform 0.3s $ease-out,
+        opacity 0.2s ease;
+    }
+  }
+
+  &__menu {
+    display: none;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0;
+      padding: 0 var(--lui-spacing-fixed-8);
+      list-style: none;
+    }
+  }
+
+  &__menu-link {
+    border-radius: 12px;
+  }
+
+  &__menu-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fixed-16);
+    padding: var(--lui-spacing-fixed-16);
+  }
+
+  &[data-open] {
+    .site-header__panel {
+      position: fixed;
+      inset: $header-top-mobile;
+      gap: 12px;
+      // Sem respiro embaixo: o padding dos controles do rodape ja da a mesma
+      // distancia da borda que eles tem na lateral.
+      padding-block: 12px 0;
+      animation: site-panel-in 0.3s $ease-out;
+    }
+
+    .site-header__bar {
+      min-height: var(--lui-spacing-fixed-40);
+      padding-block: 0;
+    }
+
+    .site-header__menu {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+      overflow-y: auto;
+      animation: site-menu-in 0.3s $ease-out;
+    }
+  }
+
+  &[data-closing] {
+    .site-header__panel {
+      animation: site-panel-out 0.25s $ease-out forwards;
+    }
+
+    .site-header__menu {
+      animation: site-menu-out 0.15s ease forwards;
+    }
+  }
+
+  // O X volta a ser hamburguer ja no inicio do fechamento.
+  &[data-open]:not([data-closing]) {
+    .site-header__menu-icon line {
+      &:nth-child(1) {
+        transform: rotate(45deg) translateY(6px);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      &:nth-child(3) {
+        transform: rotate(-45deg) translateY(-6px);
+      }
+    }
+  }
+}
+
+// Trava o scroll da pagina com o menu mobile aberto.
+.has-menu-open {
+  overflow: hidden;
+}
+
+// O painel aberto ocupa a tela; fechado, e so a barra na posicao do header
+// (--menu-from, medido no clique). Abrir cresce da barra, fechar volta a ela.
+@keyframes site-panel-in {
+  from {
+    top: var(--menu-from, #{$header-top-mobile});
+    bottom: calc(
+      100% - var(--menu-from, #{$header-top-mobile}) - #{$header-height}
+    );
+  }
+}
+
+@keyframes site-panel-out {
+  to {
+    top: var(--menu-from, #{$header-top-mobile});
+    bottom: calc(
+      100% - var(--menu-from, #{$header-top-mobile}) - #{$header-height}
+    );
+  }
+}
+
+@keyframes site-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes site-menu-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+// Idioma em formato de seletor, no mesmo visual do .theme-toggle.
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lui-spacing-fixed-8);
+  box-sizing: border-box;
+  height: var(--lui-spacing-fixed-40);
+  padding: var(--lui-spacing-fixed-8);
+  background-color: var(--lui-color-gray-2);
+  border-radius: var(--lui-border-radius-circle);
+
+  &__option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: var(--lui-spacing-fixed-24);
+    height: var(--lui-spacing-fixed-24);
+    padding: 4px;
+    border-radius: var(--lui-border-radius-circle);
+    font-family: var(--lui-brand-typography-font-family-body);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--lui-color-neutral-text-heading);
+    transition: background-color 0.2s ease;
+
+    &.is-active {
+      background-color: var(--lui-color-neutral-background-surface);
+    }
+
+    &:is(a):hover {
+      background-color: color-mix(
+        in srgb,
+        var(--lui-color-neutral-background-surface) 50%,
+        transparent
+      );
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__menu-icon line {
+    transition: none;
+  }
+
+  .site-header[data-open] .site-header__panel,
+  .site-header[data-open] .site-header__menu {
+    animation: none;
+  }
+}

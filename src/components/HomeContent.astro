@@ -20,10 +20,9 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
 ---
 
 <a href="#main" class="skip-link">{common.skipLink}</a>
+<SiteHeader locale={locale} switchPath={switchPath} />
 <div class="body-container">
   <lui-stack gap="80">
-    <SiteHeader locale={locale} switchPath={switchPath} />
-
     <main id="main" class="hero">
       <lui-stack gap="80">
         <lui-flex direction="column" wrap="nowrap" gap="16" align="left">
