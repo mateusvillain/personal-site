@@ -98,10 +98,19 @@ const jsonLd = [
   </lui-breadcrumb>
 
   <article class="full-post">
-    <section class="post-details">
-      <lui-flex direction="column" gap="24" class="m-t-fluid-16">
+    <section class="post-details" data-post-details>
+      <lui-flex
+        direction="column"
+        gap="24"
+        class="post-details__content m-t-fluid-16"
+        data-post-details-content
+      >
         <lui-heading variant="title">{post.data.title}</lui-heading>
-        <lui-flex direction="row" justify="space-between">
+        <lui-flex
+          direction="row"
+          justify="space-between"
+          class="post-details__meta"
+        >
           <lui-flex direction="row">
             <time class="body--md" datetime={post.data.date}
               >{formattedDate}</time
@@ -198,6 +207,84 @@ const jsonLd = [
       if (copyStatus) copyStatus.textContent = copy.dataset.failedText ?? ''
     }
   })
+</script>
+
+<script>
+  // Titulo, data e compartilhamento: quando somem atras do header, vao para
+  // uma coluna fixa a esquerda do texto; ao voltar ao topo, retornam ao lugar.
+  // A troca e instantanea no layout e a transicao e um FLIP (deslocamento do
+  // lugar antigo ate o novo), entao o bloco desliza em vez de piscar. So no
+  // desktop largo (>= 1280px), onde ha espaco ao lado do texto.
+  const section = document.querySelector<HTMLElement>('[data-post-details]')
+  const content = section?.querySelector<HTMLElement>(
+    '[data-post-details-content]',
+  )
+  const wide = window.matchMedia('(min-width: 1280px)')
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+  // Base do header fixo (top 24px + altura 64px, ver _site-header.scss).
+  const HEADER_BOTTOM = 88
+
+  if (section && content) {
+    let docked = false
+    let motion: Animation[] = []
+
+    const setDocked = (next: boolean, animate = true) => {
+      if (next === docked) return
+      docked = next
+
+      // Medido com a animacao anterior ainda aplicada: se o bloco estiver no
+      // meio do caminho, a nova parte de onde ele esta.
+      const first = content.getBoundingClientRect()
+      motion.forEach((animation) => animation.cancel())
+
+      if (next) {
+        // Guarda o espaco no texto para nada pular quando o bloco sai do fluxo.
+        section.style.height = `${section.offsetHeight}px`
+        section.setAttribute('data-docked', '')
+      } else {
+        section.removeAttribute('data-docked')
+        section.style.height = ''
+      }
+
+      if (!animate || reduceMotion.matches) return
+      const last = content.getBoundingClientRect()
+      const dx = first.left - last.left
+      const dy = first.top - last.top
+      // Eixos com ritmos diferentes para o bloco contornar o texto em vez de
+      // cruza-lo: ao encaixar vai primeiro para a esquerda e depois desce; ao
+      // voltar, sobe primeiro e depois vai para a direita.
+      const fast = { duration: 300, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
+      const slow = { duration: 550, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' }
+      motion = [
+        content.animate(
+          [{ transform: `translateX(${dx}px)` }, { transform: 'none' }],
+          next ? fast : slow,
+        ),
+        content.animate(
+          [{ translate: `0 ${dy}px` }, { translate: '0 0' }],
+          next ? slow : fast,
+        ),
+      ]
+    }
+
+    let initial = true
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const hidden =
+          !entry.isIntersecting && entry.boundingClientRect.top < HEADER_BOTTOM
+        // Pagina aberta ja rolada (recarga, ancora): encaixa sem animar.
+        setDocked(wide.matches && hidden, !initial)
+        initial = false
+      },
+      { rootMargin: `-${HEADER_BOTTOM}px 0px 0px 0px` },
+    )
+    observer.observe(section)
+
+    wide.addEventListener('change', () => {
+      const rect = section.getBoundingClientRect()
+      setDocked(wide.matches && rect.bottom < HEADER_BOTTOM, false)
+    })
+  }
 </script>
 
 <script>

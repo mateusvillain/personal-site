@@ -165,3 +165,29 @@ hr {
   border: none;
   height: 1px;
 }
+
+// Titulo, data e compartilhamento do post. Com `data-docked` (posto pelo
+// script de src/pages/[...locale]/blog/[slug].astro ao rolar, so a partir de
+// 1280px) o bloco vira uma coluna fixa a esquerda do texto, 40px antes dele.
+// A secao fica com a altura antiga, entao o texto nao pula.
+$post-column: 560px;
+$post-dock-gap: 40px;
+$post-dock-top: 136px; // abaixo do header (24px + 64px) com 48px de respiro
+
+.post-details[data-docked] {
+  .post-details__content {
+    position: fixed;
+    top: $post-dock-top;
+    right: calc(50% + #{$post-column * 0.5} + #{$post-dock-gap});
+    width: min(320px, calc(50% - #{$post-column * 0.5 + $post-dock-gap} - 24px));
+    margin: 0;
+  }
+
+  // Na coluna estreita, data e redes ficam empilhadas.
+  .post-details__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
+  }
+}
