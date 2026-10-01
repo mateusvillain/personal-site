@@ -267,11 +267,33 @@ $ease-out: cubic-bezier(0.2, 0, 0, 1);
     border-radius: 12px;
   }
 
+  // Rodape do menu: idioma e tema a esquerda, redes a direita (mesmo se
+  // quebrar linha em telas estreitas).
   &__menu-controls {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: var(--lui-spacing-fixed-16);
     padding: var(--lui-spacing-fixed-16);
+  }
+
+  &__menu-settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fixed-16);
+  }
+
+  // Seletor composto para vencer o `ul` generico de &__menu.
+  &__menu &__menu-social {
+    flex-direction: row;
+    gap: var(--lui-spacing-fluid-4);
+    margin-left: auto;
+    padding: 0;
+
+    .icon-button {
+      color: var(--lui-color-neutral-icon-default);
+    }
   }
 
   &[data-open] {

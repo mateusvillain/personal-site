@@ -5,8 +5,8 @@
  *
  * Desktop: a barra fica fixa nas laterais, alinhada ao header. Mobile: a barra
  * fica no fluxo, acima do header, e o header (sticky) a cobre no scroll. O
- * menu mobile repete idioma e tema no rodape, por isso o seletor de tema de
- * la usa outro `name`.
+ * menu mobile repete idioma e tema no rodape, com as redes a direita; o
+ * seletor de tema de la usa outro `name`.
  *
  * Hora e clima sao preenchidos por `public/js/time.js` e `weather.js`.
  */
@@ -241,8 +241,41 @@ const socials = [
       </nav>
 
       <div class="site-header__menu-controls">
-        <LangToggle locale={locale} href={switchPath} />
-        <ThemeToggle locale={locale} name="theme-menu" />
+        <div class="site-header__menu-settings">
+          <LangToggle locale={locale} href={switchPath} />
+          <ThemeToggle locale={locale} name="theme-menu" />
+        </div>
+
+        <ul class="site-header__menu-social" aria-label={strings.nav.social}>
+          {
+            socials.map((social) => (
+              <li>
+                <a
+                  class="icon-button icon-button--lg"
+                  href={social.href}
+                  aria-label={social.ariaLabel}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-social={social.id}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="currentColor"
+                      fill-rule={social.fillRule}
+                      d={social.path}
+                    />
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </div>
