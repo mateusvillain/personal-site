@@ -440,7 +440,7 @@ html[data-intro] {
   .site-header__social,
   .site-header__menu-button,
   .site-topbar,
-  body > :not(.site-header, .site-topbar, .skip-link, script) {
+  body > :not(.site-header, .site-topbar, .skip-link, .consent, script) {
     opacity: 0;
   }
 }
