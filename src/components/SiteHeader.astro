@@ -71,6 +71,27 @@ const socials = [
 ]
 ---
 
+{
+  /*
+   * Animacao de entrada: liga antes da primeira pintura (este script roda
+   * antes do restante da pagina ser lido) e so na primeira pagina da sessao.
+   * Se o script da animacao nao assumir a tempo, a flag cai sozinha: pagina
+   * escondida seria pior que pagina sem animacao.
+   */
+}
+<script is:inline>
+  ;(function () {
+    try {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      if (sessionStorage.getItem('intro-played')) return
+      document.documentElement.setAttribute('data-intro', '')
+      window.__introFallback = setTimeout(function () {
+        document.documentElement.removeAttribute('data-intro')
+      }, 3000)
+    } catch (e) {}
+  })()
+</script>
+
 <section class="site-topbar" aria-label={strings.topbar.label}>
   <div class="site-topbar__info">
     <p class="body--sm">
@@ -234,8 +255,111 @@ const socials = [
   const button = header?.querySelector<HTMLButtonElement>('[data-menu-button]')
   const nav = header?.querySelector<HTMLElement>('[data-header-nav]')
   const desktop = window.matchMedia('(min-width: 768px)')
+  // O resto da pagina, que entra depois do header (bate com o CSS de
+  // html[data-intro] em _site-header.scss).
+  const INTRO_CONTENT =
+    'body > :not(.site-header, .site-topbar, .skip-link, script)'
 
   if (nav) initHoverHighlight(nav, '.site-header__link')
+
+  // Entrada: a foto surge no centro da tela, sobe ate a altura do header e
+  // desliza para o lugar dela; o header se monta em volta durante o
+  // deslize e o conteudo esmaece quando o header termina. O estado inicial
+  // vem do CSS (html[data-intro]); as animacoes o seguram (fill backwards)
+  // ate comecarem, entao a flag pode sair no mesmo quadro.
+  const playIntro = () => {
+    const root = document.documentElement
+    if (!header || !root.hasAttribute('data-intro')) return
+    const fallback = (window as Window & { __introFallback?: number })
+      .__introFallback
+    clearTimeout(fallback)
+    try {
+      sessionStorage.setItem('intro-played', '1')
+    } catch {}
+
+    const logo = header.querySelector<HTMLElement>('.site-header__logo')
+    if (!logo) return root.removeAttribute('data-intro')
+
+    const ease = 'cubic-bezier(0.2, 0, 0, 1)'
+    const appear = 300
+    const rise = 700
+    const slide = 600
+    const slideStart = appear + rise
+
+    const box = logo.getBoundingClientRect()
+    const dx = window.innerWidth / 2 - (box.left + box.width / 2)
+    const dy = window.innerHeight / 2 - (box.top + box.height / 2)
+
+    logo.animate(
+      [
+        {
+          transform: `translate(${dx}px, ${dy}px) scale(0.8)`,
+          opacity: 0,
+          easing: ease,
+        },
+        {
+          transform: `translate(${dx}px, ${dy}px)`,
+          opacity: 1,
+          offset: appear / (slideStart + slide),
+          easing: ease,
+        },
+        {
+          transform: `translate(${dx}px, 0)`,
+          offset: slideStart / (slideStart + slide),
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        },
+        { transform: 'none' },
+      ],
+      { duration: slideStart + slide, fill: 'backwards' },
+    )
+
+    header.querySelector('.site-header__panel')?.animate(
+      [
+        {
+          offset: 0,
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
+          backdropFilter: 'blur(0px)',
+        },
+      ],
+      { duration: slide, delay: slideStart, easing: ease, fill: 'backwards' },
+    )
+
+    header
+      .querySelectorAll(
+        '.site-header__nav, .site-header__social, .site-header__menu-button',
+      )
+      .forEach((element) =>
+        element.animate([{ offset: 0, opacity: 0 }], {
+          duration: 400,
+          delay: slideStart + 200,
+          easing: 'ease',
+          fill: 'backwards',
+        }),
+      )
+
+    document
+      .querySelector('.site-topbar')
+      ?.animate([{ offset: 0, opacity: 0 }], {
+        duration: 400,
+        delay: slideStart + 200,
+        easing: 'ease',
+        fill: 'backwards',
+      })
+
+    document.querySelectorAll(INTRO_CONTENT).forEach((element) =>
+      element.animate([{ offset: 0, opacity: 0 }], {
+        duration: 500,
+        delay: slideStart + slide,
+        easing: 'ease',
+        fill: 'backwards',
+      }),
+    )
+
+    root.removeAttribute('data-intro')
+  }
+
+  playIntro()
 
   const panel = header?.querySelector<HTMLElement>('.site-header__panel')
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')

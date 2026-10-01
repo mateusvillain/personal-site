@@ -424,3 +424,23 @@ $ease-out: cubic-bezier(0.2, 0, 0, 1);
     animation: none;
   }
 }
+
+// Estado inicial da animacao de entrada (SiteHeader.astro): so a foto existe,
+// e ela tambem comeca invisivel. O script da animacao tira a flag ao comecar.
+html[data-intro] {
+  .site-header__panel {
+    background-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .site-header__logo,
+  .site-header__nav,
+  .site-header__social,
+  .site-header__menu-button,
+  .site-topbar,
+  body > :not(.site-header, .site-topbar, .skip-link, script) {
+    opacity: 0;
+  }
+}
