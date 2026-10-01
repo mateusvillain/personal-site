@@ -104,7 +104,7 @@ const pt: typeof en = {
   consent: {
     region: 'Cookies',
     message:
-      'Sou curioso: uso o Google Analytics pra ver o que as pessoas leem por aqui. Tudo bem contar você?',
+      'Sou curioso: uso o Google Analytics pra ver o que as pessoas leem por aqui. Tudo bem contar com você?',
     accept: 'Tudo bem',
     decline: 'Fico de fora',
   },
