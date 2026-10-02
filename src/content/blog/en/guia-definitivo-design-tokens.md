@@ -29,7 +29,7 @@ When we talk about representing design decisions, we mean every attribute used i
 
 For example, a loose blue color may mean nothing by itself, but once it is placed in an interface — say, on a primary button — it gains a purpose, representing the background color of the buttons with the highest level of hierarchy in the product.
 
-As for being platform-independent, it is important to remember that a design token is not a Figma variable or style, much less a CSS custom property. Design tokens are structured in JSON, so they have an agnostic format that can be interpreted by any system or language, allowing them to be transformed into usable languages such as CSS, Sass, JavaScript, Flutter, Swift, and many others.
+As for being platform-independent, it is important to remember that a design token is not a Figma variable or style, much less a CSS custom property. Design tokens are structured in JSON, so they have an agnostic format that can be interpreted by any system or language, allowing them to be transformed into usable languages such as CSS, Sass, JavaScript, Flutter, Swift, and many others. ^[a token is not a Figma variable!]
 
 The format of a design token follows this pattern:
 
@@ -51,7 +51,7 @@ In this example, we have a design token called `color.background.page` that repr
 
 As we narrow down the naming through nested keys, we extend the token's name until its final layer, where we define the value and, optionally, a description. Design tokens also require you to identify their type, represented by `$type`, which can be `color`, `dimension`, `number`, `typography`, among others.
 
-In other words, a design token is a way of turning design decisions into reusable data.
+In other words, a design token is a way of ==turning design decisions into reusable data==.
 
 ## Levels of design tokens
 
@@ -96,7 +96,7 @@ At this level, it does not matter where these values will be used. They are just
 
 Semantic Tokens are the second level, and they add meaning to primitive tokens. Instead of representing a direct value, they represent an intention within the interface, such as "background color", "primary text" or "spacing between elements".
 
-They usually reference primitive tokens, doing what we call an **alias**, which is when a design token has no value of its own and simply points to another token.
+They usually reference primitive tokens, doing what we call an **alias**, which is when a design token ==has no value of its own and simply points to another token==.
 
 Here, the focus is no longer the value itself, but the role it plays. This makes the design system more flexible and easier to maintain.
 
@@ -152,7 +152,7 @@ Also, Component Tokens are not reusable the way Semantic Tokens are. Once you cr
 
 ## Practical use
 
-The structure of a token is nothing more than JSON, so that it is completely platform-agnostic. Just as you use tokens for the web, you can also use them for mobile apps. Each system will use a different language, and to avoid recreating tokens, we use JSON as the base and translate those tokens into the language we need.
+The structure of a token is nothing more than JSON, so that it is completely platform-agnostic. Just as you use tokens for the web, you can also use them for mobile apps. Each system will use a different language, and to avoid recreating tokens, we use JSON as the base and ==translate those tokens into the language we need==.
 
 In the case of the web, we translate design tokens from JSON into CSS, the styling language browsers understand. To do that, we use tools that read the tokens and generate the necessary CSS files.
 
