@@ -225,6 +225,22 @@ const jsonLd = [
   const HEADER_BOTTOM = 88
 
   if (section && content) {
+    // Cada parte anima sozinha (titulo, data, redes): na coluna estreita as
+    // redes descem para baixo da data, e com o atraso entre elas o bloco
+    // chega em cascata em vez de como uma peca rigida.
+    const parts = [
+      ...content.querySelectorAll<HTMLElement>(
+        ':scope > lui-heading, .post-details__meta > lui-flex',
+      ),
+    ]
+    const STAGGER = 60
+    // Eixos com ritmos diferentes para o bloco contornar o texto em vez de
+    // cruza-lo: ao encaixar vai primeiro para a esquerda e depois desce; ao
+    // voltar, sobe primeiro e depois vai para a direita. O eixo que chega por
+    // ultimo passa um pouco do ponto e assenta, para a chegada ter peso.
+    const lead = { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+    const settle = { duration: 820, easing: 'cubic-bezier(0.34, 1.16, 0.64, 1)' }
+
     let docked = false
     let motion: Animation[] = []
 
@@ -234,7 +250,7 @@ const jsonLd = [
 
       // Medido com a animacao anterior ainda aplicada: se o bloco estiver no
       // meio do caminho, a nova parte de onde ele esta.
-      const first = content.getBoundingClientRect()
+      const first = parts.map((part) => part.getBoundingClientRect())
       motion.forEach((animation) => animation.cancel())
 
       if (next) {
@@ -247,24 +263,22 @@ const jsonLd = [
       }
 
       if (!animate || reduceMotion.matches) return
-      const last = content.getBoundingClientRect()
-      const dx = first.left - last.left
-      const dy = first.top - last.top
-      // Eixos com ritmos diferentes para o bloco contornar o texto em vez de
-      // cruza-lo: ao encaixar vai primeiro para a esquerda e depois desce; ao
-      // voltar, sobe primeiro e depois vai para a direita.
-      const fast = { duration: 300, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
-      const slow = { duration: 550, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' }
-      motion = [
-        content.animate(
-          [{ transform: `translateX(${dx}px)` }, { transform: 'none' }],
-          next ? fast : slow,
-        ),
-        content.animate(
-          [{ translate: `0 ${dy}px` }, { translate: '0 0' }],
-          next ? slow : fast,
-        ),
-      ]
+      motion = parts.flatMap((part, index) => {
+        const last = part.getBoundingClientRect()
+        const dx = first[index].left - last.left
+        const dy = first[index].top - last.top
+        const delay = index * STAGGER
+        return [
+          part.animate(
+            [{ transform: `translateX(${dx}px)` }, { transform: 'none' }],
+            { ...(next ? lead : settle), delay, fill: 'backwards' },
+          ),
+          part.animate(
+            [{ translate: `0 ${dy}px` }, { translate: '0 0' }],
+            { ...(next ? settle : lead), delay, fill: 'backwards' },
+          ),
+        ]
+      })
     }
 
     let initial = true
