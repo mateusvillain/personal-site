@@ -1,8 +1,8 @@
-// Ajusta o espaco das notas na margem e as escreve quando entram na tela: primeiro o colchete e
-// tracado, depois a nota e escrita da esquerda para a direita (estilo em
-// src/sass/blog/_margin-note.scss). Mesmo esquema do marca-texto: sem a flag
-// do boot script do layout (sem JS, "reduzir movimento"), a nota ja nasce
-// escrita.
+// Ajusta o espaco das notas na margem e as escreve quando entram na tela:
+// primeiro o colchete e tracado, depois a nota e escrita da esquerda para a
+// direita (estilo em src/sass/blog/_margin-note.scss). Mesmo esquema do
+// marca-texto: sem a flag do boot script do layout (sem JS, "reduzir
+// movimento"), a nota ja nasce escrita.
 ;(function () {
   // Na margem (>= 1280px) a nota e posicionada ao lado do paragrafo e nao
   // ocupa espaco no fluxo: se ela for mais alta que ele, invadiria o
