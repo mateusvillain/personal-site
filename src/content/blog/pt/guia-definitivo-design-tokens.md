@@ -28,7 +28,7 @@ Quando falamos sobre representar decisões de design, nos referimos a cada atrib
 
 Por exemplo, uma cor azul solta pode não ter significado algum, mas quando inserida numa interface, como um botão de hierarquia primária, ele ganha uma atribuição, representando a cor de fundo para botões com o maior nível de hierarquia do produto.
 
-Já quando tratamos de ser independente de plataforma, é importante lembrarmos que um design token não é uma variável ou estilo no Figma, muito menos um CSS custom property. Design tokens são estruturados em JSON, de forma que possuam um formato agnóstico que possa ser interpretado por qual sistema ou linguagem, permitindo serem transformados em linguagens usáveis como CSS, Sass, JavaScript, Flutter, Swift, entre várias outras.
+Já quando tratamos de ser independente de plataforma, é importante lembrarmos que um design token não é uma variável ou estilo no Figma, muito menos um CSS custom property. Design tokens são estruturados em JSON, de forma que possuam um formato agnóstico que possa ser interpretado por qual sistema ou linguagem, permitindo serem transformados em linguagens usáveis como CSS, Sass, JavaScript, Flutter, Swift, entre várias outras. ^[token não é variável do Figma!]
 
 O formato de um design token segue o seguinte padrão:
 
@@ -50,7 +50,7 @@ Nesse exemplo, temos um design token chamado `color.background.page` que represe
 
 Conforme vamos afunilando a nomenclatura, por meio de chaves, vamos aumentando a nomenclatura do token, até a sua camada final onde definimos o valor, e opcionalmente, uma descrição. Além disso, design tokens exigem que você identifique seu tipo, representado por `$type`, que pode ser `color`, `dimension`, `number`, `typography`, entre outros.
 
-Em outras palavras, um design token é uma forma de transformar decisões de design em dados reutilizáveis.
+Em outras palavras, um design token é uma forma de ==transformar decisões de design em dados reutilizáveis==.
 
 ## Níveis de design tokens
 
@@ -95,7 +95,7 @@ Nesse nível, não importa onde esses valores serão usados. Eles são apenas a 
 
 Semantic Tokens (tokens semânticos) são o segundo nível, que adicionam significado aos tokens primitivos. Em vez de representar um valor direto, eles representam uma intenção dentro da interface, como “cor de fundo”, “texto principal” ou “espaçamento entre elementos”.
 
-Eles normalmente referenciam tokens primitivos, fazendo o que chamamos de **alias**, que é quando um design token não possui valor próprio, apenas aponta para outro token.
+Eles normalmente referenciam tokens primitivos, fazendo o que chamamos de **alias**, que é quando um design token ==não possui valor próprio, apenas aponta para outro token==.
 
 Aqui, o foco não é mais o valor em si, mas o papel que ele desempenha. Isso deixa o design system mais flexível e fácil de manter.
 
@@ -151,7 +151,7 @@ Além disso, Component Tokens não são reutilizáveis como Semantic Tokens. Uma
 
 ## Uso prático
 
-A estrutura de um token nada mais é do que um JSON, para ser completamente agnóstico de plataformas. Ao mesmo que você usa tokens para web, você também pode usar para aplicativos mobile. Cada sistema vai usar uma linguagem diferente, e para não precisar recriar tokens, usamos JSON como base, e traduzimos esses tokens para a linguagem que precisamos.
+A estrutura de um token nada mais é do que um JSON, para ser completamente agnóstico de plataformas. Ao mesmo que você usa tokens para web, você também pode usar para aplicativos mobile. Cada sistema vai usar uma linguagem diferente, e para não precisar recriar tokens, usamos JSON como base, e ==traduzimos esses tokens para a linguagem que precisamos==.
 
 No caso da web, traduzimos design tokens de JSON para CSS, que é a linguagem de estilo aceita pelos navegadores. Para isso, usamos ferramentas que realizam a leitura dos tokens e geram os arquivos CSS necessários.
 
