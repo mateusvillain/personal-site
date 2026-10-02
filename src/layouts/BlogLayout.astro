@@ -50,7 +50,7 @@ const strings = ui[locale]
 const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
 
 /**
- * Liga o marca-texto animado antes da primeira pintura, para o destaque nao
+ * Liga o marca-texto (e as notas na margem) animado antes da primeira pintura, para o destaque nao
  * aparecer pronto e so entao encolher para animar. Se o script do marca-texto
  * nao assumir o controle a tempo - deploy pela metade, asset bloqueado -, a
  * flag cai sozinha: destaque escondido seria pior que destaque sem animacao.
@@ -60,6 +60,12 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.documentElement.dataset.hlAnimate = ''
   window.__hlFallback = setTimeout(function () {
     document.documentElement.removeAttribute('data-hl-animate')
+  }, 3000)
+  // Mesma ideia para as notas na margem, com flag propria: cada script so
+  // desarma a rede de seguranca do que ele mesmo desenha.
+  document.documentElement.dataset.mnAnimate = ''
+  window.__mnFallback = setTimeout(function () {
+    document.documentElement.removeAttribute('data-mn-animate')
   }, 3000)
 }
 `
@@ -131,6 +137,7 @@ try {
 
     {showAuthor && <script is:inline src="/blog/js/code-copy.js" defer></script>}
     {showAuthor && <script is:inline src="/blog/js/highlight.js" defer></script>}
+    {showAuthor && <script is:inline src="/blog/js/margin-note.js" defer></script>}
     <script is:inline src="/blog/js/form.js" defer></script>
     <Scripts />
     <CookieConsent locale={locale} />
