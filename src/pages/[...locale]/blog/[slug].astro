@@ -302,5 +302,160 @@ const jsonLd = [
 </script>
 
 <script>
+  // Entrada do post, como uma pagina sendo composta: o titulo assenta palavra
+  // por palavra (sobe e ganha foco), data e redes vem logo atras e os blocos
+  // da primeira tela sobem em cascata. Por fim o marca-texto passa a caneta
+  // (public/blog/js/highlight.js espera o evento `post:entered`).
+  //
+  // Header, barra do topo e preferencias nao entram: ja estao na tela. So
+  // anima o que esta visivel; o resto da pagina ja esta pronto quando o
+  // leitor chegar la. O estado inicial vem do CSS (html[data-post-enter]) e
+  // as animacoes o seguram (fill backwards), entao a flag sai no mesmo quadro.
+  const root = document.documentElement
+  const ENTER_ID = 'post-enter'
+  const SKIP_EVENTS = ['keydown', 'pointerdown', 'wheel', 'touchstart'] as const
+
+  const done = () => {
+    ;(window as Window & { __postEntering?: boolean }).__postEntering = false
+    document.dispatchEvent(new Event('post:entered'))
+  }
+
+  const playEnter = () => {
+    clearTimeout(
+      (window as Window & { __postEnterFallback?: number }).__postEnterFallback,
+    )
+
+    const ease = 'cubic-bezier(0.22, 1, 0.36, 1)'
+    const inView = (element: Element) =>
+      element.getBoundingClientRect().top < window.innerHeight
+    const rise = (
+      element: Element,
+      delay: number,
+      { distance = 12, duration = 560 } = {},
+    ) =>
+      element.animate(
+        [
+          { opacity: 0, transform: `translateY(${distance}px)` },
+          { opacity: 1, transform: 'none' },
+        ],
+        { duration, delay, easing: ease, fill: 'backwards', id: ENTER_ID },
+      )
+
+    const breadcrumb = document.querySelector('main lui-breadcrumb')
+    if (breadcrumb) rise(breadcrumb, 0, { distance: 6, duration: 400 })
+
+    // Titulo quebrado em palavras so durante a entrada. Leitores de tela
+    // continuam lendo o titulo inteiro (copia em .sr-only, palavras ocultas);
+    // no fim o texto original volta, sem spans.
+    const heading = document.querySelector<HTMLElement>(
+      '[data-post-details-content] > lui-heading',
+    )
+    const title = heading?.textContent?.trim() ?? ''
+    let titleEnd = 0
+    if (heading && title) {
+      const words = title.split(/\s+/)
+      const label = document.createElement('span')
+      label.className = 'sr-only'
+      label.textContent = title
+      const visual = document.createElement('span')
+      visual.setAttribute('aria-hidden', 'true')
+      words.forEach((word, index) => {
+        const span = document.createElement('span')
+        span.className = 'post-title__word'
+        span.textContent = word
+        visual.append(span, index < words.length - 1 ? ' ' : '')
+      })
+      heading.replaceChildren(label, visual)
+
+      // Titulo longo nao pode atrasar o resto: a cascata cabe em 360ms.
+      const stagger = Math.min(40, 360 / words.length)
+      visual.querySelectorAll('.post-title__word').forEach((word, index) => {
+        word.animate(
+          [
+            { opacity: 0, transform: 'translateY(0.45em)', filter: 'blur(6px)' },
+            { opacity: 1, transform: 'none', filter: 'blur(0)' },
+          ],
+          {
+            duration: 640,
+            delay: 80 + index * stagger,
+            easing: ease,
+            fill: 'backwards',
+            id: ENTER_ID,
+          },
+        )
+      })
+      titleEnd = 80 + (words.length - 1) * stagger
+
+      const restore = () => heading.replaceChildren(title)
+      Promise.all(
+        heading.getAnimations({ subtree: true }).map((a) => a.finished),
+      ).then(restore, restore)
+    }
+
+    // Data e tempo de leitura acompanham o fim do titulo; as redes chegam uma
+    // a uma, com um leve crescer, como quem as coloca no lugar.
+    const metaStart = Math.min(titleEnd, 280) + 120
+    const date = document.querySelector('.post-details__meta > lui-flex')
+    if (date) rise(date, metaStart, { distance: 8 })
+    document
+      .querySelectorAll(
+        '.post-details__meta > lui-flex:last-child > :not(.sr-only)',
+      )
+      .forEach((icon, index) =>
+        icon.animate(
+          [
+            { opacity: 0, transform: 'scale(0.6)' },
+            { opacity: 1, transform: 'none' },
+          ],
+          {
+            duration: 480,
+            delay: metaStart + 80 + index * 60,
+            easing: 'cubic-bezier(0.34, 1.4, 0.64, 1)',
+            fill: 'backwards',
+            id: ENTER_ID,
+          },
+        ),
+      )
+
+    // Corpo do texto: so os blocos da primeira tela, em cascata curta.
+    const blocks = [
+      ...document.querySelectorAll('.full-post > :not(.post-details)'),
+      ...document.querySelectorAll('.body-container > :not(main)'),
+    ].filter(inView)
+    const bodyStart = metaStart
+    const blockStagger = Math.min(70, 350 / Math.max(blocks.length, 1))
+    blocks.forEach((block, index) =>
+      rise(block, bodyStart + index * blockStagger, { distance: 16 }),
+    )
+
+    root.removeAttribute('data-post-enter')
+
+    // Ninguem espera a entrada para ler: qualquer tecla, clique, toque ou
+    // rolagem leva tudo ao estado final na hora (e o Tab nao foca nada ainda
+    // invisivel).
+    const entering = () =>
+      document.getAnimations().filter((a) => a.id === ENTER_ID)
+    const skip = () => {
+      entering().forEach((animation) => animation.finish())
+      SKIP_EVENTS.forEach((type) =>
+        window.removeEventListener(type, skip, true),
+      )
+    }
+    SKIP_EVENTS.forEach((type) =>
+      window.addEventListener(type, skip, { capture: true, passive: true }),
+    )
+    Promise.all(entering().map((a) => a.finished)).then(
+      () => {
+        skip()
+        done()
+      },
+      done,
+    )
+  }
+
+  if (root.hasAttribute('data-post-enter')) playEnter()
+</script>
+
+<script>
   import '@lets-ui/components'
 </script>

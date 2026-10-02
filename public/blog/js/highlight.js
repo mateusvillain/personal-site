@@ -110,9 +110,19 @@
     setTimeout(drawTail, TAIL_DELAY)
   }
 
+  // Com a entrada do post rodando (ver BlogLayout.astro), o texto ainda esta
+  // chegando: a caneta so passa depois que ele assenta.
+  function start() {
+    if (window.__postEntering) {
+      document.addEventListener('post:entered', initHighlights, { once: true })
+    } else {
+      initHighlights()
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHighlights)
+    document.addEventListener('DOMContentLoaded', start)
   } else {
-    initHighlights()
+    start()
   }
 })()
