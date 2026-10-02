@@ -1,0 +1,141 @@
+/**
+ * Nota na margem dos posts (`^[nota]` no fim do paragrafo, ver
+ * src/lib/remark-margin-note.mjs).
+ *
+ * Abaixo de 1280px: colchete deitado embaixo do paragrafo e a nota centrada
+ * sob ele. A partir de 1280px, onde ha margem livre a direita do texto, o
+ * colchete fica em pe ao lado do paragrafo, da altura dele, e a nota depois.
+ */
+
+@font-face {
+  font-family: 'Caveat';
+  src: url('fonts/Caveat-VariableFont_wght.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+$note-gap: 32px; // do texto ate o colchete
+$note-width: 220px;
+
+.margin-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 12px -8px 0;
+  color: var(--lui-color-neutral-text-body);
+  text-align: center;
+
+  &__bracket {
+    flex: none;
+    overflow: visible;
+
+    path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.25px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &--x {
+      width: 100%;
+      height: 12px;
+    }
+
+    &--y {
+      display: none;
+    }
+  }
+
+  &__text {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  @media (min-width: 1280px) {
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    left: calc(100% + #{$note-gap});
+    flex-direction: row;
+    gap: 16px;
+    width: $note-width;
+    margin: 0;
+    text-align: left;
+
+    &__bracket--x {
+      display: none;
+    }
+
+    &__bracket--y {
+      display: block;
+      width: 12px;
+      height: 100%;
+    }
+  }
+}
+
+@media (min-width: 1280px) {
+  .has-margin-note {
+    position: relative;
+  }
+}
+
+/**
+ * Desenho a mao, como o marca-texto: so existe com a flag do boot script do
+ * layout (`[data-mn-animate]`), e o public/blog/js/margin-note.js poe
+ * `.is-drawn` quando a nota entra na tela. O colchete e tracado primeiro (de
+ * cima para baixo em pe, da esquerda para a direita deitado) e a nota e
+ * escrita depois, da esquerda para a direita.
+ *
+ * O traco e revelado por recorte, nao por `stroke-dashoffset`: com o SVG
+ * esticado e `non-scaling-stroke`, o tamanho do tracejado nao bate com o do
+ * caminho e a ponta final ficava sem desenhar.
+ */
+$draw-ease: cubic-bezier(0.65, 0, 0.35, 1);
+$write-delay: 360ms;
+
+[data-mn-animate] .margin-note {
+  .margin-note__bracket--y {
+    clip-path: inset(-2px -2px 100% -2px);
+  }
+
+  .margin-note__bracket--x {
+    clip-path: inset(-2px 100% -2px -2px);
+  }
+
+  .margin-note__bracket {
+    transition: clip-path 480ms $draw-ease var(--mn-delay, 0ms);
+  }
+
+  .margin-note__text {
+    // Folga em volta: as letras cursivas passam da caixa do texto.
+    clip-path: inset(-0.5em 100% -0.5em -0.5em);
+    transition: clip-path var(--mn-duration, 700ms)
+      cubic-bezier(0.45, 0, 0.55, 1)
+      calc(var(--mn-delay, 0ms) + #{$write-delay});
+  }
+
+  &.is-drawn {
+    .margin-note__bracket {
+      clip-path: inset(-2px);
+    }
+
+    .margin-note__text {
+      clip-path: inset(-0.5em);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  [data-mn-animate] .margin-note {
+    .margin-note__bracket,
+    .margin-note__text {
+      clip-path: none;
+      transition: none;
+    }
+  }
+}

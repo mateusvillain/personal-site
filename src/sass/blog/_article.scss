@@ -38,6 +38,10 @@ header {
 }
 
 main {
+  // Item de flex (.body-container) com margem automatica: sem largura
+  // explicita ele assume a do conteudo mais largo (blocos de codigo) e a
+  // pagina transborda no celular. Os blocos de codigo ja rolam por dentro.
+  width: 100%;
   max-width: 640px;
   margin: 0 auto;
   padding-bottom: 4rem;
@@ -164,4 +168,43 @@ hr {
   margin: var(--lui-spacing-fluid-40) var(--lui-spacing-fixed-0);
   border: none;
   height: 1px;
+}
+
+// Titulo, data e compartilhamento do post. Com `data-docked` (posto pelo
+// script de src/pages/[...locale]/blog/[slug].astro ao rolar, so a partir de
+// 1280px) o bloco vira uma coluna fixa a esquerda do texto, 40px antes dele.
+// A secao fica com a altura antiga, entao o texto nao pula.
+$post-column: 560px;
+$post-dock-gap: 40px;
+$post-dock-top: 136px; // abaixo do header (24px + 64px) com 48px de respiro
+
+.post-details[data-docked] {
+  .post-details__content {
+    position: fixed;
+    top: $post-dock-top;
+    right: calc(50% + #{$post-column * 0.5} + #{$post-dock-gap});
+    width: min(320px, calc(50% - #{$post-column * 0.5 + $post-dock-gap} - 24px));
+    margin: 0;
+  }
+
+  // Na coluna estreita, data e redes ficam empilhadas.
+  .post-details__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
+  }
+}
+
+// Estado inicial da entrada do post (boot em BlogLayout.astro, animacao em
+// src/pages/[...locale]/blog/[slug].astro): o conteudo comeca invisivel e o
+// script tira a flag no mesmo quadro em que as animacoes assumem. Header,
+// barra do topo e preferencias ficam fora disso.
+html[data-post-enter] .body-container {
+  opacity: 0;
+}
+
+// Palavras do titulo durante a entrada: inline-block para poderem subir.
+.post-title__word {
+  display: inline-block;
 }
