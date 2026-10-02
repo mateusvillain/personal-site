@@ -244,6 +244,10 @@ const jsonLd = [
     let docked = false
     let motion: Animation[] = []
 
+    // Com o bloco ja na coluna: a base dele cabe na tela, com respiro?
+    const fitsDocked = () =>
+      content.getBoundingClientRect().bottom <= window.innerHeight - 24
+
     const setDocked = (next: boolean, animate = true) => {
       if (next === docked) return
       docked = next
@@ -257,6 +261,15 @@ const jsonLd = [
         // Guarda o espaco no texto para nada pular quando o bloco sai do fluxo.
         section.style.height = `${section.offsetHeight}px`
         section.setAttribute('data-docked', '')
+
+        // Titulo longo em tela baixa: a coluna passaria do fim da tela e as
+        // redes ficariam inalcancaveis. Nesse caso o bloco fica onde estava.
+        if (!fitsDocked()) {
+          section.removeAttribute('data-docked')
+          section.style.height = ''
+          docked = false
+          return
+        }
       } else {
         section.removeAttribute('data-docked')
         section.style.height = ''
@@ -294,9 +307,17 @@ const jsonLd = [
     )
     observer.observe(section)
 
-    wide.addEventListener('change', () => {
+    const recheck = () => {
       const rect = section.getBoundingClientRect()
       setDocked(wide.matches && rect.bottom < HEADER_BOTTOM, false)
+    }
+    wide.addEventListener('change', recheck)
+
+    // A janela pode encolher com o bloco ja na coluna: se deixar de caber,
+    // ele volta para o lugar (e encaixa de novo se a janela crescer).
+    window.addEventListener('resize', () => {
+      if (docked && !fitsDocked()) setDocked(false, false)
+      else if (!docked) recheck()
     })
   }
 </script>
@@ -453,7 +474,22 @@ const jsonLd = [
     )
   }
 
-  if (root.hasAttribute('data-post-enter')) playEnter()
+  if (root.hasAttribute('data-post-enter')) {
+    try {
+      playEnter()
+    } catch (error) {
+      // A rede de seguranca do boot ja foi desarmada no comeco da entrada:
+      // se ela quebrar no meio, mostra tudo na hora e libera o marca-texto e
+      // as notas, em vez de deixar o post invisivel.
+      document
+        .getAnimations()
+        .filter((animation) => animation.id === ENTER_ID)
+        .forEach((animation) => animation.cancel())
+      root.removeAttribute('data-post-enter')
+      done()
+      console.error(error)
+    }
+  }
 </script>
 
 <script>
