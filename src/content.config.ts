@@ -15,7 +15,8 @@ import { resourceCategories } from './i18n/resources'
 export const collections = {
   blog: defineCollection({
     loader: glob({
-      pattern: '**/*.md',
+      // O README.md da pasta documenta como escrever os posts; nao e post.
+      pattern: ['**/*.md', '!README.md'],
       base: './src/content/blog',
       // O id e sempre o caminho do arquivo (`en/chave`, `pt/chave`); o
       // glob, por padrao, usaria o `slug` do frontmatter e perderia o idioma.
