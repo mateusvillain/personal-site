@@ -17,26 +17,6 @@ ul {
   list-style-position: inside;
 }
 
-header {
-  padding: 1.5rem 2rem;
-  margin-bottom: 3rem;
-
-  a {
-    text-decoration: none;
-    font-size: 1rem;
-    transition: opacity 0.2s;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  span {
-    margin: 0 0.5rem;
-    color: hsl(240, 3%, 46%);
-  }
-}
-
 main {
   // Item de flex (.body-container) com margem automatica: sem largura
   // explicita ele assume a do conteudo mais largo (blocos de codigo) e a
