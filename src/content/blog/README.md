@@ -90,6 +90,8 @@ Regras:
 
 Leitores de tela ouvem "Nota na margem:" (ou "Margin note:") antes do texto. Detalhes em `src/lib/remark-margin-note.mjs`.
 
+Com o cursor sobre a nota (só em dispositivos com mouse), o resto do post esmaece e só o parágrafo anotado fica em destaque. É um efeito apenas visual, sem impacto em leitores de tela ou na navegação por teclado.
+
 ## Usando com moderação
 
 Destaques e notas chamam atenção justamente por serem raros. Como referência, o guia de design tokens tem 3 destaques e 1 nota em todo o post.

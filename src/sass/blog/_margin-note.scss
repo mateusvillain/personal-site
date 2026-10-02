@@ -139,3 +139,27 @@ $write-delay: 360ms;
     }
   }
 }
+
+/**
+ * Foco na nota: com o cursor sobre a nota, o resto do post esmaece e so o
+ * paragrafo anotado (com a nota) fica em destaque. E so visual - `opacity`
+ * nao tira nada da arvore de acessibilidade, nao ha foco de teclado nem
+ * atributo ARIA envolvido. So em dispositivos com hover de verdade, para um
+ * toque no celular nao deixar o texto apagado.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .full-post > * {
+    transition: opacity 240ms ease-out;
+  }
+
+  .full-post:has(.margin-note:hover)
+    > :not(.has-margin-note:has(.margin-note:hover)) {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .full-post > * {
+    transition: none;
+  }
+}
