@@ -1,9 +1,44 @@
-// Escreve as notas na margem quando entram na tela: primeiro o colchete e
+// Ajusta o espaco das notas na margem e as escreve quando entram na tela: primeiro o colchete e
 // tracado, depois a nota e escrita da esquerda para a direita (estilo em
 // src/sass/blog/_margin-note.scss). Mesmo esquema do marca-texto: sem a flag
 // do boot script do layout (sem JS, "reduzir movimento"), a nota ja nasce
 // escrita.
 ;(function () {
+  // Na margem (>= 1280px) a nota e posicionada ao lado do paragrafo e nao
+  // ocupa espaco no fluxo: se ela for mais alta que ele, invadiria o
+  // paragrafo seguinte (e a nota dele). Nesse caso o paragrafo ganha altura
+  // minima para conte-la. Vale com ou sem animacao.
+  const margin = window.matchMedia('(min-width: 1280px)')
+
+  function fitNotes() {
+    document.querySelectorAll('.full-post .margin-note').forEach((note) => {
+      const paragraph = note.parentElement
+      const text = note.querySelector('.margin-note__text')
+      if (!paragraph || !text) return
+
+      paragraph.style.minHeight = ''
+      if (!margin.matches) return
+
+      if (text.offsetHeight > paragraph.offsetHeight) {
+        paragraph.style.minHeight = text.offsetHeight + 'px'
+      }
+    })
+  }
+
+  function initLayout() {
+    fitNotes()
+    margin.addEventListener('change', fitNotes)
+    window.addEventListener('resize', fitNotes)
+    // A altura da nota so e a final com a fonte manuscrita carregada.
+    if (document.fonts) document.fonts.ready.then(fitNotes)
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLayout)
+  } else {
+    initLayout()
+  }
+
   if (!('mnAnimate' in document.documentElement.dataset)) {
     return
   }

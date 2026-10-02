@@ -10,6 +10,9 @@
  *
  * Regras da marcacao:
  * - a nota precisa ser a ultima coisa do paragrafo e vale para ele inteiro;
+ * - so paragrafos soltos do texto: dentro de lista, citacao ou tabela fica
+ *   como texto (numa lista compacta o paragrafo nem vira `<p>`, e o recuo
+ *   desalinharia a nota das outras);
  * - o texto da nota e simples (sem formatacao) e nao pode conter `]`;
  * - `^[...]` no meio do paragrafo fica como texto.
  *
@@ -80,44 +83,37 @@ export default function remarkMarginNote() {
   return (tree, file) => {
     const label = LABELS[localeOf(file)]
 
-    const walk = (node) => {
-      if (!Array.isArray(node.children)) return
+    tree.children.forEach((node) => {
+      if (node.type !== 'paragraph') return
 
-      if (node.type === 'paragraph') {
-        const last = node.children.at(-1)
-        const match = last?.type === 'text' && last.value.match(NOTE)
-        if (!match) return
+      const last = node.children.at(-1)
+      const match = last?.type === 'text' && last.value.match(NOTE)
+      if (!match) return
 
-        last.value = last.value.slice(0, match.index)
-        if (last.value === '') node.children.pop()
+      last.value = last.value.slice(0, match.index)
+      if (last.value === '') node.children.pop()
 
-        node.data = {
-          ...node.data,
-          hProperties: { className: ['has-margin-note'] },
-        }
-        node.children.push({
-          type: 'marginNote',
-          data: {
-            hName: 'span',
-            hProperties: { className: ['margin-note'] },
-            hChildren: [
-              h('span', { className: ['sr-only'] }, [
-                { type: 'text', value: ` ${label} ` },
-              ]),
-              bracket('y'),
-              bracket('x'),
-              h('span', { className: ['margin-note__text'] }, [
-                { type: 'text', value: match[1].trim() },
-              ]),
-            ],
-          },
-        })
-        return
+      node.data = {
+        ...node.data,
+        hProperties: { className: ['has-margin-note'] },
       }
-
-      node.children.forEach(walk)
-    }
-
-    walk(tree)
+      node.children.push({
+        type: 'marginNote',
+        data: {
+          hName: 'span',
+          hProperties: { className: ['margin-note'] },
+          hChildren: [
+            h('span', { className: ['sr-only'] }, [
+              { type: 'text', value: ` ${label} ` },
+            ]),
+            bracket('y'),
+            bracket('x'),
+            h('span', { className: ['margin-note__text'] }, [
+              { type: 'text', value: match[1].trim() },
+            ]),
+          ],
+        },
+      })
+    })
   }
 }
