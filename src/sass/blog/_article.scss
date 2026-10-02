@@ -38,6 +38,10 @@ header {
 }
 
 main {
+  // Item de flex (.body-container) com margem automatica: sem largura
+  // explicita ele assume a do conteudo mais largo (blocos de codigo) e a
+  // pagina transborda no celular. Os blocos de codigo ja rolam por dentro.
+  width: 100%;
   max-width: 640px;
   margin: 0 auto;
   padding-bottom: 4rem;
