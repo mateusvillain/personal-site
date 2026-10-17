@@ -130,3 +130,8 @@ jakub-krehel:
   url: https://jakub.kr
   category: people
   icon: /img/resources/jakub-krehel.png
+mkdir:
+  name: mkdir
+  url: https://mkdir.directory
+  category: inspiration
+  icon: /img/resources/mkdir.png
