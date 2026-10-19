@@ -1,0 +1,85 @@
+---
+/**
+ * Simulador do escritorio (/office/): canvas isometrico em pixel art
+ * desenhado por `public/js/office.js`. A lista de botoes e o painel dao a
+ * mesma interacao por teclado/leitor de tela; o canvas e so visual.
+ */
+import SiteHeader from './SiteHeader.astro'
+import { localizePath, type Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+import { office } from '../i18n/office'
+
+interface Props {
+  locale: Locale
+  switchPath: string
+}
+
+const { locale, switchPath } = Astro.props
+const strings = office[locale]
+const common = ui[locale]
+const objects = Object.entries(strings.objects)
+---
+
+<a href="#main" class="skip-link">{common.skipLink}</a>
+<SiteHeader locale={locale} switchPath={switchPath} />
+<div class="body-container gap-fluid-80">
+  <main id="main" class="hero flex flex-col gap-fluid-40">
+    <div>
+      <lui-breadcrumb>
+        <lui-breadcrumb-item href={localizePath('/', locale)}
+          >{common.home}</lui-breadcrumb-item
+        >
+      </lui-breadcrumb>
+      <div class="m-t-fluid-16 m-b-fluid-8">
+        <lui-heading variant="title">{strings.title}</lui-heading>
+      </div>
+      <lui-body variant="lg">{strings.intro}</lui-body>
+    </div>
+
+    <section class="office" data-office>
+      <div class="office__stage">
+        <canvas
+          class="office__canvas"
+          width="320"
+          height="256"
+          role="img"
+          aria-label={strings.canvasLabel}
+          data-office-canvas></canvas>
+        <div class="office__tip" data-office-tip hidden aria-hidden="true"></div>
+      </div>
+      <noscript><p class="body--lg">{strings.noScript}</p></noscript>
+
+      <div class="office__panel" role="status" aria-live="polite">
+        <p class="office__panel-title body--lg" data-office-title>
+          {strings.panel.idle}
+        </p>
+        <p class="office__panel-text body--md" data-office-text>
+          {strings.panel.idleText}
+        </p>
+      </div>
+
+      <ul class="office__list no-list" aria-label={strings.listLabel}>
+        {
+          objects.map(([id, item]) => (
+            <li>
+              <button type="button" class="office__item" data-office-item={id}>
+                {item.name}
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</div>
+
+<script
+  type="application/json"
+  id="office-data"
+  set:html={JSON.stringify({
+    objects: strings.objects,
+    idle: strings.panel.idle,
+    idleText: strings.panel.idleText,
+  })}
+/>
+<script is:inline src="/js/office.js"></script>

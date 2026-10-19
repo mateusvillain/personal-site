@@ -1,0 +1,94 @@
+// Simulador do escritorio (/office/). O canvas e desenhado em baixa
+// resolucao e ampliado em multiplos inteiros (largura definida por
+// public/js/office.js) para manter os pixels nitidos.
+
+.office {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lui-spacing-fluid-24);
+
+  // O container do site e estreito demais para a cena: o palco vaza para
+  // as laterais, centralizado na viewport.
+  &__stage {
+    position: relative;
+    left: 50%;
+    width: min(1120px, calc(100vw - 2rem));
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    padding: var(--lui-spacing-fixed-16);
+    border-radius: var(--lui-border-radius-lg);
+    background-color: var(--lui-color-gray-2);
+  }
+
+  &__tip {
+    position: absolute;
+    z-index: 1;
+    padding: var(--lui-spacing-fixed-4) var(--lui-spacing-fixed-8);
+    border-radius: var(--lui-border-radius-md);
+    background-color: var(--lui-color-gray-1);
+    border: 1px solid var(--lui-color-gray-4);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    pointer-events: none;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__canvas {
+    display: block;
+    width: 640px;
+    max-width: 100%;
+    aspect-ratio: 320 / 256;
+    image-rendering: pixelated;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  &__panel {
+    min-height: 5.5rem;
+    padding: var(--lui-spacing-fixed-16);
+    border-radius: var(--lui-border-radius-md);
+    background-color: var(--lui-color-gray-2);
+  }
+
+  &__panel-title {
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fixed-8);
+  }
+
+  &__item {
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--lui-color-gray-4);
+    border-radius: var(--lui-border-radius-md);
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &[aria-pressed='true'] {
+      background-color: var(--lui-color-gray-2);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--lui-focus-ring-primary);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .office__item {
+    transition: none;
+  }
+}

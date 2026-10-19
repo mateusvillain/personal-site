@@ -1,0 +1,30 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import OfficeContent from '../../components/OfficeContent.astro'
+import {
+  localeStaticPaths,
+  localizePath,
+  otherLocale,
+  type Locale,
+} from '../../i18n/config'
+import { office } from '../../i18n/office'
+
+export function getStaticPaths() {
+  return localeStaticPaths()
+}
+
+const { locale } = Astro.props as { locale: Locale }
+const strings = office[locale]
+---
+
+<SiteLayout
+  locale={locale}
+  title={strings.metaTitle}
+  description={strings.metaDescription}
+  canonicalPath={localizePath('/office/', locale)}
+>
+  <OfficeContent
+    locale={locale}
+    switchPath={localizePath('/office/', otherLocale(locale))}
+  />
+</SiteLayout>
