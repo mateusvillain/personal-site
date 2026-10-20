@@ -255,6 +255,16 @@
     mouse: 'mouse_1x1',
     monitor: 'monitor_ultrawide_sem_base_3x1',
     arm: 'suporte_monitor_3x1',
+    shelf: 'estante_3x2',
+    shelfFront: 'estante_3x2_camada_frente',
+    books: 'livros_2x1',
+    bookPile: 'livros_pilha_1x1',
+    typewriter: 'maquina_escrever_2x1',
+    hat: 'chapeu_seletor_1x1',
+    camDslr: 'camera_dslr_1x1',
+    camCompact: 'camera_compacta_1x1',
+    frameWood: 'foto_moldura_madeira_1x1',
+    frameBlack: 'foto_moldura_preta_1x1',
   }
   // Spritesheets animadas: os quadros ficam lado a lado, todos do mesmo
   // tamanho, e `w`/`d` e a base de cada quadro em tiles.
@@ -273,7 +283,7 @@
     SPR[key] = s
   }
   for (const [key, file] of Object.entries(SPRITE_FILES)) {
-    const [, w, d] = file.match(/_(\d+)x(\d+)$/)
+    const [, w, d] = file.match(/_(\d+)x(\d+)(?:_|$)/)
     loadSprite(key, file, +w, +d, 1)
   }
   for (const [key, sh] of Object.entries(SPRITE_SHEETS)) {
@@ -436,11 +446,9 @@
   // Escalas antigas -> escala dos sprites.
   const SCALE = { k: 2.5, kz: 2.27, oz: 0, nz: 0 }
   const L = {
-    door: { ...SCALE, ox: 0.1, oy: 0, nx: 0.8, ny: 0 },
     curtain: { ...SCALE, ox: 8.3, oy: 0, nx: 14, ny: 0 },
-    shelf: { ...SCALE, ox: 0, oy: 2.2, nx: 0, ny: 3 },
-    backpack: { ...SCALE, ox: 0.12, oy: 4.3, nx: 0.2, ny: 8.2 },
-    plant: { ...SCALE, ox: 0.12, oy: 5.27, nx: 0.2, ny: 9.85 },
+    backpack: { ...SCALE, ox: 0.12, oy: 4.3, nx: 0.2, ny: 7.2 },
+    plant: { ...SCALE, ox: 0.12, oy: 5.27, nx: 0.2, ny: 9.6 },
     ringlight: { ...SCALE, ox: 8.1, oy: 5.9, nx: 13.6, ny: 9.5 },
     // Itens pequenos sobre a mesa: mais escala em x/y que em z.
     notebook: {
@@ -548,106 +556,38 @@
     legacy(L.mic, drawMic)
   }
 
-  const bookColors = [
-    '#16171b',
-    '#2f5f8a',
-    '#7a2a2e',
-    '#d6b24a',
-    '#e8e4da',
-    '#2e6a4f',
-    '#b8532e',
-    '#3a3a46',
-  ]
+  // Estante na parede direita (frente para +y), com os itens sobre cada
+  // tabua. As alturas das tabuas vem do proprio sprite da estante. A camada
+  // da frente (colunas) e desenhada por ultimo, por cima dos itens.
+  const SHELF = { x: 1, y: 0 }
+  const BOARD = { top: 127, mid: 102, low: 77, drawers: 52 }
 
   function drawShelf() {
+    const { x, y } = SHELF
     use('shelf')
-    const post = '#1b1c1f'
-    const board = '#b8723a'
-    // pernas de tras e da frente
-    box(0.0, 2.2, 0, 0.1, 0.1, 82, post)
-    box(0.0, 4.1, 0, 0.1, 0.1, 82, post)
-    // fundo e prateleira de baixo
-    box(0.05, 2.25, 6, 0.7, 1.9, 2, board)
-    box(0.2, 2.5, 8, 0.5, 0.7, 5, '#c49a68')
-    box(0.22, 3.3, 8, 0.45, 0.5, 6, '#1f2024')
-    // gavetas
-    const dr = { top: '#d28a4a', left: '#c27a38', right: '#bf7a3c' }
-    box(0.05, 2.3, 14, 0.72, 1.8, 22, dr)
-    fxRect(0.77, 2.3, 14, 1, 28, 10, 11, '#8a5424')
-    fxRect(0.77, 2.3, 14, 9, 20, 5, 6, '#15161a')
-    fxRect(0.77, 2.3, 14, 9, 20, 16, 17, '#15161a')
-    // pernas da frente
-    box(0.7, 2.2, 0, 0.1, 0.1, 82, post)
-    box(0.7, 4.1, 0, 0.1, 0.1, 82, post)
-
-    // maquina de escrever
-    use('typewriter')
-    box(0.1, 2.5, 36, 0.62, 1.1, 5, '#cfcac0')
-    box(0.05, 2.4, 41, 0.36, 1.3, 2, '#25262a')
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 8; c++) {
-        fxRect(
-          0.72,
-          2.55,
-          36,
-          2 + c * 2,
-          3 + c * 2,
-          1 + r * 1.5,
-          2 + r * 1.5,
-          '#6a6860',
-        )
-      }
-    }
-
-    // copo de canetas
-    use('shelf')
-    box(0.3, 3.8, 36, 0.28, 0.28, 5, '#2b5fc4')
-
-    // prateleira de livros
-    box(0.05, 2.25, 47, 0.7, 1.9, 2, board)
-    use('camera')
-    box(0.18, 2.35, 49, 0.45, 0.5, 6, '#1d1d1f')
-    box(0.55, 2.45, 50, 0.18, 0.3, 3, '#33343a')
-    use('books')
-    let yy = 2.95
-    const heights = [11, 10, 11, 9, 11, 10, 8, 11, 9, 10, 8]
-    for (let i = 0; i < heights.length && yy < 4.0; i++) {
-      const th = 0.09 + (i % 3) * 0.02
-      box(0.2, yy, 49, 0.5, th, heights[i], bookColors[i % bookColors.length])
-      yy += th
-    }
-
-    // prateleira de cima
-    use('shelf')
-    box(0.05, 2.25, 62, 0.7, 1.9, 2, board)
-    use('books')
-    box(0.15, 2.4, 64, 0.55, 0.8, 4, '#2a5d7a')
-    box(0.18, 2.45, 68, 0.5, 0.7, 3, '#3a7a5a')
-    box(0.15, 3.3, 64, 0.5, 0.6, 3, '#e8e4da')
-    use('camera')
-    box(0.15, 3.3, 67, 0.4, 0.5, 5, '#1d1d1f')
-    box(0.5, 3.45, 68, 0.15, 0.25, 2.5, '#33343a')
-    use('shelf')
-    box(0.35, 4.0, 64, 0.2, 0.15, 4, '#a63a30')
-
-    // tampo
-    box(0.0, 2.2, 78, 0.85, 2.0, 2, board)
-    box(0.35, 2.4, 80, 0.1, 0.6, 9, '#1c1c1f')
-    fxRect(0.45, 2.45, 82, 1, 8, 0, 6, '#e4c9a0')
-    box(0.35, 3.2, 80, 0.2, 0.2, 5, '#6aa84a')
-
-    // chapeu seletor
+    sprite('shelf', x, y, 0)
+    // tabua de cima
+    use('frames')
+    sprite('frameWood', x + 0.1, y + 0.6, BOARD.top)
+    sprite('frameBlack', x + 1.0, y + 0.4, BOARD.top)
     use('hat')
-    const [hx, hy] = P(0.4, 3.85, 80)
-    const hs = 2
-    const hp = (dx, dy) => [hx + dx * hs, hy + dy * hs]
-    ell(hx, hy - hs, 11 * hs, 4 * hs, '#4a3a2b')
-    ell(hx, hy - 2 * hs, 9 * hs, 3 * hs, '#5a4733')
-    poly(
-      [hp(-6, -2), hp(6, -2), hp(8, -20), hp(12, -32), hp(4, -30), hp(-2, -16)],
-      '#54402f',
-    )
-    poly([hp(2, -4), hp(6, -4), hp(8, -20), hp(12, -32), hp(8, -26)], '#3c2d20')
+    sprite('hat', x + 1.9, y + 0.6, BOARD.top)
+    // segunda tabua
+    use('books')
+    sprite('books', x + 0.2, y + 0.5, BOARD.mid)
+    use('camera')
+    sprite('camDslr', x + 2.0, y + 0.6, BOARD.mid)
+    // terceira tabua
+    use('books')
+    sprite('bookPile', x + 0.1, y + 0.6, BOARD.low)
+    sprite('books', x + 1.0, y + 0.5, BOARD.low)
+    // em cima das gavetas
+    use('typewriter')
+    sprite('typewriter', x + 0.2, y + 0.5, BOARD.drawers)
+    use('camera')
+    sprite('camCompact', x + 2.0, y + 0.6, BOARD.drawers)
+    use('shelf')
+    sprite('shelfFront', x, y, 0)
   }
 
   function drawPlant() {
@@ -716,13 +656,18 @@
     box(8.25, 0.0, 84, 0.8, 0.22, 2, '#2a2b2f')
   }
 
+  // Porta na parede esquerda (plano x = 0), voltada para +x.
+  const DOOR = { y: 3, w: 3.6, h: 184 }
+
   function drawDoor() {
     use('door')
-    box(0.1, 0, 0, 1.4, 0.14, 82, '#e6e6e2')
-    fyRect(0.1, 0.14, 0, 2, 22, 2, 79, '#f2f2ee')
-    fyRect(0.1, 0.14, 0, 5, 19, 6, 36, '#e4e4df')
-    fyRect(0.1, 0.14, 0, 5, 19, 42, 74, '#e4e4df')
-    fyRect(0.1, 0.14, 0, 17, 19, 38, 40, '#8a8e94')
+    const { y, w, h } = DOOR
+    const u = w * 16
+    box(0, y, 0, 0.3, w, h, '#e6e6e2')
+    fxRect(0.3, y, 0, 3, u - 3, 3, h - 4, '#f2f2ee')
+    fxRect(0.3, y, 0, 8, u - 8, 8, 86, '#e4e4df')
+    fxRect(0.3, y, 0, 8, u - 8, 96, h - 14, '#e4e4df')
+    fxRect(0.3, y, 0, u - 12, u - 8, 92, 96, '#8a8e94')
   }
 
   // ------------------------------------------------------------------
@@ -806,8 +751,8 @@
   // (em tiles) que impede de andar.
   const groups = [
     {
-      box: xf(L.door, [0.1, 0, 1.5, 0.14, 0, 82]),
-      draw: () => legacy(L.door, drawDoor),
+      box: [0, DOOR.y, 0.3, DOOR.y + DOOR.w, 0, DOOR.h],
+      draw: drawDoor,
     },
     {
       box: xf(L.curtain, [8.25, 0, 9, 0.22, 0, 84]),
@@ -819,10 +764,9 @@
       block: [5, 0, 14, 3],
     },
     {
-      box: xf(L.shelf, [0, 2.2, 0.85, 4.2, 0, 82]),
-      draw: () => legacy(L.shelf, drawShelf),
-      block: xf(L.shelf, [0, 2.2, 0.85, 4.2]),
-      shadow: xf(L.shelf, [0, 2.2, 0.85, 4.2]),
+      box: [SHELF.x, SHELF.y, SHELF.x + 3, SHELF.y + 2, 0, 132],
+      draw: drawShelf,
+      block: [SHELF.x, SHELF.y, SHELF.x + 3, SHELF.y + 2],
     },
     {
       box: xf(L.backpack, [0.12, 4.3, 0.85, 4.95, 0, 22]),
@@ -1049,7 +993,7 @@
     ],
     cat: [
       [13, 4],
-      [13.2, 2.5],
+      [13.4, 1.8],
     ],
     mic: [
       [13, 4],
@@ -1060,32 +1004,36 @@
       [9.5, 1.5],
     ],
     shelf: [
-      [3, 6],
-      [1, 6],
+      [2, 3],
+      [2.5, 1.5],
     ],
-    books: [
-      [3, 6],
-      [1, 5.5],
-    ],
-    typewriter: [
-      [3, 5],
-      [1, 5.2],
+    frames: [
+      [2, 3],
+      [2, 1],
     ],
     hat: [
-      [3, 7],
-      [1, 7.2],
+      [3, 3],
+      [3.4, 1],
+    ],
+    books: [
+      [2, 3],
+      [1.8, 1],
+    ],
+    typewriter: [
+      [2, 3],
+      [2, 1.2],
     ],
     camera: [
-      [3, 4],
-      [1, 4],
+      [3, 3],
+      [3.2, 1.2],
     ],
     plant: [
       [3, 10],
-      [1.2, 11],
+      [1.2, 10.8],
     ],
     backpack: [
-      [3, 9],
-      [1, 9],
+      [3, 8],
+      [1, 8],
     ],
     ringlight: [
       [12, 10],
@@ -1096,8 +1044,8 @@
       [15, 0.3],
     ],
     door: [
-      [2, 2],
-      [2.5, 0.2],
+      [3, 5],
+      [0, 4.8],
     ],
   }
 

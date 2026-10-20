@@ -66,6 +66,10 @@ const en = {
       name: 'Bookshelf',
       text: 'Books about design, UX and comics, plus a few collectibles.',
     },
+    frames: {
+      name: 'Photo frames',
+      text: 'Framed pictures on the top shelf, next to the hat.',
+    },
     books: {
       name: 'Books',
       text: 'Design, UX, biographies and comics.',
@@ -169,6 +173,10 @@ const pt: typeof en = {
     shelf: {
       name: 'Estante',
       text: 'Livros de design, UX e quadrinhos, além de alguns colecionáveis.',
+    },
+    frames: {
+      name: 'Porta-retratos',
+      text: 'Fotos emolduradas na prateleira de cima, ao lado do chapéu.',
     },
     books: {
       name: 'Livros',
