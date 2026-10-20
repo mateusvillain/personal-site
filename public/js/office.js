@@ -255,8 +255,6 @@
     mouse: 'mouse_1x1',
     monitor: 'monitor_ultrawide_sem_base_3x1',
     arm: 'suporte_monitor_3x1',
-    shelf: 'estante_3x2',
-    shelfFront: 'estante_3x2_camada_frente',
     books: 'livros_2x1',
     bookPile: 'livros_pilha_1x1',
     typewriter: 'maquina_escrever_2x1',
@@ -285,6 +283,17 @@
   for (const [key, file] of Object.entries(SPRITE_FILES)) {
     const [, w, d] = file.match(/_(\d+)x(\d+)(?:_|$)/)
     loadSprite(key, file, +w, +d, 1)
+  }
+  // Sprites sem as medidas no nome: [arquivo, largura, profundidade].
+  const SPRITE_SIZED = {}
+  for (let n = 1; n <= 5; n++) {
+    const part = ['chao', 'gaveteiro', '', '', 'topo'][n - 1]
+    const name = `estante_andar${n}${part ? '_' + part : ''}`
+    SPRITE_SIZED[`shelf${n}b`] = [`${name}_fundo`, 3, 2]
+    SPRITE_SIZED[`shelf${n}f`] = [`${name}_frente`, 3, 2]
+  }
+  for (const [key, [file, w, d]] of Object.entries(SPRITE_SIZED)) {
+    loadSprite(key, file, w, d, 1)
   }
   for (const [key, sh] of Object.entries(SPRITE_SHEETS)) {
     loadSprite(key, sh.file, sh.w, sh.d, sh.frames)
@@ -564,30 +573,41 @@
 
   function drawShelf() {
     const { x, y } = SHELF
-    use('shelf')
-    sprite('shelf', x, y, 0)
-    // tabua de cima
-    use('frames')
-    sprite('frameWood', x + 0.1, y + 0.6, BOARD.top)
-    sprite('frameBlack', x + 1.0, y + 0.4, BOARD.top)
-    use('hat')
-    sprite('hat', x + 1.9, y + 0.6, BOARD.top)
-    // segunda tabua
-    use('books')
-    sprite('books', x + 0.2, y + 0.5, BOARD.mid)
-    use('camera')
-    sprite('camDslr', x + 2.0, y + 0.6, BOARD.mid)
-    // terceira tabua
-    use('books')
-    sprite('bookPile', x + 0.1, y + 0.6, BOARD.low)
-    sprite('books', x + 1.0, y + 0.5, BOARD.low)
-    // em cima das gavetas
-    use('typewriter')
-    sprite('typewriter', x + 0.2, y + 0.5, BOARD.drawers)
-    use('camera')
-    sprite('camCompact', x + 2.0, y + 0.6, BOARD.drawers)
-    use('shelf')
-    sprite('shelfFront', x, y, 0)
+    // Cada andar e uma camada de fundo (tabua e colunas de tras), os itens
+    // dele e uma camada da frente (colunas da frente), de baixo para cima.
+    const floor = (n, items) => {
+      use('shelf')
+      sprite(`shelf${n}b`, x, y, 0)
+      if (items) items()
+      use('shelf')
+      sprite(`shelf${n}f`, x, y, 0)
+    }
+    floor(1)
+    // gaveteiro: maquina de escrever e camera compacta
+    floor(2, () => {
+      use('typewriter')
+      sprite('typewriter', x + 0.2, y + 0.5, BOARD.drawers)
+      use('camera')
+      sprite('camCompact', x + 2.0, y + 0.6, BOARD.drawers)
+    })
+    floor(3, () => {
+      use('books')
+      sprite('bookPile', x + 0.1, y + 0.6, BOARD.low)
+      sprite('books', x + 1.0, y + 0.5, BOARD.low)
+    })
+    floor(4, () => {
+      use('books')
+      sprite('books', x + 0.2, y + 0.5, BOARD.mid)
+      use('camera')
+      sprite('camDslr', x + 2.0, y + 0.6, BOARD.mid)
+    })
+    floor(5, () => {
+      use('frames')
+      sprite('frameWood', x + 0.1, y + 0.6, BOARD.top)
+      sprite('frameBlack', x + 1.0, y + 0.4, BOARD.top)
+      use('hat')
+      sprite('hat', x + 1.9, y + 0.6, BOARD.top)
+    })
   }
 
   function drawPlant() {
