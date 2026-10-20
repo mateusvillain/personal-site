@@ -256,16 +256,28 @@
     monitor: 'monitor_ultrawide_sem_base_3x1',
     arm: 'suporte_monitor_3x1',
   }
+  // Spritesheets animadas: os quadros ficam lado a lado, todos do mesmo
+  // tamanho, e `w`/`d` e a base de cada quadro em tiles.
+  const SPRITE_SHEETS = {
+    cat: { file: 'gata_deitada_spritesheet', w: 1, d: 2, frames: 8 },
+  }
   const SPR = {}
-  for (const [key, file] of Object.entries(SPRITE_FILES)) {
-    const [, w, d] = file.match(/_(\d+)x(\d+)$/)
-    const s = { w: +w, d: +d, ready: false, img: new Image(), masks: {} }
+  function loadSprite(key, file, w, d, frames) {
+    const s = { w, d, frames, ready: false, img: new Image(), masks: {} }
     s.img.onload = () => {
-      s.h = s.img.height - (s.w + s.d) * 8
+      s.fw = s.img.width / frames
+      s.h = s.img.height - (w + d) * 8
       s.ready = true
     }
     s.img.src = `${SPRITE_DIR}${file}.png`
     SPR[key] = s
+  }
+  for (const [key, file] of Object.entries(SPRITE_FILES)) {
+    const [, w, d] = file.match(/_(\d+)x(\d+)$/)
+    loadSprite(key, file, +w, +d, 1)
+  }
+  for (const [key, sh] of Object.entries(SPRITE_SHEETS)) {
+    loadSprite(key, sh.file, sh.w, sh.d, sh.frames)
   }
 
   // Silhueta do sprite numa cor chapada, para o buffer de ids.
@@ -285,14 +297,18 @@
   }
 
   // Desenha o sprite com o canto de tras da base em (x, y) e altura z.
-  function sprite(key, x, y, z = 0) {
+  function sprite(key, x, y, z = 0, frame = 0) {
     const s = SPR[key]
     if (!s.ready) return
     const left = Math.round(OX + (x - y) * 16) - s.d * 16
     const top =
       Math.round(OY + (x + y) * 8 - z) + (s.w + s.d) * 8 - s.img.height
-    ctx.drawImage(s.img, left, top)
-    if (curId) idCtx.drawImage(spriteMask(s, curId), left, top)
+    const sx = frame * s.fw
+    const h = s.img.height
+    ctx.drawImage(s.img, sx, 0, s.fw, h, left, top, s.fw, h)
+    if (curId) {
+      idCtx.drawImage(spriteMask(s, curId), sx, 0, s.fw, h, left, top, s.fw, h)
+    }
   }
 
   // ------------------------------------------------------------------
@@ -447,16 +463,6 @@
       oz: DESK_Z,
       nz: DESK_TOP,
     },
-    cat: {
-      k: 1.3,
-      kz: 1.3,
-      ox: 7.4,
-      oy: 0.25,
-      nx: 11.9,
-      ny: 1.2,
-      oz: DESK_Z,
-      nz: DESK_TOP,
-    },
     mic: {
       k: 1.2,
       kz: 1.3,
@@ -491,39 +497,6 @@
     box(3.0, 0.9, DESK_Z, 0.4, 0.35, 1, '#15161a')
     box(3.05, 1.0, DESK_Z + 1, 0.3, 0.1, 11, '#0e0f12')
     fyRect(3.05, 1.1, DESK_Z + 1, 1, 4, 2, 10, '#262b33')
-  }
-
-  function drawCat(t) {
-    use('cat')
-    const breath = reduceMotion ? 0 : Math.round(Math.sin(t / 450) * 0.5 + 0.5)
-    const z0 = DESK_Z + 0.8
-    // cauda (balanca de vez em quando)
-    const flick =
-      !reduceMotion &&
-      Math.floor(t / 1700) % 4 === 0 &&
-      Math.floor(t / 120) % 2 === 0
-    box(flick ? 8.2 : 8.12, 0.55, z0, 0.12, 0.45, 6, '#2a1c15')
-    // corpo sentado, de frente para a sala
-    box(7.58, 0.5, z0, 0.64, 0.72, 7 + breath, '#7b4b2c')
-    fyRect(7.58, 1.22, z0, 3, 7, 0, 5, '#efe3d0')
-    // cabeca
-    const hz = z0 + 5 + breath
-    box(7.56, 0.95, hz, 0.68, 0.55, 6, '#8a5a36')
-    // orelhas
-    box(7.56, 0.98, hz + 6, 0.16, 0.16, 2, '#2a1c15')
-    box(8.08, 0.98, hz + 6, 0.16, 0.16, 2, '#2a1c15')
-    // manchas laranja e preta
-    dot(7.75, 0.6, z0 + 7 + breath, '#d98a3a')
-    dot(8.0, 0.7, z0 + 7 + breath, '#15100d')
-    dot(7.8, 0.85, z0 + 7 + breath, '#d98a3a')
-    fyRect(7.56, 1.5, hz, 0, 5, 3, 6, '#d98a3a')
-    fyRect(7.56, 1.5, hz, 8, 11, 3, 6, '#15100d')
-    // olhos e focinho
-    fyRect(7.56, 1.5, hz, 3, 5, 2, 4, '#d6c24a')
-    fyRect(7.56, 1.5, hz, 7, 9, 2, 4, '#d6c24a')
-    fyRect(7.56, 1.5, hz, 4, 5, 2, 4, '#15100d')
-    fyRect(7.56, 1.5, hz, 8, 9, 2, 4, '#15100d')
-    fyRect(7.56, 1.5, hz, 5, 7, 0, 1, '#e8a87c')
   }
 
   function drawMic() {
@@ -563,7 +536,15 @@
     sprite('keyboard', 8.6, 1.6, DESK_TOP + 1)
     use('mouse')
     sprite('mouse', 11, 1.8, DESK_TOP + 1)
-    legacy(L.cat, drawCat, t)
+    use('cat')
+    // 8 quadros em loop; parada no primeiro com movimento reduzido.
+    sprite(
+      'cat',
+      12.6,
+      0.7,
+      DESK_TOP,
+      reduceMotion ? 0 : Math.floor(t / 140) % 8,
+    )
     legacy(L.mic, drawMic)
   }
 
