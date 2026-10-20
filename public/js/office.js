@@ -1,12 +1,13 @@
 /**
  * Simulador do escritorio (/office/).
  *
- * Cena isometrica 2:1 em pixel art, desenhada por codigo num canvas de
- * baixa resolucao (320x256) e ampliada em multiplos inteiros pelo CSS.
+ * Cena isometrica 2:1 em pixel art num canvas de baixa resolucao (472x456),
+ * ampliado em multiplos inteiros pelo CSS. Os objetos que ja tem sprite em
+ * `public/sprites/` usam o PNG; os demais ainda sao desenhados por codigo.
  *
  * Sistema de coordenadas: x e y sao em tiles (a sala vai de 0 a RX e de 0 a
  * RY, com a camera olhando de +x,+y para a origem) e z e em pixels. Cada
- * tile tem 32x16 px na tela. A parede da esquerda e o plano x = 0, a da
+ * tile tem 32x16 px na tela e ~20 cm (a mesa tem 9 tiles de comprimento). A parede da esquerda e o plano x = 0, a da
  * direita e o plano y = 0.
  *
  * Cada objeto e desenhado tambem num segundo canvas ("buffer de ids"), com
@@ -26,13 +27,15 @@
   // ------------------------------------------------------------------
   // Constantes e contextos
   // ------------------------------------------------------------------
-  const W = 320
-  const H = 256
-  const OX = 152
-  const OY = 104
-  const RX = 9
-  const RY = 7
-  const WALL = 96
+  const W = 472
+  const H = 456
+  const OX = 204
+  const OY = 212
+  const RX = 16
+  const RY = 12
+  const WALL = 200
+  // Altura do tampo da mesa em px (a do sprite) e na escala antiga do codigo.
+  const DESK_TOP = 59
   const DESK_Z = 26
 
   const ctx = canvas.getContext('2d')
@@ -57,6 +60,23 @@
   // ------------------------------------------------------------------
   let C = ctx
   let curId = 0
+  // Transformacao dos objetos desenhados por codigo, que foram escritos numa
+  // escala menor: {ox, oy, oz} sao a origem antiga, {nx, ny, nz} a nova, k
+  // escala x e y e kz escala z. Nulo para o que usa a escala dos sprites.
+  let LG = null
+  function legacy(def, fn, ...args) {
+    LG = def
+    fn(...args)
+    LG = null
+  }
+  function xf(def, b) {
+    const [x0, y0, x1, y1, z0, z1] = b
+    const X = (v) => (v - def.ox) * def.k + def.nx
+    const Y = (v) => (v - def.oy) * def.k + def.ny
+    const Z = (v) => (v - (def.oz || 0)) * def.kz + (def.nz || 0)
+    const r = [X(x0), Y(y0), X(x1), Y(y1)]
+    return z0 === undefined ? r : [...r, Z(z0), Z(z1)]
+  }
 
   const use = (name) => (curId = IDX[name] || 0)
 
@@ -72,6 +92,11 @@
 
   const q = (v) => Math.round(v * 16) / 16
   function P(x, y, z) {
+    if (LG) {
+      x = (x - LG.ox) * LG.k + LG.nx
+      y = (y - LG.oy) * LG.k + LG.ny
+      z = (z - (LG.oz || 0)) * LG.kz + (LG.nz || 0)
+    }
     x = q(x)
     y = q(y)
     return [Math.round(OX + (x - y) * 16), Math.round(OY + (x + y) * 8 - z)]
@@ -182,28 +207,92 @@
   }
 
   // Retangulos em pixels sobre uma face. u anda ao longo do eixo da face e
-  // v para cima, ambos em px a partir do ponto (x, y, z).
+  // v para cima, ambos em px a partir do ponto (x, y, z) (e escalados junto
+  // com o objeto, se ele for desenhado na escala antiga).
   function fyRect(x, y, z, u0, u1, v0, v1, col) {
     const [bx, by] = P(x, y, z)
+    if (LG) {
+      u0 = Math.round(u0 * LG.k)
+      u1 = Math.round(u1 * LG.k)
+      v0 = Math.round(v0 * LG.kz)
+      v1 = Math.round(v1 * LG.kz)
+    }
     for (let i = u0; i < u1; i++) {
       px(bx + i, by - v1 + ((i + 1) >> 1), 1, v1 - v0, col)
     }
   }
   function fxRect(x, y, z, u0, u1, v0, v1, col) {
     const [bx, by] = P(x, y, z)
+    if (LG) {
+      u0 = Math.round(u0 * LG.k)
+      u1 = Math.round(u1 * LG.k)
+      v0 = Math.round(v0 * LG.kz)
+      v1 = Math.round(v1 * LG.kz)
+    }
     for (let i = u0; i < u1; i++) {
       px(bx - i - 1, by - v1 + ((i + 1) >> 1), 1, v1 - v0, col)
     }
   }
-  function fyPix(x, y, z, i, j, col) {
-    const [bx, by] = P(x, y, z)
-    px(bx + i, by - j - 1 + ((i + 1) >> 1), 1, 1, col)
-  }
 
-  // Ponto 2x1 sobre uma face de cima.
+  // Ponto sobre uma face de cima (2x1 px na escala antiga).
   function dot(x, y, z, col) {
     const [sx, sy] = P(x, y, z)
-    px(sx - 1, sy, 2, 1, col)
+    const k = LG ? LG.k : 1
+    const w = Math.round(2 * k)
+    px(sx - (w >> 1), sy, w, Math.max(1, Math.round(k)), col)
+  }
+
+  // Sprites PNG. O nome do arquivo termina em _LxP.png (largura e
+  // profundidade em tiles); a imagem tem (L+P)*16 px de largura e a altura
+  // e a do losango da base ((L+P)*8) mais a altura do objeto, com a base
+  // alinhada ao fundo da imagem.
+  const SPRITE_DIR = '/sprites/'
+  const SPRITE_FILES = {
+    desk: 'mesa_regulavel_9x3',
+    pad: 'mousepad_4x2',
+    laptop: 'macbook_air_2x1',
+    keyboard: 'teclado_75_2x1',
+    mouse: 'mouse_1x1',
+    monitor: 'monitor_ultrawide_sem_base_3x1',
+    arm: 'suporte_monitor_3x1',
+  }
+  const SPR = {}
+  for (const [key, file] of Object.entries(SPRITE_FILES)) {
+    const [, w, d] = file.match(/_(\d+)x(\d+)$/)
+    const s = { w: +w, d: +d, ready: false, img: new Image(), masks: {} }
+    s.img.onload = () => {
+      s.h = s.img.height - (s.w + s.d) * 8
+      s.ready = true
+    }
+    s.img.src = `${SPRITE_DIR}${file}.png`
+    SPR[key] = s
+  }
+
+  // Silhueta do sprite numa cor chapada, para o buffer de ids.
+  function spriteMask(s, id) {
+    if (!s.masks[id]) {
+      const m = document.createElement('canvas')
+      m.width = s.img.width
+      m.height = s.img.height
+      const mc = m.getContext('2d')
+      mc.drawImage(s.img, 0, 0)
+      mc.globalCompositeOperation = 'source-in'
+      mc.fillStyle = ID_COLORS[id]
+      mc.fillRect(0, 0, m.width, m.height)
+      s.masks[id] = m
+    }
+    return s.masks[id]
+  }
+
+  // Desenha o sprite com o canto de tras da base em (x, y) e altura z.
+  function sprite(key, x, y, z = 0) {
+    const s = SPR[key]
+    if (!s.ready) return
+    const left = Math.round(OX + (x - y) * 16) - s.d * 16
+    const top =
+      Math.round(OY + (x + y) * 8 - z) + (s.w + s.d) * 8 - s.img.height
+    ctx.drawImage(s.img, left, top)
+    if (curId) idCtx.drawImage(spriteMask(s, curId), left, top)
   }
 
   // ------------------------------------------------------------------
@@ -238,8 +327,8 @@
     C.clearRect(0, 0, W, H)
 
     // laje do piso
-    poly([P(0, RY, 0), P(RX, RY, 0), P(RX, RY, -6), P(0, RY, -6)], '#8d6b42')
-    poly([P(RX, 0, 0), P(RX, RY, 0), P(RX, RY, -6), P(RX, 0, -6)], '#6c4f31')
+    poly([P(0, RY, 0), P(RX, RY, 0), P(RX, RY, -10), P(0, RY, -10)], '#8d6b42')
+    poly([P(RX, 0, 0), P(RX, RY, 0), P(RX, RY, -10), P(RX, 0, -10)], '#6c4f31')
 
     // base do piso (as tabuas deixam frestas de 1px entre si)
     poly([P(0, 0, 0), P(RX, 0, 0), P(RX, RY, 0), P(0, RY, 0)], '#c9a66e')
@@ -248,12 +337,12 @@
     const rand = rng(7)
     const tones = ['#d2b27c', '#c9a66e', '#d8ba86', '#c4a068']
     const groove = '#b8935a'
-    for (let j = 0; j < RY * 2; j++) {
-      const y0 = j * 0.5
-      const y1 = y0 + 0.5
-      let x = -rand() * 2
+    for (let j = 0; j < RY; j++) {
+      const y0 = j
+      const y1 = j + 1
+      let x = -rand() * 5
       while (x < RX) {
-        const len = 1.5 + rand() * 2.5
+        const len = 4 + rand() * 5
         const a = Math.max(0, x)
         const b = Math.min(RX, x + len)
         if (b > a) {
@@ -267,23 +356,32 @@
       }
     }
 
-    // sombras no chao
-    C.globalAlpha = 0.18
-    const shadow = (x0, y0, x1, y1) =>
-      poly([P(x0, y0, 0), P(x1, y0, 0), P(x1, y1, 0), P(x0, y1, 0)], '#2a1d10')
-    shadow(0.8, 2.2, 1.35, 4.3) // estante
-    shadow(1.6, 2.0, 8.5, 2.45) // mesa
-    shadow(0.95, 4.3, 1.4, 6.2) // mochila e planta
-    shadow(8.1, 6.0, 8.9, 6.8) // tripe
+    // sombras no chao (so dos objetos soltos)
+    C.globalAlpha = 0.16
+    for (const g of groups) {
+      if (!g.shadow) continue
+      const [x0, y0, x1, y1] = g.shadow
+      const X1 = Math.min(RX, x1 + 1.2)
+      const Y1 = Math.min(RY, y1 + 1.2)
+      poly(
+        [
+          P(x0 + 0.5, y0 + 0.5, 0),
+          P(X1, y0 + 0.5, 0),
+          P(X1, Y1, 0),
+          P(x0 + 0.5, Y1, 0),
+        ],
+        '#2a1d10',
+      )
+    }
     C.globalAlpha = 1
 
     // paredes
-    box(-0.3, -0.3, 0, 0.3, RY + 0.3, WALL, {
+    box(-0.6, -0.6, 0, 0.6, RY + 0.6, WALL, {
       top: '#e4e4df',
       left: '#a3a8ad',
       right: '#9aa0a8',
     })
-    box(0, -0.3, 0, RX, 0.3, WALL, {
+    box(0, -0.6, 0, RX, 0.6, WALL, {
       top: '#eaeae5',
       left: '#b6bbc1',
       right: '#8e949b',
@@ -291,10 +389,10 @@
     // rodape
     const [lbx, lby] = P(0, 0, 0)
     for (let i = 0; i < RX * 16; i++) {
-      px(lbx + i, lby - 3 + ((i + 1) >> 1), 1, 3, '#dedfdb')
+      px(lbx + i, lby - 8 + ((i + 1) >> 1), 1, 8, '#dedfdb')
     }
     for (let i = 0; i < RY * 16; i++) {
-      px(lbx - i - 1, lby - 3 + ((i + 1) >> 1), 1, 3, '#cfd1cf')
+      px(lbx - i - 1, lby - 8 + ((i + 1) >> 1), 1, 8, '#cfd1cf')
     }
 
     // contorno externo da sala
@@ -319,159 +417,76 @@
   // ------------------------------------------------------------------
   // Objetos
   // ------------------------------------------------------------------
-  const digits = {
-    0: ['111', '101', '101', '101', '111'],
-    1: ['010', '110', '010', '010', '111'],
-    2: ['111', '001', '111', '100', '111'],
-    3: ['111', '001', '111', '001', '111'],
-    4: ['101', '101', '111', '001', '001'],
-    5: ['111', '100', '111', '001', '111'],
-    6: ['111', '100', '111', '101', '111'],
-    7: ['111', '001', '001', '001', '001'],
-    8: ['111', '101', '111', '101', '111'],
-    9: ['111', '101', '111', '001', '111'],
-    ':': ['0', '1', '0', '1', '0'],
+  // Escalas antigas -> escala dos sprites.
+  const SCALE = { k: 2.5, kz: 2.27, oz: 0, nz: 0 }
+  const L = {
+    door: { ...SCALE, ox: 0.1, oy: 0, nx: 0.8, ny: 0 },
+    curtain: { ...SCALE, ox: 8.3, oy: 0, nx: 14, ny: 0 },
+    shelf: { ...SCALE, ox: 0, oy: 2.2, nx: 0, ny: 3 },
+    backpack: { ...SCALE, ox: 0.12, oy: 4.3, nx: 0.2, ny: 8.2 },
+    plant: { ...SCALE, ox: 0.12, oy: 5.27, nx: 0.2, ny: 9.85 },
+    ringlight: { ...SCALE, ox: 8.1, oy: 5.9, nx: 13.6, ny: 9.5 },
+    // Itens pequenos sobre a mesa: mais escala em x/y que em z.
+    notebook: {
+      k: 1.3,
+      kz: 1.6,
+      ox: 1.85,
+      oy: 1.2,
+      nx: 5.6,
+      ny: 1.6,
+      oz: DESK_Z,
+      nz: DESK_TOP,
+    },
+    phone: {
+      k: 1.6,
+      kz: 1.0,
+      ox: 3.0,
+      oy: 0.9,
+      nx: 7.4,
+      ny: 1.5,
+      oz: DESK_Z,
+      nz: DESK_TOP,
+    },
+    cat: {
+      k: 1.3,
+      kz: 1.3,
+      ox: 7.4,
+      oy: 0.25,
+      nx: 11.9,
+      ny: 1.2,
+      oz: DESK_Z,
+      nz: DESK_TOP,
+    },
+    mic: {
+      k: 1.2,
+      kz: 1.3,
+      ox: 8.15,
+      oy: 1.85,
+      nx: 13.8,
+      ny: 0.6,
+      oz: DESK_Z,
+      nz: DESK_TOP,
+    },
+    slippers: {
+      k: 1.6,
+      kz: 1.5,
+      ox: 4.2,
+      oy: 0.8,
+      nx: 8.6,
+      ny: 0.5,
+      oz: 0,
+      nz: 0,
+    },
   }
 
-  function drawText(x, y, z, u, v, text, col) {
-    for (const ch of text) {
-      const g = digits[ch]
-      if (!g) continue
-      for (let r = 0; r < 5; r++) {
-        for (let c = 0; c < g[r].length; c++) {
-          if (g[r][c] === '1') fyPix(x, y, z, u + c, v - r, col)
-        }
-      }
-      u += g[0].length + 1
-    }
-  }
-
-  // Altura (em px acima da agua) de cada coluna do skyline; as tres torres
-  // com a barra no alto sao um aceno ao papel de parede.
-  const skyline = [
-    2, 2, 3, 3, 2, 4, 4, 3, 2, 2, 3, 3, 4, 3, 2, 2, 3, 3, 3, 5, 5, 4, 4, 4, 2,
-    2,
-  ]
-  const skyRows = {
-    3: '#e0805c',
-    4: '#a4507a',
-    5: '#4d4488',
-    6: '#4d4488',
-    7: '#2a3a7a',
-    8: '#2a3a7a',
-    9: '#1f2c63',
-    10: '#1f2c63',
-  }
-
-  function drawMonitorLeft(t) {
-    const x = 1.9
-    const y = 0.55
-    const z = 32
-    box(2.55, 0.45, DESK_Z, 0.5, 0.4, 1, dark)
-    box(2.7, 0.55, DESK_Z + 1, 0.2, 0.1, 6, dark)
-    box(x, y, z, 1.75, 0.12, 13, '#25272c')
-    // tela (face +y)
-    const sy = y + 0.12
-    for (let i = 0; i < 26; i++) {
-      for (let j = 0; j < 11; j++) {
-        let col
-        if (j <= 2) col = (i * 3 + j) % 7 === 0 ? '#6a92c8' : '#35568a'
-        else if (j - 3 < skyline[i])
-          col = (i * 7 + j * 3) % 6 === 0 ? '#f0c060' : '#141a30'
-        else col = skyRows[j]
-        fyPix(x, sy, z, i + 1, j + 1, col)
-      }
-    }
-    const now = new Date()
-    const hh = String(now.getHours()).padStart(2, '0')
-    const mm = String(now.getMinutes()).padStart(2, '0')
-    const colon = reduceMotion || Math.floor(t / 600) % 2 === 0 ? ':' : ' '
-    drawText(x, sy, z, 3, 10, hh + colon + mm, '#ffffff')
-    // webcam
-    box(2.65, 0.55, z + 13, 0.3, 0.12, 2, '#111')
-  }
-
-  const thumbs = [
-    '#e8b04a',
-    '#4a9a6a',
-    '#d8584a',
-    '#5a7ad8',
-    '#9a5ad0',
-    '#4ab0c8',
-  ]
-
-  function drawMonitorRight(t) {
-    const x = 5.6
-    const y = 0.55
-    const z = 32
-    box(6.25, 0.45, DESK_Z, 0.5, 0.4, 1, dark)
-    box(6.4, 0.55, DESK_Z + 1, 0.2, 0.1, 6, dark)
-    box(x, y, z, 1.75, 0.12, 13, '#25272c')
-    const sy = y + 0.12
-    fyRect(x, sy, z, 1, 27, 1, 12, '#f1ecf6')
-    fyRect(x, sy, z, 1, 27, 11, 12, '#d9d2e2')
-    const active = reduceMotion ? 4 : Math.floor(t / 900) % 15
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 5; c++) {
-        const n = r * 5 + c
-        const u = 2 + c * 4
-        const v = 7 - r * 3
-        const col = thumbs[(n * 5 + r) % thumbs.length]
-        fyRect(x, sy, z, u, u + 3, v - 2, v, col)
-        if (n === active) {
-          fyRect(x, sy, z, u - 1, u + 4, v - 3, v - 2, '#2a2a30')
-        }
-      }
-    }
-    fyRect(x, sy, z, 22, 26, 2, 10, '#c9c1d4')
-    fyRect(x, sy, z, 23, 25, 7, 9, '#7b6ea0')
-  }
-
-  function drawLaptop() {
-    box(4.05, 0.5, DESK_Z, 1.1, 0.7, 1.2, '#8a8d93')
-    box(4.0, 0.5, DESK_Z + 1.2, 1.2, 0.75, 1, metal)
-    // tela
-    const x = 4.0
-    const y = 0.5
-    const z = DESK_Z + 2.2
-    box(x, y, z, 1.2, 0.1, 12, '#b5b8be')
-    const sy = y + 0.1
-    fyRect(x, sy, z, 1, 18, 1, 11, '#f4f4f6')
-    fyRect(x, sy, z, 3, 12, 8, 9, '#c9ccd2')
-    fyRect(x, sy, z, 3, 15, 6, 7, '#dcdee3')
-    fyRect(x, sy, z, 3, 10, 4, 5, '#dcdee3')
-    fyRect(x, sy, z, 3, 6, 2, 3, '#7b8bd8')
-    // camera em cima
-    box(4.45, 0.5, z + 12, 0.45, 0.2, 3, '#16171a')
-    box(4.6, 0.7, z + 12, 0.12, 0.05, 2, '#3a3c42')
-  }
-
-  function drawKeyboardAndMouse() {
-    // deskpad
-    box(3.2, 1.1, DESK_Z, 3.4, 0.9, 0.7, '#2b2e33')
-    use('keyboard')
-    box(4.0, 1.3, DESK_Z + 0.7, 1.4, 0.55, 1.4, '#e6e6e1')
-    for (let r = 0; r < 4; r++) {
-      for (let c = 0; c < 14; c++) {
-        const accent = c > 10 && r < 2
-        const col = accent
-          ? '#303236'
-          : (c + r) % 4 === 0
-            ? '#9ea1a6'
-            : '#f6f6f3'
-        dot(4.04 + c * 0.095, 1.33 + r * 0.115, DESK_Z + 2.1, col)
-      }
-    }
-    use('mouse')
-    box(6.0, 1.4, DESK_Z + 0.7, 0.3, 0.4, 1.3, '#3a3c42')
-    box(6.05, 1.45, DESK_Z + 2, 0.2, 0.15, 0.2, '#55575d')
-  }
-
-  function drawNotebookAndPhone() {
+  function drawNotebook() {
     use('notebook')
     box(1.85, 1.2, DESK_Z, 0.9, 0.7, 0.8, '#b8402e')
     box(1.9, 1.25, DESK_Z + 0.8, 0.9, 0.7, 0.9, '#e8b92f')
     box(2.1, 1.9, DESK_Z, 0.9, 0.07, 0.9, '#15161a')
+  }
+
+  function drawPhone() {
     use('phone')
     box(3.0, 0.9, DESK_Z, 0.4, 0.35, 1, '#15161a')
     box(3.05, 1.0, DESK_Z + 1, 0.3, 0.1, 11, '#0e0f12')
@@ -482,7 +497,6 @@
     use('cat')
     const breath = reduceMotion ? 0 : Math.round(Math.sin(t / 450) * 0.5 + 0.5)
     const z0 = DESK_Z + 0.8
-    box(7.4, 0.25, DESK_Z, 0.95, 1.2, 0.8, '#1d1d20')
     // cauda (balanca de vez em quando)
     const flick =
       !reduceMotion &&
@@ -528,24 +542,29 @@
     box(5.02, 1.05, 3, 0.4, 0.4, 0.5, '#1b1d21')
   }
 
+  // Mesa e tudo o que esta sobre ela, de tras para a frente. As posicoes dos
+  // sprites sao o canto de tras da base, em tiles.
   function drawDesk(t) {
+    legacy(L.slippers, drawSlippers)
     use('desk')
-    box(2.0, 0.3, 0, 0.3, 1.4, DESK_Z - 3, '#222428')
-    box(7.6, 0.3, 0, 0.3, 1.4, DESK_Z - 3, '#222428')
-    drawSlippers()
-    use('desk')
-    box(1.6, 0, DESK_Z - 3, 6.7, 2.0, 3, wood)
+    sprite('desk', 5, 0, 0)
+    sprite('pad', 8, 1, DESK_TOP)
     use('monitorL')
-    drawMonitorLeft(t)
-    use('monitorR')
-    drawMonitorRight(t)
+    sprite('arm', 5.3, 0, DESK_TOP)
+    sprite('monitor', 5.3, 0, DESK_TOP)
     use('laptop')
-    drawLaptop()
-    use('desk')
-    drawKeyboardAndMouse()
-    drawNotebookAndPhone()
-    drawCat(t)
-    drawMic()
+    sprite('laptop', 8.6, 0, DESK_TOP)
+    use('monitorR')
+    sprite('arm', 10.9, 0, DESK_TOP)
+    sprite('monitor', 10.9, 0, DESK_TOP)
+    legacy(L.notebook, drawNotebook)
+    legacy(L.phone, drawPhone)
+    use('keyboard')
+    sprite('keyboard', 8.6, 1.6, DESK_TOP + 1)
+    use('mouse')
+    sprite('mouse', 11, 1.8, DESK_TOP + 1)
+    legacy(L.cat, drawCat, t)
+    legacy(L.mic, drawMic)
   }
 
   const bookColors = [
@@ -639,29 +658,15 @@
     // chapeu seletor
     use('hat')
     const [hx, hy] = P(0.4, 3.85, 80)
-    ell(hx, hy - 1, 11, 4, '#4a3a2b')
-    ell(hx, hy - 2, 9, 3, '#5a4733')
+    const hs = 2
+    const hp = (dx, dy) => [hx + dx * hs, hy + dy * hs]
+    ell(hx, hy - hs, 11 * hs, 4 * hs, '#4a3a2b')
+    ell(hx, hy - 2 * hs, 9 * hs, 3 * hs, '#5a4733')
     poly(
-      [
-        [hx - 6, hy - 2],
-        [hx + 6, hy - 2],
-        [hx + 8, hy - 20],
-        [hx + 12, hy - 32],
-        [hx + 4, hy - 30],
-        [hx - 2, hy - 16],
-      ],
+      [hp(-6, -2), hp(6, -2), hp(8, -20), hp(12, -32), hp(4, -30), hp(-2, -16)],
       '#54402f',
     )
-    poly(
-      [
-        [hx + 2, hy - 4],
-        [hx + 6, hy - 4],
-        [hx + 8, hy - 20],
-        [hx + 12, hy - 32],
-        [hx + 8, hy - 26],
-      ],
-      '#3c2d20',
-    )
+    poly([hp(2, -4), hp(6, -4), hp(8, -20), hp(12, -32), hp(8, -26)], '#3c2d20')
   }
 
   function drawPlant() {
@@ -678,11 +683,18 @@
       [-2, -34, 7, 8, '#2f8a4c'],
       [10, -38, 6, 7, '#2a7a44'],
     ]
+    const ls = 2.5
     leaves.forEach(([dx, dy, rx, ry, col]) =>
-      ell(cx + dx, cy + dy, rx, ry, col),
+      ell(
+        cx + Math.round(dx * ls),
+        cy + Math.round(dy * ls),
+        Math.round(rx * ls),
+        Math.round(ry * ls),
+        col,
+      ),
     )
-    line(cx, cy, cx - 4, cy - 28, '#19492b')
-    line(cx + 2, cy, cx + 10, cy - 30, '#19492b')
+    line(cx, cy, cx - 10, cy - 70, '#19492b')
+    line(cx + 3, cy, cx + 25, cy - 75, '#19492b')
   }
 
   function drawBackpack() {
@@ -715,12 +727,12 @@
 
   function drawCurtain() {
     use('curtain')
-    box(8.3, 0, 0, 0.7, 0.2, 92, '#8d9199')
+    box(8.3, 0, 0, 0.7, 0.2, 84, '#8d9199')
     for (let i = 0; i < 11; i++) {
-      if (i % 3 === 0) fyRect(8.3, 0.2, 0, i, i + 1, 0, 92, '#767a82')
-      else if (i % 3 === 1) fyRect(8.3, 0.2, 0, i, i + 1, 0, 92, '#9a9ea6')
+      if (i % 3 === 0) fyRect(8.3, 0.2, 0, i, i + 1, 0, 84, '#767a82')
+      else if (i % 3 === 1) fyRect(8.3, 0.2, 0, i, i + 1, 0, 84, '#9a9ea6')
     }
-    box(8.25, 0.0, 92, 0.8, 0.22, 2, '#2a2b2f')
+    box(8.25, 0.0, 84, 0.8, 0.22, 2, '#2a2b2f')
   }
 
   function drawDoor() {
@@ -736,8 +748,8 @@
   // Avatar
   // ------------------------------------------------------------------
   const av = {
-    x: 3.5,
-    y: 3.5,
+    x: 8.5,
+    y: 7.5,
     dir: 1,
     path: [],
     phase: 0,
@@ -745,43 +757,63 @@
     faceTo: null,
   }
 
+  // O avatar e desenhado numa grade de 3x3 px por "pixel" de projeto, o que
+  // da ~1,2 m de altura na escala da sala.
   function drawAvatar() {
-    curId = AVATAR_ID
+    const S = 3
     const [fx, fy] = P(av.x, av.y, 0)
+    const r = (x, y, w, h, col) =>
+      px(
+        fx + Math.round(x * S),
+        fy + Math.round(y * S),
+        Math.round(w * S),
+        Math.round(h * S),
+        col,
+      )
     const step = av.moving ? Math.floor(av.phase * 8) % 2 : 0
     const bob = av.moving ? step : 0
     const front = av.dir === 0 || av.dir === 1
     const shirt = '#2b2f3a'
+    const shirtDark = '#20242d'
     const skin = '#e0a67a'
     const hair = '#2a1a12'
+    const beard = '#3b2a20'
     // sombra
     curId = 0
     C.globalAlpha = 0.25
-    ell(fx, fy, 7, 3, '#1a1208')
+    ell(fx, fy, 20, 8, '#1a1208')
     C.globalAlpha = 1
     curId = AVATAR_ID
-    // pernas
-    px(fx - 4, fy - 9, 3, 9 - (step ? 2 : 0), '#3b4a6b')
-    px(fx + 1, fy - 9, 3, 9 - (step ? 0 : 2), '#2f3c58')
-    px(fx - 5, fy - 2 - (step ? 2 : 0), 4, 2, '#e8e8e4')
-    px(fx + 1, fy - 2 - (step ? 0 : 2), 4, 2, '#e8e8e4')
+    // pernas e tenis
+    r(-4, -12, 3, 11 - (step ? 1 : 0), '#3b4a6b')
+    r(1, -12, 3, 11 - (step ? 0 : 1), '#2f3c58')
+    r(-5, -1 - (step ? 1 : 0), 4, 1, '#e8e8e4')
+    r(1, -1 - (step ? 0 : 1), 4, 1, '#e8e8e4')
     // tronco e bracos
-    px(fx - 5, fy - 23 - bob, 10, 14, shirt)
-    px(fx + 2, fy - 23 - bob, 3, 14, '#222630')
-    px(fx - 7, fy - 22 - bob + (step ? 1 : 0), 2, 10, shirt)
-    px(fx + 5, fy - 22 - bob + (step ? 0 : 1), 2, 10, '#222630')
-    px(fx - 7, fy - 12 - bob + (step ? 1 : 0), 2, 2, skin)
-    px(fx + 5, fy - 12 - bob + (step ? 0 : 1), 2, 2, skin)
+    r(-5, -24 - bob, 10, 12, shirt)
+    r(1, -24 - bob, 4, 12, shirtDark)
+    r(-7, -23 - bob + (step ? 1 : 0), 2, 10, shirt)
+    r(5, -23 - bob + (step ? 0 : 1), 2, 10, shirtDark)
+    r(-7, -13 - bob + (step ? 1 : 0), 2, 2, skin)
+    r(5, -13 - bob + (step ? 0 : 1), 2, 2, skin)
     // cabeca
-    px(fx - 4, fy - 32 - bob, 8, 9, skin)
+    r(-4, -34 - bob, 8, 10, skin)
     if (front) {
-      px(fx - 4, fy - 33 - bob, 8, 3, hair)
+      r(-4, -35 - bob, 8, 4, hair)
+      r(-4, -31 - bob, 1, 2, hair)
+      r(3, -31 - bob, 1, 2, hair)
+      // oculos
       const ex = av.dir === 0 ? 1 : -1
-      px(fx - 2 + ex, fy - 29 - bob, 1, 2, '#15110f')
-      px(fx + 1 + ex, fy - 29 - bob, 1, 2, '#15110f')
+      r(-3 + ex, -30 - bob, 3, 2, '#1b1b1f')
+      r(1 + ex, -30 - bob, 3, 2, '#1b1b1f')
+      r(-2.4 + ex, -29.5 - bob, 1.4, 1, '#f3efe6')
+      r(1.6 + ex, -29.5 - bob, 1.4, 1, '#f3efe6')
+      // barba
+      r(-4, -27 - bob, 8, 3, beard)
+      r(-1, -26 - bob, 2, 1, skin)
     } else {
-      px(fx - 4, fy - 33 - bob, 8, 9, hair)
-      px(fx - 3, fy - 32 - bob, 3, 1, '#4a3225')
+      r(-4, -35 - bob, 8, 10, hair)
+      r(-3, -33 - bob, 3, 1, '#4a3225')
     }
     curId = 0
   }
@@ -792,35 +824,45 @@
   // box = [x0, y0, x1, y1, z0, z1] so para ordenar; block = retangulo
   // (em tiles) que impede de andar.
   const groups = [
-    { box: [0.1, 0, 1.5, 0.14, 0, 82], draw: drawDoor },
-    { box: [8.25, 0, 9, 0.22, 0, 94], draw: drawCurtain },
     {
-      box: [1.6, 0, 8.3, 2.0, 0, 52],
+      box: xf(L.door, [0.1, 0, 1.5, 0.14, 0, 82]),
+      draw: () => legacy(L.door, drawDoor),
+    },
+    {
+      box: xf(L.curtain, [8.25, 0, 9, 0.22, 0, 84]),
+      draw: () => legacy(L.curtain, drawCurtain),
+    },
+    {
+      box: [5, 0, 14, 3, 0, DESK_TOP + 50],
       draw: drawDesk,
-      block: [1.6, 0, 8.3, 2.0],
+      block: [5, 0, 14, 3],
     },
     {
-      box: [0, 2.2, 0.85, 4.2, 0, 92],
-      draw: drawShelf,
-      block: [0, 2.2, 0.85, 4.2],
+      box: xf(L.shelf, [0, 2.2, 0.85, 4.2, 0, 82]),
+      draw: () => legacy(L.shelf, drawShelf),
+      block: xf(L.shelf, [0, 2.2, 0.85, 4.2]),
+      shadow: xf(L.shelf, [0, 2.2, 0.85, 4.2]),
     },
     {
-      box: [0.12, 4.3, 0.85, 4.95, 0, 22],
-      draw: drawBackpack,
-      block: [0.1, 4.3, 0.85, 4.95],
+      box: xf(L.backpack, [0.12, 4.3, 0.85, 4.95, 0, 22]),
+      draw: () => legacy(L.backpack, drawBackpack),
+      block: xf(L.backpack, [0.12, 4.3, 0.85, 4.95]),
+      shadow: xf(L.backpack, [0.12, 4.3, 0.85, 4.95]),
     },
     {
-      box: [0.12, 5.27, 0.98, 6.13, 0, 50],
-      draw: drawPlant,
-      block: [0.12, 5.27, 0.98, 6.13],
+      box: xf(L.plant, [0.12, 5.27, 0.98, 6.13, 0, 50]),
+      draw: () => legacy(L.plant, drawPlant),
+      block: xf(L.plant, [0.12, 5.27, 0.98, 6.13]),
+      shadow: xf(L.plant, [0.12, 5.27, 0.98, 6.13]),
     },
     {
-      box: [8.1, 5.9, 9, 6.7, 0, 64],
-      draw: drawRingLight,
-      block: [8.3, 6.1, 8.5, 6.5],
+      box: xf(L.ringlight, [8.1, 5.9, 9, 6.7, 0, 64]),
+      draw: () => legacy(L.ringlight, drawRingLight),
+      block: xf(L.ringlight, [8.3, 6.1, 8.5, 6.5]),
+      shadow: xf(L.ringlight, [8.1, 5.9, 9, 6.7]),
     },
   ]
-  const avatarGroup = { box: [0, 0, 0, 0, 0, 36], draw: drawAvatar }
+  const avatarGroup = { box: [0, 0, 0, 0, 0, 105], draw: drawAvatar }
   const sceneGroups = [...groups, avatarGroup]
 
   function screenBounds(b) {
@@ -853,7 +895,7 @@
   }
 
   function sortGroups() {
-    avatarGroup.box = [av.x - 0.3, av.y - 0.3, av.x + 0.3, av.y + 0.3, 0, 36]
+    avatarGroup.box = [av.x - 0.8, av.y - 0.8, av.x + 0.8, av.y + 0.8, 0, 105]
     const infos = sceneGroups.map((g) => ({ g, s: screenBounds(g.box) }))
     const out = []
     const seen = new Set()
@@ -875,20 +917,28 @@
   // ------------------------------------------------------------------
   // Navegacao
   // ------------------------------------------------------------------
+  // Um tile e bloqueado se o centro dele fica a menos de MARGIN de um objeto
+  // (o avatar tem ~1,5 tile de largura) ou na borda da sala.
+  const MARGIN = 0.8
   const blocked = []
   for (let j = 0; j < RY; j++) {
     blocked[j] = []
     for (let i = 0; i < RX; i++) {
       const cx = i + 0.5
       const cy = j + 0.5
-      blocked[j][i] = groups.some(
-        (g) =>
-          g.block &&
-          cx > g.block[0] &&
-          cx < g.block[2] &&
-          cy > g.block[1] &&
-          cy < g.block[3],
-      )
+      blocked[j][i] =
+        i === 0 ||
+        j === 0 ||
+        i === RX - 1 ||
+        j === RY - 1 ||
+        groups.some(
+          (g) =>
+            g.block &&
+            cx > g.block[0] - MARGIN &&
+            cx < g.block[2] + MARGIN &&
+            cy > g.block[1] - MARGIN &&
+            cy < g.block[3] + MARGIN,
+        )
     }
   }
   const walkable = (i, j) =>
@@ -965,7 +1015,7 @@
     const dx = ti + 0.5 - av.x
     const dy = tj + 0.5 - av.y
     const dist = Math.hypot(dx, dy)
-    const step = 3.4 * dt
+    const step = 7 * dt
     if (Math.abs(dx) > Math.abs(dy)) av.dir = dx > 0 ? 0 : 2
     else if (dist > 0) av.dir = dy > 0 ? 1 : 3
     if (step >= dist) {
@@ -985,88 +1035,88 @@
   // Onde ficar para "usar" cada objeto: [tile, ponto para olhar].
   const spots = {
     desk: [
-      [5, 2],
-      [5, 1],
+      [8, 4],
+      [9.5, 1.5],
     ],
     monitorL: [
-      [2, 2],
-      [2.8, 0.6],
+      [6, 4],
+      [6.8, 0.5],
     ],
     monitorR: [
-      [6, 2],
-      [6.5, 0.6],
+      [12, 4],
+      [12.4, 0.5],
     ],
     laptop: [
-      [4, 2],
-      [4.6, 0.6],
+      [9, 4],
+      [9.5, 0.5],
     ],
     keyboard: [
-      [4, 2],
-      [4.7, 1.5],
+      [9, 4],
+      [9.6, 2.2],
     ],
     mouse: [
-      [6, 2],
-      [6.1, 1.6],
+      [11, 4],
+      [11.5, 2.3],
     ],
     notebook: [
-      [2, 2],
-      [2.3, 1.5],
+      [6, 4],
+      [6, 2.3],
     ],
     phone: [
-      [3, 2],
-      [3.2, 1.1],
+      [7, 4],
+      [7.7, 1.8],
     ],
     cat: [
-      [7, 2],
-      [7.8, 1],
+      [13, 4],
+      [13.2, 2.5],
     ],
     mic: [
-      [7, 2],
-      [7.2, 1.8],
+      [13, 4],
+      [13.5, 1.6],
     ],
     slippers: [
-      [4, 2],
-      [4.5, 1],
+      [9, 4],
+      [9.5, 1.5],
     ],
     shelf: [
-      [1, 3],
-      [0.4, 3.2],
+      [3, 6],
+      [1, 6],
     ],
     books: [
-      [1, 3],
-      [0.4, 3.5],
+      [3, 6],
+      [1, 5.5],
     ],
     typewriter: [
-      [1, 3],
-      [0.4, 3],
+      [3, 5],
+      [1, 5.2],
     ],
     hat: [
-      [1, 4],
-      [0.4, 3.9],
+      [3, 7],
+      [1, 7.2],
     ],
     camera: [
-      [1, 2],
-      [0.4, 2.6],
+      [3, 4],
+      [1, 4],
     ],
     plant: [
-      [1, 5],
-      [0.5, 5.7],
+      [3, 10],
+      [1.2, 11],
     ],
     backpack: [
-      [1, 4],
-      [0.4, 4.6],
+      [3, 9],
+      [1, 9],
     ],
     ringlight: [
-      [7, 6],
-      [8.4, 6.3],
+      [12, 10],
+      [14.4, 10.5],
     ],
     curtain: [
-      [8, 1],
-      [8.6, 0.1],
+      [14, 4],
+      [15, 0.3],
     ],
     door: [
-      [1, 0],
-      [0.8, 0],
+      [2, 2],
+      [2.5, 0.2],
     ],
   }
 
