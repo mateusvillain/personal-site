@@ -13,7 +13,7 @@
  * Cada objeto e desenhado tambem num segundo canvas ("buffer de ids"), com
  * uma cor chapada por id, que serve para saber o que esta sob o mouse.
  */
-;(() => {
+; (() => {
   const root = document.querySelector('[data-office]')
   const canvas = document.querySelector('[data-office-canvas]')
   const dataEl = document.getElementById('office-data')
@@ -135,7 +135,7 @@
     const sx = x0 < x1 ? 1 : -1
     const sy = y0 < y1 ? 1 : -1
     let err = dx + dy
-    for (;;) {
+    for (; ;) {
       px(x0, y0, 1, 1, col)
       if (x0 === x1 && y0 === y1) break
       const e2 = 2 * err
@@ -268,6 +268,8 @@
   // tamanho, e `w`/`d` e a base de cada quadro em tiles.
   const SPRITE_SHEETS = {
     cat: { file: 'gata_deitada_spritesheet', w: 1, d: 2, frames: 8 },
+    // A base da imagem so serve de ancora: a cadeira ocupa ~5 tiles.
+    mateus: { file: 'mateus_sentado_spritesheet', w: 2, d: 3, frames: 4 },
   }
   const SPR = {}
   function loadSprite(key, file, w, d, frames) {
@@ -455,10 +457,8 @@
   // Escalas antigas -> escala dos sprites.
   const SCALE = { k: 2.5, kz: 2.27, oz: 0, nz: 0 }
   const L = {
-    curtain: { ...SCALE, ox: 8.3, oy: 0, nx: 14, ny: 0 },
     backpack: { ...SCALE, ox: 0.12, oy: 4.3, nx: 0.2, ny: 7.2 },
     plant: { ...SCALE, ox: 0.12, oy: 5.27, nx: 0.2, ny: 9.6 },
-    ringlight: { ...SCALE, ox: 8.1, oy: 5.9, nx: 13.6, ny: 9.5 },
     // Itens pequenos sobre a mesa: mais escala em x/y que em z.
     notebook: {
       k: 1.3,
@@ -646,36 +646,6 @@
     fxRect(0.75, 4.3, 14, 8, 11, 0, 7, '#c8c8c4')
   }
 
-  function drawRingLight() {
-    use('ringlight')
-    const [bx, by] = P(8.4, 6.3, 18)
-    for (const [lx, ly] of [
-      [9.0, 6.6],
-      [8.1, 6.7],
-      [8.1, 5.9],
-    ]) {
-      const [ex, ey] = P(lx, ly, 0)
-      line(bx, by, ex, ey, '#15161a')
-    }
-    box(8.36, 6.26, 0, 0.08, 0.08, 50, '#17181b')
-    box(8.3, 5.9, 46, 0.1, 0.8, 16, {
-      top: '#f2f2ee',
-      left: '#d8d8d4',
-      right: '#ebebe6',
-    })
-    fxRect(8.4, 5.95, 46, 1, 12, 2, 14, '#fbfbf8')
-  }
-
-  function drawCurtain() {
-    use('curtain')
-    box(8.3, 0, 0, 0.7, 0.2, 84, '#8d9199')
-    for (let i = 0; i < 11; i++) {
-      if (i % 3 === 0) fyRect(8.3, 0.2, 0, i, i + 1, 0, 84, '#767a82')
-      else if (i % 3 === 1) fyRect(8.3, 0.2, 0, i, i + 1, 0, 84, '#9a9ea6')
-    }
-    box(8.25, 0.0, 84, 0.8, 0.22, 2, '#2a2b2f')
-  }
-
   // Porta na parede esquerda (plano x = 0), voltada para +x.
   const DOOR = { y: 3, w: 3.6, h: 184 }
 
@@ -775,10 +745,6 @@
       draw: drawDoor,
     },
     {
-      box: xf(L.curtain, [8.25, 0, 9, 0.22, 0, 84]),
-      draw: () => legacy(L.curtain, drawCurtain),
-    },
-    {
       box: [5, 0, 14, 3, 0, DESK_TOP + 50],
       draw: drawDesk,
       block: [5, 0, 14, 3],
@@ -800,14 +766,18 @@
       block: xf(L.plant, [0.12, 5.27, 0.98, 6.13]),
       shadow: xf(L.plant, [0.12, 5.27, 0.98, 6.13]),
     },
-    {
-      box: xf(L.ringlight, [8.1, 5.9, 9, 6.7, 0, 64]),
-      draw: () => legacy(L.ringlight, drawRingLight),
-      block: xf(L.ringlight, [8.3, 6.1, 8.5, 6.5]),
-      shadow: xf(L.ringlight, [8.1, 5.9, 9, 6.7]),
-    },
   ]
-  const avatarGroup = { box: [0, 0, 0, 0, 0, 105], draw: drawAvatar }
+  // Mateus fica sentado na cadeira, de costas, com a mao direita no mouse e
+  // a esquerda no teclado. O avatar que andava pela sala (drawAvatar) foi
+  // desativado: o grupo abaixo o substitui.
+  const SEAT = { x: 9.2, y: 1.7 }
+  const avatarGroup = {
+    box: [8, 3, 11, 5, 0, 105],
+    draw: (t) => {
+      curId = AVATAR_ID
+      sprite('mateus', SEAT.x, SEAT.y, 0, reduceMotion ? 0 : Math.floor(t / 250) % 4)
+    },
+  }
   const sceneGroups = [...groups, avatarGroup]
 
   function screenBounds(b) {
@@ -840,7 +810,6 @@
   }
 
   function sortGroups() {
-    avatarGroup.box = [av.x - 0.8, av.y - 0.8, av.x + 0.8, av.y + 0.8, 0, 105]
     const infos = sceneGroups.map((g) => ({ g, s: screenBounds(g.box) }))
     const out = []
     const seen = new Set()
@@ -923,6 +892,7 @@
   }
 
   function walkTo(tile, faceTo) {
+    return false // Mateus esta sentado, nao anda
     const start = av.path.length
       ? av.path[0]
       : [Math.floor(av.x), Math.floor(av.y)]
@@ -1054,14 +1024,6 @@
     backpack: [
       [3, 8],
       [1, 8],
-    ],
-    ringlight: [
-      [12, 10],
-      [14.4, 10.5],
-    ],
-    curtain: [
-      [14, 4],
-      [15, 0.3],
     ],
     door: [
       [3, 5],

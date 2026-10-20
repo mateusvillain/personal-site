@@ -94,14 +94,6 @@ const en = {
       name: 'Backpack',
       text: 'Always packed, always ready.',
     },
-    ringlight: {
-      name: 'Light panel',
-      text: 'A light panel on a tripod for videos and calls.',
-    },
-    curtain: {
-      name: 'Curtain',
-      text: 'Gray curtain that softens the light from the window.',
-    },
     door: {
       name: 'Door',
       text: 'The way to the rest of the house.',
@@ -201,14 +193,6 @@ const pt: typeof en = {
     backpack: {
       name: 'Mochila',
       text: 'Sempre pronta, sempre arrumada.',
-    },
-    ringlight: {
-      name: 'Painel de luz',
-      text: 'Um painel de luz em um tripé, para vídeos e reuniões.',
-    },
-    curtain: {
-      name: 'Cortina',
-      text: 'Cortina cinza que suaviza a luz da janela.',
     },
     door: {
       name: 'Porta',
