@@ -13,7 +13,7 @@
  * Cada objeto e desenhado tambem num segundo canvas ("buffer de ids"), com
  * uma cor chapada por id, que serve para saber o que esta sob o mouse.
  */
-;(() => {
+; (() => {
   const root = document.querySelector('[data-office]')
   const canvas = document.querySelector('[data-office-canvas]')
   const dataEl = document.getElementById('office-data')
@@ -135,7 +135,7 @@
     const sx = x0 < x1 ? 1 : -1
     const sy = y0 < y1 ? 1 : -1
     let err = dx + dy
-    for (;;) {
+    for (; ;) {
       px(x0, y0, 1, 1, col)
       if (x0 === x1 && y0 === y1) break
       const e2 = 2 * err
@@ -253,7 +253,8 @@
     laptop: 'macbook_air_2x1',
     keyboard: 'teclado_75_2x1',
     mouse: 'mouse_1x1',
-    monitor: 'monitor_ultrawide_sem_base_3x1',
+    monitorFigma: 'monitor_sem_base_figma_3x1',
+    monitorCode: 'monitor_sem_base_vscode_3x1',
     arm: 'suporte_monitor_3x1',
     books: 'livros_2x1',
     bookPile: 'livros_pilha_1x1',
@@ -263,6 +264,12 @@
     camCompact: 'camera_compacta_1x1',
     frameWood: 'foto_moldura_madeira_1x1',
     frameBlack: 'foto_moldura_preta_1x1',
+    phoneDock: 'suporte_celular_1x1',
+    phoneSprite: 'iphone_15_1x1',
+    coaster: 'porta_copos_1x1',
+    cup: 'copo_termico_1x1',
+    micArm: 'braco_microfone_2x2',
+    micBody: 'microfone_2x2',
     door: 'porta_parede_esquerda_1x4',
     floor: 'piso_padrao_4x4',
     wallL: 'parede_esquerda_1x1',
@@ -458,58 +465,6 @@
   const SCALE = { k: 2.5, kz: 2.27, oz: 0, nz: 0 }
   const L = {
     // Itens pequenos sobre a mesa: mais escala em x/y que em z.
-    notebook: {
-      k: 1.3,
-      kz: 1.6,
-      ox: 1.85,
-      oy: 1.2,
-      nx: 5.6,
-      ny: 1.6,
-      oz: DESK_Z,
-      nz: DESK_TOP,
-    },
-    phone: {
-      k: 1.6,
-      kz: 1.0,
-      ox: 3.0,
-      oy: 0.9,
-      nx: 7.4,
-      ny: 1.5,
-      oz: DESK_Z,
-      nz: DESK_TOP,
-    },
-    mic: {
-      k: 1.2,
-      kz: 1.3,
-      ox: 8.15,
-      oy: 1.85,
-      nx: 13.8,
-      ny: 0.6,
-      oz: DESK_Z,
-      nz: DESK_TOP,
-    },
-  }
-
-  function drawNotebook() {
-    use('notebook')
-    box(1.85, 1.2, DESK_Z, 0.9, 0.7, 0.8, '#b8402e')
-    box(1.9, 1.25, DESK_Z + 0.8, 0.9, 0.7, 0.9, '#e8b92f')
-    box(2.1, 1.9, DESK_Z, 0.9, 0.07, 0.9, '#15161a')
-  }
-
-  function drawPhone() {
-    use('phone')
-    box(3.0, 0.9, DESK_Z, 0.4, 0.35, 1, '#15161a')
-    box(3.05, 1.0, DESK_Z + 1, 0.3, 0.1, 11, '#0e0f12')
-    fyRect(3.05, 1.1, DESK_Z + 1, 1, 4, 2, 10, '#262b33')
-  }
-
-  function drawMic() {
-    use('mic')
-    box(8.15, 1.85, DESK_Z, 0.1, 0.1, 25, '#17181b')
-    box(7.0, 1.87, DESK_Z + 23, 1.25, 0.08, 2, '#17181b')
-    box(7.05, 1.7, DESK_Z + 10, 0.32, 0.32, 14, '#26282d')
-    box(7.1, 1.74, DESK_Z + 20, 0.22, 0.22, 4, '#6d7078')
   }
 
   // Mesa e tudo o que esta sobre ela, de tras para a frente. As posicoes dos
@@ -520,14 +475,18 @@
     sprite('pad', 8, 1, DESK_TOP)
     use('monitorL')
     sprite('arm', 5.3, 0, DESK_TOP)
-    sprite('monitor', 5.3, 0, DESK_TOP)
+    sprite('monitorFigma', 5.3, 0, DESK_TOP)
     use('laptop')
     sprite('laptop', 8.6, 0, DESK_TOP)
     use('monitorR')
     sprite('arm', 10.9, 0, DESK_TOP)
-    sprite('monitor', 10.9, 0, DESK_TOP)
-    legacy(L.notebook, drawNotebook)
-    legacy(L.phone, drawPhone)
+    sprite('monitorCode', 10.9, 0, DESK_TOP)
+    use('phone')
+    sprite('phoneDock', 7.2, 1.5, DESK_TOP)
+    sprite('phoneSprite', 7.2, 1.5, DESK_TOP)
+    use('cup')
+    sprite('coaster', 6.0, 1.7, DESK_TOP)
+    sprite('cup', 6.0, 1.7, DESK_TOP + 1)
     use('keyboard')
     sprite('keyboard', 8.6, 1.6, DESK_TOP + 1)
     use('mouse')
@@ -537,11 +496,15 @@
     sprite(
       'cat',
       12.6,
-      0.7,
+      0.2,
       DESK_TOP,
       reduceMotion ? 0 : Math.floor(t / 140) % 8,
     )
-    legacy(L.mic, drawMic)
+    // Microfone preso na borda de tras da mesa, por cima da gata; o braco e o corpo sao duas
+    // camadas do mesmo quadro 2x2.
+    use('mic')
+    sprite('micArm', 12, 1.3, DESK_TOP)
+    sprite('micBody', 12, 1.3, DESK_TOP)
   }
 
   // Estante na parede da porta (frente para +x), com os itens sobre cada
@@ -909,10 +872,6 @@
       [11, 4],
       [11.5, 2.3],
     ],
-    notebook: [
-      [6, 4],
-      [6, 2.3],
-    ],
     phone: [
       [7, 4],
       [7.7, 1.8],
@@ -920,6 +879,10 @@
     cat: [
       [13, 4],
       [13.4, 1.8],
+    ],
+    cup: [
+      [6, 4],
+      [6.5, 2.2],
     ],
     mic: [
       [13, 4],

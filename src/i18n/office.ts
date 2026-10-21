@@ -42,13 +42,13 @@ const en = {
       name: 'Mouse',
       text: 'The mouse, on the right side of the desk mat.',
     },
-    notebook: {
-      name: 'Notebook and pen',
-      text: 'The analog corner of the desk, for notes and sketches.',
-    },
     phone: {
       name: 'Phone dock',
       text: 'The phone stays standing on its dock.',
+    },
+    cup: {
+      name: 'Thermal cup',
+      text: 'A thermal cup on its coaster, always within reach.',
     },
     cat: {
       name: 'Cat',
@@ -130,13 +130,13 @@ const pt: typeof en = {
       name: 'Mouse',
       text: 'O mouse, do lado direito do deskpad.',
     },
-    notebook: {
-      name: 'Caderno e caneta',
-      text: 'O canto analógico da mesa, para anotações e rabiscos.',
-    },
     phone: {
       name: 'Suporte do celular',
       text: 'O celular fica em pé no suporte.',
+    },
+    cup: {
+      name: 'Copo térmico',
+      text: 'Um copo térmico no porta-copos, sempre ao alcance.',
     },
     cat: {
       name: 'Gata',
