@@ -10,12 +10,6 @@ const en = {
     'A tiny pixel art version of the place where I work. Click on the floor to walk around, or on any object to go there and find out what it is.',
   canvasLabel:
     'Isometric pixel art illustration of the office: a desk with two monitors, a laptop and a keyboard, a bookshelf with a typewriter, and a cat.',
-  panel: {
-    idle: 'Pick an object',
-    idleText: 'Click on something in the room or choose it from the list.',
-    close: 'Clear selection',
-  },
-  listLabel: 'Objects in the room',
   noScript: 'This page needs JavaScript to run the simulator.',
   objects: {
     desk: {
@@ -182,12 +176,6 @@ const pt: typeof en = {
     'Uma versão minúscula em pixel art do lugar onde eu trabalho. Clique no chão para andar pela sala, ou em qualquer objeto para ir até ele e descobrir o que é.',
   canvasLabel:
     'Ilustração isométrica em pixel art do escritório: uma mesa com dois monitores, um notebook e um teclado, uma estante com uma máquina de escrever e uma gata.',
-  panel: {
-    idle: 'Escolha um objeto',
-    idleText: 'Clique em algo na sala ou escolha na lista.',
-    close: 'Limpar seleção',
-  },
-  listLabel: 'Objetos da sala',
   noScript: 'Esta página precisa de JavaScript para rodar o simulador.',
   objects: {
     desk: {

@@ -52,47 +52,4 @@
     cursor: pointer;
     touch-action: manipulation;
   }
-
-  // A descricao aparece no tooltip; o painel segue so para leitores de tela.
-  &__panel {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--lui-spacing-fixed-8);
-  }
-
-  &__item {
-    padding: 0.25rem 0.75rem;
-    border: 1px solid var(--lui-color-gray-4);
-    border-radius: var(--lui-border-radius-md);
-    background: none;
-    color: inherit;
-    font: inherit;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover,
-    &[aria-pressed='true'] {
-      background-color: var(--lui-color-gray-2);
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: var(--lui-focus-ring-primary);
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .office__item {
-    transition: none;
-  }
 }

@@ -1,8 +1,8 @@
 ---
 /**
  * Simulador do escritorio (/office/): canvas isometrico em pixel art
- * desenhado por `public/js/office.js`. A lista de botoes e o painel dao a
- * mesma interacao por teclado/leitor de tela; o canvas e so visual.
+ * desenhado por `public/js/office.js`. As descricoes aparecem em um tooltip ao
+ * passar o mouse sobre os objetos.
  */
 import SiteHeader from './SiteHeader.astro'
 import { localizePath, type Locale } from '../i18n/config'
@@ -17,7 +17,6 @@ interface Props {
 const { locale, switchPath } = Astro.props
 const strings = office[locale]
 const common = ui[locale]
-const objects = Object.entries(strings.objects)
 ---
 
 <a href="#main" class="skip-link">{common.skipLink}</a>
@@ -48,27 +47,6 @@ const objects = Object.entries(strings.objects)
         <div class="office__tip" data-office-tip hidden aria-hidden="true"></div>
       </div>
       <noscript><p class="body--lg">{strings.noScript}</p></noscript>
-
-      <div class="office__panel" role="status" aria-live="polite">
-        <p class="office__panel-title body--lg" data-office-title>
-          {strings.panel.idle}
-        </p>
-        <p class="office__panel-text body--md" data-office-text>
-          {strings.panel.idleText}
-        </p>
-      </div>
-
-      <ul class="office__list no-list" aria-label={strings.listLabel}>
-        {
-          objects.map(([id, item]) => (
-            <li>
-              <button type="button" class="office__item" data-office-item={id}>
-                {item.name}
-              </button>
-            </li>
-          ))
-        }
-      </ul>
     </section>
   </main>
 </div>
@@ -78,8 +56,6 @@ const objects = Object.entries(strings.objects)
   id="office-data"
   set:html={JSON.stringify({
     objects: strings.objects,
-    idle: strings.panel.idle,
-    idleText: strings.panel.idleText,
   })}
 />
 <script is:inline src="/js/office.js"></script>

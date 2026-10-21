@@ -909,101 +909,7 @@
     }
   }
 
-  // Onde ficar para "usar" cada objeto: [tile, ponto para olhar].
-  const spots = {
-    desk: [
-      [8, 4],
-      [9.5, 1.5],
-    ],
-    monitorL: [
-      [6, 4],
-      [6.8, 0.5],
-    ],
-    monitorR: [
-      [12, 4],
-      [12.4, 0.5],
-    ],
-    laptop: [
-      [9, 4],
-      [9.5, 0.5],
-    ],
-    keyboard: [
-      [9, 4],
-      [9.6, 2.2],
-    ],
-    mouse: [
-      [11, 4],
-      [11.5, 2.3],
-    ],
-    phone: [
-      [7, 4],
-      [7.7, 1.8],
-    ],
-    cat: [
-      [13, 4],
-      [13.4, 1.8],
-    ],
-    cup: [
-      [6, 4],
-      [6.5, 2.2],
-    ],
-    mic: [
-      [13, 4],
-      [13.5, 1.6],
-    ],
-    shelf: [
-      [2, 3],
-      [2.5, 1.5],
-    ],
-    frames: [
-      [2, 3],
-      [2, 1],
-    ],
-    hat: [
-      [3, 3],
-      [3.4, 1],
-    ],
-    typewriter: [
-      [2, 3],
-      [2, 1.2],
-    ],
-    camera: [
-      [3, 3],
-      [3.2, 1.2],
-    ],
-    door: [
-      [3, 5],
-      [0, 4.8],
-    ],
-  }
-  // Os livros compartilham o ponto de parada da estante.
-  for (const name of BOOKS) spots[`book_${name}`] = [[2, 3], [1.8, 1]]
-
-  // ------------------------------------------------------------------
-  // Selecao, painel e lista
-  // ------------------------------------------------------------------
-  const titleEl = root.querySelector('[data-office-title]')
-  const textEl = root.querySelector('[data-office-text]')
-  const items = [...root.querySelectorAll('[data-office-item]')]
-  let selected = null
   let hovered = 0
-
-  function select(key) {
-    selected = key
-    const info = data.objects[key]
-    titleEl.textContent = info.name
-    textEl.textContent = info.text
-    items.forEach((b) =>
-      b.setAttribute('aria-pressed', String(b.dataset.officeItem === key)),
-    )
-    const spot = spots[key]
-    if (spot) walkTo(spot[0], spot[1])
-  }
-
-  items.forEach((b) => {
-    b.setAttribute('aria-pressed', 'false')
-    b.addEventListener('click', () => select(b.dataset.officeItem))
-  })
 
   // ------------------------------------------------------------------
   // Ponteiro
@@ -1054,11 +960,7 @@
   canvas.addEventListener('pointerdown', (e) => {
     const [cx, cy] = toCanvas(e)
     const id = idAt(cx, cy)
-    if (id > 0 && id <= keys.length) {
-      select(keys[id - 1])
-      return
-    }
-    if (id === AVATAR_ID) return
+    if (id > 0) return
     const tile = floorTile(cx, cy)
     if (tile) walkTo(tile, null)
   })
@@ -1121,16 +1023,11 @@
 
     hovered = pointer.inside ? idAt(pointer.x, pointer.y) : 0
     if (hovered === AVATAR_ID) hovered = 0
-    const selId = selected ? IDX[selected] : 0
-    if (selId) {
-      const pulse = reduceMotion || Math.floor(t / 450) % 2 === 0
-      outline(buf, selId, pulse ? '#ffd34d' : '#fff1b3')
-    }
-    if (hovered && hovered !== selId) outline(buf, hovered, '#ffffff')
+    if (hovered) outline(buf, hovered, '#ffffff')
 
     const onObject = hovered > 0
     canvas.style.cursor =
-      onObject || (pointer.inside && floorTile(pointer.x, pointer.y))
+      !onObject && pointer.inside && floorTile(pointer.x, pointer.y)
         ? 'pointer'
         : 'default'
     if (tip) {
