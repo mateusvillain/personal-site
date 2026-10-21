@@ -66,10 +66,6 @@ const en = {
       name: 'Photo frames',
       text: 'Framed pictures on the top shelf, next to the hat.',
     },
-    books: {
-      name: 'Books',
-      text: 'Design, UX, biographies and comics.',
-    },
     typewriter: {
       name: 'Typewriter',
       text: 'A vintage typewriter on top of the drawers.',
@@ -85,6 +81,94 @@ const en = {
     door: {
       name: 'Door',
       text: 'The way to the rest of the house.',
+    },
+    book_a_guerra_dos_tronos: {
+      name: 'A Game of Thrones',
+      text: 'Fiction and fantasy, from the shelf.',
+    },
+    book_a_melhor_estrategia_e_atitude: {
+      name: 'A melhor estratégia é a atitude: Bora vender',
+      text: 'One of the books on the shelf.',
+    },
+    book_american_crime_story: {
+      name: 'American Crime Story',
+      text: 'One of the books on the shelf.',
+    },
+    book_avatar_a_promessa: {
+      name: 'Avatar: The Promise',
+      text: 'Comics, from the shelf.',
+    },
+    book_estrategia_de_ux: {
+      name: 'UX Strategy',
+      text: 'A read on design and UX.',
+    },
+    book_fundamentos_de_ux: {
+      name: 'UX Fundamentals',
+      text: 'A read on design and UX.',
+    },
+    book_harry_potter_1_pedra_filosofal: {
+      name: 'Harry Potter and the Philosopher\'s Stone',
+      text: 'Fiction and fantasy, from the shelf.',
+    },
+    book_harry_potter_2_camara_secreta: {
+      name: 'Harry Potter and the Chamber of Secrets',
+      text: 'Fiction and fantasy, from the shelf.',
+    },
+    book_harry_potter_4_calice_de_fogo: {
+      name: 'Harry Potter and the Goblet of Fire',
+      text: 'Fiction and fantasy, from the shelf.',
+    },
+    book_harry_potter_5_ordem_da_fenix: {
+      name: 'Harry Potter and the Order of the Phoenix',
+      text: 'Fiction and fantasy, from the shelf.',
+    },
+    book_harry_potter_7_reliquias_da_morte: {
+      name: 'Harry Potter and the Deathly Hallows',
+      text: 'Fiction and fantasy, from the shelf.',
+    },
+    book_invincible: {
+      name: 'Invincible',
+      text: 'Comics, from the shelf.',
+    },
+    book_maus: {
+      name: 'Maus',
+      text: 'Comics, from the shelf.',
+    },
+    book_o_impacto_do_detach: {
+      name: 'O impacto do Detach',
+      text: 'One of the books on the shelf.',
+    },
+    book_o_jogo_corporativo_do_ux: {
+      name: 'O jogo corporativo do UX',
+      text: 'A read on design and UX.',
+    },
+    book_provocacoes_criativas: {
+      name: 'Provocações criativas',
+      text: 'A read on design and UX.',
+    },
+    book_steve_jobs: {
+      name: 'Steve Jobs',
+      text: 'A biography, from the shelf.',
+    },
+    book_supernatural: {
+      name: 'Supernatural',
+      text: 'One of the books on the shelf.',
+    },
+    book_box_scott_pilgrim: {
+      name: 'Scott Pilgrim box set',
+      text: 'Comics, from the shelf.',
+    },
+    book_confissoes_do_crematorio: {
+      name: 'Confissões do crematório',
+      text: 'One of the books on the shelf.',
+    },
+    book_design_system_alem_do_layout: {
+      name: 'Design System além do layout',
+      text: 'A read on design and UX.',
+    },
+    book_lideranca_em_ux: {
+      name: 'Liderança em UX',
+      text: 'A read on design and UX.',
     },
   },
 }
@@ -154,10 +238,6 @@ const pt: typeof en = {
       name: 'Porta-retratos',
       text: 'Fotos emolduradas na prateleira de cima, ao lado do chapéu.',
     },
-    books: {
-      name: 'Livros',
-      text: 'Design, UX, biografias e quadrinhos.',
-    },
     typewriter: {
       name: 'Máquina de escrever',
       text: 'Uma máquina de escrever antiga em cima das gavetas.',
@@ -173,6 +253,94 @@ const pt: typeof en = {
     door: {
       name: 'Porta',
       text: 'O caminho para o resto da casa.',
+    },
+    book_a_guerra_dos_tronos: {
+      name: 'A Guerra dos Tronos',
+      text: 'Ficção e fantasia, da estante.',
+    },
+    book_a_melhor_estrategia_e_atitude: {
+      name: 'A melhor estratégia é a atitude: Bora vender',
+      text: 'Um dos livros da estante.',
+    },
+    book_american_crime_story: {
+      name: 'American Crime Story',
+      text: 'Um dos livros da estante.',
+    },
+    book_avatar_a_promessa: {
+      name: 'Avatar: A Promessa',
+      text: 'Quadrinhos, da estante.',
+    },
+    book_estrategia_de_ux: {
+      name: 'Estratégia de UX',
+      text: 'Uma leitura sobre design e UX.',
+    },
+    book_fundamentos_de_ux: {
+      name: 'Fundamentos de UX',
+      text: 'Uma leitura sobre design e UX.',
+    },
+    book_harry_potter_1_pedra_filosofal: {
+      name: 'Harry Potter e a Pedra Filosofal',
+      text: 'Ficção e fantasia, da estante.',
+    },
+    book_harry_potter_2_camara_secreta: {
+      name: 'Harry Potter e a Câmara Secreta',
+      text: 'Ficção e fantasia, da estante.',
+    },
+    book_harry_potter_4_calice_de_fogo: {
+      name: 'Harry Potter e o Cálice de Fogo',
+      text: 'Ficção e fantasia, da estante.',
+    },
+    book_harry_potter_5_ordem_da_fenix: {
+      name: 'Harry Potter e a Ordem da Fênix',
+      text: 'Ficção e fantasia, da estante.',
+    },
+    book_harry_potter_7_reliquias_da_morte: {
+      name: 'Harry Potter e as Relíquias da Morte',
+      text: 'Ficção e fantasia, da estante.',
+    },
+    book_invincible: {
+      name: 'Invincible',
+      text: 'Quadrinhos, da estante.',
+    },
+    book_maus: {
+      name: 'Maus',
+      text: 'Quadrinhos, da estante.',
+    },
+    book_o_impacto_do_detach: {
+      name: 'O impacto do Detach',
+      text: 'Um dos livros da estante.',
+    },
+    book_o_jogo_corporativo_do_ux: {
+      name: 'O jogo corporativo do UX',
+      text: 'Uma leitura sobre design e UX.',
+    },
+    book_provocacoes_criativas: {
+      name: 'Provocações criativas',
+      text: 'Uma leitura sobre design e UX.',
+    },
+    book_steve_jobs: {
+      name: 'Steve Jobs',
+      text: 'Uma biografia, da estante.',
+    },
+    book_supernatural: {
+      name: 'Supernatural',
+      text: 'Um dos livros da estante.',
+    },
+    book_box_scott_pilgrim: {
+      name: 'Box Scott Pilgrim',
+      text: 'Quadrinhos, da estante.',
+    },
+    book_confissoes_do_crematorio: {
+      name: 'Confissões do crematório',
+      text: 'Um dos livros da estante.',
+    },
+    book_design_system_alem_do_layout: {
+      name: 'Design System além do layout',
+      text: 'Uma leitura sobre design e UX.',
+    },
+    book_lideranca_em_ux: {
+      name: 'Liderança em UX',
+      text: 'Uma leitura sobre design e UX.',
     },
   },
 }

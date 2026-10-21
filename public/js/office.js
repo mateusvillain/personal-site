@@ -256,11 +256,8 @@
     monitorFigma: 'monitor_sem_base_figma_3x1',
     monitorCode: 'monitor_sem_base_vscode_3x1',
     arm: 'suporte_monitor_3x1',
-    books: 'livros_2x1',
-    bookPile: 'livros_pilha_1x1',
     typewriter: 'maquina_escrever_2x1',
     hat: 'chapeu_seletor_1x1',
-    camDslr: 'camera_dslr_1x1',
     camCompact: 'camera_compacta_1x1',
     frameWood: 'foto_moldura_madeira_1x1',
     frameBlack: 'foto_moldura_preta_1x1',
@@ -292,11 +289,8 @@
   // Os sprites da estante e dos itens dela sao espelhados na horizontal para
   // a parede esquerda (frente para +x), o que troca largura e profundidade.
   const MIRRORED = new Set([
-    'books',
-    'bookPile',
     'typewriter',
     'hat',
-    'camDslr',
     'camCompact',
     'frameWood',
     'frameBlack',
@@ -323,6 +317,35 @@
     const name = `estante_andar${n}${part ? '_' + part : ''}`
     SPRITE_SIZED[`shelf${n}b`] = [`${name}_fundo`, 3, 2]
     SPRITE_SIZED[`shelf${n}f`] = [`${name}_frente`, 3, 2]
+  }
+  // Livros da estante (public/sprites/books/): cada um ocupa 1x1 tile. Os
+  // deitados sao empilhados somando a espessura (altura da imagem - 16).
+  const BOOKS = [
+    'a_melhor_estrategia_e_atitude',
+    'american_crime_story',
+    'a_guerra_dos_tronos',
+    'avatar_a_promessa',
+    'box_scott_pilgrim',
+    'confissoes_do_crematorio',
+    'design_system_alem_do_layout',
+    'estrategia_de_ux',
+    'fundamentos_de_ux',
+    'harry_potter_1_pedra_filosofal',
+    'harry_potter_2_camara_secreta',
+    'harry_potter_4_calice_de_fogo',
+    'harry_potter_5_ordem_da_fenix',
+    'harry_potter_7_reliquias_da_morte',
+    'invincible',
+    'lideranca_em_ux',
+    'maus',
+    'o_impacto_do_detach',
+    'o_jogo_corporativo_do_ux',
+    'provocacoes_criativas',
+    'steve_jobs',
+    'supernatural',
+  ]
+  for (const name of BOOKS) {
+    SPRITE_SIZED[`book_${name}`] = [`books/${name}`, 1, 1]
   }
   for (const [key, [file, w, d]] of Object.entries(SPRITE_SIZED)) {
     loadSprite(key, file, w, d, 1, true)
@@ -536,16 +559,55 @@
       use('camera')
       item('camCompact', 2.0, 0.6, BOARD.drawers)
     })
+    // Cada livro e um objeto proprio (id, destaque e painel). Os deitados sao
+    // empilhados de baixo para cima: o proximo sobe a espessura do anterior.
+    const book = (name, lx, ly, z) => {
+      use(`book_${name}`)
+      item(`book_${name}`, lx, ly, z)
+    }
+    const pile = (lx, ly, z, names) => {
+      for (const name of names) {
+        book(name, lx, ly, z)
+        z += SPR[`book_${name}`].h || 0
+      }
+    }
+    // De tras (lx pequeno, a direita na tela) para a frente. Em cada pilha a
+    // lista vai de baixo para cima.
     floor(3, () => {
-      use('books')
-      item('bookPile', 0.1, 0.6, BOARD.low)
-      item('books', 1.0, 0.5, BOARD.low)
+      pile(0.1, 0.6, BOARD.low, [
+        'fundamentos_de_ux',
+        'steve_jobs',
+        'provocacoes_criativas',
+        'a_melhor_estrategia_e_atitude',
+        'estrategia_de_ux',
+        'o_jogo_corporativo_do_ux',
+        'o_impacto_do_detach',
+      ])
+      // em pe, da direita para a esquerda na tela
+      const standing = [
+        'lideranca_em_ux',
+        'design_system_alem_do_layout',
+        'confissoes_do_crematorio',
+        'a_guerra_dos_tronos',
+        'american_crime_story',
+      ]
+      standing.forEach((name, i) => book(name, 0.8 + 0.3 * i, 0.6, BOARD.low))
+      pile(2.3, 0.6, BOARD.low, [
+        'maus',
+        'avatar_a_promessa',
+        'supernatural',
+        'invincible',
+      ])
     })
     floor(4, () => {
-      use('books')
-      item('books', 0.2, 0.5, BOARD.mid)
-      use('camera')
-      item('camDslr', 2.0, 0.6, BOARD.mid)
+      pile(0.4, 0.6, BOARD.mid, [
+        'harry_potter_1_pedra_filosofal',
+        'harry_potter_2_camara_secreta',
+        'harry_potter_4_calice_de_fogo',
+        'harry_potter_5_ordem_da_fenix',
+        'harry_potter_7_reliquias_da_morte',
+      ])
+      book('box_scott_pilgrim', 1.5, 0.6, BOARD.mid)
     })
     floor(5, () => {
       use('frames')
@@ -900,10 +962,6 @@
       [3, 3],
       [3.4, 1],
     ],
-    books: [
-      [2, 3],
-      [1.8, 1],
-    ],
     typewriter: [
       [2, 3],
       [2, 1.2],
@@ -917,6 +975,8 @@
       [0, 4.8],
     ],
   }
+  // Os livros compartilham o ponto de parada da estante.
+  for (const name of BOOKS) spots[`book_${name}`] = [[2, 3], [1.8, 1]]
 
   // ------------------------------------------------------------------
   // Selecao, painel e lista
