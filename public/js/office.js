@@ -13,7 +13,7 @@
  * Cada objeto e desenhado tambem num segundo canvas ("buffer de ids"), com
  * uma cor chapada por id, que serve para saber o que esta sob o mouse.
  */
-; (() => {
+;(() => {
   const root = document.querySelector('[data-office]')
   const canvas = document.querySelector('[data-office-canvas]')
   const dataEl = document.getElementById('office-data')
@@ -135,7 +135,7 @@
     const sx = x0 < x1 ? 1 : -1
     const sy = y0 < y1 ? 1 : -1
     let err = dx + dy
-    for (; ;) {
+    for (;;) {
       px(x0, y0, 1, 1, col)
       if (x0 === x1 && y0 === y1) break
       const e2 = 2 * err
@@ -263,7 +263,17 @@
     camCompact: 'camera_compacta_1x1',
     frameWood: 'foto_moldura_madeira_1x1',
     frameBlack: 'foto_moldura_preta_1x1',
+    door: 'porta_parede_esquerda_1x4',
+    floor: 'piso_padrao_4x4',
+    wallL: 'parede_esquerda_1x1',
+    wallR: 'parede_direita_1x1',
+    wallC: 'parede_canto_1x1',
+    baseL: 'rodape_esquerda_1x1',
+    baseR: 'rodape_direita_1x1',
+    baseC: 'rodape_canto_1x1',
   }
+  // Sprites do cenario, desenhados uma vez no fundo.
+  const BG_KEYS = ['floor', 'wallL', 'wallR', 'wallC', 'baseL', 'baseR', 'baseC']
   // Spritesheets animadas: os quadros ficam lado a lado, todos do mesmo
   // tamanho, e `w`/`d` e a base de cada quadro em tiles.
   const SPRITE_SHEETS = {
@@ -272,8 +282,21 @@
     mateus: { file: 'mateus_sentado_spritesheet', w: 2, d: 3, frames: 4 },
   }
   const SPR = {}
-  function loadSprite(key, file, w, d, frames) {
-    const s = { w, d, frames, ready: false, img: new Image(), masks: {} }
+  // Os sprites da estante e dos itens dela sao espelhados na horizontal para
+  // a parede esquerda (frente para +x), o que troca largura e profundidade.
+  const MIRRORED = new Set([
+    'books',
+    'bookPile',
+    'typewriter',
+    'hat',
+    'camDslr',
+    'camCompact',
+    'frameWood',
+    'frameBlack',
+  ])
+  function loadSprite(key, file, w, d, frames, flip = false) {
+    if (flip) [w, d] = [d, w]
+    const s = { w, d, frames, flip, ready: false, img: new Image(), masks: {} }
     s.img.onload = () => {
       s.fw = s.img.width / frames
       s.h = s.img.height - (w + d) * 8
@@ -284,7 +307,7 @@
   }
   for (const [key, file] of Object.entries(SPRITE_FILES)) {
     const [, w, d] = file.match(/_(\d+)x(\d+)(?:_|$)/)
-    loadSprite(key, file, +w, +d, 1)
+    loadSprite(key, file, +w, +d, 1, MIRRORED.has(key))
   }
   // Sprites sem as medidas no nome: [arquivo, largura, profundidade].
   const SPRITE_SIZED = {}
@@ -295,7 +318,7 @@
     SPRITE_SIZED[`shelf${n}f`] = [`${name}_frente`, 3, 2]
   }
   for (const [key, [file, w, d]] of Object.entries(SPRITE_SIZED)) {
-    loadSprite(key, file, w, d, 1)
+    loadSprite(key, file, w, d, 1, true)
   }
   for (const [key, sh] of Object.entries(SPRITE_SHEETS)) {
     loadSprite(key, sh.file, sh.w, sh.d, sh.frames)
@@ -318,7 +341,7 @@
   }
 
   // Desenha o sprite com o canto de tras da base em (x, y) e altura z.
-  function sprite(key, x, y, z = 0, frame = 0) {
+  function sprite(key, x, y, z = 0, frame = 0, target = null) {
     const s = SPR[key]
     if (!s.ready) return
     const left = Math.round(OX + (x - y) * 16) - s.d * 16
@@ -326,10 +349,17 @@
       Math.round(OY + (x + y) * 8 - z) + (s.w + s.d) * 8 - s.img.height
     const sx = frame * s.fw
     const h = s.img.height
-    ctx.drawImage(s.img, sx, 0, s.fw, h, left, top, s.fw, h)
-    if (curId) {
-      idCtx.drawImage(spriteMask(s, curId), sx, 0, s.fw, h, left, top, s.fw, h)
+    const put = (c, img) => {
+      if (!s.flip) return c.drawImage(img, sx, 0, s.fw, h, left, top, s.fw, h)
+      c.save()
+      c.translate(left + s.fw, top)
+      c.scale(-1, 1)
+      c.drawImage(img, sx, 0, s.fw, h, 0, 0, s.fw, h)
+      c.restore()
     }
+    if (target) return put(target, s.img)
+    put(ctx, s.img)
+    if (curId) put(idCtx, spriteMask(s, curId))
   }
 
   // ------------------------------------------------------------------
@@ -363,34 +393,10 @@
     C.fillStyle = '#00000000'
     C.clearRect(0, 0, W, H)
 
-    // laje do piso
-    poly([P(0, RY, 0), P(RX, RY, 0), P(RX, RY, -10), P(0, RY, -10)], '#8d6b42')
-    poly([P(RX, 0, 0), P(RX, RY, 0), P(RX, RY, -10), P(RX, 0, -10)], '#6c4f31')
-
-    // base do piso (as tabuas deixam frestas de 1px entre si)
-    poly([P(0, 0, 0), P(RX, 0, 0), P(RX, RY, 0), P(0, RY, 0)], '#c9a66e')
-
-    // tabuas do piso
-    const rand = rng(7)
-    const tones = ['#d2b27c', '#c9a66e', '#d8ba86', '#c4a068']
-    const groove = '#b8935a'
-    for (let j = 0; j < RY; j++) {
-      const y0 = j
-      const y1 = j + 1
-      let x = -rand() * 5
-      while (x < RX) {
-        const len = 4 + rand() * 5
-        const a = Math.max(0, x)
-        const b = Math.min(RX, x + len)
-        if (b > a) {
-          const col = tones[Math.floor(rand() * tones.length)]
-          poly([P(a, y0, 0), P(b, y0, 0), P(b, y1, 0), P(a, y1, 0)], col)
-          const [e0x, e0y] = P(b, y0, 0)
-          const [e1x, e1y] = P(b, y1, 0)
-          if (b < RX) line(e0x, e0y, e1x, e1y, groove)
-        }
-        x += len
-      }
+    // piso: ladrilhos de 4x4 tiles, de tras para a frente (a espessura
+    // de 4 px fica abaixo do losango, por isso z = -4)
+    for (let i = 0; i < RX / 4; i++) {
+      for (let j = 0; j < RY / 4; j++) sprite('floor', i * 4, j * 4, -4, 0, C)
     }
 
     // sombras no chao (so dos objetos soltos)
@@ -412,24 +418,18 @@
     }
     C.globalAlpha = 1
 
-    // paredes
-    box(-0.6, -0.6, 0, 0.6, RY + 0.6, WALL, {
-      top: '#e4e4df',
-      left: '#a3a8ad',
-      right: '#9aa0a8',
-    })
-    box(0, -0.6, 0, RX, 0.6, WALL, {
-      top: '#eaeae5',
-      left: '#b6bbc1',
-      right: '#8e949b',
-    })
-    // rodape
-    const [lbx, lby] = P(0, 0, 0)
-    for (let i = 0; i < RX * 16; i++) {
-      px(lbx + i, lby - 8 + ((i + 1) >> 1), 1, 8, '#dedfdb')
-    }
-    for (let i = 0; i < RY * 16; i++) {
-      px(lbx - i - 1, lby - 8 + ((i + 1) >> 1), 1, 8, '#cfd1cf')
+    // paredes e rodape, uma celula por vez, de tras para a frente
+    sprite('wallC', 0, 0, 0, 0, C)
+    sprite('baseC', 0, 0, 0, 0, C)
+    for (let k = 1; k < Math.max(RX, RY); k++) {
+      if (k < RY) {
+        sprite('wallL', 0, k, 0, 0, C)
+        sprite('baseL', 0, k, 0, 0, C)
+      }
+      if (k < RX) {
+        sprite('wallR', k, 0, 0, 0, C)
+        sprite('baseR', k, 0, 0, 0, C)
+      }
     }
 
     // contorno externo da sala
@@ -457,8 +457,6 @@
   // Escalas antigas -> escala dos sprites.
   const SCALE = { k: 2.5, kz: 2.27, oz: 0, nz: 0 }
   const L = {
-    backpack: { ...SCALE, ox: 0.12, oy: 4.3, nx: 0.2, ny: 7.2 },
-    plant: { ...SCALE, ox: 0.12, oy: 5.27, nx: 0.2, ny: 9.6 },
     // Itens pequenos sobre a mesa: mais escala em x/y que em z.
     notebook: {
       k: 1.3,
@@ -490,16 +488,6 @@
       oz: DESK_Z,
       nz: DESK_TOP,
     },
-    slippers: {
-      k: 1.6,
-      kz: 1.5,
-      ox: 4.2,
-      oy: 0.8,
-      nx: 8.6,
-      ny: 0.5,
-      oz: 0,
-      nz: 0,
-    },
   }
 
   function drawNotebook() {
@@ -524,18 +512,9 @@
     box(7.1, 1.74, DESK_Z + 20, 0.22, 0.22, 4, '#6d7078')
   }
 
-  function drawSlippers() {
-    use('slippers')
-    box(4.2, 0.8, 0, 0.45, 0.9, 3, '#2d3036')
-    box(5.0, 1.0, 0, 0.45, 0.9, 3, '#2d3036')
-    box(4.22, 0.85, 3, 0.4, 0.4, 0.5, '#1b1d21')
-    box(5.02, 1.05, 3, 0.4, 0.4, 0.5, '#1b1d21')
-  }
-
   // Mesa e tudo o que esta sobre ela, de tras para a frente. As posicoes dos
   // sprites sao o canto de tras da base, em tiles.
   function drawDesk(t) {
-    legacy(L.slippers, drawSlippers)
     use('desk')
     sprite('desk', 5, 0, 0)
     sprite('pad', 8, 1, DESK_TOP)
@@ -565,14 +544,18 @@
     legacy(L.mic, drawMic)
   }
 
-  // Estante na parede direita (frente para +y), com os itens sobre cada
+  // Estante na parede da porta (frente para +x), com os itens sobre cada
   // tabua. As alturas das tabuas vem do proprio sprite da estante. A camada
   // da frente (colunas) e desenhada por ultimo, por cima dos itens.
-  const SHELF = { x: 1, y: 0 }
+  const SHELF = { x: 0.3, y: 7.2 }
   const BOARD = { top: 127, mid: 102, low: 77, drawers: 52 }
 
   function drawShelf() {
     const { x, y } = SHELF
+    // Posicoes dos itens medidas na estante original (frente para +y):
+    // largura ao longo da prateleira (lx) e profundidade (ly). Espelhadas,
+    // lx vira y e ly vira x.
+    const item = (key, lx, ly, z) => sprite(key, x + ly, y + lx, z)
     // Cada andar e uma camada de fundo (tabua e colunas de tras), os itens
     // dele e uma camada da frente (colunas da frente), de baixo para cima.
     const floor = (n, items) => {
@@ -586,78 +569,37 @@
     // gaveteiro: maquina de escrever e camera compacta
     floor(2, () => {
       use('typewriter')
-      sprite('typewriter', x + 0.2, y + 0.5, BOARD.drawers)
+      item('typewriter', 0.2, 0.5, BOARD.drawers)
       use('camera')
-      sprite('camCompact', x + 2.0, y + 0.6, BOARD.drawers)
+      item('camCompact', 2.0, 0.6, BOARD.drawers)
     })
     floor(3, () => {
       use('books')
-      sprite('bookPile', x + 0.1, y + 0.6, BOARD.low)
-      sprite('books', x + 1.0, y + 0.5, BOARD.low)
+      item('bookPile', 0.1, 0.6, BOARD.low)
+      item('books', 1.0, 0.5, BOARD.low)
     })
     floor(4, () => {
       use('books')
-      sprite('books', x + 0.2, y + 0.5, BOARD.mid)
+      item('books', 0.2, 0.5, BOARD.mid)
       use('camera')
-      sprite('camDslr', x + 2.0, y + 0.6, BOARD.mid)
+      item('camDslr', 2.0, 0.6, BOARD.mid)
     })
     floor(5, () => {
       use('frames')
-      sprite('frameWood', x + 0.1, y + 0.6, BOARD.top)
-      sprite('frameBlack', x + 1.0, y + 0.4, BOARD.top)
+      item('frameWood', 0.1, 0.6, BOARD.top)
+      item('frameBlack', 1.0, 0.4, BOARD.top)
       use('hat')
-      sprite('hat', x + 1.9, y + 0.6, BOARD.top)
+      item('hat', 1.9, 0.6, BOARD.top)
     })
   }
 
-  function drawPlant() {
-    use('plant')
-    box(0.25, 5.4, 0, 0.6, 0.6, 12, '#34373c')
-    box(0.22, 5.37, 12, 0.66, 0.66, 1.2, '#4a4d54')
-    const [cx, cy] = P(0.55, 5.7, 13)
-    const leaves = [
-      [-4, -8, 7, 9, '#1c5430'],
-      [8, -10, 8, 8, '#2a7a44'],
-      [-10, -20, 8, 8, '#2a7a44'],
-      [2, -22, 8, 10, '#1f6a38'],
-      [12, -26, 7, 7, '#19492b'],
-      [-2, -34, 7, 8, '#2f8a4c'],
-      [10, -38, 6, 7, '#2a7a44'],
-    ]
-    const ls = 2.5
-    leaves.forEach(([dx, dy, rx, ry, col]) =>
-      ell(
-        cx + Math.round(dx * ls),
-        cy + Math.round(dy * ls),
-        Math.round(rx * ls),
-        Math.round(ry * ls),
-        col,
-      ),
-    )
-    line(cx, cy, cx - 10, cy - 70, '#19492b')
-    line(cx + 3, cy, cx + 25, cy - 75, '#19492b')
-  }
-
-  function drawBackpack() {
-    use('backpack')
-    box(0.15, 4.3, 0, 0.6, 0.65, 22, '#17181b')
-    box(0.72, 4.4, 1, 0.12, 0.45, 10, '#202226')
-    fxRect(0.84, 4.4, 1, 2, 6, 3, 8, '#101114')
-    fxRect(0.75, 4.3, 14, 8, 11, 0, 7, '#c8c8c4')
-  }
-
-  // Porta na parede esquerda (plano x = 0), voltada para +x.
-  const DOOR = { y: 3, w: 3.6, h: 184 }
+  // Porta na parede esquerda (plano x = 0), voltada para +x. O sprite ocupa
+  // 1x4 tiles; a folha em si cobre ~3,1 tiles a partir de y + 0,2.
+  const DOOR = { y: 1, w: 3.3, h: 171 }
 
   function drawDoor() {
     use('door')
-    const { y, w, h } = DOOR
-    const u = w * 16
-    box(0, y, 0, 0.3, w, h, '#e6e6e2')
-    fxRect(0.3, y, 0, 3, u - 3, 3, h - 4, '#f2f2ee')
-    fxRect(0.3, y, 0, 8, u - 8, 8, 86, '#e4e4df')
-    fxRect(0.3, y, 0, 8, u - 8, 96, h - 14, '#e4e4df')
-    fxRect(0.3, y, 0, u - 12, u - 8, 92, 96, '#8a8e94')
+    sprite('door', 0, DOOR.y, 0)
   }
 
   // ------------------------------------------------------------------
@@ -750,21 +692,9 @@
       block: [5, 0, 14, 3],
     },
     {
-      box: [SHELF.x, SHELF.y, SHELF.x + 3, SHELF.y + 2, 0, 132],
+      box: [SHELF.x, SHELF.y, SHELF.x + 2, SHELF.y + 3, 0, 132],
       draw: drawShelf,
-      block: [SHELF.x, SHELF.y, SHELF.x + 3, SHELF.y + 2],
-    },
-    {
-      box: xf(L.backpack, [0.12, 4.3, 0.85, 4.95, 0, 22]),
-      draw: () => legacy(L.backpack, drawBackpack),
-      block: xf(L.backpack, [0.12, 4.3, 0.85, 4.95]),
-      shadow: xf(L.backpack, [0.12, 4.3, 0.85, 4.95]),
-    },
-    {
-      box: xf(L.plant, [0.12, 5.27, 0.98, 6.13, 0, 50]),
-      draw: () => legacy(L.plant, drawPlant),
-      block: xf(L.plant, [0.12, 5.27, 0.98, 6.13]),
-      shadow: xf(L.plant, [0.12, 5.27, 0.98, 6.13]),
+      block: [SHELF.x, SHELF.y, SHELF.x + 2, SHELF.y + 3],
     },
   ]
   // Mateus fica sentado na cadeira, de costas, com a mao direita no mouse e
@@ -775,7 +705,13 @@
     box: [8, 3, 11, 5, 0, 105],
     draw: (t) => {
       curId = AVATAR_ID
-      sprite('mateus', SEAT.x, SEAT.y, 0, reduceMotion ? 0 : Math.floor(t / 250) % 4)
+      sprite(
+        'mateus',
+        SEAT.x,
+        SEAT.y,
+        0,
+        reduceMotion ? 0 : Math.floor(t / 250) % 4,
+      )
     },
   }
   const sceneGroups = [...groups, avatarGroup]
@@ -989,10 +925,6 @@
       [13, 4],
       [13.5, 1.6],
     ],
-    slippers: [
-      [9, 4],
-      [9.5, 1.5],
-    ],
     shelf: [
       [2, 3],
       [2.5, 1.5],
@@ -1016,14 +948,6 @@
     camera: [
       [3, 3],
       [3.2, 1.2],
-    ],
-    plant: [
-      [3, 10],
-      [1.2, 10.8],
-    ],
-    backpack: [
-      [3, 8],
-      [1, 8],
     ],
     door: [
       [3, 5],
@@ -1140,7 +1064,13 @@
     }
   }
 
+  let bgDone = false
   function render(t) {
+    // O fundo usa sprites, entao so e desenhado depois que todos carregam.
+    if (!bgDone && BG_KEYS.every((k) => SPR[k].ready)) {
+      drawBackground()
+      bgDone = true
+    }
     C = ctx
     ctx.clearRect(0, 0, W, H)
     idCtx.clearRect(0, 0, W, H)
@@ -1211,6 +1141,5 @@
   new ResizeObserver(fit).observe(stage)
   fit()
 
-  drawBackground()
   requestAnimationFrame(frame)
 })()

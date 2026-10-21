@@ -16,9 +16,6 @@
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
-    padding: var(--lui-spacing-fixed-16);
-    border-radius: var(--lui-border-radius-lg);
-    background-color: var(--lui-color-gray-2);
   }
 
   &__tip {
