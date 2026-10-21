@@ -565,24 +565,25 @@
       use(`book_${name}`)
       item(`book_${name}`, lx, ly, z)
     }
-    const pile = (lx, ly, z, names) => {
+    // `tight` aproxima os livros da pilha em px (sobrepoe a espessura).
+    const pile = (lx, ly, z, names, tight = 0) => {
       for (const name of names) {
         book(name, lx, ly, z)
-        z += SPR[`book_${name}`].h || 0
+        z += (SPR[`book_${name}`].h || 0) - tight
       }
     }
     // De tras (lx pequeno, a direita na tela) para a frente. Em cada pilha a
     // lista vai de baixo para cima.
     floor(3, () => {
-      pile(0.1, 0.6, BOARD.low, [
+      pile(-0.1, 0.5, BOARD.low, [
         'fundamentos_de_ux',
         'steve_jobs',
         'provocacoes_criativas',
         'a_melhor_estrategia_e_atitude',
         'estrategia_de_ux',
         'o_jogo_corporativo_do_ux',
-        'o_impacto_do_detach',
-      ])
+        // 'o_impacto_do_detach',
+      ], 1)
       // em pe, da direita para a esquerda na tela
       const standing = [
         'lideranca_em_ux',
@@ -591,13 +592,13 @@
         'a_guerra_dos_tronos',
         'american_crime_story',
       ]
-      standing.forEach((name, i) => book(name, 0.8 + 0.3 * i, 0.6, BOARD.low))
-      pile(2.3, 0.6, BOARD.low, [
+      standing.forEach((name, i) => book(name, 0.5 + 0.2 * i, 0.5, BOARD.low))
+      pile(1.8, 0.5, BOARD.low, [
         'maus',
         'avatar_a_promessa',
         'supernatural',
         'invincible',
-      ])
+      ], 1)
     })
     floor(4, () => {
       pile(0.4, 0.6, BOARD.mid, [
@@ -606,7 +607,7 @@
         'harry_potter_4_calice_de_fogo',
         'harry_potter_5_ordem_da_fenix',
         'harry_potter_7_reliquias_da_morte',
-      ])
+      ], 1)
       book('box_scott_pilgrim', 1.5, 0.6, BOARD.mid)
     })
     floor(5, () => {
@@ -1134,7 +1135,13 @@
         : 'default'
     if (tip) {
       if (onObject) {
-        tip.textContent = data.objects[keys[hovered - 1]].name
+        const info = data.objects[keys[hovered - 1]]
+        if (tip.dataset.key !== keys[hovered - 1]) {
+          tip.dataset.key = keys[hovered - 1]
+          const title = document.createElement('strong')
+          title.textContent = info.name
+          tip.replaceChildren(title, info.text)
+        }
         tip.hidden = false
       } else tip.hidden = true
     }

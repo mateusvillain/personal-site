@@ -21,13 +21,22 @@
   &__tip {
     position: absolute;
     z-index: 1;
-    padding: var(--lui-spacing-fixed-4) var(--lui-spacing-fixed-8);
+    padding: 12px;
     border-radius: var(--lui-border-radius-md);
     background-color: var(--lui-color-gray-1);
     border: 1px solid var(--lui-color-gray-4);
-    font-size: 0.875rem;
-    white-space: nowrap;
+    font-family: 'VT323', monospace;
+    font-size: 1.125rem;
+    line-height: 1;
+    width: max-content;
+    max-width: 260px;
     pointer-events: none;
+
+    strong {
+      display: block;
+      font: inherit;
+      color: var(--lui-color-neutral-text-heading);
+    }
 
     &[hidden] {
       display: none;
@@ -44,16 +53,14 @@
     touch-action: manipulation;
   }
 
+  // A descricao aparece no tooltip; o painel segue so para leitores de tela.
   &__panel {
-    min-height: 5.5rem;
-    padding: var(--lui-spacing-fixed-16);
-    border-radius: var(--lui-border-radius-md);
-    background-color: var(--lui-color-gray-2);
-  }
-
-  &__panel-title {
-    font-weight: 600;
-    color: var(--lui-color-neutral-text-heading);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   &__list {
