@@ -76,6 +76,14 @@ const en = {
       name: 'Door',
       text: 'The way to the rest of the house.',
     },
+    postItNote: {
+      name: 'Sticky note',
+      text: 'A reminder stuck to the monitor so it does not get forgotten.',
+    },
+    postItPad: {
+      name: 'Sticky note pad',
+      text: 'For ideas that cannot wait for the next meeting.',
+    },
     lightSwitch: {
       name: 'Light switch',
       text: 'Click to turn the office lights on or off.',
@@ -249,6 +257,14 @@ const pt: typeof en = {
     door: {
       name: 'Porta',
       text: 'O caminho para o resto da casa.',
+    },
+    postItNote: {
+      name: 'Post-it',
+      text: 'Um lembrete colado no monitor para não ser esquecido.',
+    },
+    postItPad: {
+      name: 'Bloco de post-it',
+      text: 'Para ideias que não podem esperar a próxima reunião.',
     },
     lightSwitch: {
       name: 'Interruptor',

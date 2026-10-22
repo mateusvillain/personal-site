@@ -257,6 +257,8 @@
     monitorFigma: 'monitor_sem_base_figma_3x1',
     monitorCode: 'monitor_sem_base_vscode_3x1',
     monitorOff: 'monitor_sem_base_desligado_3x1',
+    postItPad: 'post_it_bloco_1x1',
+    postItNote: 'post_it_em_pe_frente_y_1x1',
     arm: 'suporte_monitor_3x1',
     typewriter: 'maquina_escrever_2x1',
     hat: 'chapeu_seletor_1x1',
@@ -510,6 +512,10 @@
     use('monitorL')
     sprite('arm', 5.3, 0, DESK_TOP)
     sprite(lightsOn ? 'monitorFigma' : 'monitorOff', 5.3, 0, DESK_TOP)
+    use('postItNote')
+    sprite('postItNote', 5.7, 0.79, DESK_TOP + 3)
+    use('postItPad')
+    sprite('postItPad', 5.1, 1.2, DESK_TOP)
     use('laptop')
     sprite(lightsOn ? 'laptop' : 'laptopClosed', 8.6, 0, DESK_TOP)
     use('monitorR')
