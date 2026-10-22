@@ -376,6 +376,9 @@
 
   // Desenha o sprite com o canto de tras da base em (x, y) e altura z.
   function sprite(key, x, y, z = 0, frame = 0, target = null) {
+    return drawSprite(key, x, y, z, frame, target)
+  }
+  function drawSprite(key, x, y, z = 0, frame = 0, target = null) {
     const s = SPR[key]
     if (!s.ready) return
     const left = Math.round(OX + (x - y) * 16) - s.d * 16
@@ -496,7 +499,11 @@
 
   // Mesa e tudo o que esta sobre ela, de tras para a frente. As posicoes dos
   // sprites sao o canto de tras da base, em tiles.
+  // Recuo da mesa (e de tudo sobre ela) em y, para o pe nao ficar sobre o rodape.
+  const DESK_DY = 0.7
   function drawDesk(t) {
+    const sprite = (key, x, y, z, frame, target) =>
+      drawSprite(key, x, y + DESK_DY, z, frame, target)
     use('desk')
     sprite('desk', 5, 0, 0)
     sprite('pad', 8, 1, DESK_TOP)
@@ -746,7 +753,7 @@
       block: [14.2, 0.8, 15.8, 2.2],
     },
     {
-      box: [5, 0, 14, 3, 0, DESK_TOP + 50],
+      box: [5, DESK_DY, 14, 3 + DESK_DY, 0, DESK_TOP + 50],
       draw: drawDesk,
       block: [5, 0, 14, 3],
     },
@@ -759,7 +766,7 @@
   // Mateus fica sentado na cadeira, de costas, com a mao direita no mouse e
   // a esquerda no teclado. O avatar que andava pela sala (drawAvatar) foi
   // desativado: o grupo abaixo o substitui.
-  const SEAT = { x: 9.2, y: 1.7 }
+  const SEAT = { x: 9.2, y: 1.7 + DESK_DY }
   const avatarGroup = {
     box: [8, 3, 11, 5, 0, 105],
     draw: (t) => {
@@ -1074,7 +1081,7 @@
     const onObject = hovered > 0
     canvas.style.cursor =
       hovered === IDX.lightSwitch ||
-      (!onObject && pointer.inside && floorTile(pointer.x, pointer.y))
+        (!onObject && pointer.inside && floorTile(pointer.x, pointer.y))
         ? 'pointer'
         : 'default'
     if (tip) {
