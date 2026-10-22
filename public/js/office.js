@@ -259,6 +259,7 @@
     monitorOff: 'mesa/monitor_sem_base_desligado_3x1',
     postItPad: 'mesa/post_it_bloco_1x1',
     postItNote: 'mesa/post_it_em_pe_frente_y_1x1',
+    pen: 'mesa/caneta_1x1',
     arm: 'mesa/suporte_monitor_3x1',
     typewriter: 'estante/maquina_escrever_2x1',
     hat: 'estante/chapeu_seletor_1x1',
@@ -516,6 +517,8 @@
     sprite('postItNote', 5.7, 0.79, DESK_TOP + 3)
     use('postItPad')
     sprite('postItPad', 5.1, 1.2, DESK_TOP)
+    use('pen')
+    sprite('pen', 5.3, 2.0, DESK_TOP)
     use('laptop')
     sprite(lightsOn ? 'laptop' : 'laptopClosed', 8.6, 0, DESK_TOP)
     use('monitorR')

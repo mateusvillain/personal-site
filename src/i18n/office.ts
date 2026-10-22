@@ -84,6 +84,10 @@ const en = {
       name: 'Sticky note pad',
       text: 'For ideas that cannot wait for the next meeting.',
     },
+    pen: {
+      name: 'Jinhao X750',
+      text: 'A fountain pen next to the sticky notes, for sketching ideas on paper.',
+    },
     lightSwitch: {
       name: 'Light switch',
       text: 'Click to turn the office lights on or off.',
@@ -265,6 +269,10 @@ const pt: typeof en = {
     postItPad: {
       name: 'Bloco de post-it',
       text: 'Para ideias que não podem esperar a próxima reunião.',
+    },
+    pen: {
+      name: 'Jinhao X750',
+      text: 'Uma caneta-tinteiro ao lado dos post-its, para rabiscar ideias no papel.',
     },
     lightSwitch: {
       name: 'Interruptor',
