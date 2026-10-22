@@ -652,8 +652,21 @@
 
   // Luzes: o interruptor liga/desliga. Apagadas, os monitores ficam desligados e
   // Mateus e a gata somem (saiu do escritorio). `dim` anima o escurecimento (0 a 1).
-  let lightsOn = true
-  let dim = 0
+  // Horario automatico (Brasilia): apaga as 19:00 e acende as 8:00. O
+  // interruptor continua valendo, mas a proxima virada do horario manda.
+  const OFFICE_TZ = 'America/Sao_Paulo'
+  const hourFmt = new Intl.DateTimeFormat('en-US', {
+    timeZone: OFFICE_TZ,
+    hour: 'numeric',
+    hourCycle: 'h23',
+  })
+  const isDaytime = () => {
+    const h = +hourFmt.format(new Date())
+    return h >= 8 && h < 19
+  }
+  let daytime = isDaytime()
+  let lightsOn = daytime
+  let dim = lightsOn ? 0 : 1
 
   // Interruptor na parede esquerda, encostado na estante (que e desenhada depois e cobre parte dele),
   // a ~1,1 m do chao.
@@ -1112,6 +1125,11 @@
     const dt = Math.min(0.05, (now - last) / 1000 || 0)
     last = now
     updateAvatar(dt)
+    const nowDay = isDaytime()
+    if (nowDay !== daytime) {
+      daytime = nowDay
+      lightsOn = nowDay
+    }
     const target = lightsOn ? 0 : 1
     dim = reduceMotion
       ? target
