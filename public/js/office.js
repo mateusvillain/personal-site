@@ -248,48 +248,48 @@
   // alinhada ao fundo da imagem.
   const SPRITE_DIR = '/sprites/'
   const SPRITE_FILES = {
-    desk: 'mesa_regulavel_9x3',
-    pad: 'mousepad_4x2',
-    laptop: 'macbook_air_2x1',
-    laptopClosed: 'macbook_air_fechado_adesivos_2x1',
-    keyboard: 'teclado_75_2x1',
-    mouse: 'mouse_1x1',
-    monitorFigma: 'monitor_sem_base_figma_3x1',
-    monitorCode: 'monitor_sem_base_vscode_3x1',
-    monitorOff: 'monitor_sem_base_desligado_3x1',
-    postItPad: 'post_it_bloco_1x1',
-    postItNote: 'post_it_em_pe_frente_y_1x1',
-    arm: 'suporte_monitor_3x1',
-    typewriter: 'maquina_escrever_2x1',
-    hat: 'chapeu_seletor_1x1',
-    camCompact: 'camera_compacta_1x1',
-    frameWood: 'foto_moldura_madeira_1x1',
-    frameBlack: 'foto_moldura_preta_1x1',
-    phoneDock: 'suporte_celular_1x1',
-    phoneSprite: 'iphone_15_1x1',
-    coaster: 'porta_copos_1x1',
-    cup: 'copo_termico_1x1',
-    micArm: 'braco_microfone_2x2',
-    micBody: 'microfone_2x2',
-    door: 'porta_parede_esquerda_1x4',
-    lightSwitch: 'interruptor_parede_esquerda_1x1',
-    monstera: 'monstera_3x3',
-    floor: 'piso_padrao_4x4',
-    wallL: 'parede_esquerda_1x1',
-    wallR: 'parede_direita_1x1',
-    wallC: 'parede_canto_1x1',
-    baseL: 'rodape_esquerda_1x1',
-    baseR: 'rodape_direita_1x1',
-    baseC: 'rodape_canto_1x1',
+    desk: 'mesa/mesa_regulavel_9x3',
+    pad: 'mesa/mousepad_4x2',
+    laptop: 'mesa/macbook_air_2x1',
+    laptopClosed: 'mesa/macbook_air_fechado_adesivos_2x1',
+    keyboard: 'mesa/teclado_75_2x1',
+    mouse: 'mesa/mouse_1x1',
+    monitorFigma: 'mesa/monitor_sem_base_figma_3x1',
+    monitorCode: 'mesa/monitor_sem_base_vscode_3x1',
+    monitorOff: 'mesa/monitor_sem_base_desligado_3x1',
+    postItPad: 'mesa/post_it_bloco_1x1',
+    postItNote: 'mesa/post_it_em_pe_frente_y_1x1',
+    arm: 'mesa/suporte_monitor_3x1',
+    typewriter: 'estante/maquina_escrever_2x1',
+    hat: 'estante/chapeu_seletor_1x1',
+    camCompact: 'estante/camera_compacta_1x1',
+    frameWood: 'estante/foto_moldura_madeira_1x1',
+    frameBlack: 'estante/foto_moldura_preta_1x1',
+    phoneDock: 'mesa/suporte_celular_1x1',
+    phoneSprite: 'mesa/iphone_15_1x1',
+    coaster: 'mesa/porta_copos_1x1',
+    cup: 'mesa/copo_termico_1x1',
+    micArm: 'mesa/braco_microfone_2x2',
+    micBody: 'mesa/microfone_2x2',
+    door: 'cenario/porta_parede_esquerda_1x4',
+    lightSwitch: 'cenario/interruptor_parede_esquerda_1x1',
+    monstera: 'cenario/monstera_3x3',
+    floor: 'cenario/piso_padrao_4x4',
+    wallL: 'cenario/parede_esquerda_1x1',
+    wallR: 'cenario/parede_direita_1x1',
+    wallC: 'cenario/parede_canto_1x1',
+    baseL: 'cenario/rodape_esquerda_1x1',
+    baseR: 'cenario/rodape_direita_1x1',
+    baseC: 'cenario/rodape_canto_1x1',
   }
   // Sprites do cenario, desenhados uma vez no fundo.
   const BG_KEYS = ['floor', 'wallL', 'wallR', 'wallC', 'baseL', 'baseR', 'baseC']
   // Spritesheets animadas: os quadros ficam lado a lado, todos do mesmo
   // tamanho, e `w`/`d` e a base de cada quadro em tiles.
   const SPRITE_SHEETS = {
-    cat: { file: 'gata_deitada_spritesheet', w: 1, d: 2, frames: 8 },
+    cat: { file: 'personagens/gata_deitada_spritesheet', w: 1, d: 2, frames: 8 },
     // A base da imagem so serve de ancora: a cadeira ocupa ~5 tiles.
-    mateus: { file: 'mateus_sentado_spritesheet', w: 2, d: 3, frames: 4 },
+    mateus: { file: 'personagens/mateus_sentado_spritesheet', w: 2, d: 3, frames: 4 },
   }
   const SPR = {}
   // Os sprites da estante e dos itens dela sao espelhados na horizontal para
@@ -320,11 +320,11 @@
   const SPRITE_SIZED = {}
   for (let n = 1; n <= 5; n++) {
     const part = ['chao', 'gaveteiro', '', '', 'topo'][n - 1]
-    const name = `estante_andar${n}${part ? '_' + part : ''}`
+    const name = `estante/estante_andar${n}${part ? '_' + part : ''}`
     SPRITE_SIZED[`shelf${n}b`] = [`${name}_fundo`, 3, 2]
     SPRITE_SIZED[`shelf${n}f`] = [`${name}_frente`, 3, 2]
   }
-  // Livros da estante (public/sprites/books/): cada um ocupa 1x1 tile. Os
+  // Livros da estante (public/sprites/estante/livros/): cada um ocupa 1x1 tile. Os
   // deitados sao empilhados somando a espessura (altura da imagem - 16).
   const BOOKS = [
     'a_melhor_estrategia_e_atitude',
@@ -351,7 +351,7 @@
     'supernatural',
   ]
   for (const name of BOOKS) {
-    SPRITE_SIZED[`book_${name}`] = [`books/${name}`, 1, 1]
+    SPRITE_SIZED[`book_${name}`] = [`estante/livros/${name}`, 1, 1]
   }
   for (const [key, [file, w, d]] of Object.entries(SPRITE_SIZED)) {
     loadSprite(key, file, w, d, 1, true)
