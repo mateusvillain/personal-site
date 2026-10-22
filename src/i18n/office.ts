@@ -13,7 +13,7 @@ const en = {
   noScript: 'This page needs JavaScript to run the simulator.',
   objects: {
     desk: {
-      name: 'Standing desk',
+      name: 'GenioDesk Home',
       text: 'A dark wood desk where most of the work happens.',
     },
     monitorL: {
@@ -25,15 +25,15 @@ const en = {
       text: 'Second ultrawide monitor, for design files. Right now it is full of isometric room references.',
     },
     laptop: {
-      name: 'Laptop',
+      name: 'Macbook Air M4',
       text: 'Laptop on a stand, between the two monitors, with a camera on top.',
     },
     keyboard: {
-      name: 'Mechanical keyboard',
+      name: 'Epomaker AULA F75',
       text: 'A light mechanical keyboard on a dark desk mat.',
     },
     mouse: {
-      name: 'Mouse',
+      name: 'Logitech G502 X',
       text: 'The mouse, on the right side of the desk mat.',
     },
     phone: {
@@ -45,11 +45,11 @@ const en = {
       text: 'A thermal cup on its coaster, always within reach.',
     },
     cat: {
-      name: 'Cat',
+      name: 'Figma',
       text: 'The resident tortoiseshell cat. She claimed the end of the desk, right next to the mic.',
     },
     mic: {
-      name: 'Microphone',
+      name: 'HyperX Quadcast 2',
       text: 'A condenser microphone on a boom arm, for recordings and calls.',
     },
     shelf: {
@@ -69,8 +69,8 @@ const en = {
       text: 'Sitting on top of the shelf and judging everyone who walks by.',
     },
     camera: {
-      name: 'Cameras',
-      text: 'A few cameras living on the shelves.',
+      name: 'Sony A2000',
+      text: 'A compact camera that lives on the shelf, always ready for a quick photo.',
     },
     door: {
       name: 'Door',
@@ -195,7 +195,7 @@ const pt: typeof en = {
   noScript: 'Esta página precisa de JavaScript para rodar o simulador.',
   objects: {
     desk: {
-      name: 'Mesa regulável',
+      name: 'GenioDesk Home',
       text: 'Uma mesa de madeira escura onde acontece a maior parte do trabalho.',
     },
     monitorL: {
@@ -207,15 +207,15 @@ const pt: typeof en = {
       text: 'Segundo monitor ultrawide, para os arquivos de design. Agora está cheio de referências de quartos isométricos.',
     },
     laptop: {
-      name: 'Notebook',
+      name: 'Macbook Air M4',
       text: 'Notebook em um suporte, entre os dois monitores, com uma câmera em cima.',
     },
     keyboard: {
-      name: 'Teclado mecânico',
+      name: 'Epomaker AULA F75',
       text: 'Um teclado mecânico claro sobre um deskpad escuro.',
     },
     mouse: {
-      name: 'Mouse',
+      name: 'Logitech G502 X',
       text: 'O mouse, do lado direito do deskpad.',
     },
     phone: {
@@ -227,11 +227,11 @@ const pt: typeof en = {
       text: 'Um copo térmico no porta-copos, sempre ao alcance.',
     },
     cat: {
-      name: 'Gata',
+      name: 'Figma',
       text: 'A gata de casa, tricolor. Ela dominou o canto da mesa, ao lado do microfone.',
     },
     mic: {
-      name: 'Microfone',
+      name: 'HyperX Quadcast 2',
       text: 'Um microfone condensador em um braço articulado, para gravações e reuniões.',
     },
     shelf: {
@@ -251,8 +251,8 @@ const pt: typeof en = {
       text: 'No alto da estante, julgando quem passa.',
     },
     camera: {
-      name: 'Câmeras',
-      text: 'Algumas câmeras que moram nas prateleiras.',
+      name: 'Sony A2000',
+      text: 'Uma câmera compacta que mora na estante, sempre pronta para uma foto rápida.',
     },
     door: {
       name: 'Porta',
