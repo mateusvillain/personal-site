@@ -574,9 +574,9 @@
     // gaveteiro: maquina de escrever e camera compacta
     floor(2, () => {
       use('typewriter')
-      item('typewriter', 0.2, 0.5, BOARD.drawers)
+      item('typewriter', -0.2, 0.5, BOARD.drawers)
       use('camera')
-      item('camCompact', 2.0, 0.6, BOARD.drawers)
+      item('camCompact', 1.5, 0.4, BOARD.drawers)
     })
     // Cada livro e um objeto proprio (id, destaque e painel). Os deitados sao
     // empilhados de baixo para cima: o proximo sobe a espessura do anterior.
@@ -631,10 +631,10 @@
     })
     floor(5, () => {
       use('frames')
-      item('frameWood', 0.1, 0.6, BOARD.top)
-      item('frameBlack', 1.0, 0.4, BOARD.top)
+      item('frameWood', -0.2, 0.6, BOARD.top)
+      item('frameBlack', 0.4, 0.4, BOARD.top)
       use('hat')
-      item('hat', 1.9, 0.6, BOARD.top)
+      item('hat', 1.5, 0.2, BOARD.top)
     })
   }
 
