@@ -76,6 +76,14 @@ const en = {
       name: 'Door',
       text: 'The way to the rest of the house.',
     },
+    lightSwitch: {
+      name: 'Light switch',
+      text: 'Click to turn the office lights on or off.',
+    },
+    monstera: {
+      name: 'Monstera',
+      text: 'The only coworker that never interrupts a meeting.',
+    },
     book_a_guerra_dos_tronos: {
       name: 'A Game of Thrones',
       text: 'Fiction and fantasy, from the shelf.',
@@ -241,6 +249,14 @@ const pt: typeof en = {
     door: {
       name: 'Porta',
       text: 'O caminho para o resto da casa.',
+    },
+    lightSwitch: {
+      name: 'Interruptor',
+      text: 'Clique para ligar ou apagar as luzes do escritório.',
+    },
+    monstera: {
+      name: 'Monstera',
+      text: 'A única colega que nunca interrompe uma reunião.',
     },
     book_a_guerra_dos_tronos: {
       name: 'A Guerra dos Tronos',

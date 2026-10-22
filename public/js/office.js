@@ -251,10 +251,12 @@
     desk: 'mesa_regulavel_9x3',
     pad: 'mousepad_4x2',
     laptop: 'macbook_air_2x1',
+    laptopClosed: 'macbook_air_fechado_adesivos_2x1',
     keyboard: 'teclado_75_2x1',
     mouse: 'mouse_1x1',
     monitorFigma: 'monitor_sem_base_figma_3x1',
     monitorCode: 'monitor_sem_base_vscode_3x1',
+    monitorOff: 'monitor_sem_base_desligado_3x1',
     arm: 'suporte_monitor_3x1',
     typewriter: 'maquina_escrever_2x1',
     hat: 'chapeu_seletor_1x1',
@@ -268,6 +270,8 @@
     micArm: 'braco_microfone_2x2',
     micBody: 'microfone_2x2',
     door: 'porta_parede_esquerda_1x4',
+    lightSwitch: 'interruptor_parede_esquerda_1x1',
+    monstera: 'monstera_3x3',
     floor: 'piso_padrao_4x4',
     wallL: 'parede_esquerda_1x1',
     wallR: 'parede_direita_1x1',
@@ -498,15 +502,15 @@
     sprite('pad', 8, 1, DESK_TOP)
     use('monitorL')
     sprite('arm', 5.3, 0, DESK_TOP)
-    sprite('monitorFigma', 5.3, 0, DESK_TOP)
+    sprite(lightsOn ? 'monitorFigma' : 'monitorOff', 5.3, 0, DESK_TOP)
     use('laptop')
-    sprite('laptop', 8.6, 0, DESK_TOP)
+    sprite(lightsOn ? 'laptop' : 'laptopClosed', 8.6, 0, DESK_TOP)
     use('monitorR')
     sprite('arm', 10.9, 0, DESK_TOP)
-    sprite('monitorCode', 10.9, 0, DESK_TOP)
+    sprite(lightsOn ? 'monitorCode' : 'monitorOff', 10.9, 0, DESK_TOP)
     use('phone')
     sprite('phoneDock', 7.2, 1.5, DESK_TOP)
-    sprite('phoneSprite', 7.2, 1.5, DESK_TOP)
+    if (lightsOn) sprite('phoneSprite', 7.2, 1.5, DESK_TOP)
     use('cup')
     sprite('coaster', 6.0, 1.7, DESK_TOP)
     sprite('cup', 6.0, 1.7, DESK_TOP + 1)
@@ -515,14 +519,16 @@
     use('mouse')
     sprite('mouse', 11, 1.8, DESK_TOP + 1)
     use('cat')
-    // 8 quadros em loop; parada no primeiro com movimento reduzido.
-    sprite(
-      'cat',
-      12.6,
-      0.2,
-      DESK_TOP,
-      reduceMotion ? 0 : Math.floor(t / 140) % 8,
-    )
+    // 8 quadros em loop; parada no primeiro com movimento reduzido. Some com
+    // as luzes apagadas.
+    if (lightsOn)
+      sprite(
+        'cat',
+        12.6,
+        0.2,
+        DESK_TOP,
+        reduceMotion ? 0 : Math.floor(t / 140) % 8,
+      )
     // Microfone preso na borda de tras da mesa, por cima da gata; o braco e o corpo sao duas
     // camadas do mesmo quadro 2x2.
     use('mic')
@@ -628,6 +634,24 @@
     sprite('door', 0, DOOR.y, 0)
   }
 
+  // Luzes: o interruptor liga/desliga. Apagadas, os monitores ficam desligados e
+  // Mateus e a gata somem (saiu do escritorio). `dim` anima o escurecimento (0 a 1).
+  let lightsOn = true
+  let dim = 0
+
+  // Interruptor na parede esquerda, encostado na estante (que e desenhada depois e cobre parte dele),
+  // a ~1,1 m do chao.
+  function drawSwitch() {
+    use('lightSwitch')
+    sprite('lightSwitch', 0, 4.8, 85)
+  }
+
+  // Monstera em vaso no chao, a direita da mesa (o vaso fica no centro da base 3x3).
+  function drawMonstera() {
+    use('monstera')
+    sprite('monstera', 13.5, 0, 0)
+  }
+
   // ------------------------------------------------------------------
   // Avatar
   // ------------------------------------------------------------------
@@ -713,6 +737,15 @@
       draw: drawDoor,
     },
     {
+      box: [0, 5.6, 0.3, 6.6, 85, 100],
+      draw: drawSwitch,
+    },
+    {
+      box: [14.2, 0.8, 15.8, 2.2, 0, 140],
+      draw: drawMonstera,
+      block: [14.2, 0.8, 15.8, 2.2],
+    },
+    {
       box: [5, 0, 14, 3, 0, DESK_TOP + 50],
       draw: drawDesk,
       block: [5, 0, 14, 3],
@@ -730,6 +763,7 @@
   const avatarGroup = {
     box: [8, 3, 11, 5, 0, 105],
     draw: (t) => {
+      if (!lightsOn) return
       curId = AVATAR_ID
       sprite(
         'mateus',
@@ -960,6 +994,10 @@
   canvas.addEventListener('pointerdown', (e) => {
     const [cx, cy] = toCanvas(e)
     const id = idAt(cx, cy)
+    if (id === IDX.lightSwitch) {
+      lightsOn = !lightsOn
+      return
+    }
     if (id > 0) return
     const tile = floorTile(cx, cy)
     if (tile) walkTo(tile, null)
@@ -1021,13 +1059,22 @@
       }
     }
 
+    // Escurece a cena (so onde ha pixels desenhados)
+    if (dim > 0) {
+      ctx.globalCompositeOperation = 'source-atop'
+      ctx.fillStyle = `rgba(6, 10, 32, ${0.62 * dim})`
+      ctx.fillRect(0, 0, W, H)
+      ctx.globalCompositeOperation = 'source-over'
+    }
+
     hovered = pointer.inside ? idAt(pointer.x, pointer.y) : 0
     if (hovered === AVATAR_ID) hovered = 0
     if (hovered) outline(buf, hovered, '#ffffff')
 
     const onObject = hovered > 0
     canvas.style.cursor =
-      !onObject && pointer.inside && floorTile(pointer.x, pointer.y)
+      hovered === IDX.lightSwitch ||
+      (!onObject && pointer.inside && floorTile(pointer.x, pointer.y))
         ? 'pointer'
         : 'default'
     if (tip) {
@@ -1049,6 +1096,10 @@
     const dt = Math.min(0.05, (now - last) / 1000 || 0)
     last = now
     updateAvatar(dt)
+    const target = lightsOn ? 0 : 1
+    dim = reduceMotion
+      ? target
+      : dim + Math.sign(target - dim) * Math.min(Math.abs(target - dim), dt * 4)
     render(now)
     requestAnimationFrame(frame)
   }
