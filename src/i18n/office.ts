@@ -4,12 +4,20 @@ import type { Dictionary } from './ui'
 const en = {
   metaTitle: 'Office simulator - Mateus Villain',
   metaDescription:
-    'An isometric pixel art version of my home office. Walk around, click on the objects and meet the cat.',
+    'An isometric pixel art version of my home office. Explore the objects, flip the light switch and meet the cat.',
   title: 'Office simulator',
   intro:
-    'A tiny pixel art version of the place where I work. Click on the floor to walk around, or on any object to go there and find out what it is.',
+    'A tiny pixel art version of the place where I work. Hover over or tap the objects to find out what they are, and use the light switch to turn the lights on or off. The lights also go out on their own at 7 pm and come back at 8 am, Brasília time.',
   canvasLabel:
-    'Isometric pixel art illustration of the office: a desk with two monitors, a laptop and a keyboard, a bookshelf with a typewriter, and a cat.',
+    'Isometric pixel art illustration of the office, lights on: Mateus sitting at a desk with two monitors, a laptop and a keyboard, the cat lying at the end of the desk, and a bookshelf with a typewriter.',
+  canvasLabelOff:
+    'Isometric pixel art illustration of the office, lights off: the desk is empty, the monitors are off and the bookshelf with a typewriter is in the dark.',
+  objectsTitle: 'Objects in the office',
+  lightsButton: 'Office lights',
+  lightsOnStatus: 'Lights on. Mateus is back at the desk, with the cat beside him.',
+  lightsOffStatus: 'Lights off. The office is empty and the monitors are off.',
+  pauseAnimation: 'Pause animation',
+  playAnimation: 'Play animation',
   noScript: 'This page needs JavaScript to run the simulator.',
   objects: {
     desk: {
@@ -90,7 +98,7 @@ const en = {
     },
     lightSwitch: {
       name: 'Light switch',
-      text: 'Click to turn the office lights on or off.',
+      text: 'Turns the office lights on or off.',
     },
     monstera: {
       name: 'Monstera',
@@ -190,12 +198,20 @@ const en = {
 const pt: typeof en = {
   metaTitle: 'Simulador do escritório - Mateus Villain',
   metaDescription:
-    'Uma versão isométrica em pixel art do meu escritório. Ande pela sala, clique nos objetos e conheça a gata.',
+    'Uma versão isométrica em pixel art do meu escritório. Explore os objetos, acenda e apague as luzes e conheça a gata.',
   title: 'Simulador do escritório',
   intro:
-    'Uma versão minúscula em pixel art do lugar onde eu trabalho. Clique no chão para andar pela sala, ou em qualquer objeto para ir até ele e descobrir o que é.',
+    'Uma versão minúscula em pixel art do lugar onde eu trabalho. Passe o mouse ou toque nos objetos para descobrir o que são, e use o interruptor para acender ou apagar as luzes. As luzes também se apagam sozinhas às 19h e voltam às 8h, no horário de Brasília.',
   canvasLabel:
-    'Ilustração isométrica em pixel art do escritório: uma mesa com dois monitores, um notebook e um teclado, uma estante com uma máquina de escrever e uma gata.',
+    'Ilustração isométrica em pixel art do escritório, com as luzes acesas: Mateus sentado a uma mesa com dois monitores, um notebook e um teclado, a gata deitada no canto da mesa e uma estante com uma máquina de escrever.',
+  canvasLabelOff:
+    'Ilustração isométrica em pixel art do escritório, com as luzes apagadas: a mesa está vazia, os monitores desligados e a estante com a máquina de escrever no escuro.',
+  objectsTitle: 'Objetos do escritório',
+  lightsButton: 'Luzes do escritório',
+  lightsOnStatus: 'Luzes acesas. Mateus voltou para a mesa, com a gata ao lado.',
+  lightsOffStatus: 'Luzes apagadas. O escritório está vazio e os monitores desligados.',
+  pauseAnimation: 'Pausar animação',
+  playAnimation: 'Retomar animação',
   noScript: 'Esta página precisa de JavaScript para rodar o simulador.',
   objects: {
     desk: {
@@ -276,7 +292,7 @@ const pt: typeof en = {
     },
     lightSwitch: {
       name: 'Interruptor',
-      text: 'Clique para ligar ou apagar as luzes do escritório.',
+      text: 'Liga e apaga as luzes do escritório.',
     },
     monstera: {
       name: 'Monstera',

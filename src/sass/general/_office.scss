@@ -43,6 +43,54 @@
     }
   }
 
+  // Botao invisivel sobre o interruptor do canvas (posicao e tamanho vem do
+  // office.js): da foco, teclado e area de toque minima de 24px ao interruptor.
+  &__switch {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: var(--lui-border-width-2, 2px) solid
+        var(--lui-color-neutral-focus-ring);
+      outline-offset: 2px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__control {
+    padding: 8px 12px;
+    border-radius: var(--lui-border-radius-md);
+    background-color: var(--lui-color-gray-1);
+    border: 1px solid var(--lui-color-gray-4);
+    color: var(--lui-color-neutral-text-heading);
+    font-family: 'VT323', monospace;
+    font-size: 1.125rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: var(--lui-border-width-2, 2px) solid
+        var(--lui-color-neutral-focus-ring);
+      outline-offset: 2px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
   &__canvas {
     display: block;
     width: 640px;

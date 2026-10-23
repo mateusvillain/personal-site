@@ -2,10 +2,11 @@
 /**
  * Simulador do escritorio (/office/): canvas isometrico em pixel art
  * desenhado por `public/js/office.js`. As descricoes aparecem em um tooltip ao
- * passar o mouse sobre os objetos.
+ * passar o mouse (ou tocar) nos objetos; a lista oculta abaixo do canvas e o
+ * equivalente em texto para leitores de tela.
  */
 import SiteHeader from './SiteHeader.astro'
-import { localizePath, type Locale } from '../i18n/config'
+import type { Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 import { office } from '../i18n/office'
 
@@ -23,6 +24,8 @@ const common = ui[locale]
 <SiteHeader locale={locale} switchPath={switchPath} />
 <div class="body-container gap-fluid-80">
   <main id="main" class="hero flex flex-col gap-fluid-40">
+    <h1 class="sr-only">{strings.title}</h1>
+    <p class="sr-only">{strings.intro}</p>
 
     <section class="office" data-office>
       <div class="office__stage">
@@ -34,8 +37,36 @@ const common = ui[locale]
           aria-label={strings.canvasLabel}
           data-office-canvas></canvas>
         <div class="office__tip" data-office-tip hidden aria-hidden="true"></div>
+        <!-- Posicionado sobre o interruptor desenhado no canvas por office.js -->
+        <button
+          type="button"
+          class="office__switch"
+          aria-pressed="true"
+          hidden
+          data-office-switch>
+          <span class="sr-only">{strings.lightsButton}</span>
+        </button>
       </div>
+      <div class="office__controls">
+        <button type="button" class="office__control" hidden data-office-pause>
+          {strings.pauseAnimation}
+        </button>
+      </div>
+      <p class="sr-only" role="status" data-office-status></p>
       <noscript><p class="body--lg">{strings.noScript}</p></noscript>
+    </section>
+
+    <section class="sr-only" aria-labelledby="office-objects-title">
+      <h2 id="office-objects-title">{strings.objectsTitle}</h2>
+      <ul>
+        {
+          Object.values(strings.objects).map((object) => (
+            <li>
+              <strong>{object.name}</strong>: {object.text}
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </main>
 </div>
@@ -45,6 +76,14 @@ const common = ui[locale]
   id="office-data"
   set:html={JSON.stringify({
     objects: strings.objects,
+    labels: {
+      canvasOn: strings.canvasLabel,
+      canvasOff: strings.canvasLabelOff,
+      lightsOn: strings.lightsOnStatus,
+      lightsOff: strings.lightsOffStatus,
+      pause: strings.pauseAnimation,
+      play: strings.playAnimation,
+    },
   })}
 />
 <script is:inline src="/js/office.js"></script>

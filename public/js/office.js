@@ -20,9 +20,8 @@
   if (!root || !canvas || !dataEl) return
 
   const data = JSON.parse(dataEl.textContent)
-  const reduceMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)',
-  ).matches
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  let reduceMotion = motionQuery.matches
 
   // ------------------------------------------------------------------
   // Constantes e contextos
@@ -1004,33 +1003,150 @@
     return idCtx.getImageData(cx, cy, 1, 1).data[0]
   }
 
-  canvas.addEventListener('pointermove', (e) => {
+  const stage = canvas.parentElement
+  const switchBtn = root.querySelector('[data-office-switch]')
+  const pauseBtn = root.querySelector('[data-office-pause]')
+  const status = root.querySelector('[data-office-status]')
+  const labels = data.labels
+
+  // Posicao do ponteiro relativa ao palco, para o tooltip; `tipMoved` pede
+  // um novo posicionamento no proximo quadro.
+  let tipMoved = false
+  function movePointer(e) {
     const [cx, cy] = toCanvas(e)
+    const r = stage.getBoundingClientRect()
     pointer.x = cx
     pointer.y = cy
+    pointer.sx = e.clientX - r.left
+    pointer.sy = e.clientY - r.top
     pointer.inside = true
-    if (tip) {
-      const r = canvas.getBoundingClientRect()
-      tip.style.left = `${e.clientX - r.left + 14}px`
-      tip.style.top = `${e.clientY - r.top + 14}px`
-    }
-  })
-  canvas.addEventListener('pointerleave', () => {
+    tipMoved = true
+  }
+  function leavePointer(e) {
+    // No toque o tooltip fica aberto ate tocar em outro lugar.
+    if (e.pointerType !== 'mouse') return
     pointer.inside = false
     hovered = 0
     if (tip) tip.hidden = true
-  })
+  }
+
+  // Luzes: aplica o estado ao botao e ao texto alternativo do canvas e, se
+  // `announce`, avisa leitores de tela da mudanca.
+  function syncLights(announce) {
+    canvas.setAttribute('aria-label', lightsOn ? labels.canvasOn : labels.canvasOff)
+    if (switchBtn) switchBtn.setAttribute('aria-pressed', String(lightsOn))
+    if (announce && status)
+      status.textContent = lightsOn ? labels.lightsOn : labels.lightsOff
+  }
+  function toggleLights() {
+    lightsOn = !lightsOn
+    syncLights(true)
+  }
+
+  canvas.addEventListener('pointermove', movePointer)
+  canvas.addEventListener('pointerleave', leavePointer)
   canvas.addEventListener('pointerdown', (e) => {
+    movePointer(e)
     const [cx, cy] = toCanvas(e)
     const id = idAt(cx, cy)
     if (id === IDX.lightSwitch) {
-      lightsOn = !lightsOn
+      toggleLights()
       return
     }
     if (id > 0) return
     const tile = floorTile(cx, cy)
     if (tile) walkTo(tile, null)
   })
+  // Toque fora do canvas fecha o tooltip.
+  document.addEventListener('pointerdown', (e) => {
+    if (
+      e.pointerType === 'mouse' ||
+      e.target === canvas ||
+      switchBtn?.contains(e.target)
+    )
+      return
+    pointer.inside = false
+    hovered = 0
+    if (tip) tip.hidden = true
+  })
+
+  if (switchBtn) {
+    // O botao cobre o interruptor: repassa o ponteiro para manter o contorno
+    // e o tooltip.
+    switchBtn.addEventListener('pointermove', movePointer)
+    switchBtn.addEventListener('pointerleave', leavePointer)
+    switchBtn.addEventListener('click', toggleLights)
+  }
+
+  // Animacao (gata e Mateus): pode ser pausada; com movimento reduzido ja
+  // fica parada, e o botao some.
+  let paused = false
+  function syncPause() {
+    if (!pauseBtn) return
+    pauseBtn.hidden = reduceMotion
+    pauseBtn.textContent = paused ? labels.play : labels.pause
+  }
+  if (pauseBtn)
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused
+      syncPause()
+    })
+  motionQuery.addEventListener('change', (e) => {
+    reduceMotion = e.matches
+    syncPause()
+  })
+  syncPause()
+  syncLights(false)
+
+  // Retangulo do interruptor no canvas, lido do buffer de ids, para
+  // posicionar o botao por cima dele.
+  let switchBox = null
+  function findSwitch(buf) {
+    let x0 = W
+    let y0 = H
+    let x1 = -1
+    let y1 = -1
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const o = (y * W + x) * 4
+        if (buf[o] !== IDX.lightSwitch || buf[o + 3] === 0) continue
+        if (x < x0) x0 = x
+        if (x > x1) x1 = x
+        if (y < y0) y0 = y
+        if (y > y1) y1 = y
+      }
+    }
+    if (x1 < 0) return
+    switchBox = [x0, y0, x1 + 1, y1 + 1]
+    placeSwitch()
+  }
+  function placeSwitch() {
+    if (!switchBox || !switchBtn) return
+    const s = canvas.clientWidth / W
+    const [x0, y0, x1, y1] = switchBox
+    const w = Math.max((x1 - x0) * s, 24)
+    const h = Math.max((y1 - y0) * s, 24)
+    const cx = canvas.offsetLeft + ((x0 + x1) / 2) * s
+    const cy = canvas.offsetTop + ((y0 + y1) / 2) * s
+    switchBtn.style.left = `${cx - w / 2}px`
+    switchBtn.style.top = `${cy - h / 2}px`
+    switchBtn.style.width = `${w}px`
+    switchBtn.style.height = `${h}px`
+    switchBtn.hidden = false
+  }
+
+  // Tooltip junto ao ponteiro, virando para o outro lado perto das bordas.
+  function placeTip() {
+    const gap = 14
+    let left = pointer.sx + gap
+    let top = pointer.sy + gap
+    if (left + tip.offsetWidth > stage.clientWidth)
+      left = Math.max(0, pointer.sx - gap - tip.offsetWidth)
+    if (top + tip.offsetHeight > stage.clientHeight)
+      top = Math.max(0, pointer.sy - gap - tip.offsetHeight)
+    tip.style.left = `${left}px`
+    tip.style.top = `${top}px`
+  }
 
   // ------------------------------------------------------------------
   // Loop
@@ -1075,6 +1191,7 @@
     curId = 0
 
     const buf = idCtx.getImageData(0, 0, W, H).data
+    if (!switchBox) findSwitch(buf)
     // contorno escuro em volta dos objetos, so contra o fundo
     ctx.fillStyle = OUTLINE
     for (let y = 0; y < H; y++) {
@@ -1101,11 +1218,8 @@
     if (hovered) outline(buf, hovered, '#ffffff')
 
     const onObject = hovered > 0
-    canvas.style.cursor =
-      hovered === IDX.lightSwitch ||
-        (!onObject && pointer.inside && floorTile(pointer.x, pointer.y))
-        ? 'pointer'
-        : 'default'
+    // So o interruptor e clicavel (Mateus esta sentado, o chao nao faz nada).
+    canvas.style.cursor = hovered === IDX.lightSwitch ? 'pointer' : 'default'
     if (tip) {
       if (onObject) {
         const info = data.objects[keys[hovered - 1]]
@@ -1114,32 +1228,45 @@
           const title = document.createElement('strong')
           title.textContent = info.name
           tip.replaceChildren(title, info.text)
+          tipMoved = true
         }
-        tip.hidden = false
+        if (tip.hidden) {
+          tip.hidden = false
+          tipMoved = true
+        }
+        if (tipMoved) {
+          placeTip()
+          tipMoved = false
+        }
       } else tip.hidden = true
     }
   }
 
   let last = 0
+  // Relogio das animacoes em loop; para enquanto estiver pausado.
+  let animT = 0
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000 || 0)
     last = now
+    if (!paused) animT += dt * 1000
     updateAvatar(dt)
     const nowDay = isDaytime()
     if (nowDay !== daytime) {
       daytime = nowDay
-      lightsOn = nowDay
+      if (lightsOn !== nowDay) {
+        lightsOn = nowDay
+        syncLights(true)
+      }
     }
     const target = lightsOn ? 0 : 1
     dim = reduceMotion
       ? target
       : dim + Math.sign(target - dim) * Math.min(Math.abs(target - dim), dt * 4)
-    render(now)
+    render(animT)
     requestAnimationFrame(frame)
   }
 
   // Ampliacao em multiplos inteiros para os pixels ficarem nitidos.
-  const stage = canvas.parentElement
   function fit() {
     const cs = getComputedStyle(stage)
     const avail =
@@ -1149,6 +1276,7 @@
     // Multiplos inteiros nas telas largas; em telas pequenas, preenche a largura.
     const scale = avail >= W * 2 ? Math.floor(avail / W) : avail / W
     canvas.style.width = `${Math.round(W * scale)}px`
+    placeSwitch()
   }
   new ResizeObserver(fit).observe(stage)
   fit()
