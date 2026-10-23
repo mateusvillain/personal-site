@@ -11,7 +11,7 @@ const en = {
   canvasLabel:
     'Isometric pixel art illustration of the office, lights on: Mateus sitting at a desk with two monitors, a laptop and a keyboard, the cat lying at the end of the desk, and a bookshelf with a typewriter.',
   canvasLabelOff:
-    'Isometric pixel art illustration of the office, lights off: the desk is empty, the monitors are off and the bookshelf with a typewriter is in the dark.',
+    'Isometric pixel art illustration of the office, lights off: an empty chair at the desk, the monitors are off and the bookshelf with a typewriter is in the dark.',
   objectsTitle: 'Objects in the office',
   lightsButton: 'Office lights',
   lightsOnStatus: 'Lights on. Mateus is back at the desk, with the cat beside him.',
@@ -205,7 +205,7 @@ const pt: typeof en = {
   canvasLabel:
     'Ilustração isométrica em pixel art do escritório, com as luzes acesas: Mateus sentado a uma mesa com dois monitores, um notebook e um teclado, a gata deitada no canto da mesa e uma estante com uma máquina de escrever.',
   canvasLabelOff:
-    'Ilustração isométrica em pixel art do escritório, com as luzes apagadas: a mesa está vazia, os monitores desligados e a estante com a máquina de escrever no escuro.',
+    'Ilustração isométrica em pixel art do escritório, com as luzes apagadas: uma cadeira vazia diante da mesa, os monitores desligados e a estante com a máquina de escrever no escuro.',
   objectsTitle: 'Objetos do escritório',
   lightsButton: 'Luzes do escritório',
   lightsOnStatus: 'Luzes acesas. Mateus voltou para a mesa, com a gata ao lado.',

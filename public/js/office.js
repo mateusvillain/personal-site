@@ -260,6 +260,8 @@
     postItNote: 'mesa/post_it_em_pe_frente_y_1x1',
     pen: 'mesa/caneta_1x1',
     arm: 'mesa/suporte_monitor_3x1',
+    // Mesmo tamanho e ancora de um quadro de `mateus` (a base so serve de ancora).
+    chair: 'mesa/cadeira_escritorio_2x3',
     typewriter: 'estante/maquina_escrever_2x1',
     hat: 'estante/chapeu_seletor_1x1',
     camCompact: 'estante/camera_compacta_1x1',
@@ -786,13 +788,17 @@
   ]
   // Mateus fica sentado na cadeira, de costas, com a mao direita no mouse e
   // a esquerda no teclado. O avatar que andava pela sala (drawAvatar) foi
-  // desativado: o grupo abaixo o substitui.
+  // desativado: o grupo abaixo o substitui. Com as luzes apagadas, so a
+  // cadeira vazia fica no lugar.
   const SEAT = { x: 9.2, y: 1.7 + DESK_DY }
   const avatarGroup = {
     box: [8, 3, 11, 5, 0, 105],
     draw: (t) => {
-      if (!lightsOn) return
       curId = AVATAR_ID
+      if (!lightsOn) {
+        sprite('chair', SEAT.x, SEAT.y, 0)
+        return
+      }
       sprite(
         'mateus',
         SEAT.x,
