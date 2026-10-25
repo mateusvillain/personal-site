@@ -12,7 +12,7 @@
 #
 # `category` define em qual filtro o site aparece. Use uma das chaves de
 # `resourceCategories` em `src/i18n/resources.ts` (hoje: components,
-# inspiration, people, companies); o nome exibido de cada uma fica no mesmo arquivo.
+# inspiration, people, companies, sounds); o nome exibido de cada uma fica no mesmo arquivo.
 # Para criar uma categoria, adicione a chave la e o nome nos dois idiomas.
 #
 # `icon` e um caminho dentro de `public/` (ex.: salve o arquivo em
@@ -135,3 +135,18 @@ mkdir:
   url: https://mkdir.directory
   category: inspiration
   icon: /img/resources/mkdir.png
+haptics:
+  name: Haptics
+  url: https://haptics.lochie.me/
+  category: sounds
+  icon: /img/resources/haptics.png
+cuelume:
+  name: Cuelume
+  url: https://cuelume.dev/
+  category: sounds
+  icon: /img/resources/cuelume.png
+soundcn:
+  name: soundcn
+  url: https://soundcn.xyz/?category=UI
+  category: sounds
+  icon: /img/resources/soundcn.png
