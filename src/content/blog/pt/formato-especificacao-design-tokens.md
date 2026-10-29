@@ -1,5 +1,5 @@
 ---
-title: 'Formato e Especificação DTCG: todos os tipos de Design Tokens explicados'
+title: 'O Guia Definitivo dos Design Tokens: Formatos, tipos e especificações'
 description: 'O formato DTCG define como um design token é escrito em JSON: estrutura, aliases e todos os tipos, de color e dimension a shadow e typography. Com exemplos.'
 date: '2026-10-29'
 cover: '/blog/covers/guia-definitivo-design-tokens-2-pt.png'
@@ -19,8 +19,6 @@ No [primeiro artigo do Guia Definitivo dos Design Tokens](https://www.mateusvill
 
 É para resolver isso que existe o **DTCG**, o Design Tokens Community Group. Neste artigo, você vai entender o que é essa especificação, como um arquivo de tokens é estruturado e, principalmente, **quais tipos de token existem e como cada um é escrito**, dos mais simples (cor, dimensão) aos compostos (sombra, tipografia, borda).
 
-> **Um aviso sobre o primeiro artigo:** os exemplos dele usam `value` e `type`, o formato legado popularizado pelo Style Dictionary. A especificação DTCG usa `$value` e `$type`, com o prefixo `$`. É esse formato que vamos usar daqui para frente na série.
-
 ## O que é o DTCG?
 
 O DTCG (Design Tokens Community Group) é o grupo de comunidade do W3C que mantém a especificação do **formato de arquivo** para trocar design tokens entre ferramentas.
@@ -33,7 +31,7 @@ Em 28 de outubro de 2025, o grupo publicou a **primeira versão estável**, cham
 - **Color Module:** como representar cores em diferentes espaços de cor.
 - **Resolver Module:** como combinar conjuntos de tokens para gerar variações como temas e marcas (assunto do artigo sobre theming).
 
-Um detalhe importante: a especificação é um relatório do Community Group. **Ela não é um padrão oficial do W3C** nem está na trilha de padrões do W3C. O próprio documento afirma que é considerada estável e destinada à implementação.
+Um detalhe importante: a especificação é um relatório do Community Group. **Ela não é um padrão oficial do W3C** nem está na trilha de padrões do W3C. O próprio documento afirma que é considerada estável e destinada à implementação. ^[estável, mas não é padrão W3C]
 
 Na prática, o site oficial [designtokens.org](https://www.designtokens.org/) lista ferramentas como Figma, Style Dictionary, Tokens Studio, Penpot, Sketch e zeroheight entre os adotantes e participantes do grupo.
 
@@ -112,7 +110,7 @@ Todo token precisa de um tipo. Se o token não declara `$type`, o tipo é resolv
 2. Senão, vale o `$type` do grupo pai mais próximo que declare um.
 3. Senão, o token é **inválido**.
 
-A especificação proíbe que ferramentas "adivinhem" o tipo olhando o valor. Um `#ffffff` sozinho não é automaticamente uma cor.
+==A especificação proíbe que ferramentas "adivinhem" o tipo olhando o valor==. Um `#ffffff` sozinho não é automaticamente uma cor.
 
 ### `$root` e `$extends`
 
@@ -199,7 +197,7 @@ Regras que valem para os dois:
 
 - **Aliases encadeados** são permitidos (A aponta para B, que aponta para C). A ferramenta segue a cadeia até achar um valor explícito.
 - **Referências circulares são erro** e invalidam todos os tokens da cadeia.
-- Ferramentas devem **preservar as referências** e só resolvê-las quando precisarem do valor final. É isso que permite mudar um primitivo e ver o efeito em todos os aliases.
+- Ferramentas devem **preservar as referências** e só resolvê-las quando precisarem do valor final. É isso que ==permite mudar um primitivo e ver o efeito em todos os aliases==.
 
 ## Tipos simples
 
@@ -265,11 +263,11 @@ Para quem trabalha com cores em OKLCH, a especificação permite escrever:
 }
 ```
 
-> O `hex` é opcional. Se incluí-lo como fallback, gere-o a partir do valor real com uma ferramenta de conversão, e não à mão.
+O `hex` é opcional. Se incluí-lo como fallback, gere-o a partir do valor real com uma ferramenta de conversão, e não à mão.
 
 ### `dimension`
 
-Representa uma distância em um único eixo: posição, largura, altura, raio, espessura. O valor é um objeto com `value` (número) e `unit`, que **só pode ser `px` ou `rem`**:
+Representa uma distância em um único eixo: posição, largura, altura, raio, espessura. O valor é um objeto com `value` (número) e `unit`, que **só pode ser `px` ou `rem`**: ^[em, vh e % ficam de fora]
 
 ```json
 {
@@ -543,52 +541,13 @@ Também é possível reutilizar partes de uma tipografia em outra, usando `$ref`
 
 ## O que isso muda na prática
 
-**1. Atenção à versão do formato.** Rascunhos anteriores da especificação (e muitos exemplos na internet) escreviam cores como `"#3B82F6"` e dimensões como `"16px"`. A versão 2025.10 usa **objetos**. Se você tem arquivos antigos, é preciso migrar. Antes de adotar o formato novo, confirme na documentação da sua ferramenta de tradução e do seu plugin de design qual versão do formato ela lê. A ferramenta pode exigir uma versão específica ou uma configuração para isso.
+**1. Atenção à versão do formato.** Rascunhos anteriores da especificação (e muitos exemplos na internet) escreviam cores como `"#3B82F6"` e dimensões como `"16px"`. ==A versão 2025.10 usa **objetos**==. Se você tem arquivos antigos, é preciso migrar. Antes de adotar o formato novo, confirme na documentação da sua ferramenta de tradução e do seu plugin de design qual versão do formato ela lê. A ferramenta pode exigir uma versão específica ou uma configuração para isso.
 
 **2. Os tipos importam para a tradução.** É o `$type` que permite a uma ferramenta transformar uma `dimension` em `rem` para web e em `pt` para iOS, ou uma `color` em OKLCH em um fallback hexadecimal.
 
 **3. Nem tudo cabe em um tipo composto.** Se o seu sistema precisa de um estilo de fonte, de uma opacidade com nome próprio ou de um asset, você vai usar `number`, aliases e `$extensions`. Documente essas decisões, pois elas não são interoperáveis por padrão.
 
 **4. Composto ou separado?** Você pode representar uma tipografia como um token `typography` ou como cinco tokens simples (`font-size`, `font-weight` etc.). O composto garante que as propriedades andem juntas e simplifica o uso em ferramentas de design. Os tokens separados são mais flexíveis para consumir em código. Muitos times mantêm os dois. É uma decisão que depende das plataformas e das ferramentas que você usa.
-
-## O que levar deste artigo
-
-- O DTCG padroniza o **formato de arquivo** dos tokens para que ferramentas troquem dados sem integrações sob medida. A versão estável atual é a **2025.10**.
-- Todo token tem `$value` e precisa de um `$type`, declarado nele, herdado de um grupo ou vindo de um alias.
-- **Aliases** usam `{caminho.do.token}`; o `$ref` (JSON Pointer) alcança propriedades internas. Referências circulares são erro.
-- Os tipos simples são `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier` e `number`.
-- Os tipos compostos são `strokeStyle`, `border`, `transition`, `shadow`, `gradient` e `typography`, e cada subvalor pode ser explícito ou um alias.
-- Cores e dimensões agora são **objetos**, e não strings.
-
-## Perguntas frequentes (FAQ) sobre o formato DTCG
-
-### O que é o formato DTCG?
-
-É o formato de arquivo definido pelo Design Tokens Community Group (DTCG), grupo de comunidade do W3C, para escrever design tokens em JSON de forma que ferramentas diferentes leiam o mesmo arquivo sem integrações feitas sob medida. A versão estável atual é a 2025.10.
-
-### O formato DTCG é um padrão oficial do W3C?
-
-Não. A especificação é um relatório do Community Group e não está na trilha de padrões do W3C. O próprio documento a considera estável e destinada à implementação.
-
-### Os exemplos que usam `value` e `type` estão errados?
-
-Não: são de outra versão do formato. A forma legada, popularizada pelo Style Dictionary, usa `value` e `type`; a versão estável da especificação usa `$value` e `$type`, com o prefixo `$`. Se o seu arquivo usa a forma sem `$`, ele precisa migrar.
-
-### Como uma cor é escrita no formato DTCG?
-
-O `$value` de um token `color` é um objeto com `colorSpace` e `components`, mais os opcionais `alpha` (opacidade de 0 a 1) e `hex` (fallback de 6 dígitos). Uma string como `"#3B82F6"` é do formato anterior, não da versão atual.
-
-### Que unidades o tipo `dimension` aceita?
-
-Apenas `px` e `rem`. O `px` é um pixel idealizado (equivale a `dp` no Android e `pt` no iOS), e o `rem` é um múltiplo do tamanho de fonte padrão do sistema.
-
-### Qual é a diferença entre grupo e token composto?
-
-Um grupo é um objeto sem `$value`: organiza tokens e compõe nomes, mas não é um token nem pode ser referenciado por alias. Um token composto é um token com estrutura fixa definida pelo tipo, pode ser referenciado e se torna inválido se ganhar subvalores extras.
-
-### Quais são todos os tipos da especificação?
-
-Os simples são `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier` e `number`. Os compostos são `strokeStyle`, `border`, `transition`, `shadow`, `gradient` e `typography`.
 
 ---
 

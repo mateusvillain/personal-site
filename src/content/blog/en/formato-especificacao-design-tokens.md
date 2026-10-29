@@ -1,9 +1,9 @@
 ---
-title: 'DTCG Format and Specification: Every Design Token Type Explained'
+title: 'The Ultimate Guide to Design Tokens: Formats, Types and Specifications'
 description: 'How the DTCG format writes design tokens in JSON: file structure, aliases and all 13 token types, from color and dimension to shadow and typography.'
 date: '2026-10-29'
 cover: '/blog/covers/guia-definitivo-design-tokens-2-en.png'
-slug: 'dtcg-design-tokens-format-specification'
+slug: 'design-tokens-format-specification'
 tags:
   [
     'design tokens',
@@ -34,7 +34,7 @@ On October 28, 2025, the group published the **first stable version**, called **
 - **Color Module:** how to represent colors in different color spaces.
 - **Resolver Module:** how to combine sets of tokens to produce variations such as themes and brands (the subject of the article on theming).
 
-One important detail: the specification is a Community Group report. **It is not an official W3C standard** and is not on the W3C standards track. The document itself describes it as stable and intended for implementation.
+One important detail: the specification is a Community Group report. **It is not an official W3C standard** and is not on the W3C standards track. The document itself describes it as stable and intended for implementation. ^[stable, but not a W3C standard]
 
 In practice, the official site [designtokens.org](https://www.designtokens.org/) lists tools such as Figma, Style Dictionary, Tokens Studio, Penpot, Sketch and zeroheight among the group's adopters and participants.
 
@@ -113,7 +113,7 @@ Every token needs a type. If the token does not declare `$type`, its type is res
 2. Otherwise, the `$type` of the closest parent group that declares one applies.
 3. Otherwise, the token is **invalid**.
 
-The specification forbids tools from "guessing" the type by looking at the value. A lone `#ffffff` is not automatically a color.
+==The specification forbids tools from "guessing" the type by looking at the value==. A lone `#ffffff` is not automatically a color.
 
 ### `$root` and `$extends`
 
@@ -200,7 +200,7 @@ Rules that apply to both:
 
 - **Chained aliases** are allowed (A points to B, which points to C). The tool follows the chain until it finds an explicit value.
 - **Circular references are an error** and invalidate every token in the chain.
-- Tools should **preserve references** and only resolve them when the final value is needed. That is what lets you change a primitive and see the effect on every alias.
+- Tools should **preserve references** and only resolve them when the final value is needed. That is what ==lets you change a primitive and see the effect on every alias==.
 
 ## Simple types
 
@@ -270,7 +270,7 @@ If you work with colors in OKLCH, the specification lets you write:
 
 ### `dimension`
 
-Represents a distance on a single axis: position, width, height, radius, thickness. The value is an object with `value` (a number) and `unit`, which **can only be `px` or `rem`**:
+Represents a distance on a single axis: position, width, height, radius, thickness. The value is an object with `value` (a number) and `unit`, which **can only be `px` or `rem`**: ^[em, vh and % are out]
 
 ```json
 {
@@ -544,7 +544,7 @@ You can also reuse parts of one typography style in another, using `$ref` to poi
 
 ## What this changes in practice
 
-**1. Mind the format version.** Earlier drafts of the specification (and many examples on the internet) wrote colors as `"#3B82F6"` and dimensions as `"16px"`. Version 2025.10 uses **objects**. If you have old files, you will need to migrate them. Before adopting the new format, check the documentation of your translation tool and design plugin to see which version of the format it reads. The tool may require a specific version or a setting for it.
+**1. Mind the format version.** Earlier drafts of the specification (and many examples on the internet) wrote colors as `"#3B82F6"` and dimensions as `"16px"`. ==Version 2025.10 uses **objects**==. If you have old files, you will need to migrate them. Before adopting the new format, check the documentation of your translation tool and design plugin to see which version of the format it reads. The tool may require a specific version or a setting for it.
 
 **2. Types matter for translation.** It is `$type` that lets a tool turn a `dimension` into `rem` for the web and `pt` for iOS, or an OKLCH `color` into a hexadecimal fallback.
 
