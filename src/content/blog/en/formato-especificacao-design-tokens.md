@@ -20,8 +20,6 @@ In the [first article of the Ultimate Guide to Design Tokens](https://www.mateus
 
 That is what the **DTCG**, the Design Tokens Community Group, exists to solve. In this article, you will learn what this specification is, how a token file is structured and, above all, **which token types exist and how each one is written**, from the simplest (color, dimension) to the composite ones (shadow, typography, border).
 
-> **A note on the first article:** its examples use `value` and `type`, the legacy format popularized by Style Dictionary. The DTCG specification uses `$value` and `$type`, with the `$` prefix. This is the format we will use from now on in the series.
-
 ## What is the DTCG?
 
 The DTCG (Design Tokens Community Group) is the W3C community group that maintains the specification of the **file format** for exchanging design tokens between tools.
@@ -266,7 +264,7 @@ If you work with colors in OKLCH, the specification lets you write:
 }
 ```
 
-> The `hex` is optional. If you include it as a fallback, generate it from the real value with a conversion tool rather than by hand.
+The `hex` is optional. If you include it as a fallback, generate it from the real value with a conversion tool rather than by hand.
 
 ### `dimension`
 
@@ -551,45 +549,6 @@ You can also reuse parts of one typography style in another, using `$ref` to poi
 **3. Not everything fits a composite type.** If your system needs a font style, an opacity with its own name or an asset, you will use `number`, aliases and `$extensions`. Document these decisions, because they are not interoperable by default.
 
 **4. Composite or separate?** You can represent typography as a single `typography` token or as five simple tokens (`font-size`, `font-weight`, and so on). The composite keeps the properties together and simplifies use in design tools. Separate tokens are more flexible to consume in code. Many teams keep both. It is a decision that depends on the platforms and tools you use.
-
-## Key takeaways
-
-- The DTCG standardizes the **file format** of tokens so that tools can exchange data without custom integrations. The current stable version is **2025.10**.
-- Every token has a `$value` and needs a `$type`, declared on it, inherited from a group or coming from an alias.
-- **Aliases** use `{path.to.token}`; `$ref` (JSON Pointer) reaches inner properties. Circular references are an error.
-- The simple types are `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier` and `number`.
-- The composite types are `strokeStyle`, `border`, `transition`, `shadow`, `gradient` and `typography`, and each sub-value can be explicit or an alias.
-- Colors and dimensions are now **objects**, not strings.
-
-## Frequently asked questions (FAQ) about the DTCG format
-
-### What is the DTCG format?
-
-It is the file format defined by the Design Tokens Community Group (DTCG), a W3C community group, for writing design tokens in JSON so that different tools read the same file without custom integrations. The current stable version is 2025.10.
-
-### Is the DTCG format an official W3C standard?
-
-No. The specification is a Community Group report and is not on the W3C standards track. The document itself considers it stable and intended for implementation.
-
-### Are the examples that use `value` and `type` wrong?
-
-No: they come from another version of the format. The legacy form, popularized by Style Dictionary, uses `value` and `type`; the stable version of the specification uses `$value` and `$type`, with the `$` prefix. If your file uses the form without `$`, it needs to be migrated.
-
-### How is a color written in the DTCG format?
-
-The `$value` of a `color` token is an object with `colorSpace` and `components`, plus the optional `alpha` (opacity from 0 to 1) and `hex` (a 6-digit fallback). A string like `"#3B82F6"` belongs to the earlier format, not the current version.
-
-### Which units does the `dimension` type accept?
-
-Only `px` and `rem`. `px` is an idealized pixel (the equivalent of `dp` on Android and `pt` on iOS), and `rem` is a multiple of the system's default font size.
-
-### What is the difference between a group and a composite token?
-
-A group is an object without a `$value`: it organizes tokens and composes names, but it is not a token and cannot be referenced by an alias. A composite token is a token with a fixed structure defined by its type; it can be referenced and becomes invalid if it gains extra sub-values.
-
-### What are all the types in the specification?
-
-The simple ones are `color`, `dimension`, `fontFamily`, `fontWeight`, `duration`, `cubicBezier` and `number`. The composite ones are `strokeStyle`, `border`, `transition`, `shadow`, `gradient` and `typography`.
 
 ---
 
