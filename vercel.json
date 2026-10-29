@@ -12,6 +12,8 @@
     { "source": "/blog/escalando-um-design-system-com-ia/", "destination": "/pt/blog/escalando-um-design-system-com-ia/", "permanent": true },
     { "source": "/blog/guia-definitivo-design-tokens", "destination": "/pt/blog/guia-definitivo-design-tokens/", "permanent": true },
     { "source": "/blog/guia-definitivo-design-tokens/", "destination": "/pt/blog/guia-definitivo-design-tokens/", "permanent": true },
+    { "source": "/blog/formato-especificacao-design-tokens", "destination": "/pt/blog/formato-especificacao-design-tokens/", "permanent": true },
+    { "source": "/blog/formato-especificacao-design-tokens/", "destination": "/pt/blog/formato-especificacao-design-tokens/", "permanent": true },
     { "source": "/locaweb-design-system", "destination": "/case/locaweb-design-system/", "permanent": true },
     { "source": "/locaweb-design-system/", "destination": "/case/locaweb-design-system/", "permanent": true },
     { "source": "/about", "destination": "/", "permanent": true },

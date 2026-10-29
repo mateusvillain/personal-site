@@ -2,7 +2,7 @@
 title: 'The Ultimate Guide to Design Tokens: What they are and how to use them'
 description: 'Design Tokens are variables that store the visual values of your design system, such as colors, typography and spacing. Learn how to use them and scale your design system efficiently.'
 date: '2026-04-01'
-cover: '/blog/covers/guia-definitivo-design-tokens-1.png'
+cover: '/blog/covers/guia-definitivo-design-tokens-1-en.png'
 slug: 'ultimate-guide-to-design-tokens'
 tags:
   [
@@ -193,6 +193,6 @@ There are a few tools that do this translation, and fortunately most of them are
 
 ---
 
-This is just the first article of the Ultimate Guide to Design Tokens. Over the next few days, I will publish a series of articles going deeper into each of the topics covered here, going further into both concept and application.
+This is the first article of the Ultimate Guide to Design Tokens. In the [second article](https://www.mateusvillain.com/blog/design-tokens-format-specification/), we look at the DTCG specification format: how a token file is structured and which token types exist, with examples of each one.
 
 If you don't want to miss the next posts, here is my recommendation: subscribe to the newsletter and follow me on [LinkedIn](https://www.linkedin.com/in/mateusvillain/).

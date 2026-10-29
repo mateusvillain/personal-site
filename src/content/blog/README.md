@@ -35,7 +35,7 @@ tags: ['design tokens', 'design system']
 | `title` | sim | Título do post, da página e do compartilhamento. |
 | `description` | sim | Descrição para SEO, RSS e redes sociais. |
 | `date` | sim | Data de publicação no formato `AAAA-MM-DD`. Define a ordem da listagem. |
-| `cover` | não | Imagem de compartilhamento, em `public/blog/covers/` (1200×675). Sem ela, usa `/blog/covers/cover.png`. |
+| `cover` | não | Imagem de compartilhamento, em `public/blog/covers/` (1200×675). Pode ser gerada com `npm run blog:covers` (veja [Capa de SEO](#capa-de-seo)). Sem ela, usa `/blog/covers/cover.png`. |
 | `slug` | não | Segmento da URL. Sem ele, usa o nome do arquivo. |
 | `tags` | não | Palavras-chave do post: vão para os metadados de SEO, as categorias do RSS e a versão em Markdown. Não aparecem na página. |
 
@@ -100,6 +100,22 @@ Destaques e notas chamam atenção justamente por serem raros. Como referência,
 - **Nota:** um comentário pessoal, que não caberia no texto, sobre um ponto em que o leitor costuma tropeçar.
 - **Traduções:** as duas versões devem ter os mesmos destaques e notas, nos mesmos parágrafos.
 
+## Capa de SEO
+
+```sh
+npm run blog:covers                      # posts sem capa e capas já geradas
+npm run blog:covers -- <chave>           # só esse post, nos dois idiomas
+npm run blog:covers -- <chave> --force   # substitui também uma capa feita à mão
+```
+
+Gera uma capa por idioma em `public/blog/covers/<chave>-<idioma>.png`, com a foto do autor (`public/img/mtsvlln.jpg`) no topo, o título do post sobre fundo claro e "Mateus Villain" embaixo, e grava o caminho no `cover` do frontmatter.
+
+- Capas feitas à mão (um `cover` com outro caminho) não são tocadas sem `--force`.
+- Mudou o título? Rode de novo para atualizar a imagem.
+- O texto usa a Geist, de `scripts/fonts/`, então a capa sai igual em qualquer máquina.
+
+Detalhes em `scripts/blog-covers.js`.
+
 ## Versão em Markdown
 
 Cada post também é publicado como Markdown cru em `/blog/<slug>.md` (e `/pt/blog/<slug>.md`), para agentes e LLMs, e aparece no `llms.txt`. As marcações ficam legíveis nessa versão: `==trecho==` e `^[nota]`, esta última no formato de nota de rodapé em linha do Pandoc.
@@ -108,6 +124,6 @@ Cada post também é publicado como Markdown cru em `/blog/<slug>.md` (e `/pt/bl
 
 - [ ] Arquivo com o mesmo nome em `en/` e `pt/` (se houver tradução)
 - [ ] `title`, `description` e `date` preenchidos; `slug` em inglês na versão `en`
-- [ ] Capa em `public/blog/covers/`, se houver
+- [ ] Capa em `public/blog/covers/` (feita à mão ou com `npm run blog:covers`)
 - [ ] Destaques e notas iguais nas duas versões
 - [ ] Conferir o post no celular e no desktop (a partir de 1280px, por causa das notas na margem)

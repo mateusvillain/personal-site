@@ -192,6 +192,6 @@ Existem algumas ferramentas que realizam essa tradução, e felizmente a maioria
 
 ---
 
-Essa é apenas a primeira publicação do Guia Definitivo de Design Tokens. Nos próximos dias, trarei uma sequência de artigos aprofundando melhor em cada um dos tópicos abordados, mas indo além no conceito e aplicação.
+Essa é a primeira publicação do Guia Definitivo de Design Tokens. No [segundo artigo](https://www.mateusvillain.com/pt/blog/formato-especificacao-design-tokens/), vemos o formato da especificação DTCG: como um arquivo de tokens é estruturado e quais tipos de token existem, com exemplos de cada um.
 
 Caso não queira perder as próximas publicações, fica a recomendação: você se inscrever na newsletter e me seguir no [LinkedIn](https://www.linkedin.com/in/mateusvillain/).

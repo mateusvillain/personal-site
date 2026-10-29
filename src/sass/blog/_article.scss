@@ -36,19 +36,39 @@ article.full-post {
     letter-spacing: -0.02em;
   }
 
-  p + h2,
-  p + h3,
-  p + p,
-  p + ul,
-  p + pre,
-  h2 + h3,
-  ul + h2,
-  ul + h3,
-  ul + p,
-  pre + h2,
-  pre + h3,
-  pre + p {
+  // Ritmo vertical do conteudo do post: todo bloco depois de outro ganha o
+  // mesmo respiro, seja qual for o par (codigo seguido de citacao, tabela
+  // seguida de titulo...). O cabecalho do post e o `hr`, com margem propria,
+  // ficam de fora. Logo abaixo de um titulo o respiro e menor, para o titulo
+  // ficar perto do texto que abre.
+  > :not(.post-details) + :not(hr) {
     margin-top: 1.5rem;
+  }
+
+  > :is(h2, h3) + :not(h2, h3, hr, .post-details) {
+    margin-top: 0.5rem;
+  }
+
+  ol {
+    list-style-position: inside;
+  }
+
+  blockquote {
+    padding-left: var(--lui-spacing-fixed-16);
+    border-left: var(--lui-border-width-2) solid
+      var(--lui-color-neutral-border-subtle);
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  // Codigo inline dentro de negrito, item de lista ou citacao, com o mesmo
+  // visual do `p > code` abaixo.
+  :is(p, li) :not(pre) > code,
+  li > code {
+    padding: var(--lui-spacing-fluid-2) var(--lui-spacing-fluid-4);
+    background-color: var(--lui-color-neutral-background-container);
+    color: var(--lui-color-neutral-text-body);
+    font-size: var(--lui-brand-typography-font-size-2xs);
+    border-radius: var(--lui-border-radius-xs);
   }
 
   a {
@@ -57,6 +77,76 @@ article.full-post {
     &:hover {
       filter: brightness(0.76);
     }
+  }
+
+  // Tabelas em markdown (GFM): cartao com borda fina e cantos arredondados,
+  // cabecalho discreto em tom de superficie e divisorias leves entre linhas.
+  // A primeira coluna costuma ser o nome da propriedade em `code`, entao nao
+  // quebra.
+  table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border: var(--lui-border-width-1) solid
+      var(--lui-color-neutral-border-subtle);
+    border-radius: var(--lui-border-radius-md);
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    font-size: var(--lui-brand-typography-font-size-1xs);
+    line-height: 1.5;
+  }
+
+  th,
+  td {
+    padding: var(--lui-spacing-fixed-16) var(--lui-spacing-fixed-24);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    padding-top: var(--lui-spacing-fixed-8);
+    padding-bottom: var(--lui-spacing-fixed-8);
+    background-color: var(--lui-color-neutral-background-surface);
+    border-bottom: var(--lui-border-width-1) solid
+      var(--lui-color-neutral-border-subtle);
+    color: var(--lui-color-neutral-text-caption);
+    font-size: var(--lui-brand-typography-font-size-2xs);
+    font-weight: var(--lui-typography-weight-medium);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  td {
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  tbody tr + tr td {
+    border-top: var(--lui-border-width-1) solid
+      var(--lui-color-neutral-border-subtle);
+  }
+
+  tbody tr {
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--lui-color-neutral-background-surface);
+    }
+  }
+
+  td:first-child {
+    white-space: nowrap;
+  }
+
+  td code {
+    padding: 2px 6px;
+    background-color: var(--lui-color-neutral-background-surface);
+    color: var(--lui-color-neutral-text-heading);
+    font-size: var(--lui-brand-typography-font-size-2xs);
+    border-radius: var(--lui-border-radius-xs);
+  }
+
+  tbody tr:hover td code {
+    background-color: var(--lui-color-neutral-background-container);
   }
 }
 
@@ -132,6 +222,12 @@ p > code {
 
   article :global(p) {
     font-size: 1rem;
+  }
+
+  // Tabelas largas rolam por dentro, como os blocos de codigo.
+  article.full-post table {
+    display: block;
+    overflow-x: auto;
   }
 
   main {

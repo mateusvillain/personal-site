@@ -16,7 +16,8 @@
     "release:major": "npm version major && git push origin main --tags",
     "release:minor": "npm version minor && git push origin main --tags",
     "release:patch": "npm version patch && git push origin main --tags",
-    "resources:icons": "node scripts/resource-icons.js"
+    "resources:icons": "node scripts/resource-icons.js",
+    "blog:covers": "node scripts/blog-covers.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "js-yaml": "^4.3.2",
     "prettier": "^3.8.1",
     "sass": "^1.94.2",
+    "satori": "^0.63.2",
     "vercel": "^50.8.1"
   },
   "dependencies": {
