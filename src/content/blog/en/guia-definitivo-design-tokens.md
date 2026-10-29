@@ -193,6 +193,6 @@ There are a few tools that do this translation, and fortunately most of them are
 
 ---
 
-This is just the first article of the Ultimate Guide to Design Tokens. Over the next few days, I will publish a series of articles going deeper into each of the topics covered here, going further into both concept and application.
+This is the first article of the Ultimate Guide to Design Tokens. In the [second article](https://www.mateusvillain.com/blog/design-tokens-format-specification/), we look at the DTCG specification format: how a token file is structured and which token types exist, with examples of each one.
 
 If you don't want to miss the next posts, here is my recommendation: subscribe to the newsletter and follow me on [LinkedIn](https://www.linkedin.com/in/mateusvillain/).
