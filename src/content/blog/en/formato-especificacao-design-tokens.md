@@ -2,6 +2,7 @@
 title: 'DTCG Format and Specification: Every Design Token Type Explained'
 description: 'How the DTCG format writes design tokens in JSON: file structure, aliases and all 13 token types, from color and dimension to shadow and typography.'
 date: '2026-10-29'
+cover: '/blog/covers/guia-definitivo-design-tokens-2-en.png'
 slug: 'dtcg-design-tokens-format-specification'
 tags:
   [
