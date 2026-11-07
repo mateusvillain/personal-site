@@ -7,6 +7,9 @@ import { htmlLang, type Locale } from '../i18n/config'
 
 export const SITE_URL = 'https://www.mateusvillain.com'
 
+/** Sufixo de todo <title> (aplicado no SeoHead). */
+export const TITLE_SUFFIX = ' · Mateus Villain'
+
 export const AUTHOR = {
   name: 'Mateus Villain',
   url: SITE_URL,

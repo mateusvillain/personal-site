@@ -2,7 +2,7 @@ import type { Dictionary } from './ui'
 
 /** Textos da listagem e da pagina de post do blog. */
 const en = {
-  metaTitle: 'Blog - Mateus Villain',
+  metaTitle: 'Blog',
   metaDescription:
     'Practical content on design systems, design tokens, UI and UX to build more consistent, scalable and user-centered digital products.',
   title: 'Blog',
@@ -20,7 +20,7 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Blog - Mateus Villain',
+  metaTitle: 'Blog',
   metaDescription:
     'Conteúdos práticos sobre design system, design tokens, UI e UX para criar produtos digitais mais consistentes, escaláveis e centrados no usuário.',
   title: 'Blog',

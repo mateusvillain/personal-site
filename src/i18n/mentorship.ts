@@ -2,7 +2,7 @@ import type { Dictionary } from './ui'
 
 /** Textos da pagina de mentorias e consultoria. */
 const en = {
-  metaTitle: 'Mentoring - Mateus Villain',
+  metaTitle: 'Mentoring',
   metaDescription:
     'One-on-one mentoring, ongoing coaching and consulting on design systems, UI and design careers, with Mateus Villain.',
   title: 'Mentoring',
@@ -107,7 +107,7 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Mentorias - Mateus Villain',
+  metaTitle: 'Mentorias',
   metaDescription:
     'Mentorias individuais, acompanhamento contínuo e consultoria em design system, UI e carreira em design, com Mateus Villain.',
   title: 'Mentorias',

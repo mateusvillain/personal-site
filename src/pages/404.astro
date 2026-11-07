@@ -22,7 +22,7 @@ const consentPt = ui.pt.consent
     var isPt = /^\/pt(\/|$)/.test(location.pathname)
     if (!isPt) return
     document.documentElement.lang = 'pt-BR'
-    document.title = 'Página não encontrada - Mateus Villain'
+    document.title = 'Página não encontrada · Mateus Villain'
     document.querySelectorAll('[data-locale]').forEach(function (block) {
       block.hidden = block.getAttribute('data-locale') !== 'pt'
     })
