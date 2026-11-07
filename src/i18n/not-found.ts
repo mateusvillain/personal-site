@@ -2,7 +2,7 @@ import type { Dictionary } from './ui'
 
 /** Textos da pagina 404. */
 const en = {
-  metaTitle: 'Page not found - Mateus Villain',
+  metaTitle: 'Page not found · Mateus Villain',
   title: 'Error 404',
   description: 'The page you are looking for does not exist. To continue:',
   items: [
@@ -15,7 +15,7 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Página não encontrada - Mateus Villain',
+  metaTitle: 'Página não encontrada · Mateus Villain',
   title: 'Erro 404',
   description: 'A página que você está buscando não existe. Para continuar:',
   items: [

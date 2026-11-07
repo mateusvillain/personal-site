@@ -7,6 +7,9 @@ import { htmlLang, type Locale } from '../i18n/config'
 
 export const SITE_URL = 'https://www.mateusvillain.com'
 
+/** Sufixo de todo <title> (aplicado no SeoHead). */
+export const TITLE_SUFFIX = ' · Mateus Villain'
+
 export const AUTHOR = {
   name: 'Mateus Villain',
   url: SITE_URL,
@@ -120,6 +123,37 @@ export function collectionPageJsonLd(input: CollectionPageInput) {
         url: item.url,
       })),
     },
+  }
+}
+
+interface CaseStudyInput {
+  locale: Locale
+  url: string
+  title: string
+  description: string
+  image: string
+  tags?: string[]
+  /** Empresa do projeto (ex.: Locaweb). */
+  client: string
+}
+
+/** Case de portfolio: um Article sobre o trabalho feito para a empresa. */
+export function caseStudyJsonLd(input: CaseStudyInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': input.url,
+    mainEntityOfPage: input.url,
+    url: input.url,
+    headline: input.title,
+    description: input.description,
+    image: input.image,
+    inLanguage: htmlLang[input.locale],
+    keywords: input.tags?.join(', '),
+    about: { '@type': 'Organization', name: input.client },
+    author: { '@id': `${SITE_URL}/#person`, ...person },
+    publisher: { '@id': `${SITE_URL}/#person` },
+    isPartOf: { '@id': `${SITE_URL}/#website` },
   }
 }
 

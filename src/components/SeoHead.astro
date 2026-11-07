@@ -18,7 +18,7 @@ import {
   type Locale,
 } from '../i18n/config'
 import { ui } from '../i18n/ui'
-import { AUTHOR } from '../lib/seo'
+import { AUTHOR, TITLE_SUFFIX } from '../lib/seo'
 
 interface Props {
   locale: Locale
@@ -59,6 +59,8 @@ const {
   markdownPath,
 } = Astro.props
 
+// Toda pagina recebe o nome do site no fim do title.
+const fullTitle = `${title}${TITLE_SUFFIX}`
 const site = Astro.site ?? Astro.url
 const canonicalUrl = new URL(canonicalPath, site).href
 const imageUrl = new URL(image, site).href
@@ -77,7 +79,7 @@ const hasTranslation = links.some(
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{title}</title>
+<title>{fullTitle}</title>
 
 <meta name="description" content={description} />
 <meta name="robots" content={robots} />
@@ -86,7 +88,7 @@ const hasTranslation = links.some(
 <meta property="og:site_name" content={strings.siteName} />
 <meta property="og:type" content={publishedTime ? 'article' : 'website'} />
 <meta property="og:url" content={canonicalUrl} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageUrl} />
 <meta property="og:image:width" content="1200" />
@@ -114,7 +116,7 @@ const hasTranslation = links.some(
 <meta name="twitter:site" content="@mateusvillain" />
 <meta name="twitter:creator" content="@mateusvillain" />
 <meta name="twitter:url" content={canonicalUrl} />
-<meta name="twitter:title" content={title} />
+<meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
 <meta name="twitter:image:alt" content={imageAlt} />

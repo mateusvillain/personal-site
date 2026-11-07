@@ -17,7 +17,7 @@ export type ResourceCategory = (typeof resourceCategories)[number]
 
 /** Textos da pagina de recursos (sites recomendados). */
 const en = {
-  metaTitle: 'Resources - Mateus Villain',
+  metaTitle: 'Resources',
   metaDescription:
     'Sites Mateus Villain recommends on design systems, UI and product design.',
   title: 'Resources',
@@ -37,7 +37,7 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Recursos - Mateus Villain',
+  metaTitle: 'Recursos',
   metaDescription:
     'Sites que Mateus Villain recomenda sobre design system, UI e design de produto.',
   title: 'Recursos',

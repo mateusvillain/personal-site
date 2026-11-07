@@ -5,7 +5,7 @@ import type { Dictionary } from './ui'
  * devem ser renderizados com `set:html`.
  */
 const en = {
-  metaTitle: 'Mateus Villain - Product Designer and Design System specialist',
+  metaTitle: 'Product Designer and Design System specialist',
   role: 'Designer and author',
   photoAlt:
     'Photo of Mateus Villain: a man with a full beard and shaved head, wearing round-framed glasses, looks straight at the camera. He is holding a coffee cup with a lid. The photo has a polaroid style, with a blurred indoor background.',
@@ -40,7 +40,7 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Mateus Villain - Product Designer e especialista em Design System',
+  metaTitle: 'Product Designer e especialista em Design System',
   role: 'Designer e autor',
   photoAlt:
     'Fotografia de Mateus Villain: Homem de barba cheia e cabeça raspada, usando óculos de armação arredondada, olha diretamente para a câmera. Ele segura um copo de café com tampa. A foto tem estilo de polaroid, com fundo desfocado em ambiente interno.',

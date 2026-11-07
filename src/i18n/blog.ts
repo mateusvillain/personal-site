@@ -2,7 +2,7 @@ import type { Dictionary } from './ui'
 
 /** Textos da listagem e da pagina de post do blog. */
 const en = {
-  metaTitle: 'Blog - Mateus Villain',
+  metaTitle: 'Blog',
   metaDescription:
     'Practical content on design systems, design tokens, UI and UX to build more consistent, scalable and user-centered digital products.',
   title: 'Blog',
@@ -24,7 +24,7 @@ const en = {
     `Part ${part} of ${total} of the series ${name}`,
   seriesCurrent: 'you are here',
   topicTitle: (name: string) => `Posts about ${name}`,
-  topicMetaTitle: (name: string) => `${name} - Blog - Mateus Villain`,
+  topicMetaTitle: (name: string) => `${name} - Blog`,
   /** Nome de cada serie, pelo `series.id` do frontmatter. */
   series: {
     'guia-design-tokens': 'The Ultimate Guide to Design Tokens',
@@ -32,7 +32,7 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Blog - Mateus Villain',
+  metaTitle: 'Blog',
   metaDescription:
     'Conteúdos práticos sobre design system, design tokens, UI e UX para criar produtos digitais mais consistentes, escaláveis e centrados no usuário.',
   title: 'Blog',
@@ -54,7 +54,7 @@ const pt: typeof en = {
     `Parte ${part} de ${total} da série ${name}`,
   seriesCurrent: 'você está aqui',
   topicTitle: (name: string) => `Posts sobre ${name}`,
-  topicMetaTitle: (name: string) => `${name} - Blog - Mateus Villain`,
+  topicMetaTitle: (name: string) => `${name} - Blog`,
   series: {
     'guia-design-tokens': 'O Guia Definitivo dos Design Tokens',
   },
