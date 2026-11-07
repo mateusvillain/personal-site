@@ -15,6 +15,9 @@ section {
 
     .paragraph > p + picture > img {
       margin: 16px 0;
+      // O <img> traz width/height para reservar espaco (CLS); a altura
+      // real segue a largura.
+      height: auto;
 
       @media (max-width: 559px) {
         object-fit: cover;

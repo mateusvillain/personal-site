@@ -8,6 +8,8 @@ import {
   type Locale,
 } from '../../../i18n/config'
 import { caseLocaweb } from '../../../i18n/case-locaweb'
+import { ui } from '../../../i18n/ui'
+import { breadcrumbJsonLd, caseStudyJsonLd } from '../../../lib/seo'
 
 export function getStaticPaths() {
   return localeStaticPaths()
@@ -15,14 +17,35 @@ export function getStaticPaths() {
 
 const { locale } = Astro.props as { locale: Locale }
 const strings = caseLocaweb[locale]
+const common = ui[locale]
 const path = '/case/locaweb-design-system/'
+const canonicalPath = localizePath(path, locale)
+const pageUrl = new URL(canonicalPath, Astro.site).href
+
+// O title da pagina e o mesmo texto do <h1>.
+const jsonLd = [
+  caseStudyJsonLd({
+    locale,
+    url: pageUrl,
+    title: strings.title,
+    description: strings.metaDescription,
+    image: new URL('/img/lw-color-tokens.png', Astro.site).href,
+    tags: strings.tags,
+    client: strings.companyName,
+  }),
+  breadcrumbJsonLd([
+    { name: common.home, url: new URL(localizePath('/', locale), Astro.site).href },
+    { name: strings.title, url: pageUrl },
+  ]),
+]
 ---
 
 <SiteLayout
   locale={locale}
-  title={strings.metaTitle}
+  title={strings.title}
   description={strings.metaDescription}
-  canonicalPath={localizePath(path, locale)}
+  canonicalPath={canonicalPath}
+  jsonLd={jsonLd}
 >
   <LocawebDesignSystemContent
     locale={locale}

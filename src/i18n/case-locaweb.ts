@@ -5,7 +5,6 @@ import type { Dictionary } from './ui'
  * protegida vem do Sanity (ver studio/) em PT e EN.
  */
 const en = {
-  metaTitle: 'Locaweb Design System - Mateus Villain',
   metaDescription:
     'Optimizing the Locaweb design system, focusing on design tokens, accessibility and scalability.',
   title: 'Restructuring the tokens of the Locaweb Design System',
@@ -106,7 +105,6 @@ const en = {
 }
 
 const pt: typeof en = {
-  metaTitle: 'Locaweb Design System - Mateus Villain',
   metaDescription:
     'Otimização do design system da Locaweb, com foco em design tokens, acessibilidade e escalabilidade.',
   title: 'Reestruturando os tokens do Locaweb Design System',

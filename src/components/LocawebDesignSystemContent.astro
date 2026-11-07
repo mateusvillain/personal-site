@@ -65,7 +65,14 @@ const protectedLang = htmlLang[locale]
     <h3 class="block-title">{discovery.analysisTitle}</h3>
     <div class="paragraph">
       {discovery.analysis.map((text) => <p class="body--lg">{text}</p>)}
-      <img src="/img/lw-color-tokens.png" alt={discovery.colorTokensAlt} />
+      <img
+        src="/img/lw-color-tokens.png"
+        alt={discovery.colorTokensAlt}
+        width="560"
+        height="376"
+        loading="lazy"
+        decoding="async"
+      />
       {discovery.typography.map((text) => <p class="body--lg">{text}</p>)}
     </div>
     <div class="paragraph">
@@ -73,6 +80,10 @@ const protectedLang = htmlLang[locale]
       <img
         src="/img/lw-tipografia-pouco-responsiva.png"
         alt={discovery.typographyAlt}
+        width="560"
+        height="434"
+        loading="lazy"
+        decoding="async"
       />
       <p class="body--lg">{discovery.fonts}</p>
     </div>
