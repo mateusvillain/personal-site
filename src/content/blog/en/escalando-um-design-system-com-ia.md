@@ -1,6 +1,6 @@
 ---
 title: 'How to evolve a Design System with AI'
-description: 'Use artificial intelligence to automate the creation and maintenance of design tokens, components and documentation.'
+description: 'Evolve your design system with AI: UI audit, design tokens, components, rules for AI agents and token translation with the Resolver and Terrazzo.'
 date: '2026-03-26'
 cover: '/blog/covers/design-system-ia.png'
 slug: 'scaling-a-design-system-with-ai'

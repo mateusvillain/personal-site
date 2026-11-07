@@ -1,6 +1,6 @@
 ---
 title: 'Designing in Figma with Claude: how to use AI in your file'
-description: 'Learn how to use Claude to interact with your Figma files and automate repetitive tasks.'
+description: 'Connect Claude Desktop to Figma via MCP and have it create pages, prototypes, variables and components from your design system, step by step.'
 date: '2026-03-19'
 cover: '/blog/covers/claude-figma.png'
 slug: 'designing-in-figma-with-claude'
