@@ -1,6 +1,6 @@
 async function carregarHora() {
   try {
-    const res = await fetch('/api/time');
+    const res = await fetch('/api/time/');
     const data = await res.json();
     document.getElementById('hora').textContent = data.hora;
   } catch (err) {
