@@ -1,6 +1,7 @@
 ---
 title: 'O Guia Definitivo dos Design Tokens: Formatos, tipos e especificações'
-description: 'O formato DTCG define como um design token é escrito em JSON: estrutura, aliases e todos os tipos, de color e dimension a shadow e typography. Com exemplos.'
+seoTitle: 'Guia de Design Tokens: formato DTCG, tipos e especificação'
+description: 'O formato DTCG define como um design token é escrito em JSON: estrutura, aliases e todos os tipos, de color e dimension a shadow e typography.'
 date: '2026-10-29'
 cover: '/blog/covers/guia-definitivo-design-tokens-2-pt.png'
 tags:
@@ -13,9 +14,11 @@ tags:
     'json',
     'design system',
   ]
+related: ['design-tokens-resolver']
+series: { id: 'guia-design-tokens', part: 2 }
 ---
 
-No [primeiro artigo do Guia Definitivo dos Design Tokens](https://www.mateusvillain.com/pt/blog/guia-definitivo-design-tokens/), vimos que um design token é uma decisão de design escrita como dado, em JSON, para ser independente de plataforma. Só que "JSON" não basta para duas ferramentas se entenderem. Cada uma poderia inventar sua própria estrutura, seus próprios nomes de propriedades e sua própria forma de escrever uma cor.
+No [primeiro artigo do Guia Definitivo dos Design Tokens](/pt/blog/o-que-sao-design-tokens/), vimos que um design token é uma decisão de design escrita como dado, em JSON, para ser independente de plataforma. Só que "JSON" não basta para duas ferramentas se entenderem. Cada uma poderia inventar sua própria estrutura, seus próprios nomes de propriedades e sua própria forma de escrever uma cor.
 
 É para resolver isso que existe o **DTCG**, o Design Tokens Community Group. Neste artigo, você vai entender o que é essa especificação, como um arquivo de tokens é estruturado e, principalmente, **quais tipos de token existem e como cada um é escrito**, dos mais simples (cor, dimensão) aos compostos (sombra, tipografia, borda).
 
@@ -29,7 +32,7 @@ Em 28 de outubro de 2025, o grupo publicou a **primeira versão estável**, cham
 
 - **Format Module:** estrutura do arquivo, grupos, aliases, tipos simples e compostos.
 - **Color Module:** como representar cores em diferentes espaços de cor.
-- **Resolver Module:** como combinar conjuntos de tokens para gerar variações como temas e marcas (assunto do artigo sobre theming).
+- **Resolver Module:** como combinar conjuntos de tokens para gerar variações como temas e marcas (eu explico o módulo em detalhes no artigo sobre o [Design Tokens Resolver](/pt/blog/design-tokens-resolver/)).
 
 Um detalhe importante: a especificação é um relatório do Community Group. **Ela não é um padrão oficial do W3C** nem está na trilha de padrões do W3C. O próprio documento afirma que é considerada estável e destinada à implementação. ^[estável, mas não é padrão W3C]
 

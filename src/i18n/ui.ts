@@ -16,8 +16,6 @@ const en = {
   siteName: 'Mateus Villain',
   siteDescription:
     'Mateus Villain is a product designer, design system specialist, teacher and author of the book Design System Beyond the Layout.',
-  keywords:
-    'Design System, User Interface, UI, User Experience, UX, Accessibility, Handoff',
   skipLink: 'Skip to main content',
   home: 'Home',
   blog: 'Blog',
@@ -106,8 +104,6 @@ const pt: typeof en = {
   siteName: 'Mateus Villain',
   siteDescription:
     'Mateus Villain é product designer, especialista em design system, professor e autor do livro Design System além do layout.',
-  keywords:
-    'Design System, User Interface, UI, User Experience, UX, Acessibilidade, Handoff',
   skipLink: 'Ir para o conteúdo principal',
   home: 'Início',
   blog: 'Blog',

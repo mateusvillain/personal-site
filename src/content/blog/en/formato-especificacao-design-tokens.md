@@ -1,5 +1,6 @@
 ---
 title: 'The Ultimate Guide to Design Tokens: Formats, Types and Specifications'
+seoTitle: 'Design Tokens Guide: DTCG format, types and specification'
 description: 'How the DTCG format writes design tokens in JSON: file structure, aliases and all 13 token types, from color and dimension to shadow and typography.'
 date: '2026-10-29'
 cover: '/blog/covers/guia-definitivo-design-tokens-2-en.png'
@@ -14,9 +15,11 @@ tags:
     'json',
     'design system',
   ]
+related: ['design-tokens-resolver']
+series: { id: 'guia-design-tokens', part: 2 }
 ---
 
-In the [first article of the Ultimate Guide to Design Tokens](https://www.mateusvillain.com/blog/ultimate-guide-to-design-tokens/), we saw that a design token is a design decision written as data, in JSON, so it can be platform-independent. But "JSON" alone is not enough for two tools to understand each other. Each one could invent its own structure, its own property names and its own way of writing a color.
+In the [first article of the Ultimate Guide to Design Tokens](/blog/what-are-design-tokens/), we saw that a design token is a design decision written as data, in JSON, so it can be platform-independent. But "JSON" alone is not enough for two tools to understand each other. Each one could invent its own structure, its own property names and its own way of writing a color.
 
 That is what the **DTCG**, the Design Tokens Community Group, exists to solve. In this article, you will learn what this specification is, how a token file is structured and, above all, **which token types exist and how each one is written**, from the simplest (color, dimension) to the composite ones (shadow, typography, border).
 
@@ -30,7 +33,7 @@ On October 28, 2025, the group published the **first stable version**, called **
 
 - **Format Module:** file structure, groups, aliases, simple and composite types.
 - **Color Module:** how to represent colors in different color spaces.
-- **Resolver Module:** how to combine sets of tokens to produce variations such as themes and brands (the subject of the article on theming).
+- **Resolver Module:** how to combine sets of tokens to produce variations such as themes and brands (I cover the module in detail in the article on the [Design Tokens Resolver](/blog/design-tokens-resolver-module/)).
 
 One important detail: the specification is a Community Group report. **It is not an official W3C standard** and is not on the W3C standards track. The document itself describes it as stable and intended for implementation. ^[stable, but not a W3C standard]
 

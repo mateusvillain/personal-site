@@ -24,11 +24,22 @@ export const collections = {
     }),
     schema: z.object({
       title: z.string(),
+      // Titulo curto para o <title>, o compartilhamento e o JSON-LD (ate ~60
+      // caracteres); o <h1> continua com o `title`.
+      seoTitle: z.string().optional(),
       description: z.string(),
       date: z.string(),
       cover: z.string().optional(),
       tags: z.array(z.string()).optional(),
       slug: z.string().optional(),
+      // Chaves (nome do arquivo) dos posts relacionados escolhidos a mao; o
+      // que faltar sai das tags em comum. Ver `getRelatedPosts`.
+      related: z.array(z.string()).optional(),
+      // Serie de posts: `id` liga as partes (o nome vem de `blog.series` em
+      // src/i18n/blog.ts) e `part` define a ordem.
+      series: z
+        .object({ id: z.string(), part: z.number().int().positive() })
+        .optional(),
     }),
   }),
 

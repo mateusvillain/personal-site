@@ -1,6 +1,6 @@
 ---
-title: 'Escalando um Design System com IA: Reduzindo trabalho e automatizando processos'
-description: 'Utilize inteligência artificial para automatizar a criação e manutenção de design tokens, componentes e documentações.'
+title: 'Como evoluir um Design System com IA'
+description: 'Evolua seu design system com IA: auditoria de UI, design tokens, componentes, regras para agentes e tradução de tokens com Resolver e Terrazzo.'
 date: '2026-03-26'
 cover: '/blog/covers/design-system-ia.png'
 tags:
@@ -15,6 +15,7 @@ tags:
     'antigravity',
     'claude',
   ]
+related: ['design-no-figma-com-claude', 'design-tokens-resolver']
 ---
 
 A parte "difícil" de um design system não é criar as interfaces. Essa é, na verdade, a parte mais tranquila, e talvez a mais repetitiva de todo o processo. O desafio real é garantir que ele seja escalável, consistente e fácil de manter ao longo do tempo, ou em outras palavras, a governança.

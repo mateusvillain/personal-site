@@ -1,0 +1,95 @@
+---
+/**
+ * Pagina de tema do blog: /blog/tag/<slug>/ e /pt/blog/tag/<slug>/. So
+ * existe para os temas de src/lib/topics.ts com posts suficientes no idioma.
+ */
+import BlogLayout from '../../../../layouts/BlogLayout.astro'
+import PostList from '../../../../components/PostList.astro'
+import TopicNav from '../../../../components/TopicNav.astro'
+import {
+  defaultLocale,
+  localizePath,
+  locales,
+  otherLocale,
+} from '../../../../i18n/config'
+import { ui } from '../../../../i18n/ui'
+import { blog } from '../../../../i18n/blog'
+import { breadcrumbJsonLd, collectionPageJsonLd } from '../../../../lib/seo'
+import { postPath } from '../../../../lib/posts'
+import { getTopics, topicAlternates, type Topic } from '../../../../lib/topics'
+
+export async function getStaticPaths() {
+  const paths = []
+  for (const locale of locales) {
+    for (const topic of await getTopics(locale)) {
+      paths.push({
+        params: {
+          locale: locale === defaultLocale ? undefined : locale,
+          topic: topic.slug,
+        },
+        props: { topic },
+      })
+    }
+  }
+  return paths
+}
+
+const { topic } = Astro.props as { topic: Topic }
+const { locale } = topic
+const strings = blog[locale]
+const common = ui[locale]
+
+// Tema sem pagina no outro idioma: a troca de idioma leva para a listagem.
+const alternates = await topicAlternates(topic.id)
+const switchPath =
+  alternates[otherLocale(locale)] ?? localizePath('/blog/', otherLocale(locale))
+
+const pageUrl = new URL(topic.path, Astro.site).href
+const title = strings.topicTitle(topic.name)
+const jsonLd = [
+  collectionPageJsonLd({
+    locale,
+    url: pageUrl,
+    name: title,
+    description: topic.description,
+    items: topic.posts.map((post) => ({
+      name: post.data.title,
+      url: new URL(postPath(post), Astro.site).href,
+    })),
+  }),
+  breadcrumbJsonLd([
+    { name: common.home, url: new URL(localizePath('/', locale), Astro.site).href },
+    { name: common.blog, url: new URL(localizePath('/blog/', locale), Astro.site).href },
+    { name: topic.name, url: pageUrl },
+  ]),
+]
+---
+
+<BlogLayout
+  locale={locale}
+  switchPath={switchPath}
+  title={strings.topicMetaTitle(topic.name)}
+  description={topic.description}
+  canonicalPath={topic.path}
+  alternates={alternates}
+  jsonLd={jsonLd}
+>
+  <lui-breadcrumb>
+    <lui-breadcrumb-item href={localizePath('/', locale)}
+      >{common.home}</lui-breadcrumb-item
+    >
+    <lui-breadcrumb-item href={localizePath('/blog/', locale)}
+      >{common.blog}</lui-breadcrumb-item
+    >
+  </lui-breadcrumb>
+  <div class="post-details">
+    <h1 class="title m-t-fluid-16">{title}</h1>
+    <p class="body--lg">{topic.description}</p>
+    <TopicNav locale={locale} current={topic.id} />
+  </div>
+  <PostList posts={topic.posts} locale={locale} heading="h2" />
+</BlogLayout>
+
+<script>
+  import '@lets-ui/components'
+</script>

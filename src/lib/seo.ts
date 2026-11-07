@@ -63,6 +63,8 @@ interface BlogPostingInput {
   datePublished: string
   tags?: string[]
   wordCount?: number
+  /** Serie da qual o post faz parte e a posicao dele nela. */
+  series?: { name: string; position: number }
 }
 
 /** Post do blog. `datePublished` no formato YYYY-MM-DD. */
@@ -83,7 +85,44 @@ export function blogPostingJsonLd(input: BlogPostingInput) {
     wordCount: input.wordCount,
     author: { '@id': `${SITE_URL}/#person`, ...person },
     publisher: { '@id': `${SITE_URL}/#person` },
+    isPartOf: input.series
+      ? [
+          { '@id': `${SITE_URL}/#website` },
+          { '@type': 'CreativeWorkSeries', name: input.series.name },
+        ]
+      : { '@id': `${SITE_URL}/#website` },
+    position: input.series?.position,
+  }
+}
+
+interface CollectionPageInput {
+  locale: Locale
+  url: string
+  name: string
+  description: string
+  items: { name: string; url: string }[]
+}
+
+/** Listagem de posts (pagina de tema): a pagina e a lista ordenada dos posts. */
+export function collectionPageJsonLd(input: CollectionPageInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': input.url,
+    url: input.url,
+    name: input.name,
+    description: input.description,
+    inLanguage: htmlLang[input.locale],
     isPartOf: { '@id': `${SITE_URL}/#website` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: input.items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        url: item.url,
+      })),
+    },
   }
 }
 
