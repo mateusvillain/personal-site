@@ -79,7 +79,15 @@ const {
     {includeScripts && <Scripts />}
     <CookieConsent locale={locale} />
     <script>
-      import '@phosphor-icons/webcomponents'
+      // So os icones usados no site: o pacote inteiro passa de 5 MB. Cada
+      // modulo registra o proprio <ph-*>; icone novo precisa entrar aqui.
+      import '@phosphor-icons/webcomponents/PhArrowRight'
+      import '@phosphor-icons/webcomponents/PhArrowUpRight'
+      import '@phosphor-icons/webcomponents/PhChalkboardSimple'
+      import '@phosphor-icons/webcomponents/PhCheck'
+      import '@phosphor-icons/webcomponents/PhCheckCircle'
+      import '@phosphor-icons/webcomponents/PhHourglassMedium'
+      import '@phosphor-icons/webcomponents/PhVideoConference'
     </script>
   </body>
 </html>
