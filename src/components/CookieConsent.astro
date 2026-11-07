@@ -172,11 +172,17 @@ const strings = ui[locale].consent
       if (btn.dataset.consent === 'grant') window.mvConsent.grant()
       else window.mvConsent.deny()
       hide()
+      // Devolve o foco a quem reabriu o aviso; sem isso ele cai no <body>.
+      if (opener) opener.focus()
+      opener = null
     })
+
+    var opener = null
 
     // Reaberto pelo visitante (botao "Cookies"): leva o foco para o aviso,
     // senao quem navega por teclado nao sabe que ele apareceu.
     document.addEventListener('mv:consent-open', function () {
+      opener = document.activeElement
       show()
       var first = el.querySelector('[data-consent]')
       if (first) first.focus()

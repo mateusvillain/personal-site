@@ -61,7 +61,7 @@ const en = {
       "I'm nosy: I use Google Analytics and Hotjar to see what people read and how they browse around here. Okay if that includes you?",
     accept: 'Okay',
     decline: 'Leave me out',
-    /** Botao da barra do topo que reabre o aviso. */
+    /** Botao do rodape (SiteFooter) que reabre o aviso. */
     reopen: 'Cookies',
     reopenLabel: 'Cookies: preferences',
   },

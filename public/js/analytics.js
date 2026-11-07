@@ -7,7 +7,7 @@ function sendEvent(name, params = {}) {
   gtag('event', name, params);
 }
 
-// Links internos marcados com [data-link]
+// Links e botoes marcados com [data-link]
 document.querySelectorAll('[data-link]').forEach(link => {
   link.addEventListener('click', () => {
     const params = { link_name: link.dataset.link };
