@@ -123,7 +123,9 @@ const tabs = [
 const initial = sections.documentation[0].pages[1] // "Design", como no Figma
 ---
 
-<div class="luicover">
+<!-- A miniatura reproduz o site do Let's UI, que e em ingles: o `lang`
+     evita sinalizar texto em ingles dentro da home em pt-BR. -->
+<div class="luicover" lang="en">
   <div class="luisite" data-lui-site={id}>
     <div class="luisite__bar">
       <span class="luisite__logo" aria-hidden="true">

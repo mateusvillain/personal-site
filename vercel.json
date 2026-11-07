@@ -4,6 +4,13 @@
   "outputDirectory": "dist",
   "buildCommand": "npm run build",
 
+  "headers": [
+    {
+      "source": "/(.*).md",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    }
+  ],
+
   "redirects": [
     { "source": "/blog/design-no-figma-com-claude", "destination": "/pt/blog/design-no-figma-com-claude/", "permanent": true },
     { "source": "/blog/design-no-figma-com-claude/", "destination": "/pt/blog/design-no-figma-com-claude/", "permanent": true },
