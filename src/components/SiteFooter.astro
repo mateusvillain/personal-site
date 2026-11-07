@@ -1,0 +1,78 @@
+---
+/**
+ * Fim da pagina: por enquanto so o botao que reabre o aviso de cookies
+ * (LGPD: revogar o consentimento tem que ser possivel a qualquer momento).
+ * O clique e tratado pelo ConsentScript via [data-consent-open].
+ *
+ * Comeca escondido: enquanto nao ha decisao, o proprio aviso esta na tela e
+ * o botao seria redundante. Aparece com uma decisao guardada ou assim que a
+ * pessoa responde o aviso. Sem JS fica escondido, mas sem JS nada e rastreado.
+ */
+import type { Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const strings = ui[locale].consent
+---
+
+<footer class="site-footer body-container" data-site-footer hidden>
+  <button
+    type="button"
+    class="site-footer__cookies body--sm"
+    aria-label={strings.reopenLabel}
+    data-consent-open
+  >
+    {strings.reopen}
+  </button>
+</footer>
+
+<script is:inline>
+  ;(function () {
+    var footer = document.querySelector('[data-site-footer]')
+    if (!footer || !window.mvConsent) return
+    function reveal() {
+      footer.hidden = false
+    }
+    if (window.mvConsent.status() !== null) reveal()
+    else document.addEventListener('mv:consent', reveal, { once: true })
+  })()
+</script>
+
+<style>
+  /* .body-container define display: flex, que venceria o [hidden]. */
+  .site-footer[hidden] {
+    display: none;
+  }
+
+  .site-footer {
+    padding-block: var(--lui-spacing-fixed-24) var(--lui-spacing-fluid-56);
+  }
+
+  /* Discreto, no tom da hora e do clima da barra do topo. */
+  .site-footer__cookies {
+    align-self: flex-start;
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--lui-color-neutral-text-caption);
+    font-family: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .site-footer__cookies:hover {
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  .site-footer__cookies:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+</style>

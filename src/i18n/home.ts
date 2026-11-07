@@ -14,7 +14,7 @@ const en = {
   shortBio2Html:
     "I am the organizer of <a class='link' href='https://detach.com.br/' target='_blank'>Detach!</a>, a Brazilian event about design at scale, and a professor at <a class='link' href='https://escolaescala.com/' target='_blank'>Escåla</a> and <a class='link' href='https://cursos.alura.com.br/user/mateusvillain' target='_blank'>Alura</a>, where I teach Design Systems, DesignOps and UX. I also offer <a class='link' href='/mentorship/'>mentoring</a> services for designers and teams.",
   shortBio3Html:
-    "You can find me on <a class='link' data-link='x-twitter' data-social='x-twitter' href='https://x.com/mateusvillain' target='_blank'>X</a>, <a class='link' data-link='linkedin' data-social='linkedin' href='https://www.linkedin.com/in/mateusvillain/' target='_blank'>LinkedIn</a> and <a class='link' data-link='github' data-social='github' href='https://github.com/mateusvillain' target='_blank'>GitHub</a>.",
+    "You can find me on <a class='link' data-social='x' href='https://x.com/mateusvillain' target='_blank'>X</a>, <a class='link' data-social='linkedin' href='https://www.linkedin.com/in/mateusvillain/' target='_blank'>LinkedIn</a> and <a class='link' data-social='github' href='https://github.com/mateusvillain' target='_blank'>GitHub</a>.",
   blogTitle: 'Latest posts',
   blogLink: 'Go to blog',
   nowPlaying: {
@@ -49,7 +49,7 @@ const pt: typeof en = {
   shortBio2Html:
     "Sou organizador do <a class='link' href='https://detach.com.br/' target='_blank'>Detach!</a>, evento brasileiro sobre design em escala, e professor na <a class='link' href='https://escolaescala.com/' target='_blank'>Escåla</a> e na <a class='link' href='https://cursos.alura.com.br/user/mateusvillain' target='_blank'>Alura</a>, onde ensino Design Systems, DesignOps e UX. Também ministro <a class='link' href='/pt/mentorship/'>mentorias</a> para designers e equipes.",
   shortBio3Html:
-    "Você pode me encontrar no <a class='link' data-link='x-twitter' data-social='x-twitter' href='https://x.com/mateusvillain' target='_blank'>X</a>, <a class='link' data-link='linkedin' data-social='linkedin' href='https://www.linkedin.com/in/mateusvillain/' target='_blank'>LinkedIn</a> e no <a class='link' data-link='github' data-social='github' href='https://github.com/mateusvillain' target='_blank'>GitHub</a>.",
+    "Você pode me encontrar no <a class='link' data-social='x' href='https://x.com/mateusvillain' target='_blank'>X</a>, <a class='link' data-social='linkedin' href='https://www.linkedin.com/in/mateusvillain/' target='_blank'>LinkedIn</a> e no <a class='link' data-social='github' href='https://github.com/mateusvillain' target='_blank'>GitHub</a>.",
   blogTitle: 'Últimos posts',
   blogLink: 'Ir para o blog',
   nowPlaying: {

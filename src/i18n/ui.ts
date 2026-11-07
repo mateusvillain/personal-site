@@ -58,9 +58,12 @@ const en = {
     /** Nome acessivel da regiao do aviso. */
     region: 'Cookies',
     message:
-      "I'm nosy: I use Google Analytics to see what people read around here. Okay if that includes you?",
+      "I'm nosy: I use Google Analytics and Hotjar to see what people read and how they browse around here. Okay if that includes you?",
     accept: 'Okay',
     decline: 'Leave me out',
+    /** Botao do rodape (SiteFooter) que reabre o aviso. */
+    reopen: 'Cookies',
+    reopenLabel: 'Cookies: preferences',
   },
   newsletter: {
     title: 'Subscribe to the newsletter',
@@ -137,9 +140,11 @@ const pt: typeof en = {
   consent: {
     region: 'Cookies',
     message:
-      'Sou curioso: uso o Google Analytics pra ver o que as pessoas leem por aqui. Tudo bem contar com você?',
+      'Sou curioso: uso o Google Analytics e o Hotjar pra ver o que as pessoas leem e como navegam por aqui. Tudo bem contar com você?',
     accept: 'Tudo bem',
     decline: 'Fico de fora',
+    reopen: 'Cookies',
+    reopenLabel: 'Cookies: preferências',
   },
   newsletter: {
     title: 'Assine a newsletter',
