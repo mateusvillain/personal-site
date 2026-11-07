@@ -174,7 +174,13 @@ const strings = ui[locale].consent
       hide()
     })
 
-    document.addEventListener('mv:consent-open', show)
+    // Reaberto pelo visitante (botao "Cookies"): leva o foco para o aviso,
+    // senao quem navega por teclado nao sabe que ele apareceu.
+    document.addEventListener('mv:consent-open', function () {
+      show()
+      var first = el.querySelector('[data-consent]')
+      if (first) first.focus()
+    })
 
     if (window.mvConsent.status() === null) {
       setTimeout(show, ENTER_DELAY)

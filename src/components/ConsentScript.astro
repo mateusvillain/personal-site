@@ -73,6 +73,10 @@ const GTM_ID = 'GTM-NTD9ZL6W'
       write('denied')
       gtag('consent', 'update', { analytics_storage: 'denied' })
       document.dispatchEvent(new CustomEvent('mv:consent', { detail: 'denied' }))
+      // Revogou depois de aceitar: o GA respeita o `update`, mas o Hotjar ja
+      // carregado continua gravando ate a pagina sair. Recarregar descarta
+      // tudo; na volta o GTM nem e baixado.
+      if (loaded) setTimeout(function () { location.reload() }, 350)
     }
 
     function open() {
