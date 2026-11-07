@@ -41,6 +41,11 @@ const links = [
     label: strings.nav.resources,
     id: 'resources',
   },
+  {
+    href: localizePath('/office/', locale),
+    label: strings.nav.office,
+    id: 'office',
+  },
 ]
 
 const isCurrent = (href: string) => pathname.startsWith(trimSlash(href))
