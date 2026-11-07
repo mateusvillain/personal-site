@@ -14,6 +14,8 @@ tags:
     'json',
     'design system',
   ]
+related: ['design-tokens-resolver']
+series: { id: 'guia-design-tokens', part: 2 }
 ---
 
 In the [first article of the Ultimate Guide to Design Tokens](https://www.mateusvillain.com/blog/ultimate-guide-to-design-tokens/), we saw that a design token is a design decision written as data, in JSON, so it can be platform-independent. But "JSON" alone is not enough for two tools to understand each other. Each one could invent its own structure, its own property names and its own way of writing a color.

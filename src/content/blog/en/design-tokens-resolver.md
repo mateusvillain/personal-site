@@ -13,6 +13,7 @@ tags:
     'design tokens resolver module',
     'resolver',
   ]
+related: ['formato-especificacao-design-tokens', 'guia-definitivo-design-tokens']
 ---
 
 A challenge every company faces when structuring its design tokens, especially on the engineering side, is how the tokens will be read and converted into a style format.

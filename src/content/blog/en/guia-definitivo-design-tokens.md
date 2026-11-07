@@ -13,6 +13,8 @@ tags:
     'semantic tokens',
     'component tokens',
   ]
+related: ['design-tokens-resolver']
+series: { id: 'guia-design-tokens', part: 1 }
 ---
 
 If you have ever worked with a design system, you have probably run into that classic problem: keeping things consistent without turning everything into a mess that is hard to scale. Scenarios like duplicated colors, inconsistent spacing and decisions scattered between design and code start to take their toll over time.

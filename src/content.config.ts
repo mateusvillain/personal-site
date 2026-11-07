@@ -29,6 +29,14 @@ export const collections = {
       cover: z.string().optional(),
       tags: z.array(z.string()).optional(),
       slug: z.string().optional(),
+      // Chaves (nome do arquivo) dos posts relacionados escolhidos a mao; o
+      // que faltar sai das tags em comum. Ver `getRelatedPosts`.
+      related: z.array(z.string()).optional(),
+      // Serie de posts: `id` liga as partes (o nome vem de `blog.series` em
+      // src/i18n/blog.ts) e `part` define a ordem.
+      series: z
+        .object({ id: z.string(), part: z.number().int().positive() })
+        .optional(),
     }),
   }),
 

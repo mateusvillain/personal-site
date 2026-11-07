@@ -1,0 +1,88 @@
+---
+/**
+ * Fim do post: navegacao da serie (se o post for de uma), temas com pagina
+ * propria e posts relacionados. Tudo em <a> nativo, no HTML estatico, para os
+ * links contarem para buscadores e crawlers que nao rodam JS.
+ */
+import PostList from './PostList.astro'
+import type { Locale } from '../i18n/config'
+import { blog } from '../i18n/blog'
+import {
+  getRelatedPosts,
+  getSeriesParts,
+  postPath,
+  type Post,
+} from '../lib/posts'
+import { getPostTopics } from '../lib/topics'
+
+interface Props {
+  post: Post
+  locale: Locale
+}
+
+const { post, locale } = Astro.props
+const strings = blog[locale]
+
+const parts = await getSeriesParts(post)
+const series = post.data.series
+const seriesName = series ? strings.series[series.id] : undefined
+if (series && !seriesName) {
+  throw new Error(
+    `Post "${post.id}": a serie "${series.id}" nao tem nome em src/i18n/blog.ts.`,
+  )
+}
+
+const topics = await getPostTopics(post, locale)
+const related = await getRelatedPosts(post)
+---
+
+{
+  series && parts.length > 1 && (
+    <nav class="post-series" aria-labelledby="post-series-title">
+      <h2 id="post-series-title" class="body--lg">
+        {strings.seriesPart(series.part, parts.length, seriesName!)}
+      </h2>
+      <ol>
+        {parts.map((part) =>
+          part.id === post.id ? (
+            <li aria-current="page">
+              {part.data.title} <span>({strings.seriesCurrent})</span>
+            </li>
+          ) : (
+            <li>
+              <a href={postPath(part)}>{part.data.title}</a>
+            </li>
+          ),
+        )}
+      </ol>
+    </nav>
+  )
+}
+
+{
+  topics.length > 0 && (
+    <nav class="post-topics" aria-label={strings.postTopicsLabel}>
+      <span class="body--md">{strings.topicsLabel}:</span>
+      <ul>
+        {topics.map((topic) => (
+          <li>
+            <a class="topic-link" href={topic.path}>
+              {topic.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+{
+  related.length > 0 && (
+    <section class="post-related" aria-labelledby="post-related-title">
+      <h2 id="post-related-title" class="body--lg">
+        {strings.relatedTitle}
+      </h2>
+      <PostList posts={related} locale={locale} />
+    </section>
+  )
+}

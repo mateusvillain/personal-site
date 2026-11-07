@@ -15,6 +15,7 @@ tags:
     'antigravity',
     'claude',
   ]
+related: ['design-no-figma-com-claude', 'design-tokens-resolver']
 ---
 
 A parte "difícil" de um design system não é criar as interfaces. Essa é, na verdade, a parte mais tranquila, e talvez a mais repetitiva de todo o processo. O desafio real é garantir que ele seja escalável, consistente e fácil de manter ao longo do tempo, ou em outras palavras, a governança.

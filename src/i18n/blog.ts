@@ -17,6 +17,18 @@ const en = {
   copyCodeLabel: 'Copy code',
   codeCopied: 'Copied!',
   copyError: 'Error',
+  topicsLabel: 'Topics',
+  postTopicsLabel: 'Topics of this post',
+  relatedTitle: 'Related posts',
+  seriesPart: (part: number, total: number, name: string) =>
+    `Part ${part} of ${total} of the series ${name}`,
+  seriesCurrent: 'you are here',
+  topicTitle: (name: string) => `Posts about ${name}`,
+  topicMetaTitle: (name: string) => `${name} - Blog - Mateus Villain`,
+  /** Nome de cada serie, pelo `series.id` do frontmatter. */
+  series: {
+    'guia-design-tokens': 'The Ultimate Guide to Design Tokens',
+  } as Record<string, string>,
 }
 
 const pt: typeof en = {
@@ -35,6 +47,17 @@ const pt: typeof en = {
   copyCodeLabel: 'Copiar código',
   codeCopied: 'Copiado!',
   copyError: 'Erro',
+  topicsLabel: 'Temas',
+  postTopicsLabel: 'Temas deste post',
+  relatedTitle: 'Posts relacionados',
+  seriesPart: (part: number, total: number, name: string) =>
+    `Parte ${part} de ${total} da série ${name}`,
+  seriesCurrent: 'você está aqui',
+  topicTitle: (name: string) => `Posts sobre ${name}`,
+  topicMetaTitle: (name: string) => `${name} - Blog - Mateus Villain`,
+  series: {
+    'guia-design-tokens': 'O Guia Definitivo dos Design Tokens',
+  },
 }
 
 export const blog: Dictionary<typeof en> = { en, pt }

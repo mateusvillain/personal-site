@@ -4,6 +4,7 @@ description: 'Aprenda a usar o Claude para interagir com seus arquivos do Figma 
 date: '2026-03-19'
 cover: '/blog/covers/claude-figma.png'
 tags: ['figma', 'claude', 'ia', 'mcp']
+related: ['escalando-um-design-system-com-ia']
 ---
 
 Eu tenho certeza que nos últimos anos, assim como eu, você inseriu muito de inteligência artificial na sua rotina. Você usa IA para pesquisa, para redigir um texto, para criar uma imagem, para resumir um documento, para ver os seus e-mails e agendas do dia, e agora se vê no desafio de colocar IA na sua rotina de trabalho.

@@ -13,6 +13,8 @@ tags:
     'json',
     'design system',
   ]
+related: ['design-tokens-resolver']
+series: { id: 'guia-design-tokens', part: 2 }
 ---
 
 No [primeiro artigo do Guia Definitivo dos Design Tokens](https://www.mateusvillain.com/pt/blog/guia-definitivo-design-tokens/), vimos que um design token é uma decisão de design escrita como dado, em JSON, para ser independente de plataforma. Só que "JSON" não basta para duas ferramentas se entenderem. Cada uma poderia inventar sua própria estrutura, seus próprios nomes de propriedades e sua própria forma de escrever uma cor.

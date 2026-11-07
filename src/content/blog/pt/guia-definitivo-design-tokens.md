@@ -12,6 +12,8 @@ tags:
     'semantic tokens',
     'component tokens',
   ]
+related: ['design-tokens-resolver']
+series: { id: 'guia-design-tokens', part: 1 }
 ---
 
 Se você já trabalhou com design system, provavelmente já esbarrou naquele problema clássico: manter consistência sem transformar tudo em um caos difícil de escalar. Cenários como cores duplicadas, espaçamentos inconsistentes e decisões espalhadas entre design e código, com o tempo começam a cobrar um preço.

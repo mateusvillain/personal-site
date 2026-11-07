@@ -12,6 +12,7 @@ tags:
     'design tokens resolver module',
     'resolver',
   ]
+related: ['formato-especificacao-design-tokens', 'guia-definitivo-design-tokens']
 ---
 
 Um desafio que toda empresa passa quando está estruturando os seus design tokens, principalmente do lado de engenharia, é na forma que será executada a leitura dos seus tokens para converter em formato de estilo.

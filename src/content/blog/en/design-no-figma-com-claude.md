@@ -5,6 +5,7 @@ date: '2026-03-19'
 cover: '/blog/covers/claude-figma.png'
 slug: 'designing-in-figma-with-claude'
 tags: ['figma', 'claude', 'ai', 'mcp']
+related: ['escalando-um-design-system-com-ia']
 ---
 
 I am sure that over the last few years, just like me, you have brought a lot of artificial intelligence into your routine. You use AI for research, to draft a text, to create an image, to summarize a document, to go through your e-mails and the day's schedule, and now you face the challenge of bringing AI into your work routine.

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content'
 import BlogLayout from '../../../layouts/BlogLayout.astro'
 import IconLinkButton from '../../../components/IconLinkButton.astro'
+import PostFooter from '../../../components/PostFooter.astro'
 import {
   defaultLocale,
   localizePath,
@@ -55,6 +56,7 @@ const formattedDate = formatPostDate(post.data.date, locale)
 const minutes = readingTime(post.body)
 
 const cover = post.data.cover ?? '/blog/covers/cover.png'
+const series = post.data.series
 const jsonLd = [
   blogPostingJsonLd({
     locale,
@@ -65,6 +67,10 @@ const jsonLd = [
     datePublished: post.data.date,
     tags: post.data.tags,
     wordCount: (post.body ?? '').trim().split(/\s+/).length,
+    series: series && {
+      name: strings.series[series.id] ?? series.id,
+      position: series.part,
+    },
   }),
   breadcrumbJsonLd([
     { name: common.home, url: new URL(localizePath('/', locale), Astro.site).href },
@@ -192,6 +198,8 @@ const jsonLd = [
 
     <Content />
   </article>
+
+  <PostFooter post={post} locale={locale} />
 </BlogLayout>
 
 <script>

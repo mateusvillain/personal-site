@@ -1,0 +1,48 @@
+---
+/**
+ * Lista de posts no mesmo visual da listagem do blog (titulo, descricao e
+ * data, com o fundo de hover que desliza entre os itens). Usada nos posts
+ * relacionados e nas paginas de tema. `heading` e o nivel do titulo de cada
+ * post, para encaixar na hierarquia da pagina.
+ */
+import type { Locale } from '../i18n/config'
+import { formatPostDate, postPath, type Post } from '../lib/posts'
+
+interface Props {
+  posts: Post[]
+  locale: Locale
+  heading?: 'h2' | 'h3'
+}
+
+const { posts, locale, heading: Heading = 'h3' } = Astro.props
+---
+
+<div data-hover-highlight>
+  {
+    posts.map((post) => (
+      <article class="post">
+        <a class="interaction-item" href={postPath(post)}>
+          <div class="post-header">
+            <Heading class="body--lg">{post.data.title}</Heading>
+            <p class="body--lg">{post.data.description}</p>
+          </div>
+          <time class="body--lg" datetime={post.data.date}>
+            {formatPostDate(post.data.date, locale)}
+          </time>
+        </a>
+      </article>
+    ))
+  }
+</div>
+
+<script>
+  import { initHoverHighlight } from '../lib/hover-highlight'
+
+  document
+    .querySelectorAll<HTMLElement>('[data-hover-highlight]')
+    .forEach((list) => {
+      if (!list.querySelector('.hover-highlight')) {
+        initHoverHighlight(list, '.interaction-item')
+      }
+    })
+</script>

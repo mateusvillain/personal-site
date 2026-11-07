@@ -50,6 +50,58 @@ export async function postAlternates(post: Post) {
   return paths
 }
 
+/**
+ * Partes da serie do post, em ordem, no mesmo idioma. Vazio se o post nao
+ * for de uma serie.
+ */
+export async function getSeriesParts(post: Post) {
+  const series = post.data.series
+  if (!series) return []
+  const posts = await getPosts(postLocale(post))
+  return posts
+    .filter((p) => p.data.series?.id === series.id)
+    .sort((a, b) => a.data.series!.part - b.data.series!.part)
+}
+
+/**
+ * Posts relacionados, no mesmo idioma. Primeiro os escolhidos no `related`
+ * do frontmatter (pela chave do arquivo, na ordem dada); o que faltar ate
+ * `limit` sai das tags em comum, desempatando pelo mais recente. Outras
+ * partes da mesma serie ficam de fora do preenchimento automatico, porque ja
+ * aparecem na navegacao da serie.
+ */
+export async function getRelatedPosts(post: Post, limit = 3) {
+  const posts = await getPosts(postLocale(post))
+  const others = posts.filter((p) => p.id !== post.id)
+  const byKey = new Map(others.map((p) => [postKey(p), p]))
+
+  const picked: Post[] = []
+  for (const key of post.data.related ?? []) {
+    const match = byKey.get(key)
+    if (!match) {
+      throw new Error(
+        `Post "${post.id}": o related "${key}" nao existe em ${postLocale(post)}/.`,
+      )
+    }
+    if (!picked.includes(match)) picked.push(match)
+  }
+
+  const tags = new Set(post.data.tags ?? [])
+  const seriesId = post.data.series?.id
+  const scored = others
+    .filter((p) => !picked.includes(p))
+    .filter((p) => !seriesId || p.data.series?.id !== seriesId)
+    .map((p) => ({
+      post: p,
+      shared: (p.data.tags ?? []).filter((tag) => tags.has(tag)).length,
+    }))
+    .filter(({ shared }) => shared > 0)
+    // `posts` ja vem do mais recente ao mais antigo e o sort e estavel.
+    .sort((a, b) => b.shared - a.shared)
+
+  return [...picked, ...scored.map(({ post }) => post)].slice(0, limit)
+}
+
 export function parsePostDate(value: string) {
   const [year, month, day] = value.split('-').map(Number)
   return new Date(year, month - 1, day)
