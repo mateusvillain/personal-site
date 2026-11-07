@@ -54,12 +54,14 @@ const switchPath =
 const formattedDate = formatPostDate(post.data.date, locale)
 const minutes = readingTime(post.body)
 
+// Titulo de busca e compartilhamento; o <h1> usa sempre o `title`.
+const seoTitle = post.data.seoTitle ?? post.data.title
 const cover = post.data.cover ?? '/blog/covers/cover.png'
 const jsonLd = [
   blogPostingJsonLd({
     locale,
     url: postUrl,
-    title: post.data.title,
+    title: seoTitle,
     description: post.data.description,
     image: new URL(cover, Astro.site).href,
     datePublished: post.data.date,
@@ -77,7 +79,7 @@ const jsonLd = [
 <BlogLayout
   locale={locale}
   switchPath={switchPath}
-  title={post.data.title}
+  title={seoTitle}
   description={post.data.description}
   canonicalPath={canonicalPath}
   alternates={alternates}
@@ -168,7 +170,7 @@ const jsonLd = [
 
             <!-- X -->
             <IconLinkButton
-              href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
+              href={`https://x.com/intent/tweet?text=${encodeURIComponent(seoTitle)}&url=${encodeURIComponent(postUrl)}`}
               target="_blank"
               ariaLabel={strings.shareX}
             >

@@ -1,8 +1,10 @@
 ---
 title: 'O Guia Definitivo dos Design Tokens: O que são e como usar?'
+seoTitle: 'Guia de Design Tokens: o que são e como usar'
 description: 'Design Tokens são variáveis que armazenam valores visuais do seu design system, como cores, tipografia e espaçamentos. Saiba como usar e escalar seu design system de forma eficiente.'
 date: '2026-04-01'
 cover: '/blog/covers/guia-definitivo-design-tokens-1.png'
+slug: 'o-que-sao-design-tokens'
 tags:
   [
     'design tokens',

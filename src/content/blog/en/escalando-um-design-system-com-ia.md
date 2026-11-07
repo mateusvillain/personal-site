@@ -1,5 +1,5 @@
 ---
-title: 'Scaling a Design System with AI: Reducing work and automating processes'
+title: 'How to evolve a Design System with AI'
 description: 'Use artificial intelligence to automate the creation and maintenance of design tokens, components and documentation.'
 date: '2026-03-26'
 cover: '/blog/covers/design-system-ia.png'

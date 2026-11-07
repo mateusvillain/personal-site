@@ -25,14 +25,15 @@ title: 'The Ultimate Guide to Design Tokens: What they are and how to use them'
 description: 'Uma ou duas frases. Vira a descrição do post no SEO, no RSS e no compartilhamento.'
 date: '2026-04-01'
 cover: '/blog/covers/guia-definitivo-design-tokens-1.png'
-slug: 'ultimate-guide-to-design-tokens'
+slug: 'what-are-design-tokens'
 tags: ['design tokens', 'design system']
 ---
 ```
 
 | Campo | Obrigatório | Uso |
 | --- | --- | --- |
-| `title` | sim | Título do post, da página e do compartilhamento. |
+| `title` | sim | Título do post: vai para o `<h1>`, a listagem, o RSS e a capa gerada. Também é o título de busca e de compartilhamento quando não há `seoTitle`. |
+| `seoTitle` | não | Versão curta do título (até ~60 caracteres, palavra-chave no começo) para o `<title>`, o `og:title`, o `twitter:title` e o `headline` do JSON-LD. Use quando o `title` passar de 60 caracteres. Mantenha próximo do `title`: se forem muito diferentes, o Google tende a reescrever o título no resultado. |
 | `description` | sim | Descrição para SEO, RSS e redes sociais. |
 | `date` | sim | Data de publicação no formato `AAAA-MM-DD`. Define a ordem da listagem. |
 | `cover` | não | Imagem de compartilhamento, em `public/blog/covers/` (1200×675). Pode ser gerada com `npm run blog:covers` (veja [Capa de SEO](#capa-de-seo)). Sem ela, usa `/blog/covers/cover.png`. |
@@ -124,6 +125,7 @@ Cada post também é publicado como Markdown cru em `/blog/<slug>.md` (e `/pt/bl
 
 - [ ] Arquivo com o mesmo nome em `en/` e `pt/` (se houver tradução)
 - [ ] `title`, `description` e `date` preenchidos; `slug` em inglês na versão `en`
+- [ ] `title` com até 60 caracteres ou um `seoTitle` que caiba
 - [ ] Capa em `public/blog/covers/` (feita à mão ou com `npm run blog:covers`)
 - [ ] Destaques e notas iguais nas duas versões
 - [ ] Conferir o post no celular e no desktop (a partir de 1280px, por causa das notas na margem)
