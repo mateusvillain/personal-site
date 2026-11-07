@@ -8,6 +8,16 @@
   width: fit-content;
 }
 
+// inline-block como o <lui-image> que substitui: mantem o respiro da linha
+// de base entre a foto e o nome.
+.profile-photo__img {
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  background-color: var(--lui-color-neutral-background-surface);
+}
+
 .now-playing {
   --np-size: 48px;
   --np-width: min(263px, calc(100vw - 92px));

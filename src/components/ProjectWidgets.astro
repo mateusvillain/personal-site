@@ -19,6 +19,7 @@ import LetsUiCover from './LetsUiCover.astro'
 import { localizePath, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 import { home } from '../i18n/home'
+import { getLetsUiVersion } from '../lib/letsui-version'
 
 interface Props {
   locale: Locale
@@ -28,6 +29,7 @@ interface Props {
 const { locale, id = 'projects' } = Astro.props
 const uid = (name: string) => `${id}-${name}`
 const strings = home[locale].projects
+const letsUiVersion = await getLetsUiVersion()
 const newWindow = ui[locale].newWindow
 
 const bookUrl = 'https://www.casadocodigo.com.br/products/livro-design-system'
@@ -104,6 +106,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
           src="/img/dscover.png"
           width="494"
           height="410"
+          sizes="(min-width: 768px) 320px, 75vw"
           loading="lazy"
           draggable="false"
           alt=""
@@ -160,7 +163,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
               Let's UI
               <span class="sr-only"> {newWindow}</span>
             </a>
-            <span class="pcard__badge" data-stat="version" hidden></span>
+            {letsUiVersion && <span class="pcard__badge">v{letsUiVersion}</span>}
           </h3>
           <lui-body variant="md" class="pcard__desc"
             >{strings.letsuiDescription}</lui-body
@@ -460,57 +463,4 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 
     syncResetButton()
   })
-
-  /* ---------------------------------------------------------------------
-     Versao publicada do Let's UI no npm, exibida ao lado do titulo.
-     Falha em silencio: o selo so aparece quando ha resposta.
-  --------------------------------------------------------------------- */
-  const STATS_CACHE = 'letsui-stats'
-  const STATS_TTL = 1000 * 60 * 60 * 6
-
-  const showVersion = (version) => {
-    document.querySelectorAll('[data-stat="version"]').forEach((el) => {
-      el.textContent = `v${version}`
-      el.hidden = false
-    })
-  }
-
-  const readCache = () => {
-    try {
-      const cached = JSON.parse(sessionStorage.getItem(STATS_CACHE) || 'null')
-      if (cached && Date.now() - cached.at < STATS_TTL) return cached.stats
-    } catch {
-      /* ignora cache invalido */
-    }
-    return null
-  }
-
-  const loadVersion = async () => {
-    const cached = readCache()
-    if (cached?.version) {
-      showVersion(cached.version)
-      return
-    }
-
-    const response = await fetch(
-      'https://registry.npmjs.org/@lets-ui/components/latest'
-    ).catch(() => null)
-    if (!response?.ok) return
-
-    const payload = await response.json().catch(() => null)
-    if (!payload?.version) return
-
-    showVersion(payload.version)
-
-    try {
-      sessionStorage.setItem(
-        STATS_CACHE,
-        JSON.stringify({ at: Date.now(), stats: { version: payload.version } })
-      )
-    } catch {
-      /* modo privado: apenas nao guarda */
-    }
-  }
-
-  if (document.querySelector('[data-stat="version"]')) loadVersion()
 </script>

@@ -219,10 +219,6 @@
     font-size: var(--lui-brand-typography-font-size-2xs, 0.75rem);
     color: var(--lui-color-neutral-text-caption);
     white-space: nowrap;
-
-    &[hidden] {
-      display: none;
-    }
   }
 
   &__desc {
