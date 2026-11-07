@@ -16,6 +16,7 @@ tags:
     'antigravity',
     'claude',
   ]
+related: ['design-no-figma-com-claude', 'design-tokens-resolver']
 ---
 
 The "hard" part of a design system is not creating the interfaces. That is actually the easiest part, and perhaps the most repetitive of the whole process. The real challenge is making sure it is scalable, consistent and easy to maintain over time — in other words, governance.

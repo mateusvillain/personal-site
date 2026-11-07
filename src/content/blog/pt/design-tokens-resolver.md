@@ -12,15 +12,16 @@ tags:
     'design tokens resolver module',
     'resolver',
   ]
+related: ['formato-especificacao-design-tokens', 'guia-definitivo-design-tokens']
 ---
 
-Um desafio que toda empresa passa quando está estruturando os seus design tokens, principalmente do lado de engenharia, é na forma que será executada a leitura dos seus tokens para converter em formato de estilo.
+Um desafio que toda empresa passa quando está estruturando os seus [design tokens](/pt/blog/o-que-sao-design-tokens/), principalmente do lado de engenharia, é na forma que será executada a leitura dos seus tokens para converter em formato de estilo.
 
 Cada caso é um caso. Muitas plataformas precisam apenas do simples, como o light e dark mode, outras precisam se adaptar a marcas diferentes (o chamado multi-brand), e ainda há quem vai além com múltiplos temas visuais atendendo a acessibilidade e até mesmo a diferentes breakpoints.
 
 Não há limitação para nenhum desses exemplos que dei quando falamos de design tokens, contudo, o gargalo está mais concentrado na parte técnica. Muitas empresas optam por utilizar Style Dictionary como pacote de leitura e conversão de tokens para diversos sistemas, exigindo configuração manual para que a build dos tokens aconteça de forma correta. Popularmente nos últimos anos, vemos uma aderência forte ao Tokens Studio (antigo Figma Tokens) junto do Style Dictionary, terceirizando o trabalho de configuração para múltiplos temas, mas a um custo que nem toda a empresa consegue arcar.
 
-Para solucionar esses problemas e evitar que a dependência continue com a ferramenta, a [Design Tokens Community Group (DTCG)](https://www.designtokens.org) criou o [resolver](https://www.designtokens.org/tr/2025.10/resolver/), lançado oficialmente em 28 de outubro de 2025 (dia também conhecido como meu aniversário), com um módulo nativo para calcular como os design tokens são conectados e gerados. O resolver trata de como decidir, de forma determinística, qual valor final deve emergir quando existem aliases, modos, sets e sobreposições contextuais.
+Para solucionar esses problemas e evitar que a dependência continue com a ferramenta, a [Design Tokens Community Group (DTCG)](https://www.designtokens.org), a mesma que define o [formato dos design tokens em JSON](/pt/blog/formato-especificacao-design-tokens/), criou o [resolver](https://www.designtokens.org/tr/2025.10/resolver/), lançado oficialmente em 28 de outubro de 2025 (dia também conhecido como meu aniversário), com um módulo nativo para calcular como os design tokens são conectados e gerados. O resolver trata de como decidir, de forma determinística, qual valor final deve emergir quando existem aliases, modos, sets e sobreposições contextuais.
 
 ## Estruturando um resolver
 

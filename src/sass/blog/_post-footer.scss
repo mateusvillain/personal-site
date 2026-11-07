@@ -1,0 +1,89 @@
+// Fim do post (PostFooter.astro) e navegacao de temas da listagem e das
+// paginas de tema (TopicNav.astro).
+
+.post-series,
+.post-topics,
+.post-related {
+  margin-top: var(--lui-spacing-fluid-40);
+}
+
+// Na listagem e na pagina de tema a nav fica dentro do .post-details, que ja
+// espaca os filhos.
+.post-details .post-topics {
+  margin-top: var(--lui-spacing-fluid-8);
+}
+
+.post-series {
+  padding: var(--lui-spacing-fluid-16);
+  border: var(--lui-border-width-1) solid var(--lui-color-neutral-border-subtle);
+  border-radius: var(--lui-border-radius-md);
+
+  h2 {
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  ol {
+    margin-top: var(--lui-spacing-fixed-8);
+    padding-left: var(--lui-spacing-fixed-24);
+    list-style-position: outside;
+    display: flex;
+    flex-direction: column;
+    gap: var(--lui-spacing-fixed-8);
+  }
+
+  a {
+    color: var(--lui-color-link-default);
+  }
+
+  [aria-current] span {
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+.post-topics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lui-spacing-fixed-8);
+
+  > span {
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lui-spacing-fixed-8);
+    list-style: none;
+  }
+}
+
+.topic-link {
+  display: inline-block;
+  padding: var(--lui-spacing-fluid-4) var(--lui-spacing-fixed-16);
+  border: var(--lui-border-width-1) solid var(--lui-color-neutral-border-subtle);
+  border-radius: var(--lui-border-radius-circle);
+  color: var(--lui-color-neutral-text-body);
+  font-size: var(--lui-brand-typography-font-size-2xs, 0.875rem);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--lui-color-black-alpha-1);
+  }
+
+  &:focus-visible {
+    outline: var(--lui-border-width-2) solid var(--lui-color-neutral-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &[aria-current='page'] {
+    border-color: var(--lui-color-neutral-text-heading);
+    color: var(--lui-color-neutral-text-heading);
+  }
+}
+
+.post-related > h2 {
+  color: var(--lui-color-neutral-text-heading);
+  margin-bottom: var(--lui-spacing-fluid-8);
+}

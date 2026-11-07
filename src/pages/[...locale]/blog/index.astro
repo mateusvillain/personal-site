@@ -1,5 +1,6 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro'
+import TopicNav from '../../../components/TopicNav.astro'
 import {
   localeStaticPaths,
   localizePath,
@@ -46,6 +47,7 @@ const years = Object.keys(postsByYear)
   </lui-breadcrumb>
   <div class="post-details">
     <h1 class="title m-t-fluid-16">{strings.title}</h1>
+    <TopicNav locale={locale} />
   </div>
   <div data-hover-highlight>
     {
