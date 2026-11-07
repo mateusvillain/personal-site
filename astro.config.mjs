@@ -11,7 +11,7 @@ export default defineConfig({
     remarkPlugins: [remarkHighlight, remarkMarginNote],
   },
   site: 'https://www.mateusvillain.com',
-  trailingSlash: 'ignore',
+  trailingSlash: 'always',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', { path: 'pt', codes: ['pt-BR', 'pt'] }],

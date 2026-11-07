@@ -1,6 +1,6 @@
 async function carregarMood() {
   try {
-    const res = await fetch('/api/mood');
+    const res = await fetch('/api/mood/');
     const data = await res.json();
 
     document.getElementById('mood').textContent = data.mood;
