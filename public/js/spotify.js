@@ -13,7 +13,7 @@
   const toggle = root.querySelector('.now-playing__toggle');
   const card = root.querySelector('.now-playing__card');
   const artistEl = root.querySelector('[data-np-artist]');
-  const titleEl = root.querySelector('[data-np-title]');
+  let titleEl = root.querySelector('[data-np-title]');
   const lyricsEl = root.querySelector('[data-np-lyrics]');
   const lyricsList = root.querySelector('[data-np-lyrics-list]');
   const barEl = root.querySelector('[data-np-bar]');
@@ -45,6 +45,21 @@
   function currentProgress() {
     if (!track) return 0;
     return Math.min(anchor.progressMs + (performance.now() - anchor.at), track.durationMs);
+  }
+
+  // O titulo e <a> so quando ha link (arquivos locais chegam sem `songUrl`).
+  function renderTitle(title, url) {
+    const el = document.createElement(url ? 'a' : 'span');
+    el.className = titleEl.className;
+    el.setAttribute('data-np-title', '');
+    el.textContent = title;
+    if (url) {
+      el.href = url;
+      el.target = '_blank';
+      el.rel = 'noopener noreferrer';
+    }
+    titleEl.replaceWith(el);
+    titleEl = el;
   }
 
   // --- Abrir e fechar ------------------------------------------------------
@@ -229,8 +244,7 @@
 
     if (changed) {
       artistEl.textContent = data.artist;
-      titleEl.textContent = data.title;
-      titleEl.href = data.songUrl;
+      renderTitle(data.title, data.songUrl);
       durationEl.textContent = formatTime(data.durationMs);
       loadLyrics(data);
     }
