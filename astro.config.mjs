@@ -12,6 +12,11 @@ export default defineConfig({
   },
   site: 'https://www.mateusvillain.com',
   trailingSlash: 'always',
+  // CSS do Astro (inclui @lets-ui/styles) vai inline no <head>: sem ele, o
+  // arquivo separado bloqueava a primeira pintura da home (~250ms no PSI).
+  build: {
+    inlineStylesheets: 'always',
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', { path: 'pt', codes: ['pt-BR', 'pt'] }],

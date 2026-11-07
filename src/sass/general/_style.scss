@@ -49,6 +49,13 @@ lui-link.icon-button {
 
 main {
   &.hero {
+    .hero__intro {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--lui-spacing-fluid-16);
+    }
+
     > picture img,
     > img {
       filter: grayscale(100%);

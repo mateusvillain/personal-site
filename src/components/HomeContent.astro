@@ -25,27 +25,34 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
   <lui-stack gap="80">
     <main id="main" class="hero">
       <lui-stack gap="80">
-        <lui-flex direction="column" wrap="nowrap" gap="16" align="left">
+        {/*
+          Hero em HTML puro: com <lui-body>/<lui-image> o texto e a foto so
+          apareciam depois do JS dos web components (LCP ~3s).
+        */}
+        <div class="hero__intro">
           <div class="profile-photo">
-            <lui-image
+            <img
+              class="profile-photo__img radius-md"
               src="/img/mtsvlln.jpg"
-              width="88px"
-              aspect-ratio="1/1"
-              radius="md"
+              width="88"
+              height="88"
+              fetchpriority="high"
               alt={strings.photoAlt}
-            ></lui-image>
+            />
             <NowPlaying locale={locale} />
           </div>
 
           <div>
             <h1 class="block-title text--color-heading">Mateus Villain</h1>
-            <lui-body variant="lg" italic>{strings.role}</lui-body>
+            <p class="body--lg text--color-body text--style-italic">
+              {strings.role}
+            </p>
           </div>
 
-          <lui-body variant="lg" set:html={strings.shortBioHtml}></lui-body>
-          <lui-body variant="lg" set:html={strings.shortBio2Html}></lui-body>
-          <lui-body variant="lg" set:html={strings.shortBio3Html}></lui-body>
-        </lui-flex>
+          <p class="body--lg text--color-body" set:html={strings.shortBioHtml} />
+          <p class="body--lg text--color-body" set:html={strings.shortBio2Html} />
+          <p class="body--lg text--color-body" set:html={strings.shortBio3Html} />
+        </div>
 
         <a
           rel="me"
