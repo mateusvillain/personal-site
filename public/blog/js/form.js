@@ -46,6 +46,12 @@ if (form) {
       if (success) {
         success.hidden = false;
       }
+
+      // Conversao principal do site. So no sucesso: o form_submit automatico
+      // do GA4 dispara no envio, sem saber se a inscricao deu certo.
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "newsletter_signup");
+      }
     } catch (error) {
       button.disabled = false;
       button.textContent = idleText;
