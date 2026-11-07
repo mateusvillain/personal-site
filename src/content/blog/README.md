@@ -25,7 +25,7 @@ title: 'The Ultimate Guide to Design Tokens: What they are and how to use them'
 description: 'Uma ou duas frases. Vira a descrição do post no SEO, no RSS e no compartilhamento.'
 date: '2026-04-01'
 cover: '/blog/covers/guia-definitivo-design-tokens-1.png'
-slug: 'ultimate-guide-to-design-tokens'
+slug: 'what-are-design-tokens'
 tags: ['design tokens', 'design system']
 ---
 ```

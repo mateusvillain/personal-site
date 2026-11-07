@@ -17,7 +17,7 @@ tags:
   ]
 ---
 
-In the [first article of the Ultimate Guide to Design Tokens](https://www.mateusvillain.com/blog/ultimate-guide-to-design-tokens/), we saw that a design token is a design decision written as data, in JSON, so it can be platform-independent. But "JSON" alone is not enough for two tools to understand each other. Each one could invent its own structure, its own property names and its own way of writing a color.
+In the [first article of the Ultimate Guide to Design Tokens](/blog/what-are-design-tokens/), we saw that a design token is a design decision written as data, in JSON, so it can be platform-independent. But "JSON" alone is not enough for two tools to understand each other. Each one could invent its own structure, its own property names and its own way of writing a color.
 
 That is what the **DTCG**, the Design Tokens Community Group, exists to solve. In this article, you will learn what this specification is, how a token file is structured and, above all, **which token types exist and how each one is written**, from the simplest (color, dimension) to the composite ones (shadow, typography, border).
 

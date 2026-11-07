@@ -16,7 +16,7 @@ tags:
   ]
 ---
 
-No [primeiro artigo do Guia Definitivo dos Design Tokens](https://www.mateusvillain.com/pt/blog/guia-definitivo-design-tokens/), vimos que um design token é uma decisão de design escrita como dado, em JSON, para ser independente de plataforma. Só que "JSON" não basta para duas ferramentas se entenderem. Cada uma poderia inventar sua própria estrutura, seus próprios nomes de propriedades e sua própria forma de escrever uma cor.
+No [primeiro artigo do Guia Definitivo dos Design Tokens](/pt/blog/o-que-sao-design-tokens/), vimos que um design token é uma decisão de design escrita como dado, em JSON, para ser independente de plataforma. Só que "JSON" não basta para duas ferramentas se entenderem. Cada uma poderia inventar sua própria estrutura, seus próprios nomes de propriedades e sua própria forma de escrever uma cor.
 
 É para resolver isso que existe o **DTCG**, o Design Tokens Community Group. Neste artigo, você vai entender o que é essa especificação, como um arquivo de tokens é estruturado e, principalmente, **quais tipos de token existem e como cada um é escrito**, dos mais simples (cor, dimensão) aos compostos (sombra, tipografia, borda).
 
