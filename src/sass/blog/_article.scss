@@ -28,14 +28,6 @@ main {
 }
 
 article.full-post {
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-
   // Ritmo vertical do conteudo do post: todo bloco depois de outro ganha o
   // mesmo respiro, seja qual for o par (codigo seguido de citacao, tabela
   // seguida de titulo...). O cabecalho do post e o `hr`, com margem propria,
@@ -216,10 +208,6 @@ p > code {
 
 /* Responsivo */
 @media (max-width: 768px) {
-  article h1 {
-    font-size: 2rem;
-  }
-
   article :global(p) {
     font-size: 1rem;
   }
