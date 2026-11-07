@@ -1,6 +1,6 @@
 ---
-title: 'Design no Figma com Claude: como usar IA para criar interfaces e controlar todo o seu Figma'
-description: 'Aprenda a usar o Claude para interagir com seus arquivos do Figma e automatizar tarefas repetitivas.'
+title: 'Design no Figma com Claude: como usar IA no seu arquivo'
+description: 'Conecte o Claude Desktop ao Figma via MCP e peça para ele criar páginas, protótipos, variáveis e componentes do seu design system, passo a passo.'
 date: '2026-03-19'
 cover: '/blog/covers/claude-figma.png'
 tags: ['figma', 'claude', 'ia', 'mcp']

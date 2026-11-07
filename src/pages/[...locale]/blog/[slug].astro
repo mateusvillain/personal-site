@@ -55,13 +55,15 @@ const switchPath =
 const formattedDate = formatPostDate(post.data.date, locale)
 const minutes = readingTime(post.body)
 
+// Titulo de busca e compartilhamento; o <h1> usa sempre o `title`.
+const seoTitle = post.data.seoTitle ?? post.data.title
 const cover = post.data.cover ?? '/blog/covers/cover.png'
 const series = post.data.series
 const jsonLd = [
   blogPostingJsonLd({
     locale,
     url: postUrl,
-    title: post.data.title,
+    title: seoTitle,
     description: post.data.description,
     image: new URL(cover, Astro.site).href,
     datePublished: post.data.date,
@@ -83,7 +85,7 @@ const jsonLd = [
 <BlogLayout
   locale={locale}
   switchPath={switchPath}
-  title={post.data.title}
+  title={seoTitle}
   description={post.data.description}
   canonicalPath={canonicalPath}
   alternates={alternates}
@@ -111,7 +113,7 @@ const jsonLd = [
         class="post-details__content m-t-fluid-16"
         data-post-details-content
       >
-        <lui-heading variant="title">{post.data.title}</lui-heading>
+        <h1 class="title text--color-heading">{post.data.title}</h1>
         <lui-flex
           direction="row"
           justify="space-between"
@@ -174,7 +176,7 @@ const jsonLd = [
 
             <!-- X -->
             <IconLinkButton
-              href={`https://x.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
+              href={`https://x.com/intent/tweet?text=${encodeURIComponent(seoTitle)}&url=${encodeURIComponent(postUrl)}`}
               target="_blank"
               ariaLabel={strings.shareX}
             >
@@ -238,7 +240,7 @@ const jsonLd = [
     // chega em cascata em vez de como uma peca rigida.
     const parts = [
       ...content.querySelectorAll<HTMLElement>(
-        ':scope > lui-heading, .post-details__meta > lui-flex',
+        ':scope > h1, .post-details__meta > lui-flex',
       ),
     ]
     const STAGGER = 60
@@ -377,7 +379,7 @@ const jsonLd = [
     // continuam lendo o titulo inteiro (copia em .sr-only, palavras ocultas);
     // no fim o texto original volta, sem spans.
     const heading = document.querySelector<HTMLElement>(
-      '[data-post-details-content] > lui-heading',
+      '[data-post-details-content] > h1',
     )
     const title = heading?.textContent?.trim() ?? ''
     let titleEnd = 0

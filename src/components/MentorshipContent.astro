@@ -26,7 +26,7 @@ const { pricing, faq } = strings
         >
       </lui-breadcrumb>
       <div class="m-t-fluid-16 m-b-fluid-8">
-        <lui-heading variant="title">{strings.title}</lui-heading>
+        <h1 class="title text--color-heading">{strings.title}</h1>
       </div>
       <lui-body variant="lg">{strings.intro}</lui-body>
 
@@ -93,8 +93,8 @@ const { pricing, faq } = strings
             }
           </ul>
           <p class="flex content-center gap-fluid-2">
-            <lui-heading variant="subheadline" as="span"
-              >{pricing.mentoring.price}</lui-heading
+            <span class="subheadline text--color-heading"
+              >{pricing.mentoring.price}</span
             >
             <span class="body--md m-t-fluid-2">{pricing.perSession}</span>
           </p>
@@ -149,14 +149,14 @@ const { pricing, faq } = strings
 
     <!-- FAQ -->
     <section class="flex flex-col gap-fluid-24">
-      <lui-heading variant="headline">{faq.title}</lui-heading>
+      <h2 class="headline text--color-heading">{faq.title}</h2>
       <div class="flex flex-col gap-fluid-16">
         {
           faq.items.map((item) => (
             <div class="faq-item flex flex-col gap-fluid-4">
-              <lui-heading variant="block-title" as="h4">
+              <h3 class="block-title text--color-heading">
                 {item.question}
-              </lui-heading>
+              </h3>
               <lui-body variant="lg">{item.answer}</lui-body>
             </div>
           ))

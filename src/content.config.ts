@@ -24,6 +24,9 @@ export const collections = {
     }),
     schema: z.object({
       title: z.string(),
+      // Titulo curto para o <title>, o compartilhamento e o JSON-LD (ate ~60
+      // caracteres); o <h1> continua com o `title`.
+      seoTitle: z.string().optional(),
       description: z.string(),
       date: z.string(),
       cover: z.string().optional(),

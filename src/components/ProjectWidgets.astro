@@ -36,9 +36,9 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 
 <section class="pboard" aria-labelledby={uid('heading')}>
   <div class="pboard__header">
-    <lui-heading variant="block-title" as="h2" id={uid('heading')}
-      >{strings.title}</lui-heading
-    >
+    <h2 class="block-title text--color-heading" id={uid('heading')}>
+      {strings.title}
+    </h2>
     <button type="button" class="pboard__reset" data-reset-for={id} hidden
       >{strings.reset}</button
     >
@@ -70,17 +70,15 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 
       <footer class="pcard__foot">
         <div class="pcard__text">
-          <lui-body
-            variant="lg"
-            as="h3"
-            class="pcard__title"
+          <h3
+            class="pcard__title body--lg text--color-body"
             id={uid('locaweb-title')}
           >
             <a
               href={localizePath('/case/locaweb-design-system/', locale)}
               data-link="locaweb-design-system">{strings.locawebTitle}</a
             >
-          </lui-body>
+          </h3>
           <lui-body variant="md" class="pcard__desc"
             >{strings.locawebDescription}</lui-body
           >
@@ -114,17 +112,15 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 
       <footer class="pcard__foot">
         <div class="pcard__text">
-          <lui-body
-            variant="lg"
-            as="h3"
-            class="pcard__title"
+          <h3
+            class="pcard__title body--lg text--color-body"
             id={uid('book-title')}
           >
             <a href={bookUrl} target="_blank" rel="noopener" data-link="book">
               {strings.bookTitle}
               <span class="sr-only"> {newWindow}</span>
             </a>
-          </lui-body>
+          </h3>
           <lui-body variant="md" class="pcard__desc"
             >{strings.bookDescription}</lui-body
           >
@@ -151,10 +147,8 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
 
       <footer class="pcard__foot">
         <div class="pcard__text">
-          <lui-body
-            variant="lg"
-            as="h3"
-            class="pcard__title"
+          <h3
+            class="pcard__title body--lg text--color-body"
             id={uid('letsui-title')}
           >
             <a
@@ -167,7 +161,7 @@ const repoUrl = 'https://github.com/mateusvillain/lets-ui/'
               <span class="sr-only"> {newWindow}</span>
             </a>
             <span class="pcard__badge" data-stat="version" hidden></span>
-          </lui-body>
+          </h3>
           <lui-body variant="md" class="pcard__desc"
             >{strings.letsuiDescription}</lui-body
           >

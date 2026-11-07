@@ -1,9 +1,10 @@
 ---
 title: 'The Ultimate Guide to Design Tokens: What they are and how to use them'
-description: 'Design Tokens are variables that store the visual values of your design system, such as colors, typography and spacing. Learn how to use them and scale your design system efficiently.'
+seoTitle: 'Design Tokens Guide: what they are and how to use them'
+description: 'Design tokens are variables that store your design system''s visual decisions. Learn the primitive, semantic and component levels and how to use them.'
 date: '2026-04-01'
 cover: '/blog/covers/guia-definitivo-design-tokens-1-en.png'
-slug: 'ultimate-guide-to-design-tokens'
+slug: 'what-are-design-tokens'
 tags:
   [
     'design tokens',

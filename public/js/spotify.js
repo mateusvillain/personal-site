@@ -145,7 +145,7 @@
     });
 
     try {
-      const res = await fetch(`/api/lyrics?${params}`, { signal: lyricsRequest.signal });
+      const res = await fetch(`/api/lyrics/?${params}`, { signal: lyricsRequest.signal });
       const data = await res.json();
       if (!track || trackKey(track) !== trackKey(forTrack)) return;
 
@@ -207,7 +207,7 @@
 
     let data;
     try {
-      const res = await fetch('/api/spotify');
+      const res = await fetch('/api/spotify/');
       data = await res.json();
     } catch (err) {
       // Mantem o progresso local andando ate a proxima tentativa.

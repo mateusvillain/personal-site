@@ -23,7 +23,7 @@ let currentList = null
 // no ultimo acerto (vale por alguns minutos: refresh e troca de idioma
 // nao pedem a senha de novo).
 async function verifyPassword(password) {
-  const res = await fetch('/api/project', {
+  const res = await fetch('/api/project/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ slug, password, locale })
