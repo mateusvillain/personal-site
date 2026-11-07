@@ -16,7 +16,7 @@ tags:
 related: ['formato-especificacao-design-tokens', 'guia-definitivo-design-tokens']
 ---
 
-A challenge every company faces when structuring its [design tokens](/blog/ultimate-guide-to-design-tokens/), especially on the engineering side, is how the tokens will be read and converted into a style format.
+A challenge every company faces when structuring its [design tokens](/blog/what-are-design-tokens/), especially on the engineering side, is how the tokens will be read and converted into a style format.
 
 Every case is different. Many platforms only need the simple stuff, like light and dark mode; others need to adapt to different brands (the so-called multi-brand); and some go even further, with multiple visual themes for accessibility and even different breakpoints.
 

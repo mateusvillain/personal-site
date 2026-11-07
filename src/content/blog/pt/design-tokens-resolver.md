@@ -15,7 +15,7 @@ tags:
 related: ['formato-especificacao-design-tokens', 'guia-definitivo-design-tokens']
 ---
 
-Um desafio que toda empresa passa quando está estruturando os seus [design tokens](/pt/blog/guia-definitivo-design-tokens/), principalmente do lado de engenharia, é na forma que será executada a leitura dos seus tokens para converter em formato de estilo.
+Um desafio que toda empresa passa quando está estruturando os seus [design tokens](/pt/blog/o-que-sao-design-tokens/), principalmente do lado de engenharia, é na forma que será executada a leitura dos seus tokens para converter em formato de estilo.
 
 Cada caso é um caso. Muitas plataformas precisam apenas do simples, como o light e dark mode, outras precisam se adaptar a marcas diferentes (o chamado multi-brand), e ainda há quem vai além com múltiplos temas visuais atendendo a acessibilidade e até mesmo a diferentes breakpoints.
 
