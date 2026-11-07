@@ -1,5 +1,5 @@
 ---
-title: 'Design Tokens Resolver: o módulo nativo para gerar tokens e condicionais'
+title: 'Design Tokens Resolver: temas e modos na especificação DTCG'
 description: 'Aprenda a usar o Design Tokens Resolver para dar escalabilidade aos seus tokens e criar múltiplas condicionais para temas e breakpoints.'
 date: '2026-02-17'
 cover: '/blog/covers/design-tokens-resolver.png'

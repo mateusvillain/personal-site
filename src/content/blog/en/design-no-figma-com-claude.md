@@ -1,5 +1,5 @@
 ---
-title: 'Designing in Figma with Claude: how to use AI to create interfaces and control your entire Figma'
+title: 'Designing in Figma with Claude: how to use AI in your file'
 description: 'Learn how to use Claude to interact with your Figma files and automate repetitive tasks.'
 date: '2026-03-19'
 cover: '/blog/covers/claude-figma.png'

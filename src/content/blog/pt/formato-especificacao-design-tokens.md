@@ -1,5 +1,6 @@
 ---
 title: 'O Guia Definitivo dos Design Tokens: Formatos, tipos e especificações'
+seoTitle: 'Guia de Design Tokens: formato DTCG, tipos e especificação'
 description: 'O formato DTCG define como um design token é escrito em JSON: estrutura, aliases e todos os tipos, de color e dimension a shadow e typography. Com exemplos.'
 date: '2026-10-29'
 cover: '/blog/covers/guia-definitivo-design-tokens-2-pt.png'
