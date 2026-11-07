@@ -57,11 +57,8 @@ const bars = [
     <p class="sr-only">{strings.label}</p>
     <div class="now-playing__header">
       <p class="now-playing__artist" data-np-artist></p>
-      <a
-        class="now-playing__title"
-        data-np-title
-        target="_blank"
-        rel="noopener noreferrer"></a>
+      {/* Vira <a> no JS quando a faixa tem link; sem href no HTML, nao e um link. */}
+      <span class="now-playing__title" data-np-title></span>
     </div>
 
     <div class="now-playing__lyrics" data-np-lyrics hidden>

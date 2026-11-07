@@ -158,7 +158,7 @@
 .now-playing__title {
   color: var(--lui-color-neutral-text-body);
 
-  &:hover {
+  &[href]:hover {
     text-decoration: underline;
   }
 
