@@ -38,9 +38,7 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
           </div>
 
           <div>
-            <lui-heading variant="block-title" as="h1"
-              >Mateus Villain</lui-heading
-            >
+            <h1 class="block-title text--color-heading">Mateus Villain</h1>
             <lui-body variant="lg" italic>{strings.role}</lui-body>
           </div>
 
@@ -59,9 +57,9 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
 
         <section>
           <lui-flex direction="row" justify="space-between" align="center">
-            <lui-heading variant="block-title" as="h2"
-              >{strings.blogTitle}</lui-heading
-            >
+            <h2 class="block-title text--color-heading">
+              {strings.blogTitle}
+            </h2>
             <lui-link href={localizePath('/blog/', locale)} data-link="blog"
               >{strings.blogLink}</lui-link
             >
@@ -73,9 +71,9 @@ const latestPosts = (await getPosts(locale)).slice(0, 3)
                   <li>
                     <a href={postPath(post)}>
                       <article class="flex justify-between items-baseline gap-fluid-16 interaction-item">
-                        <lui-body variant="lg" as="h3">
+                        <h3 class="body--lg text--color-body">
                           {post.data.title}
-                        </lui-body>
+                        </h3>
                         <time class="body--md space-nowrap" datetime={post.data.date}>
                           {formatPostDate(post.data.date, locale)}
                         </time>
