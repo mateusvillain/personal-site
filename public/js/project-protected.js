@@ -194,6 +194,10 @@ unlockForm.addEventListener('submit', async (event) => {
       return
     }
 
+    // So conta o acerto da senha; o auto-unlock pelo cookie nao e conversao.
+    if (!unlocked && typeof window.gtag === 'function') {
+      window.gtag('event', 'case_unlock', { project: slug })
+    }
     unlock(result.data.sections)
   } catch (err) {
     if (!unlocked) showError(messages.loadError)

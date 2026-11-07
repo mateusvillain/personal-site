@@ -10,9 +10,10 @@ function sendEvent(name, params = {}) {
 // Links internos marcados com [data-link]
 document.querySelectorAll('[data-link]').forEach(link => {
   link.addEventListener('click', () => {
-    sendEvent('link_click', {
-      link_name: link.dataset.link
-    });
+    const params = { link_name: link.dataset.link };
+    // Troca de idioma: o destino vem do `hreflang` do link (pt-BR, en).
+    if (link.hreflang) params.target_language = link.hreflang;
+    sendEvent('link_click', params);
   });
 });
 
