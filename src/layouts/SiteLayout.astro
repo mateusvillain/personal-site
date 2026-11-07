@@ -10,7 +10,6 @@ interface Props {
   locale: Locale
   title: string
   description?: string
-  keywords?: string
   /** Caminho canonico desta pagina, ja com o prefixo do idioma. */
   canonicalPath: string
   /** Caminhos desta pagina por idioma; omitido = mesma rota nos dois. */
@@ -26,7 +25,6 @@ const {
   locale,
   title,
   description,
-  keywords,
   canonicalPath,
   alternates,
   image,
@@ -45,7 +43,6 @@ const {
       locale={locale}
       title={title}
       description={description}
-      keywords={keywords}
       canonicalPath={canonicalPath}
       alternates={alternates}
       image={image}
