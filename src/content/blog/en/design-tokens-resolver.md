@@ -16,13 +16,13 @@ tags:
 related: ['formato-especificacao-design-tokens', 'guia-definitivo-design-tokens']
 ---
 
-A challenge every company faces when structuring its design tokens, especially on the engineering side, is how the tokens will be read and converted into a style format.
+A challenge every company faces when structuring its [design tokens](/blog/ultimate-guide-to-design-tokens/), especially on the engineering side, is how the tokens will be read and converted into a style format.
 
 Every case is different. Many platforms only need the simple stuff, like light and dark mode; others need to adapt to different brands (the so-called multi-brand); and some go even further, with multiple visual themes for accessibility and even different breakpoints.
 
 None of these examples is a limitation when we talk about design tokens; the bottleneck is mostly on the technical side. Many companies choose Style Dictionary as the package for reading and converting tokens to multiple systems, which requires manual configuration for the token build to happen correctly. In recent years, we have seen strong adoption of Tokens Studio (formerly Figma Tokens) alongside Style Dictionary, outsourcing the multi-theme configuration work — but at a cost not every company can afford.
 
-To solve these problems and avoid keeping that dependency on a tool, the [Design Tokens Community Group (DTCG)](https://www.designtokens.org) created the [resolver](https://www.designtokens.org/tr/2025.10/resolver/), officially released on October 28, 2025 (a day also known as my birthday), a native module for computing how design tokens are connected and generated. The resolver deals with how to decide, deterministically, which final value should emerge when there are aliases, modes, sets and contextual overrides.
+To solve these problems and avoid keeping that dependency on a tool, the [Design Tokens Community Group (DTCG)](https://www.designtokens.org), the same group that defines the [design tokens JSON format](/blog/design-tokens-format-specification/), created the [resolver](https://www.designtokens.org/tr/2025.10/resolver/), officially released on October 28, 2025 (a day also known as my birthday), a native module for computing how design tokens are connected and generated. The resolver deals with how to decide, deterministically, which final value should emerge when there are aliases, modes, sets and contextual overrides.
 
 ## Structuring a resolver
 

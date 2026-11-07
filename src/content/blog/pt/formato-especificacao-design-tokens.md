@@ -31,7 +31,7 @@ Em 28 de outubro de 2025, o grupo publicou a **primeira versão estável**, cham
 
 - **Format Module:** estrutura do arquivo, grupos, aliases, tipos simples e compostos.
 - **Color Module:** como representar cores em diferentes espaços de cor.
-- **Resolver Module:** como combinar conjuntos de tokens para gerar variações como temas e marcas (assunto do artigo sobre theming).
+- **Resolver Module:** como combinar conjuntos de tokens para gerar variações como temas e marcas (eu explico o módulo em detalhes no artigo sobre o [Design Tokens Resolver](/pt/blog/design-tokens-resolver/)).
 
 Um detalhe importante: a especificação é um relatório do Community Group. **Ela não é um padrão oficial do W3C** nem está na trilha de padrões do W3C. O próprio documento afirma que é considerada estável e destinada à implementação. ^[estável, mas não é padrão W3C]
 

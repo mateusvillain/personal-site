@@ -32,7 +32,7 @@ On October 28, 2025, the group published the **first stable version**, called **
 
 - **Format Module:** file structure, groups, aliases, simple and composite types.
 - **Color Module:** how to represent colors in different color spaces.
-- **Resolver Module:** how to combine sets of tokens to produce variations such as themes and brands (the subject of the article on theming).
+- **Resolver Module:** how to combine sets of tokens to produce variations such as themes and brands (I cover the module in detail in the article on the [Design Tokens Resolver](/blog/design-tokens-resolver-module/)).
 
 One important detail: the specification is a Community Group report. **It is not an official W3C standard** and is not on the W3C standards track. The document itself describes it as stable and intended for implementation. ^[stable, but not a W3C standard]
 
