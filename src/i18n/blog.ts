@@ -24,7 +24,7 @@ const en = {
     `Part ${part} of ${total} of the series ${name}`,
   seriesCurrent: 'you are here',
   topicTitle: (name: string) => `Posts about ${name}`,
-  topicMetaTitle: (name: string) => `${name} - Blog`,
+  topicMetaTitle: (name: string) => `${name} · Blog`,
   /** Nome de cada serie, pelo `series.id` do frontmatter. */
   series: {
     'guia-design-tokens': 'The Ultimate Guide to Design Tokens',
@@ -54,7 +54,7 @@ const pt: typeof en = {
     `Parte ${part} de ${total} da série ${name}`,
   seriesCurrent: 'você está aqui',
   topicTitle: (name: string) => `Posts sobre ${name}`,
-  topicMetaTitle: (name: string) => `${name} - Blog`,
+  topicMetaTitle: (name: string) => `${name} · Blog`,
   series: {
     'guia-design-tokens': 'O Guia Definitivo dos Design Tokens',
   },
