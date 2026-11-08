@@ -22,11 +22,15 @@ type Pair = { figma: Side; code: Side }
 
 /*
  * Um array de pares por item de `comparisonNotes`, na mesma ordem.
- * Dialog x Modal e o exemplo real do case. Os nomes e valores de tipografia
+ * Os pares de nomenclatura (Dialog, Dropdown, Content Header) sao reais. Os de tipografia
  * e elevacao sao EXEMPLOS PROVISORIOS: substitua pelos reais.
  */
 const pairs: Pair[][] = [
-  [{ figma: { name: 'Dialog' }, code: { name: 'Modal' } }],
+  [
+    { figma: { name: 'Dialog' }, code: { name: 'Modal' } },
+    { figma: { name: 'Dropdown' }, code: { name: 'Menu' } },
+    { figma: { name: 'Content Header' }, code: { name: 'Heading' } },
+  ],
   [
     { figma: { name: 'Heading 1' }, code: { name: 'font-size-2xl' } },
     { figma: { name: 'Heading 2' }, code: { name: 'font-size-1xl' } },
