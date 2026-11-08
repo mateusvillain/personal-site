@@ -952,13 +952,18 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     var(--lui-color-neutral-text-heading) 2%,
     var(--lui-color-neutral-background-surface)
   );
-  --rule: color-mix(in srgb, var(--lui-color-neutral-text-heading) 9%, transparent);
+  // pauta azul e margem vermelha: o que faz a folha ser lida como caderno
+  --rule: rgb(74 127 209 / 0.2);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --margin: 56px;
   --pencil: color-mix(in srgb, var(--lui-color-neutral-text-body) 80%, transparent);
   --marker: rgb(255 214 10 / 0.42);
 
   :root[data-theme='dark'] & {
     --marker: rgb(250 204 21 / 0.26);
+    --rule: rgb(122 167 255 / 0.13);
+    // grao claro: o escuro sumiria no papel escuro
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   container-type: inline-size;
@@ -981,9 +986,35 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   border: 1px solid var(--lui-color-neutral-border-subtle);
   border-radius: 6px 8px 7px 6px;
   background-color: var(--paper);
-  // a pauta segue a altura de linha do texto (24px)
-  background-image: linear-gradient(to bottom, transparent 23px, var(--rule) 23px);
-  background-size: 100% 24px;
+  // grao do papel + pauta na altura de linha do texto (24px). A linha fica
+  // no topo de cada faixa: com a linha de base a 17px, o meio das letras cai
+  // perto dos 12px, centralizado entre a linha de cima e a de baixo
+  background-image:
+    var(--grain),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+  background-size:
+    180px 180px,
+    100% 24px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 10px 28px -18px rgb(0 0 0 / 0.22);
+
+  // segunda folha por baixo, levemente torta
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 4px 2px -5px 6px;
+    z-index: -1;
+    border: 1px solid var(--lui-color-neutral-border-subtle);
+    border-radius: 8px 6px 9px 7px;
+    background: var(--paper);
+    transform: rotate(1.1deg);
+
+    @media (max-width: 559px) {
+      inset: 4px 6px -5px 6px;
+      transform: rotate(0.6deg);
+    }
+  }
 
   // linha vermelha da margem
   &::before {
@@ -1010,7 +1041,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     grid-template-areas: 'title' 'text' 'doodle';
 
     @container (min-width: 600px) {
-      grid-template-columns: minmax(0, 1fr) 168px;
+      grid-template-columns: minmax(0, 1fr) 160px;
       grid-template-areas: 'title doodle' 'text doodle';
       grid-template-rows: auto 1fr;
       column-gap: 32px;
@@ -1072,13 +1103,53 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
 .lwn-doodle {
   grid-area: doodle;
   display: block;
-  width: 168px;
-  height: auto;
-  margin-top: 8px;
+  justify-self: var(--jm, start);
+  // altura multipla da pauta (5 linhas): senao cada nota empurra as
+  // seguintes para fora das linhas
+  width: 160px;
+  height: 120px;
+  margin-top: 0;
   overflow: visible;
+  // cada rabisco cai num lugar e numa inclinacao diferente, sem seguir a pauta
+  transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--rot, 0deg)) scale(var(--s, 1));
 
   @container (min-width: 600px) {
-    margin-top: 0;
+    align-self: var(--align, start);
+    justify-self: center;
+  }
+}
+
+.lwn__item {
+  &:nth-of-type(1) {
+    --rot: -4deg;
+    --x: 4px;
+    --y: 2px;
+    --jm: start;
+  }
+
+  &:nth-of-type(2) {
+    --rot: 2.5deg;
+    --x: -12px;
+    --y: 6px;
+    --align: center;
+    --jm: end;
+  }
+
+  &:nth-of-type(3) {
+    --rot: -1.5deg;
+    --x: 10px;
+    --y: 16px;
+    --s: 0.94;
+    --align: end;
+    --jm: center;
+  }
+
+  &:nth-of-type(4) {
+    --rot: 5deg;
+    --x: -4px;
+    --y: -6px;
+    --s: 0.92;
+    --jm: start;
   }
 }
 
