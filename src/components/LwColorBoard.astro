@@ -112,7 +112,11 @@ const ring =
 
     {
       groups.map((group) => (
-        <section class={`lwc-card lwc-card--${group.id}`} aria-label={t.groups[group.id]}>
+        <section
+          class={`lwc-card lwc-card--${group.id}`}
+          id={group.id === 'gray' ? 'lw-gray-scale' : undefined}
+          aria-label={t.groups[group.id]}
+        >
           <ul class="lwc-list">
             {group.tokens.map((token) => (
               <li>

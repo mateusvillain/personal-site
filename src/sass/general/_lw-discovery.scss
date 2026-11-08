@@ -927,9 +927,462 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   }
 }
 
+/* ======================================================================
+   Entrevistas: caderno pautado
+   ====================================================================== */
+
+.lwn {
+  --ink: var(--lui-color-neutral-text-body);
+  --paper: color-mix(
+    in srgb,
+    var(--lui-color-neutral-text-heading) 2%,
+    var(--lui-color-neutral-background-surface)
+  );
+  --rule: color-mix(in srgb, var(--lui-color-neutral-text-heading) 9%, transparent);
+  --margin: 56px;
+
+  position: relative;
+  display: grid;
+  gap: 24px;
+  margin: 24px 0 0;
+  padding: 24px 32px 24px var(--margin);
+  list-style: none;
+  border: 1px solid var(--lui-color-neutral-border-subtle);
+  border-radius: 6px 8px 7px 6px;
+  background-color: var(--paper);
+  // a pauta segue a altura de linha do texto (24px)
+  background-image: linear-gradient(to bottom, transparent 23px, var(--rule) 23px);
+  background-size: 100% 24px;
+
+  // linha vermelha da margem
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--margin) - 16px);
+    width: 1px;
+    background: rgb(229 92 92 / 0.45);
+  }
+
+  @media (max-width: 559px) {
+    --margin: 44px;
+
+    padding-right: 16px;
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__num {
+    position: absolute;
+    top: 0;
+    right: calc(100% + 22px);
+    font-family: $hand;
+    font-size: 1.5rem;
+    line-height: 24px;
+    color: var(--ink);
+
+    @media (max-width: 559px) {
+      right: calc(100% + 20px);
+      font-size: 1.25rem;
+    }
+  }
+
+  &__title,
+  &__text {
+    line-height: 24px !important;
+  }
+
+  // dobra a classe para vencer o peso do .body--lg do Let's UI
+  &__title#{&}__title {
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__text {
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.875rem;
+    line-height: 24px;
+    color: var(--lui-color-link-default);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s ease;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--lui-color-neutral-focus-ring);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+}
+
+// visual apontado por uma nota: contorno ao passar o cursor, pulso no clique
+#lw-type-scale,
+#lw-gray-scale {
+  scroll-margin: 120px;
+  border-radius: 16px;
+  outline: 2px solid transparent;
+  outline-offset: 6px;
+  transition: outline-color 0.25s ease;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.lw-cued {
+    outline-color: color-mix(in srgb, var(--lui-color-link-default) 45%, transparent);
+  }
+
+  &.lw-flash {
+    animation: lw-flash 1.6s ease-out;
+  }
+}
+
+@keyframes lw-flash {
+  0%,
+  40% {
+    outline-color: var(--lui-color-link-default);
+  }
+
+  100% {
+    outline-color: transparent;
+  }
+}
+
+/* ======================================================================
+   Figma x codigo
+   ====================================================================== */
+
+.lwd {
+  --ink: var(--lui-color-neutral-text-body);
+  --line: var(--lui-color-neutral-border-subtle);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+  --figma: #a259ff;
+  --code: #0d99c2;
+  --cols: minmax(0, 1fr) 40px minmax(0, 1fr);
+
+  container-type: inline-size;
+  margin-top: 24px;
+
+  :root[data-theme='dark'] & {
+    --figma: #c08cff;
+    --code: #4cc4e6;
+  }
+
+  &__hint {
+    margin-bottom: 12px;
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  // rotulos das colunas; no layout empilhado cada lado traz o seu
+  &__cols {
+    display: grid;
+    grid-template-columns: var(--cols);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--lui-color-neutral-text-heading);
+
+      &:last-child {
+        grid-column: 3;
+      }
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    span:first-child svg {
+      stroke: var(--figma);
+    }
+
+    span:last-child svg {
+      stroke: var(--code);
+    }
+
+    @container (max-width: 479px) {
+      display: none;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.lwd-finding {
+  &__title#{&}__title {
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__text {
+    margin-top: 4px;
+    color: var(--lui-color-neutral-text-body);
+  }
+}
+
+.lwd-pairs {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+
+  // um par em foco apaga os outros do mesmo achado
+  &:has(.lwd-pair:is(:hover, :focus-visible)) .lwd-pair:not(:hover, :focus-visible) {
+    opacity: 0.45;
+  }
+}
+
+.lwd-pair {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: stretch;
+  border-radius: 12px;
+  outline: none;
+  cursor: default;
+  transition: opacity 0.2s ease;
+
+  @container (max-width: 479px) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+.lwd-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  .lwd-pair:is(:hover, :focus-visible) & {
+    background: var(--hover);
+  }
+
+  .lwd-pair:is(:hover, :focus-visible) &--figma {
+    border-color: color-mix(in srgb, var(--figma) 60%, transparent);
+  }
+
+  .lwd-pair:is(:hover, :focus-visible) &--code {
+    border-color: color-mix(in srgb, var(--code) 60%, transparent);
+  }
+
+  &__tag {
+    display: none;
+    flex: none;
+    width: 3.5em;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    @container (max-width: 479px) {
+      display: block;
+    }
+  }
+
+  &--figma &__tag {
+    color: var(--figma);
+  }
+
+  &--code &__tag {
+    color: var(--code);
+  }
+
+  &__body {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  code {
+    font-family: $mono;
+    font-size: 0.875rem;
+    color: var(--lui-color-neutral-text-heading);
+    overflow-wrap: anywhere;
+  }
+
+  &__value {
+    font-family: $mono;
+    font-size: 0.6875rem;
+    color: var(--lui-color-neutral-text-caption);
+    overflow-wrap: anywhere;
+  }
+}
+
+// amostra da sombra sobre um "canvas" claro fixo: em fundo escuro a sombra
+// some e a comparacao perde o sentido
+.lwd-shadow {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 52px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eef0f3;
+
+  i {
+    width: 26px;
+    height: 18px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: var(--sh);
+  }
+}
+
+// "diferente" desenhado a mao entre os dois lados
+.lwd-neq {
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+
+  svg {
+    width: 28px;
+    height: 22px;
+    overflow: visible;
+  }
+
+  path {
+    @extend %ink-stroke;
+    transition: stroke-width 0.2s ease;
+  }
+
+  .lwd-pair:is(:hover, :focus-visible) & path {
+    stroke-width: 2.25px;
+  }
+
+  @container (max-width: 479px) {
+    height: 28px;
+  }
+}
+
+.lwd-scribble {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  margin: 8px 8px 0 0;
+  pointer-events: none;
+  font-family: $hand;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--ink);
+  text-align: right;
+  transform: rotate(-2deg);
+
+  svg {
+    flex: none;
+    width: 26px;
+    height: 20px;
+    margin-top: -6px;
+    overflow: visible;
+  }
+
+  path {
+    @extend %ink-stroke;
+  }
+}
+
+// desenho ao entrar na tela (so com JS e sem reduced motion)
+.lwd-finding[data-animate] {
+  .lwd-neq path,
+  .lwd-scribble path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition:
+      stroke-dashoffset 0.5s $ease-draw var(--delay, 0ms),
+      stroke-width 0.2s ease;
+  }
+
+  .lwd-neq path:nth-child(2) {
+    --delay: 150ms;
+  }
+
+  .lwd-neq path:nth-child(3) {
+    --delay: 320ms;
+  }
+
+  .lwd-scribble {
+    clip-path: inset(-0.6em 100% -0.6em -0.6em);
+    transition: clip-path 0.8s $ease-draw 450ms;
+  }
+
+  .lwd-scribble path {
+    --delay: 450ms;
+  }
+
+  &.is-drawn {
+    .lwd-neq path,
+    .lwd-scribble path {
+      stroke-dashoffset: 0;
+    }
+
+    .lwd-scribble {
+      clip-path: inset(-0.6em);
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lwc *,
-  .lwt * {
+  .lwt *,
+  .lwn *,
+  .lwd * {
     transition: none !important;
+  }
+
+  #lw-type-scale.lw-flash,
+  #lw-gray-scale.lw-flash {
+    animation: none;
+    outline-color: var(--lui-color-link-default);
   }
 }

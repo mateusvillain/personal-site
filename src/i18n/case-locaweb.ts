@@ -78,6 +78,7 @@ const en = {
       {
         title: 'Difficulty understanding typographic hierarchies',
         text: 'Designers had different understandings of when to use most of the typographic scales. There were different definitions of what the page title, subtitle, and even a section heading should be.',
+        link: { target: 'type', label: 'See the type scale above' },
       },
       {
         title: 'Unused "light" weight',
@@ -86,6 +87,7 @@ const en = {
       {
         title: 'Uncertainty about using gray scales in text',
         text: 'Due to the lack of standards and recommendations, designers had different understandings of how to use the gray scales in text to support the hierarchy of headings and paragraphs.',
+        link: { target: 'gray', label: 'See the gray scale above' },
       },
     ],
     comparisonTitle: 'Comparing design and code',
@@ -107,6 +109,17 @@ const en = {
         text: 'The design system file in Figma provided some elevation levels (shadow styles) that were completely different from the tokens, both in naming and in value.',
       },
     ],
+    comparisonBoard: {
+      figma: 'Figma',
+      code: 'Code',
+      differs: 'differs from',
+      hint: 'Hover or tap a pair to compare both sides.',
+      scribbles: [
+        'same component, two names',
+        'each side calls it something else',
+        'neither name nor value match',
+      ],
+    },
   },
   protected: {
     title: 'Confidential information',
@@ -198,6 +211,7 @@ const pt: typeof en = {
       {
         title: 'Dificuldades em entender as hierarquias tipográficas',
         text: 'Os designers tinham entendimentos diferentes sobre quando utilizar a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.',
+        link: { target: 'type', label: 'Ver a escala tipográfica acima' },
       },
       {
         title: 'Inutilização do peso "light"',
@@ -206,6 +220,7 @@ const pt: typeof en = {
       {
         title: 'Incerteza sobre o uso das escalas de cinza nos textos',
         text: 'Pela falta de padronização e recomendação, os designers tinham diferentes entendimentos entre si sobre o uso das escalas de cinza em textos, de forma a colaborar na hierarquia de títulos e parágrafos.',
+        link: { target: 'gray', label: 'Ver a escala de cinza acima' },
       },
     ],
     comparisonTitle: 'Comparações entre design e código',
@@ -227,6 +242,17 @@ const pt: typeof en = {
         text: 'O arquivo do design system no Figma fornecia alguns níveis de elevação (estilos de sombra), que eram completamente diferentes dos tokens, tanto em nomenclatura quanto em valor.',
       },
     ],
+    comparisonBoard: {
+      figma: 'Figma',
+      code: 'Código',
+      differs: 'é diferente de',
+      hint: 'Passe o cursor ou toque em um par para comparar os dois lados.',
+      scribbles: [
+        'mesmo componente, dois nomes',
+        'cada lado chama de um jeito',
+        'nem o nome nem o valor batem',
+      ],
+    },
   },
   protected: {
     title: 'Informações confidenciais',

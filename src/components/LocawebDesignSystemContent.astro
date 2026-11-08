@@ -2,6 +2,8 @@
 import SiteHeader from './SiteHeader.astro'
 import LwColorBoard from './LwColorBoard.astro'
 import LwTypeScale from './LwTypeScale.astro'
+import LwNotebook from './LwNotebook.astro'
+import LwDesignCodeDiff from './LwDesignCodeDiff.astro'
 import { htmlLang, localizePath, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 import { caseLocaweb } from '../i18n/case-locaweb'
@@ -81,32 +83,14 @@ const protectedLang = htmlLang[locale]
       {discovery.interviews.map((text) => <p class="body--lg">{text}</p>)}
     </div>
 
-    <div class="notepad">
-      {
-        discovery.interviewNotes.map((note) => (
-          <div class="note">
-            <p class="body--lg">{note.title}</p>
-            <p class="body--lg">{note.text}</p>
-          </div>
-        ))
-      }
-    </div>
+    <LwNotebook notes={discovery.interviewNotes} />
 
     <h3 class="block-title">{discovery.comparisonTitle}</h3>
     <div class="paragraph">
       {discovery.comparison.map((text) => <p class="body--lg">{text}</p>)}
     </div>
 
-    <div class="notepad">
-      {
-        discovery.comparisonNotes.map((note) => (
-          <div class="note">
-            <p class="body--lg">{note.title}</p>
-            <p class="body--lg">{note.text}</p>
-          </div>
-        ))
-      }
-    </div>
+    <LwDesignCodeDiff locale={locale} />
   </section>
 
   <!-- Password -->

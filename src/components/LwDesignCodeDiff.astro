@@ -1,0 +1,157 @@
+---
+/**
+ * Comparacao entre Figma e codigo do case Locaweb.
+ *
+ * Cada achado mostra pares "como estava no Figma" x "como estava no codigo",
+ * ligados por um "diferente" desenhado a mao. Passar o cursor, focar ou
+ * tocar num par destaca os dois lados e apaga os demais. Na elevacao, cada
+ * lado mostra uma amostra da propria sombra.
+ */
+import { caseLocaweb } from '../i18n/case-locaweb'
+import type { Locale } from '../i18n/config'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const { comparisonNotes, comparisonBoard: t } = caseLocaweb[locale].discovery
+
+type Side = { name: string; shadow?: string }
+type Pair = { figma: Side; code: Side }
+
+/*
+ * Um array de pares por item de `comparisonNotes`, na mesma ordem.
+ * Dialog x Modal e o exemplo real do case. Os nomes e valores de tipografia
+ * e elevacao sao EXEMPLOS PROVISORIOS: substitua pelos reais.
+ */
+const pairs: Pair[][] = [
+  [{ figma: { name: 'Dialog' }, code: { name: 'Modal' } }],
+  [
+    { figma: { name: 'Heading 1' }, code: { name: 'font-size-2xl' } },
+    { figma: { name: 'Heading 2' }, code: { name: 'font-size-1xl' } },
+    { figma: { name: 'Subtitle' }, code: { name: 'font-size-lg' } },
+  ],
+  [
+    {
+      figma: { name: 'Shadow/Small', shadow: '0 1px 2px rgb(0 0 0 / 0.24)' },
+      code: { name: 'elevation-1', shadow: '0 2px 6px rgb(0 0 0 / 0.1)' },
+    },
+    {
+      figma: { name: 'Shadow/Large', shadow: '0 6px 10px rgb(0 0 0 / 0.28)' },
+      code: { name: 'elevation-3', shadow: '0 12px 32px rgb(0 0 0 / 0.14)' },
+    },
+  ],
+]
+
+// "0 1px 2px rgb(0 0 0 / 0.24)" -> "y 1px · blur 2px · 24%"
+const describe = (shadow: string) => {
+  const m = shadow.match(/^\S+ (\S+) (\S+) rgb\(0 0 0 \/ ([\d.]+)\)$/)
+  return m ? `y ${m[1]} · blur ${m[2]} · ${Math.round(Number(m[3]) * 100)}%` : shadow
+}
+
+const sides = [
+  { key: 'figma', label: t.figma },
+  { key: 'code', label: t.code },
+] as const
+---
+
+<div class="lwd">
+  <p class="lwd__hint body--sm">{t.hint}</p>
+
+  <div class="lwd__cols" aria-hidden="true">
+    <span>
+      <svg viewBox="0 0 16 16"><path
+          d="M8 1.5H6a2 2 0 0 0 0 4h2zM8 1.5h2a2 2 0 0 1 0 4H8zM8 5.5H6a2 2 0 0 0 0 4h2zM8 9.5H6a2 2 0 1 0 2 2zM12 7.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"
+        ></path></svg
+      >
+      {t.figma}
+    </span>
+    <span>
+      <svg viewBox="0 0 16 16"><path d="M5.5 4 1.5 8l4 4M10.5 4l4 4-4 4"></path></svg>
+      {t.code}
+    </span>
+  </div>
+
+  <ol class="lwd__list">
+    {
+      comparisonNotes.map((note, i) => (
+        <li class="lwd-finding">
+          <h4 class="lwd-finding__title body--lg">{note.title}</h4>
+          <p class="lwd-finding__text body--lg">{note.text}</p>
+
+          <ul class="lwd-pairs">
+            {(pairs[i] ?? []).map((pair) => (
+              <li
+                class="lwd-pair"
+                tabindex="0"
+                aria-label={`${t.figma}: ${pair.figma.name}, ${t.differs} ${t.code}: ${pair.code.name}`}
+              >
+                {sides.map((side, s) => (
+                  <>
+                    {s === 1 && (
+                      <span class="lwd-neq" aria-hidden="true">
+                        <svg viewBox="0 0 32 24">
+                          <path d="M5 9.5 C11 8.5 20 8.8 27 9.2" pathLength="1" />
+                          <path d="M5 15.5 C12 15 20 15.2 27 14.6" pathLength="1" />
+                          <path d="M20 3 C17.5 9 14.5 15 11.5 21" pathLength="1" />
+                        </svg>
+                      </span>
+                    )}
+                    <span class={`lwd-side lwd-side--${side.key}`} aria-hidden="true">
+                      <span class="lwd-side__tag">{side.label}</span>
+                      {pair[side.key].shadow && (
+                        <span class="lwd-shadow" style={`--sh: ${pair[side.key].shadow}`}>
+                          <i />
+                        </span>
+                      )}
+                      <span class="lwd-side__body">
+                        <code>{pair[side.key].name}</code>
+                        {pair[side.key].shadow && (
+                          <span class="lwd-side__value">{describe(pair[side.key].shadow!)}</span>
+                        )}
+                      </span>
+                    </span>
+                  </>
+                ))}
+              </li>
+            ))}
+          </ul>
+
+          {t.scribbles[i] && (
+            <p class="lwd-scribble" aria-hidden="true">
+              <svg viewBox="0 0 28 22">
+                <path d="M24 20 C22 12 16 6 5 4 M5 4 L11 1.5 M5 4 L9.5 9" pathLength="1" />
+              </svg>
+              {t.scribbles[i]}
+            </p>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<script>
+  // rabiscos desenhados ao entrar na tela (sem JS ou com reduced motion,
+  // ficam desenhados desde o inicio)
+  if (
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    'IntersectionObserver' in window
+  ) {
+    document.querySelectorAll<HTMLElement>('.lwd-finding').forEach((finding) => {
+      finding.dataset.animate = ''
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return
+          finding.classList.add('is-drawn')
+          io.disconnect()
+        },
+        // por margem, e nao por fracao: no celular o achado pode ser mais
+        // alto que a tela e nunca chegar a 50% visivel
+        { rootMargin: '0px 0px -25% 0px' },
+      )
+      io.observe(finding)
+    })
+  }
+</script>

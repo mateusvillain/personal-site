@@ -1,0 +1,84 @@
+---
+/**
+ * Caderno com os achados das entrevistas do case Locaweb.
+ *
+ * Folha pautada que segue o tema do site, com o numero de cada nota escrito
+ * a mao na margem. Notas com `link` apontam para um visual mais acima na
+ * pagina (escala tipografica ou escala de cinza): passar o cursor ou focar
+ * a nota destaca o visual; o link rola ate ele e o faz piscar.
+ */
+type Note = {
+  title: string
+  text: string
+  link?: { target: string; label: string }
+}
+
+interface Props {
+  notes: Note[]
+}
+
+const { notes } = Astro.props
+
+// alvos dos links, com ids definidos em LwTypeScale e LwColorBoard
+const targets: Record<string, string> = {
+  type: 'lw-type-scale',
+  gray: 'lw-gray-scale',
+}
+---
+
+<ol class="lwn">
+  {
+    notes.map((note, i) => (
+      <li class="lwn__item" data-cue={note.link ? targets[note.link.target] : undefined}>
+        <span class="lwn__num" aria-hidden="true">
+          {i + 1}.
+        </span>
+        <h4 class="lwn__title body--lg">{note.title}</h4>
+        <p class="lwn__text body--lg">{note.text}</p>
+        {note.link && (
+          <a class="lwn__link" href={`#${targets[note.link.target]}`}>
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" />
+            </svg>
+            {note.link.label}
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ol>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  document.querySelectorAll<HTMLElement>('.lwn__item[data-cue]').forEach((item) => {
+    const target = document.getElementById(item.dataset.cue!)
+    if (!target) return
+
+    const on = () => target.classList.add('lw-cued')
+    const off = () => target.classList.remove('lw-cued')
+    item.addEventListener('pointerenter', on)
+    item.addEventListener('pointerleave', off)
+    item.addEventListener('focusin', on)
+    item.addEventListener('focusout', off)
+
+    item.querySelector('a')?.addEventListener('click', (ev) => {
+      ev.preventDefault()
+      target.scrollIntoView({
+        behavior: reduceMotion.matches ? 'auto' : 'smooth',
+        block: 'start',
+      })
+      history.replaceState(null, '', `#${target.id}`)
+      // leva o foco junto, para quem navega por teclado ou leitor de tela
+      if (!target.hasAttribute('tabindex')) target.tabIndex = -1
+      target.focus({ preventScroll: true })
+      target.classList.remove('lw-flash')
+      // reflow para reiniciar a animacao se o link for clicado de novo
+      void target.offsetWidth
+      target.classList.add('lw-flash')
+      target.addEventListener('animationend', () => target.classList.remove('lw-flash'), {
+        once: true,
+      })
+    })
+  })
+</script>
