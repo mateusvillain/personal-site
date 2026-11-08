@@ -1,5 +1,7 @@
 ---
 import SiteHeader from './SiteHeader.astro'
+import LwColorBoard from './LwColorBoard.astro'
+import LwTypeScale from './LwTypeScale.astro'
 import { htmlLang, localizePath, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 import { caseLocaweb } from '../i18n/case-locaweb'
@@ -65,26 +67,12 @@ const protectedLang = htmlLang[locale]
     <h3 class="block-title">{discovery.analysisTitle}</h3>
     <div class="paragraph">
       {discovery.analysis.map((text) => <p class="body--lg">{text}</p>)}
-      <img
-        src="/img/lw-color-tokens.png"
-        alt={discovery.colorTokensAlt}
-        width="560"
-        height="376"
-        loading="lazy"
-        decoding="async"
-      />
+      <LwColorBoard locale={locale} label={discovery.colorTokensAlt} />
       {discovery.typography.map((text) => <p class="body--lg">{text}</p>)}
     </div>
     <div class="paragraph">
       <p class="body--lg">{discovery.typographyUsage}</p>
-      <img
-        src="/img/lw-tipografia-pouco-responsiva.png"
-        alt={discovery.typographyAlt}
-        width="560"
-        height="434"
-        loading="lazy"
-        decoding="async"
-      />
+      <LwTypeScale locale={locale} label={discovery.typographyAlt} />
       <p class="body--lg">{discovery.fonts}</p>
     </div>
 

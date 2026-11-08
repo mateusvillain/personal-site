@@ -43,6 +43,26 @@ const en = {
       'However, the biggest problem I noticed regarding typography was its practical use. Within the design system itself, some headings were made of different sizes, and products had no consistent pattern between them. This was due to the unclear naming (font-size-xl, lg, md...) and to the lack of any indication of what an h1, h2 or other tags should be.',
     typographyAlt:
       'List of texts with different font sizes, showing a disorganized typographic scale that adapts poorly across devices.',
+    colorBoard: {
+      lightContrast: 'Light contrast',
+      darkContrast: 'Dark contrast',
+      note: "These values don't change from light to dark mode",
+      hint: 'Hover or tap a token to preview its contrast.',
+      onLight: 'On a light background',
+      onDark: 'On a dark background',
+      sample: 'Sample text',
+      verdicts: { aaa: 'AAA', aa: 'AA', large: 'AA large only', fail: 'Fails' },
+      groups: { primary: 'Primary palette', success: 'Success palette', gray: 'Gray scale' },
+    },
+    typeScale: {
+      screen: 'Screen size',
+      desktop: 'Desktop',
+      mobile: 'Mobile',
+      sample: 'The quick brown fox jumps over the lazy dog',
+      tooBig: 'still huge on a phone',
+      chartLabel: 'Size of each step on desktop and on mobile, in pixels',
+      hint: 'Switch screens to see each step drop one level down.',
+    },
     fonts:
       'Finally, the design system also provided the same scales for both brand typefaces, Ubuntu (primary) and Open Sans (secondary), but the latter was rarely used in projects — some designers did not even know it existed.',
     interviewsTitle: 'Interviews with collaborators',
@@ -143,6 +163,26 @@ const pt: typeof en = {
       'Entretanto, o maior problema que notei com relação a tipografia era o seu uso prático. No próprio design system, alguns títulos eram compostos por tamanhos diferentes, e os produtos não possuíam padrão entre si. Isso se devia pela nomenclatura nada clara (font-size-xl, lg, md...) e por não ter nenhuma indicação do que seria um h1, h2 e outras tags.',
     typographyAlt:
       'Lista de textos com diferentes tamanhos de fonte, mostrando uma escala tipográfica desorganizada e pouco responsiva entre dispositivos.',
+    colorBoard: {
+      lightContrast: 'Contraste claro',
+      darkContrast: 'Contraste escuro',
+      note: 'Esses valores não possuem mudança de light para dark mode',
+      hint: 'Passe o cursor ou toque em um token para ver o contraste.',
+      onLight: 'Sobre fundo claro',
+      onDark: 'Sobre fundo escuro',
+      sample: 'Texto de exemplo',
+      verdicts: { aaa: 'AAA', aa: 'AA', large: 'Só AA grande', fail: 'Reprova' },
+      groups: { primary: 'Paleta primária', success: 'Paleta de sucesso', gray: 'Escala de cinza' },
+    },
+    typeScale: {
+      screen: 'Tamanho da tela',
+      desktop: 'Desktop',
+      mobile: 'Mobile',
+      sample: 'Um pequeno jabuti xereta viu dez cegonhas felizes',
+      tooBig: 'ainda enorme no celular',
+      chartLabel: 'Tamanho de cada escala no desktop e no mobile, em pixels',
+      hint: 'Troque de tela para ver cada escala descer um nível.',
+    },
     fonts:
       'Por fim, o design system também fornecia as mesmas escalas para as duas fontes da marca, Ubuntu (principal) e Open Sans (secundária), mas a última raramente era usada nos projetos, considerando que até mesmo alguns designers nem sabiam da existência dela.',
     interviewsTitle: 'Entrevista com colaboradores',

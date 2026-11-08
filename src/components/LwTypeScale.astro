@@ -1,0 +1,168 @@
+---
+/**
+ * Discovery do case Locaweb: a escala tipografica antiga e a sua
+ * "responsividade", em que cada escala so descia um degrau no mobile.
+ *
+ * A imagem original cortava as escalas; aqui todas aparecem. Um seletor
+ * Desktop/Mobile troca o tamanho da "tela" e os textos assumem o valor do
+ * degrau de baixo. O grafico ao lado mostra a mesma coisa como linhas: cada
+ * escala cai exatamente na altura da seguinte.
+ *
+ * Nao depende de JavaScript: o modo vem do radio marcado (:has) e o destaque
+ * entre linha da lista e linha do grafico tambem e feito no CSS.
+ */
+import { caseLocaweb } from '../i18n/case-locaweb'
+import type { Locale } from '../i18n/config'
+
+interface Props {
+  locale: Locale
+  label: string
+  id?: string
+}
+
+const { locale, label, id = 'lwt' } = Astro.props
+const t = caseLocaweb[locale].discovery.typeScale
+
+// desktop -> mobile: cada escala assume o valor da seguinte; a ultima vai a 10px
+const steps = [
+  { token: 'font-size-2xl', d: 40 },
+  { token: 'font-size-1xl', d: 32 },
+  { token: 'font-size-lg', d: 24 },
+  { token: 'font-size-md', d: 20 },
+  { token: 'font-size-sm', d: 16 },
+  { token: 'font-size-xs', d: 14 },
+  { token: 'font-size-2xs', d: 12 },
+].map((step, i, all) => ({ ...step, m: all[i + 1]?.d ?? 10 }))
+
+const MAX = 44
+const MIN = 8
+const y = (px: number) => ((MAX - px) / (MAX - MIN)) * 100
+const X_DESKTOP = 30
+const X_MOBILE = 70
+---
+
+<figure class="lwt">
+  <div class="lwt__bar">
+    <fieldset class="lwt-seg">
+      <legend class="sr-only">{t.screen}</legend>
+      {
+        (['desktop', 'mobile'] as const).map((mode) => (
+          <label class="lwt-seg__opt">
+            <input
+              type="radio"
+              name={`${id}-screen`}
+              value={mode}
+              checked={mode === 'desktop'}
+            />
+            {mode === 'desktop' ? (
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <rect x="2" y="3.5" width="16" height="10.5" rx="1.5" />
+                <path d="M7 17h6M10 14v3" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <rect x="5.5" y="2" width="9" height="16" rx="2" />
+                <path d="M9 15.5h2" />
+              </svg>
+            )}
+            <span>{t[mode]}</span>
+          </label>
+        ))
+      }
+    </fieldset>
+    <p class="lwt__hint body--sm">{t.hint}</p>
+  </div>
+
+  <div class="lwt__body">
+    <div class="lwt__stage">
+      <div class="lwt-frame">
+        <span class="lwt-frame__chrome" aria-hidden="true"><i></i><i></i><i></i></span>
+        <ol class="lwt-list">
+          {
+            steps.map((step, i) => (
+              <li class="lwt-row" data-i={i} style={`--d: ${step.d}px; --m: ${step.m}px`}>
+                <div class="lwt-row__meta">
+                  <code class="lwt-row__token">{step.token}</code>
+                  <span class="lwt-row__px">
+                    <s class="lwt-row__from">{step.d}px</s>
+                    <span class="lwt-row__to">{step.m}px</span>
+                  </span>
+                </div>
+                <p class="lwt-row__sample" aria-hidden="true">
+                  {t.sample}
+                </p>
+                {i === 0 && (
+                  <span class="lwt-note lwt-note--big" aria-hidden="true">
+                    <svg viewBox="0 0 40 20" class="lwt-note__arrow">
+                      <path d="M38 8 C28 2 14 3 3 11 M3 11 L11 12 M3 11 L6 4" />
+                    </svg>
+                    {t.tooBig}
+                  </span>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+
+    <div class="lwt-chart" role="img" aria-label={t.chartLabel}>
+      <span class="lwt-chart__axis" style={`--x: ${X_DESKTOP}%`}>{t.desktop}</span>
+      <span class="lwt-chart__axis lwt-chart__axis--m" style={`--x: ${X_MOBILE}%`}>
+        {t.mobile}
+      </span>
+      <div class="lwt-chart__plot">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {
+            steps.map((step) => (
+              <line
+                class="lwt-chart__guide"
+                x1={X_DESKTOP}
+                x2={X_MOBILE}
+                y1={y(step.d)}
+                y2={y(step.d)}
+              />
+            ))
+          }
+          {
+            steps.map((step, i) => (
+              <path
+                class="lwt-chart__line"
+                data-i={i}
+                pathLength="1"
+                style={`--i: ${i}`}
+                d={`M${X_DESKTOP} ${y(step.d)} L${X_MOBILE} ${y(step.m)}`}
+              />
+            ))
+          }
+        </svg>
+        {
+          steps.map((step, i) => (
+            <>
+              <span
+                class="lwt-chart__dot"
+                data-i={i}
+                style={`--x: ${X_DESKTOP}%; --y: ${y(step.d)}%`}
+              >
+                <span class="lwt-chart__label lwt-chart__label--d">
+                  {step.token.replace('font-size-', '')} <b>{step.d}</b>
+                </span>
+              </span>
+              <span
+                class="lwt-chart__dot lwt-chart__dot--m"
+                data-i={i}
+                style={`--x: ${X_MOBILE}%; --y: ${y(step.m)}%; --i: ${i}`}
+              >
+                <span class="lwt-chart__label lwt-chart__label--m">
+                  <b>{step.m}</b>
+                </span>
+              </span>
+            </>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <figcaption class="sr-only">{label}</figcaption>
+</figure>

@@ -1,0 +1,362 @@
+---
+/**
+ * Discovery do case Locaweb: tokens de cor antigos com o contraste de cada
+ * tom sobre o branco ("claro") e sobre o preto ("escuro").
+ *
+ * Recria em codigo a imagem anotada do Figma, com os rabiscos: os rotulos
+ * das colunas, os circulos nos tons base e o fio que liga os tres a nota.
+ * O fio e desenhado em JS a partir da posicao real dos elementos, entao
+ * acompanha o layout em qualquer largura. Se o fio atravessaria outro card
+ * (layout de uma coluna), o tom recebe um asterisco no lugar.
+ *
+ * Interacao: passar o cursor, focar ou tocar um token mostra o texto
+ * naquela cor sobre fundo claro e escuro, com o veredito da WCAG.
+ *
+ * Os valores de contraste sao os da analise original; os hex foram
+ * calculados para bater com eles.
+ */
+import { caseLocaweb } from '../i18n/case-locaweb'
+import type { Locale } from '../i18n/config'
+
+interface Props {
+  locale: Locale
+  label: string
+}
+
+const { locale, label } = Astro.props
+const t = caseLocaweb[locale].discovery.colorBoard
+
+type Token = {
+  name: string
+  hex: string
+  light: number
+  dark: number
+  base?: boolean
+}
+
+const groups: { id: 'primary' | 'success' | 'gray'; tokens: Token[] }[] = [
+  {
+    id: 'primary',
+    tokens: [
+      { name: '--primary-lighten-2', hex: '#ffcacf', light: 1.44, dark: 14.54 },
+      { name: '--primary-lighten-1', hex: '#f57b8d', light: 2.6, dark: 8.06 },
+      { name: '--primary-base', hex: '#d9355d', light: 4.55, dark: 4.61, base: true },
+      { name: '--primary-darken-1', hex: '#b6254b', light: 6.23, dark: 3.37 },
+      { name: '--primary-darken-2', hex: '#891f39', light: 9.06, dark: 2.32 },
+    ],
+  },
+  {
+    id: 'success',
+    tokens: [
+      { name: '--success-lighten-2', hex: '#9fdaa0', light: 1.61, dark: 13.08 },
+      { name: '--success-lighten-1', hex: '#7dcb80', light: 1.96, dark: 10.71 },
+      { name: '--success-base', hex: '#44a04b', light: 3.3, dark: 6.36, base: true },
+      { name: '--success-darken-1', hex: '#387d3d', light: 5.01, dark: 4.19 },
+      { name: '--success-darken-2', hex: '#29592c', light: 8.15, dark: 2.58 },
+    ],
+  },
+  {
+    id: 'gray',
+    tokens: [
+      { name: '--white', hex: '#ffffff', light: 1, dark: 21 },
+      { name: '--gray-100', hex: '#f9fbfd', light: 1.04, dark: 20.12 },
+      { name: '--gray-200', hex: '#eceef2', light: 1.16, dark: 18.1 },
+      { name: '--gray-300', hex: '#bdc1c7', light: 1.84, dark: 11.4 },
+      { name: '--gray-400', hex: '#979ba3', light: 2.78, dark: 7.55, base: true },
+      { name: '--gray-500', hex: '#60646c', light: 5.92, dark: 3.55 },
+      { name: '--gray-600', hex: '#3e424a', light: 10.05, dark: 2.09 },
+      { name: '--gray-700', hex: '#25282e', light: 14.77, dark: 1.42 },
+      { name: '--black', hex: '#1f2126', light: 16.1, dark: 1.3 },
+    ],
+  },
+]
+
+const verdict = (ratio: number) =>
+  ratio >= 7 ? 'aaa' : ratio >= 4.5 ? 'aa' : ratio >= 3 ? 'large' : 'fail'
+
+const fmt = (n: number) => n.toFixed(2)
+const initial = groups[0].tokens[2]
+
+// circulo "a mao": fecha passando do ponto de partida, como um rabisco
+const ring =
+  'M10 24 C6 10 38 3 62 4 C88 5 99 13 97 23 C95 34 70 39 46 38 C22 37 3 32 5 21 C6 14 15 9 27 7'
+---
+
+<figure
+  class="lwc"
+  data-verdicts={JSON.stringify(t.verdicts)}
+  data-label-light={t.lightContrast}
+  data-label-dark={t.darkContrast}
+>
+  <div class="lwc__bar">
+    <p class="lwc__hint body--sm">{t.hint}</p>
+  </div>
+
+  <div class="lwc__board">
+    <div class="lwc__heads lwc-ink" aria-hidden="true">
+      <span class="lwc__head lwc__head--light">
+        {t.lightContrast}
+        <svg viewBox="0 0 30 34" class="lwc__arrow">
+          <path d="M8 2 C2 12 6 22 17 30 M17 30 L9 28 M17 30 L16 22" pathLength="1"
+          ></path>
+        </svg>
+      </span>
+      <span class="lwc__head lwc__head--dark">
+        {t.darkContrast}
+        <svg viewBox="0 0 30 34" class="lwc__arrow">
+          <path d="M20 2 C27 11 24 21 13 30 M13 30 L21 29 M13 30 L13 22" pathLength="1"
+          ></path>
+        </svg>
+      </span>
+    </div>
+
+    {
+      groups.map((group) => (
+        <section class={`lwc-card lwc-card--${group.id}`} aria-label={t.groups[group.id]}>
+          <ul class="lwc-list">
+            {group.tokens.map((token) => (
+              <li>
+                <button
+                  type="button"
+                  class="lwc-row"
+                  tabindex={token === initial ? 0 : -1}
+                  aria-pressed={token === initial ? 'true' : 'false'}
+                  aria-label={`${token.name}: ${t.lightContrast} ${fmt(token.light)}, ${t.darkContrast} ${fmt(token.dark)}`}
+                  data-name={token.name}
+                  data-hex={token.hex}
+                  data-light={token.light}
+                  data-dark={token.dark}
+                  style={`--c: ${token.hex}`}
+                >
+                  <span class="lwc-row__swatch" />
+                  <span class="lwc-row__name">
+                    {token.name}
+                    {token.base && (
+                      <span class="lwc-ring lwc-ink" data-wire aria-hidden="true">
+                        <svg viewBox="0 0 100 42" preserveAspectRatio="none">
+                          <path d={ring} pathLength="1" />
+                        </svg>
+                        <span class="lwc-ring__star">*</span>
+                      </span>
+                    )}
+                  </span>
+                  <span class="lwc-row__val" data-low={token.light < 4.5 ? 'true' : undefined}>
+                    {fmt(token.light)}
+                  </span>
+                  <span class="lwc-row__val" data-low={token.dark < 4.5 ? 'true' : undefined}>
+                    {fmt(token.dark)}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <p class="lwc-note lwc-ink" aria-hidden="true">
+      <span class="lwc-note__star">*</span>{t.note}
+    </p>
+
+    <svg class="lwc__wires lwc-ink" aria-hidden="true"></svg>
+  </div>
+
+  <div class="lwc-preview" style={`--c: ${initial.hex}`}>
+    <p class="lwc-preview__name" aria-live="polite">
+      <span class="lwc-preview__swatch" aria-hidden="true"></span>
+      <code data-slot="name">{initial.name}</code>
+    </p>
+    <div class="lwc-preview__tiles">
+      {
+        (['light', 'dark'] as const).map((mode) => {
+          const ratio = initial[mode]
+          return (
+            <div class={`lwc-tile lwc-tile--${mode}`} data-mode={mode}>
+              <span class="lwc-tile__label">{mode === 'light' ? t.onLight : t.onDark}</span>
+              <span class="lwc-tile__sample">{t.sample}</span>
+              <span class="lwc-tile__meta">
+                <span class="lwc-tile__ratio" data-slot="ratio">
+                  {fmt(ratio)}:1
+                </span>
+                <span class="lwc-badge" data-slot="verdict" data-verdict={verdict(ratio)}>
+                  {t.verdicts[verdict(ratio)]}
+                </span>
+              </span>
+            </div>
+          )
+        })
+      }
+    </div>
+  </div>
+
+  <figcaption class="sr-only">{label}</figcaption>
+</figure>
+
+<script>
+  const SVG = 'http://www.w3.org/2000/svg'
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  const verdictOf = (r: number) =>
+    r >= 7 ? 'aaa' : r >= 4.5 ? 'aa' : r >= 3 ? 'large' : 'fail'
+
+  // Rabisco com leve tremor: deterministico para nao "pular" no resize.
+  // Na vertical o fio entra pela direita do circulo, pelo vao entre o nome
+  // do token e os valores, para nao riscar o texto das outras linhas.
+  function wirePath(s: DOMPoint, e: DOMPoint, vertical: boolean, seed: number) {
+    const wob = ((seed % 3) - 1) * 8
+    if (vertical) {
+      return `M${s.x} ${s.y} C${s.x + wob} ${(s.y + e.y) / 2} ${e.x + 34} ${e.y + wob / 2} ${e.x} ${e.y}`
+    }
+    const mx = (s.x + e.x) / 2
+    return `M${s.x} ${s.y} C${mx} ${s.y + wob} ${mx} ${e.y - wob} ${e.x} ${e.y}`
+  }
+
+  function intersects(a: DOMPoint, b: DOMPoint, r: DOMRect) {
+    // amostragem simples do segmento: suficiente para cards retangulares
+    for (let i = 1; i < 20; i++) {
+      const x = a.x + ((b.x - a.x) * i) / 20
+      const y = a.y + ((b.y - a.y) * i) / 20
+      if (x > r.left && x < r.right && y > r.top && y < r.bottom) return true
+    }
+    return false
+  }
+
+  function setup(fig: HTMLElement) {
+    const board = fig.querySelector<HTMLElement>('.lwc__board')!
+    const wires = fig.querySelector<SVGSVGElement>('.lwc__wires')!
+    const note = fig.querySelector<HTMLElement>('.lwc-note')!
+    const rows = [...fig.querySelectorAll<HTMLButtonElement>('.lwc-row')]
+    const preview = fig.querySelector<HTMLElement>('.lwc-preview')!
+    const verdicts = JSON.parse(fig.dataset.verdicts || '{}')
+
+    /* --- fio entre a nota e os tons base --------------------------------- */
+    function drawWires() {
+      const b = board.getBoundingClientRect()
+      const n = note.getBoundingClientRect()
+      const cards = [...board.querySelectorAll('.lwc-card')].map((c) => ({
+        el: c,
+        r: c.getBoundingClientRect(),
+      }))
+      wires.replaceChildren()
+      let starred = false
+
+      board.querySelectorAll<HTMLElement>('[data-wire]').forEach((ring, i) => {
+        const r = ring.getBoundingClientRect()
+        const own = ring.closest('.lwc-card')
+        const rc = new DOMPoint(r.left + r.width / 2, r.top + r.height / 2)
+        const nc = new DOMPoint(n.left + n.width / 2, n.top + n.height / 2)
+        const dx = rc.x - nc.x
+        const dy = rc.y - nc.y
+        const vertical = Math.abs(dy) > Math.abs(dx) * 0.5
+
+        // ponto de saida na borda da nota e de chegada na borda do circulo
+        const sx = Math.min(Math.max(r.right + 28, n.left + 12), n.right - 12)
+        const s = vertical
+          ? new DOMPoint(sx, dy < 0 ? n.top + 4 : n.bottom - 4)
+          : new DOMPoint(dx < 0 ? n.left : n.right, nc.y)
+        const e = vertical
+          ? new DOMPoint(r.right - 3, rc.y)
+          : new DOMPoint(dx < 0 ? r.right - 2 : r.left + 2, rc.y)
+
+        const blocked = cards.some((c) => c.el !== own && intersects(s, e, c.r))
+        ring.classList.toggle('is-starred', blocked)
+        if (blocked) {
+          starred = true
+          return
+        }
+
+        const p = document.createElementNS(SVG, 'path')
+        p.setAttribute('pathLength', '1')
+        p.setAttribute(
+          'd',
+          wirePath(
+            new DOMPoint(s.x - b.left, s.y - b.top),
+            new DOMPoint(e.x - b.left, e.y - b.top),
+            vertical,
+            i,
+          ),
+        )
+        p.style.setProperty('--d', `${i * 120}ms`)
+        wires.append(p)
+      })
+
+      note.classList.toggle('is-starred', starred)
+    }
+
+    let frame = 0
+    const schedule = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(drawWires)
+    }
+    new ResizeObserver(schedule).observe(board)
+    document.fonts?.ready.then(schedule)
+
+    /* --- preview de contraste ------------------------------------------- */
+    function show(row: HTMLButtonElement) {
+      preview.style.setProperty('--c', row.dataset.hex!)
+      preview.querySelector('[data-slot="name"]')!.textContent = row.dataset.name!
+      preview.querySelectorAll<HTMLElement>('.lwc-tile').forEach((tile) => {
+        const ratio = Number(row.dataset[tile.dataset.mode as 'light' | 'dark'])
+        const v = verdictOf(ratio)
+        tile.querySelector('[data-slot="ratio"]')!.textContent = `${ratio.toFixed(2)}:1`
+        const badge = tile.querySelector<HTMLElement>('[data-slot="verdict"]')!
+        badge.dataset.verdict = v
+        badge.textContent = verdicts[v]
+      })
+    }
+
+    let selected = rows.find((r) => r.getAttribute('aria-pressed') === 'true') ?? rows[0]
+
+    function select(row: HTMLButtonElement, focus = false) {
+      selected.setAttribute('aria-pressed', 'false')
+      selected.tabIndex = -1
+      selected = row
+      row.setAttribute('aria-pressed', 'true')
+      row.tabIndex = 0
+      if (focus) row.focus()
+      show(row)
+    }
+
+    rows.forEach((row, i) => {
+      row.addEventListener('pointerenter', (ev) => {
+        if (ev.pointerType === 'mouse') show(row)
+      })
+      row.addEventListener('focus', () => show(row))
+      row.addEventListener('click', () => select(row))
+      row.addEventListener('keydown', (ev) => {
+        const step =
+          ev.key === 'ArrowDown' || ev.key === 'ArrowRight'
+            ? 1
+            : ev.key === 'ArrowUp' || ev.key === 'ArrowLeft'
+              ? -1
+              : 0
+        if (ev.key === 'Home') select(rows[0], true)
+        else if (ev.key === 'End') select(rows[rows.length - 1], true)
+        else if (step) select(rows[(i + step + rows.length) % rows.length], true)
+        else return
+        ev.preventDefault()
+      })
+    })
+    board.addEventListener('pointerleave', () => show(selected))
+
+    /* --- destaque pela nota ---------------------------------------------- */
+    note.addEventListener('pointerenter', () => fig.classList.add('is-linked'))
+    note.addEventListener('pointerleave', () => fig.classList.remove('is-linked'))
+
+    /* --- rabiscos desenhados ao entrar na tela --------------------------- */
+    if (!reduceMotion.matches && 'IntersectionObserver' in window) {
+      fig.dataset.animate = ''
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return
+          fig.classList.add('is-drawn')
+          io.disconnect()
+        },
+        { threshold: 0.35 },
+      )
+      io.observe(board)
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('.lwc').forEach(setup)
+</script>
