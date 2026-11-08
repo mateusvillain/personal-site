@@ -3,82 +3,220 @@
  * Caderno com os achados das entrevistas do case Locaweb.
  *
  * Folha pautada que segue o tema do site, com o numero de cada nota escrito
- * a mao na margem. Notas com `link` apontam para um visual mais acima na
- * pagina (escala tipografica ou escala de cinza): passar o cursor ou focar
- * a nota destaca o visual; o link rola ate ele e o faz piscar.
+ * a mao na margem. Cada nota tem um rabisco a lapis que ilustra o achado
+ * (a direita em telas largas, embaixo nas estreitas) e trechos grifados com
+ * marca-texto. Ao entrar na tela, o rabisco e desenhado e o grifo passa.
+ *
+ * Os grifos vem do texto do i18n: `==trecho==` vira <mark>.
  */
 type Note = {
   title: string
   text: string
-  link?: { target: string; label: string }
+}
+
+type Doodles = {
+  purpose: string
+  title: string
+  subtitle: string
+  section: string
+  never: string
+  whichGray: string
 }
 
 interface Props {
   notes: Note[]
+  doodles: Doodles
 }
 
-const { notes } = Astro.props
+const { notes, doodles: d } = Astro.props
 
-// alvos dos links, com ids definidos em LwTypeScale e LwColorBoard
-const targets: Record<string, string> = {
-  type: 'lw-type-scale',
-  gray: 'lw-gray-scale',
-}
+// "a ==b== c" -> ['a ', 'b', ' c']: indices impares sao grifados
+const parts = (text: string) => text.split(/==(.+?)==/)
 ---
 
 <ol class="lwn">
+  <!-- definicoes compartilhadas pelos rabiscos: textura de lapis e hachuras -->
+  <svg class="lwn__defs" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- regiao em unidades do desenho: linhas retas tem caixa de altura zero e sumiriam com a regiao relativa -->
+      <filter id="lwn-pencil" filterUnits="userSpaceOnUse" x="-8" y="-8" width="176" height="136">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="wob" />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="wob"
+          scale="1.8"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          result="shaky"
+        />
+        <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="grain" />
+        <feColorMatrix
+          in="grain"
+          type="matrix"
+          values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.35"
+          result="mask"
+        />
+        <feComposite in="shaky" in2="mask" operator="in" />
+      </filter>
+      {
+        [
+          ['lwn-hatch-light', 7],
+          ['lwn-hatch', 4],
+          ['lwn-hatch-dense', 2.4],
+        ].map(([id, gap]) => (
+          <pattern
+            id={id}
+            width={gap}
+            height={gap}
+            patternUnits="userSpaceOnUse"
+            patternTransform="rotate(40)"
+          >
+            <line x1="0" y1="0" x2="0" y2={gap} />
+          </pattern>
+        ))
+      }
+    </defs>
+  </svg>
+
   {
     notes.map((note, i) => (
-      <li class="lwn__item" data-cue={note.link ? targets[note.link.target] : undefined}>
+      <li class="lwn__item">
         <span class="lwn__num" aria-hidden="true">
           {i + 1}.
         </span>
         <h4 class="lwn__title body--lg">{note.title}</h4>
-        <p class="lwn__text body--lg">{note.text}</p>
-        {note.link && (
-          <a class="lwn__link" href={`#${targets[note.link.target]}`}>
-            <svg viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" />
-            </svg>
-            {note.link.label}
-          </a>
-        )}
+        <p class="lwn__text body--lg">
+          {parts(note.text).map((part, j) =>
+            j % 2 ? (
+              // numa linha so: quebras aqui viram espaco dentro do grifo
+              // prettier-ignore
+              <mark class="lwn-mark" style={`--m: ${(j - 1) / 2}`}>{part}</mark>
+            ) : (
+              part
+            ),
+          )}
+        </p>
+
+        <svg class="lwn-doodle" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
+          <g>
+            {i === 0 && (
+              <>
+                {/* paleta secundaria: tres amostras hachuradas e um "?" */}
+                <circle class="lwn-fill" cx="28" cy="50" r="15" fill="url(#lwn-hatch-light)" />
+                <circle class="lwn-fill" cx="64" cy="50" r="15" fill="url(#lwn-hatch)" />
+                <circle class="lwn-fill" cx="100" cy="50" r="15" fill="url(#lwn-hatch-dense)" />
+                <circle class="lwn-d" cx="28" cy="50" r="15" pathLength="1" />
+                <circle class="lwn-d" cx="64" cy="50" r="15" pathLength="1" />
+                <circle class="lwn-d" cx="100" cy="50" r="15" pathLength="1" />
+                <path
+                  class="lwn-d lwn-d--bold"
+                  d="M128 34 C127 23 148 22 147 34 C146 42 137 42 137 53 M137 62 L137 63"
+                  pathLength="1"
+                />
+                <text class="lwn-label" x="64" y="96" text-anchor="middle">
+                  {d.purpose}
+                </text>
+              </>
+            )}
+
+            {i === 1 && (
+              <>
+                {/* hierarquia: tres "linhas de texto" e rotulos trocados */}
+                <path class="lwn-d" style="stroke-width: 6" d="M8 28 L72 28" pathLength="1" />
+                <path class="lwn-d" style="stroke-width: 4" d="M8 56 L60 56" pathLength="1" />
+                <path class="lwn-d" style="stroke-width: 2.2" d="M8 84 L50 84" pathLength="1" />
+                <path
+                  class="lwn-d lwn-d--thin"
+                  d="M100 29 C92 29 86 28 78 28 M78 28 L83 25 M78 28 L83 31 M90 57 C82 57 74 56 66 56 M66 56 L71 53 M66 56 L71 59 M100 86 C86 86 70 85 56 84 M56 84 L61 81 M56 84 L61 87 M100 83 C88 78 78 66 68 60 M68 60 L74 60.5 M68 60 L70.5 65.5"
+                  pathLength="1"
+                />
+                <text class="lwn-label" x="122" y="34" text-anchor="middle">
+                  {d.title}
+                </text>
+                <text class="lwn-label" x="122" y="62" text-anchor="middle">
+                  {d.subtitle}
+                </text>
+                <text class="lwn-label" x="122" y="90" text-anchor="middle">
+                  {d.section}
+                </text>
+              </>
+            )}
+
+            {i === 2 && (
+              <>
+                {/* peso light riscado ao lado do bold */}
+                <path
+                  class="lwn-d lwn-d--hair"
+                  d="M10 80 L24 34 L38 80 M15 64 L33 64 M63 58 L63 80 M63 69 C63 60 46 59 46 70 C46 81 63 80 63 71"
+                  pathLength="1"
+                />
+                <path
+                  class="lwn-d"
+                  style="stroke-width: 6"
+                  d="M88 80 L102 34 L116 80 M93 64 L111 64 M141 58 L141 80 M141 69 C141 60 124 59 124 70 C124 81 141 80 141 71"
+                  pathLength="1"
+                />
+                <path
+                  class="lwn-d lwn-d--strike"
+                  d="M4 42 C24 52 46 64 72 76 M6 78 C26 66 48 54 70 40"
+                  pathLength="1"
+                />
+                <text class="lwn-label" x="38" y="106" text-anchor="middle">
+                  {d.never}
+                </text>
+              </>
+            )}
+
+            {i === 3 && (
+              <>
+                {/* titulo e paragrafo, e tres cinzas sem saber qual usar */}
+                <path class="lwn-d" style="stroke-width: 5" d="M8 26 L78 26" pathLength="1" />
+                <path
+                  class="lwn-d lwn-d--thin"
+                  d="M8 46 L94 46 M8 58 L90 58 M8 70 L66 70"
+                  pathLength="1"
+                />
+                <circle class="lwn-fill" cx="136" cy="22" r="9" fill="url(#lwn-hatch-light)" />
+                <circle class="lwn-fill" cx="136" cy="46" r="9" fill="url(#lwn-hatch)" />
+                <circle class="lwn-fill" cx="136" cy="70" r="9" fill="url(#lwn-hatch-dense)" />
+                <circle class="lwn-d" cx="136" cy="22" r="9" pathLength="1" />
+                <circle class="lwn-d" cx="136" cy="46" r="9" pathLength="1" />
+                <circle class="lwn-d" cx="136" cy="70" r="9" pathLength="1" />
+                <path
+                  class="lwn-d lwn-d--thin"
+                  d="M124 34 C114 30 104 26 86 26 M86 26 L91 23 M86 26 L91 30 M124 58 C114 56 108 54 100 52 M100 52 L104 49 M100 52 L104 56"
+                  pathLength="1"
+                />
+                <text class="lwn-label" x="112" y="102" text-anchor="middle">
+                  {d.whichGray}
+                </text>
+              </>
+            )}
+          </g>
+        </svg>
       </li>
     ))
   }
 </ol>
 
 <script>
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-
-  document.querySelectorAll<HTMLElement>('.lwn__item[data-cue]').forEach((item) => {
-    const target = document.getElementById(item.dataset.cue!)
-    if (!target) return
-
-    const on = () => target.classList.add('lw-cued')
-    const off = () => target.classList.remove('lw-cued')
-    item.addEventListener('pointerenter', on)
-    item.addEventListener('pointerleave', off)
-    item.addEventListener('focusin', on)
-    item.addEventListener('focusout', off)
-
-    item.querySelector('a')?.addEventListener('click', (ev) => {
-      ev.preventDefault()
-      target.scrollIntoView({
-        behavior: reduceMotion.matches ? 'auto' : 'smooth',
-        block: 'start',
-      })
-      history.replaceState(null, '', `#${target.id}`)
-      // leva o foco junto, para quem navega por teclado ou leitor de tela
-      if (!target.hasAttribute('tabindex')) target.tabIndex = -1
-      target.focus({ preventScroll: true })
-      target.classList.remove('lw-flash')
-      // reflow para reiniciar a animacao se o link for clicado de novo
-      void target.offsetWidth
-      target.classList.add('lw-flash')
-      target.addEventListener('animationend', () => target.classList.remove('lw-flash'), {
-        once: true,
-      })
+  // rabisco e grifo aparecem quando a nota entra na tela (sem JS ou com
+  // reduced motion, ja ficam prontos desde o inicio)
+  if (
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    'IntersectionObserver' in window
+  ) {
+    document.querySelectorAll<HTMLElement>('.lwn__item').forEach((item) => {
+      item.dataset.animate = ''
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return
+          item.classList.add('is-drawn')
+          io.disconnect()
+        },
+        { rootMargin: '0px 0px -25% 0px' },
+      )
+      io.observe(item)
     })
-  })
+  }
 </script>

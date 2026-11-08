@@ -954,12 +954,29 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   );
   --rule: color-mix(in srgb, var(--lui-color-neutral-text-heading) 9%, transparent);
   --margin: 56px;
+  --pencil: color-mix(in srgb, var(--lui-color-neutral-text-body) 80%, transparent);
+  --marker: rgb(255 214 10 / 0.42);
+
+  :root[data-theme='dark'] & {
+    --marker: rgb(250 204 21 / 0.26);
+  }
+
+  container-type: inline-size;
 
   position: relative;
   display: grid;
   gap: 24px;
   margin: 24px 0 0;
   padding: 24px 32px 24px var(--margin);
+
+  // vaza a coluna como a prancha de cores e a escala tipografica
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    box-sizing: border-box;
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
   list-style: none;
   border: 1px solid var(--lui-color-neutral-border-subtle);
   border-radius: 6px 8px 7px 6px;
@@ -985,8 +1002,19 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     padding-right: 16px;
   }
 
+  // texto e rabisco: lado a lado quando ha espaco, senao o rabisco desce
   &__item {
     position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'title' 'text' 'doodle';
+
+    @container (min-width: 600px) {
+      grid-template-columns: minmax(0, 1fr) 168px;
+      grid-template-areas: 'title doodle' 'text doodle';
+      grid-template-rows: auto 1fr;
+      column-gap: 32px;
+    }
   }
 
   &__num {
@@ -1019,70 +1047,138 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     color: var(--lui-color-neutral-text-body);
   }
 
-  &__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.875rem;
-    line-height: 24px;
-    color: var(--lui-color-link-default);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: transparent;
-    transition: text-decoration-color 0.2s ease;
+  &__text {
+    grid-area: text;
+  }
 
-    &:hover {
-      text-decoration-color: currentColor;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--lui-color-neutral-focus-ring);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-
-    svg {
-      width: 14px;
-      height: 14px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+  &__title {
+    grid-area: title;
   }
 }
 
-// visual apontado por uma nota: contorno ao passar o cursor, pulso no clique
-#lw-type-scale,
-#lw-gray-scale {
-  scroll-margin: 120px;
-  border-radius: 16px;
-  outline: 2px solid transparent;
-  outline-offset: 6px;
-  transition: outline-color 0.25s ease;
+/* --- rabiscos a lapis --------------------------------------------------- */
+.lwn__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 
-  &:focus {
-    outline: none;
-  }
-
-  &.lw-cued {
-    outline-color: color-mix(in srgb, var(--lui-color-link-default) 45%, transparent);
-  }
-
-  &.lw-flash {
-    animation: lw-flash 1.6s ease-out;
+  line {
+    stroke: var(--pencil);
+    stroke-width: 0.9;
   }
 }
 
-@keyframes lw-flash {
-  0%,
-  40% {
-    outline-color: var(--lui-color-link-default);
+.lwn-doodle {
+  grid-area: doodle;
+  display: block;
+  width: 168px;
+  height: auto;
+  margin-top: 8px;
+  overflow: visible;
+
+  @container (min-width: 600px) {
+    margin-top: 0;
+  }
+}
+
+// textura de lapis (tremor e grao) so nos tracos e hachuras; os rotulos
+// ficam sem grao para continuarem legiveis
+.lwn-d,
+.lwn-fill {
+  filter: url(#lwn-pencil);
+}
+
+.lwn-d {
+  fill: none;
+  stroke: var(--pencil);
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  &--bold {
+    stroke-width: 3px;
   }
 
-  100% {
-    outline-color: transparent;
+  &--thin {
+    stroke-width: 1.2px;
+  }
+
+  &--hair {
+    stroke-width: 0.9px;
+  }
+
+  // risco por cima do "Aa" light: mesmo lapis, mas mais carregado
+  &--strike {
+    stroke-width: 2.2px;
+  }
+}
+
+.lwn-label {
+  font-family: $hand;
+  font-size: 17px;
+  font-weight: 500;
+  fill: var(--pencil);
+}
+
+/* --- marca-texto -------------------------------------------------------- */
+.lwn-mark {
+  padding: 0 0.12em;
+  margin: 0 -0.12em;
+  color: inherit;
+  border-radius: 0.3em 0.15em 0.35em 0.2em;
+  background-color: transparent;
+  // faixa um pouco mais baixa que a linha, como quem grifa com pressa
+  background-image: linear-gradient(
+    100deg,
+    transparent 0.2em,
+    var(--marker) 0.35em,
+    var(--marker) calc(100% - 0.3em),
+    transparent calc(100% - 0.1em)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 62%;
+  background-size: 100% 78%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* --- desenho ao entrar na tela ----------------------------------------- */
+.lwn__item[data-animate] {
+  .lwn-d {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.9s $ease-draw;
+  }
+
+  .lwn-d--strike {
+    transition-delay: 0.9s;
+  }
+
+  .lwn-fill,
+  .lwn-label {
+    opacity: 0;
+    transition: opacity 0.6s ease 0.7s;
+  }
+
+  .lwn-mark {
+    background-size: 0% 78%;
+    transition: background-size 0.7s $ease-out calc(0.3s + var(--m) * 0.5s);
+  }
+
+  &.is-drawn {
+    .lwn-d {
+      stroke-dashoffset: 0;
+    }
+
+    .lwn-fill,
+    .lwn-label {
+      opacity: 1;
+    }
+
+    .lwn-mark {
+      background-size: 100% 78%;
+    }
   }
 }
 
@@ -1449,9 +1545,4 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     transition: none !important;
   }
 
-  #lw-type-scale.lw-flash,
-  #lw-gray-scale.lw-flash {
-    animation: none;
-    outline-color: var(--lui-color-link-default);
-  }
 }

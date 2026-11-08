@@ -83,7 +83,7 @@ const protectedLang = htmlLang[locale]
       {discovery.interviews.map((text) => <p class="body--lg">{text}</p>)}
     </div>
 
-    <LwNotebook notes={discovery.interviewNotes} />
+    <LwNotebook notes={discovery.interviewNotes} doodles={discovery.interviewDoodles} />
 
     <h3 class="block-title">{discovery.comparisonTitle}</h3>
     <div class="paragraph">

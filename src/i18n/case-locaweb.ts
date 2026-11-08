@@ -73,23 +73,30 @@ const en = {
     interviewNotes: [
       {
         title: 'Little use of the secondary color',
-        text: 'Designers never used the secondary color anywhere in the product interfaces, and since there was no documentation, they could not say what that palette was for.',
+        text: 'Designers ==never used the secondary color== anywhere in the product interfaces, and since there was no documentation, ==they could not say what that palette was for==.',
       },
       {
         title: 'Difficulty understanding typographic hierarchies',
-        text: 'Designers had different understandings of when to use most of the typographic scales. There were different definitions of what the page title, subtitle, and even a section heading should be.',
-        link: { target: 'type', label: 'See the type scale above' },
+        text: 'Designers had ==different understandings of when to use== most of the typographic scales. There were different definitions of what the page title, subtitle, and even a section heading should be.',
       },
       {
         title: 'Unused "light" weight',
-        text: 'The file provided the "light" weight for each of the eight scales, and even with very few insertions seen in analytics, every designer said they never used it and did not know its use case.',
+        text: 'The file provided the "light" weight for each of the eight scales, and even with very few insertions seen in analytics, ==every designer said they never used it== and did not know its use case.',
       },
       {
         title: 'Uncertainty about using gray scales in text',
-        text: 'Due to the lack of standards and recommendations, designers had different understandings of how to use the gray scales in text to support the hierarchy of headings and paragraphs.',
-        link: { target: 'gray', label: 'See the gray scale above' },
+        text: 'Due to the lack of standards and recommendations, designers had ==different understandings of how to use the gray scales== in text to support the hierarchy of headings and paragraphs.',
       },
     ],
+    // rabiscos a lapis ao lado de cada nota (decorativos)
+    interviewDoodles: {
+      purpose: 'what for?',
+      title: 'title?',
+      subtitle: 'subtitle?',
+      section: 'section?',
+      never: 'never used',
+      whichGray: 'which gray?',
+    },
     comparisonTitle: 'Comparing design and code',
     comparison: [
       'The third and final analysis involved a direct comparison between Figma and code for every design token and component.',
@@ -212,23 +219,29 @@ const pt: typeof en = {
     interviewNotes: [
       {
         title: 'Pouco uso da cor secundária',
-        text: 'Os designers não utilizavam a cor secundária em nenhuma ocasião na interface dos produtos, e como não havia documentação, não sabiam dizer para que essa paleta servia.',
+        text: 'Os designers ==não utilizavam a cor secundária em nenhuma ocasião== na interface dos produtos, e como não havia documentação, ==não sabiam dizer para que essa paleta servia==.',
       },
       {
         title: 'Dificuldades em entender as hierarquias tipográficas',
-        text: 'Os designers tinham entendimentos diferentes sobre quando utilizar a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.',
-        link: { target: 'type', label: 'Ver a escala tipográfica acima' },
+        text: 'Os designers tinham ==entendimentos diferentes sobre quando utilizar== a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.',
       },
       {
         title: 'Inutilização do peso "light"',
-        text: 'O arquivo fornecia o peso “light” para cada uma das oito escalas, e mesmo que com pouquíssimas inserções vistas no analytics, todos os designers afirmaram nunca usar e nem saber o seu caso de uso.',
+        text: 'O arquivo fornecia o peso “light” para cada uma das oito escalas, e mesmo que com pouquíssimas inserções vistas no analytics, ==todos os designers afirmaram nunca usar== e nem saber o seu caso de uso.',
       },
       {
         title: 'Incerteza sobre o uso das escalas de cinza nos textos',
-        text: 'Pela falta de padronização e recomendação, os designers tinham diferentes entendimentos entre si sobre o uso das escalas de cinza em textos, de forma a colaborar na hierarquia de títulos e parágrafos.',
-        link: { target: 'gray', label: 'Ver a escala de cinza acima' },
+        text: 'Pela falta de padronização e recomendação, os designers tinham ==diferentes entendimentos entre si sobre o uso das escalas de cinza== em textos, de forma a colaborar na hierarquia de títulos e parágrafos.',
       },
     ],
+    interviewDoodles: {
+      purpose: 'pra quê?',
+      title: 'título?',
+      subtitle: 'subtítulo?',
+      section: 'seção?',
+      never: 'nunca usado',
+      whichGray: 'qual cinza?',
+    },
     comparisonTitle: 'Comparações entre design e código',
     comparison: [
       'A terceira e última análise envolveu uma comparação direta entre Figma e código de todos os design tokens e componentes.',
