@@ -97,7 +97,7 @@ const en = {
     ],
     comparisonNotes: [
       {
-        title: 'Components with different names',
+        title: 'Components and variants with different names',
         text: 'Although designers and developers used the same components, some of them did not share the same name, as was the case with Dialog for designers and Modal for developers.',
       },
       {
@@ -108,6 +108,10 @@ const en = {
         title: 'Elevation differences between design and code',
         text: 'The design system file in Figma provided some elevation levels (shadow styles) that were completely different from the tokens, both in naming and in value.',
       },
+      {
+        title: 'Variants that only existed in code',
+        text: 'In code, the Button had success, danger and warning variants that did not exist in Figma. In other words, on the engineering side the design system covered more elements than it was originally meant to, and even though there was no usage documentation, these variants were present in Storybook.',
+      },
     ],
     comparisonBoard: {
       figma: 'Figma',
@@ -115,10 +119,12 @@ const en = {
       differs: 'differs from',
       hint: 'Hover or tap a pair to compare both sides.',
       scribbles: [
-        'same component, two names',
+        'same thing, two names',
         'each side calls it something else',
         'neither name nor value match',
+        'Figma never got these',
       ],
+      missing: 'not in Figma',
     },
   },
   protected: {
@@ -230,7 +236,7 @@ const pt: typeof en = {
     ],
     comparisonNotes: [
       {
-        title: 'Componentes com nomes diferentes',
+        title: 'Componentes e variantes com nomes diferentes',
         text: 'Apesar dos designers e desenvolvedores usarem os mesmos componentes, alguns deles não compartilhavam o mesmo nome, como era o caso do Dialog para os designers, e Modal para os desenvolvedores.',
       },
       {
@@ -241,6 +247,10 @@ const pt: typeof en = {
         title: 'Diferenças nas elevações em design e código',
         text: 'O arquivo do design system no Figma fornecia alguns níveis de elevação (estilos de sombra), que eram completamente diferentes dos tokens, tanto em nomenclatura quanto em valor.',
       },
+      {
+        title: 'Variantes que só existiam no código',
+        text: 'No código, o Button possuía as variantes success, danger e warning, que não existiam no Figma. Ou seja, o design system pelo lado de engenharia cobria mais elementos do que originalmente deveria cobrir, e por mais que não houvesse documentação de uso, essas variantes estavam presentes no Storybook.',
+      },
     ],
     comparisonBoard: {
       figma: 'Figma',
@@ -248,10 +258,12 @@ const pt: typeof en = {
       differs: 'é diferente de',
       hint: 'Passe o cursor ou toque em um par para comparar os dois lados.',
       scribbles: [
-        'mesmo componente, dois nomes',
+        'mesma coisa, dois nomes',
         'cada lado chama de um jeito',
         'nem o nome nem o valor batem',
+        'o Figma nunca recebeu essas',
       ],
+      missing: 'não existe no Figma',
     },
   },
   protected: {

@@ -17,19 +17,25 @@ interface Props {
 const { locale } = Astro.props
 const { comparisonNotes, comparisonBoard: t } = caseLocaweb[locale].discovery
 
-type Side = { name: string; shadow?: string }
+type Tone = 'success' | 'danger' | 'warning'
+// `missing`: o lado nao existe (ex.: variante que so havia no codigo)
+type Side = { name: string; value?: string; shadow?: string; tone?: Tone; missing?: boolean }
 type Pair = { figma: Side; code: Side }
 
 /*
  * Um array de pares por item de `comparisonNotes`, na mesma ordem.
- * Os pares de nomenclatura (Dialog, Dropdown, Content Header) sao reais. Os de tipografia
- * e elevacao sao EXEMPLOS PROVISORIOS: substitua pelos reais.
+ * Os nomes de componentes e de elevacao sao reais. Os pares de tipografia
+ * e os VALORES das sombras sao EXEMPLOS PROVISORIOS: substitua pelos reais.
  */
 const pairs: Pair[][] = [
   [
     { figma: { name: 'Dialog' }, code: { name: 'Modal' } },
     { figma: { name: 'Dropdown' }, code: { name: 'Menu' } },
     { figma: { name: 'Content Header' }, code: { name: 'Heading' } },
+    {
+      figma: { name: 'Button', value: 'variant="ghost"' },
+      code: { name: 'Button', value: 'variant="tertiary"' },
+    },
   ],
   [
     { figma: { name: 'Heading 1' }, code: { name: 'font-size-2xl' } },
@@ -38,14 +44,26 @@ const pairs: Pair[][] = [
   ],
   [
     {
-      figma: { name: 'Shadow/Small', shadow: '0 1px 2px rgb(0 0 0 / 0.24)' },
+      figma: { name: 'raised', shadow: '0 1px 2px rgb(0 0 0 / 0.24)' },
       code: { name: 'elevation-1', shadow: '0 2px 6px rgb(0 0 0 / 0.1)' },
     },
     {
-      figma: { name: 'Shadow/Large', shadow: '0 6px 10px rgb(0 0 0 / 0.28)' },
-      code: { name: 'elevation-3', shadow: '0 12px 32px rgb(0 0 0 / 0.14)' },
+      figma: { name: 'overlay', shadow: '0 3px 6px rgb(0 0 0 / 0.2)' },
+      code: { name: 'elevation-2', shadow: '0 4px 12px rgb(0 0 0 / 0.12)' },
+    },
+    {
+      figma: { name: 'temp-nav', shadow: '0 6px 10px rgb(0 0 0 / 0.28)' },
+      code: { name: 'elevation-3', shadow: '0 8px 20px rgb(0 0 0 / 0.14)' },
+    },
+    {
+      figma: { name: 'pop-out', shadow: '0 10px 18px rgb(0 0 0 / 0.3)' },
+      code: { name: 'elevation-4', shadow: '0 16px 36px rgb(0 0 0 / 0.16)' },
     },
   ],
+  (['success', 'danger', 'warning'] as const).map((tone) => ({
+    figma: { name: '', missing: true },
+    code: { name: 'Button', value: `variant="${tone}"`, tone },
+  })),
 ]
 
 // "0 1px 2px rgb(0 0 0 / 0.24)" -> "y 1px · blur 2px · 24%"
@@ -53,6 +71,9 @@ const describe = (shadow: string) => {
   const m = shadow.match(/^\S+ (\S+) (\S+) rgb\(0 0 0 \/ ([\d.]+)\)$/)
   return m ? `y ${m[1]} · blur ${m[2]} · ${Math.round(Number(m[3]) * 100)}%` : shadow
 }
+
+// nome + valor, para o aria-label do par
+const full = (side: Side) => [side.name, side.value].filter(Boolean).join(' ')
 
 const sides = [
   { key: 'figma', label: t.figma },
@@ -89,7 +110,11 @@ const sides = [
               <li
                 class="lwd-pair"
                 tabindex="0"
-                aria-label={`${t.figma}: ${pair.figma.name}, ${t.differs} ${t.code}: ${pair.code.name}`}
+                aria-label={
+                  pair.figma.missing
+                    ? `${t.code}: ${full(pair.code)}, ${t.missing}`
+                    : `${t.figma}: ${full(pair.figma)}, ${t.differs} ${t.code}: ${full(pair.code)}`
+                }
               >
                 {sides.map((side, s) => (
                   <>
@@ -102,19 +127,39 @@ const sides = [
                         </svg>
                       </span>
                     )}
-                    <span class={`lwd-side lwd-side--${side.key}`} aria-hidden="true">
+                    <span
+                      class:list={[
+                        'lwd-side',
+                        `lwd-side--${side.key}`,
+                        { 'lwd-side--missing': pair[side.key].missing },
+                      ]}
+                      aria-hidden="true"
+                    >
                       <span class="lwd-side__tag">{side.label}</span>
-                      {pair[side.key].shadow && (
-                        <span class="lwd-shadow" style={`--sh: ${pair[side.key].shadow}`}>
-                          <i />
-                        </span>
+                      {pair[side.key].missing ? (
+                        <span class="lwd-side__missing">{t.missing}</span>
+                      ) : (
+                        <>
+                          {pair[side.key].shadow && (
+                            <span class="lwd-shadow" style={`--sh: ${pair[side.key].shadow}`}>
+                              <i />
+                            </span>
+                          )}
+                          {pair[side.key].tone && (
+                            <span class={`lwd-btn lwd-btn--${pair[side.key].tone}`}>
+                              <i>Button</i>
+                            </span>
+                          )}
+                          <span class="lwd-side__body">
+                            <code>{pair[side.key].name}</code>
+                            {(pair[side.key].value || pair[side.key].shadow) && (
+                              <span class="lwd-side__value">
+                                {pair[side.key].value ?? describe(pair[side.key].shadow!)}
+                              </span>
+                            )}
+                          </span>
+                        </>
                       )}
-                      <span class="lwd-side__body">
-                        <code>{pair[side.key].name}</code>
-                        {pair[side.key].shadow && (
-                          <span class="lwd-side__value">{describe(pair[side.key].shadow!)}</span>
-                        )}
-                      </span>
                     </span>
                   </>
                 ))}

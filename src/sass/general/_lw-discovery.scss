@@ -45,6 +45,17 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
 
   container-type: inline-size;
   margin: 24px 0;
+
+  /*
+     Vaza um pouco da coluna de texto, como o quadro de Works da home,
+     mas com folga menor: 720px contra os 560px da coluna.
+  */
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
 }
 
 .lwc__bar,
@@ -81,7 +92,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   row-gap: 12px;
 
   @container (min-width: 540px) {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       'heads .'
       'primary gray'
@@ -587,6 +598,9 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
 .lwt__stage {
   container-type: inline-size;
   min-width: 0;
+  // a nota do 2xl fica fora do quadro no modo desktop, so escondida;
+  // sem o corte ela alargava a pagina
+  overflow-x: clip;
 }
 
 .lwt-frame {
@@ -1276,6 +1290,61 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     border-radius: 4px;
     background: #fff;
     box-shadow: var(--sh);
+  }
+}
+
+// lado que nao existe: contorno tracejado e vazio
+.lwd-side--missing {
+  border-style: dashed;
+  background: none;
+
+  .lwd-pair:is(:hover, :focus-visible) & {
+    background: none;
+  }
+}
+
+.lwd-side__missing {
+  font-family: $hand;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: var(--lui-color-neutral-text-caption);
+}
+
+// miniatura do botao em cada variante (cores fixas, como no componente)
+.lwd-btn {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 52px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eef0f3;
+
+  i {
+    padding: 4px 7px;
+    border-radius: 4px;
+    font-size: 0.5625rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    background: var(--tone);
+  }
+
+  &--success {
+    --tone: #387d3d;
+  }
+
+  &--danger {
+    --tone: #c62a2a;
+  }
+
+  &--warning {
+    --tone: #f2b01e;
+
+    i {
+      color: #25282e;
+    }
   }
 }
 
