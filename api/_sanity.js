@@ -23,6 +23,11 @@ export function imageUrl(source) {
   return builder.image(source).width(1600).fit('max').auto('format').url()
 }
 
+// A linguagem vira classe CSS no navegador: so letras, numeros e hifen
+function codeLanguage(value) {
+  return /^[a-z0-9-]{1,20}$/.test(value || '') ? value : 'css'
+}
+
 function escapeHtml(str = '') {
   return str
     .replace(/&/g, '&amp;')
@@ -184,13 +189,29 @@ export function blocksToSections(blocks = [], locale = 'pt') {
         }
         break
 
-      case 'codeBlock':
-        sections.push({
-          type: 'code',
-          html: block.code || '',
-          language: block.language || 'css'
-        })
+      case 'codeBlock': {
+        // Com abas, cada aba vira um { label, language, html }; sem abas, o
+        // bloco segue o formato antigo (uma aba so, sem rotulo).
+        const tabs = (Array.isArray(block.tabs) ? block.tabs : [])
+          .filter((tab) => tab && typeof tab.code === 'string' && tab.code.trim())
+          .map((tab) => ({
+            label: String(tab.label || '').slice(0, 40),
+            language: codeLanguage(tab.language),
+            html: tab.code
+          }))
+
+        if (tabs.length) {
+          sections.push({ type: 'code', tabs })
+        } else {
+          sections.push({
+            type: 'code',
+            html: block.code || '',
+            language: codeLanguage(block.language),
+            title: String(block.title || '').slice(0, 60)
+          })
+        }
         break
+      }
     }
   }
 

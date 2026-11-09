@@ -118,15 +118,424 @@ main.project-main {
     border-radius: 16px;
   }
 
-  .code-block {
-    margin: var(--lui-spacing-fixed-32) 0;
-    white-space: pre-wrap;
-    word-break: break-word;
-    overflow-x: hidden;
+}
 
-    code {
-      white-space: inherit;
+/* =========================================================================
+   Bloco de codigo do conteudo protegido (public/js/project-protected.js)
+   Janela de editor que segue o tema do site; as cores da sintaxe sobrepoem
+   o tema padrao do Prism carregado no layout.
+   ========================================================================= */
+.code-window {
+  --cw-bg: #fbfbfa;
+  --cw-bar: #f3f3f1;
+  --cw-line: color-mix(in srgb, var(--lui-color-neutral-text-heading, #1f2328) 10%, transparent);
+  --cw-text: #24292f;
+  --cw-muted: #8c959f;
+  --cw-hover: color-mix(in srgb, var(--lui-color-neutral-text-heading, #1f2328) 7%, transparent);
+  --cw-selector: #0a7a52;
+  --cw-property: #8250df;
+  --cw-function: #0550ae;
+  --cw-string: #0a3069;
+  --cw-keyword: #cf222e;
+  --cw-number: #953800;
+  --cw-punct: #6e7781;
+  --cw-dot-1: #ff5f57;
+  --cw-dot-2: #febc2e;
+  --cw-dot-3: #28c840;
+
+  position: relative;
+  margin: var(--lui-spacing-fixed-32, 32px) 0;
+  overflow: hidden;
+  border: 1px solid var(--cw-line);
+  border-radius: 16px;
+  background: var(--cw-bg);
+  box-shadow:
+    0 1px 2px rgb(16 24 40 / 0.04),
+    0 12px 32px -12px rgb(16 24 40 / 0.12);
+
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
+
+  :root[data-theme='dark'] & {
+    --cw-bg: #16181d;
+    --cw-bar: #1d2026;
+    --cw-line: rgb(255 255 255 / 0.08);
+    --cw-text: #e6edf3;
+    --cw-muted: #6e7681;
+    --cw-hover: rgb(255 255 255 / 0.07);
+    --cw-selector: #7ee2a8;
+    --cw-property: #d2a8ff;
+    --cw-function: #79c0ff;
+    --cw-string: #a5d6ff;
+    --cw-keyword: #ff7b72;
+    --cw-number: #ffa657;
+    --cw-punct: #8b949e;
+
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.04) inset,
+      0 16px 40px -16px rgb(0 0 0 / 0.6);
+  }
+
+  /* --- barra ------------------------------------------------------------ */
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 8px 0 16px;
+    border-bottom: 1px solid var(--cw-line);
+    background: var(--cw-bar);
+  }
+
+  &__dots {
+    display: flex;
+    gap: 7px;
+
+    i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--cw-dot-1);
+      box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
+
+      &:nth-child(2) {
+        background: var(--cw-dot-2);
+      }
+
+      &:nth-child(3) {
+        background: var(--cw-dot-3);
+      }
     }
+  }
+
+  &__title {
+    overflow: hidden;
+    color: var(--cw-text);
+    font: 500 0.8125rem/1 'Google Sans', ui-monospace, monospace;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // abas no estilo de editor: a ativa "encaixa" no painel, cobrindo a borda
+  // de baixo da barra com o fundo do codigo
+  &__tabs {
+    display: flex;
+    align-self: flex-end;
+    gap: 2px;
+    min-width: 0;
+    margin: 0 0 -1px 4px;
+    padding-right: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    // esmaece a ponta quando ha abas escondidas a direita
+    mask-image: linear-gradient(to left, transparent, #000 16px);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__tab {
+    position: relative;
+    flex: none;
+    padding: 9px 14px 10px;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    background: transparent;
+    color: var(--cw-punct);
+    font: 500 0.8125rem/1 'Google Sans', ui-monospace, monospace;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+
+    &:hover {
+      color: var(--cw-text);
+      background: var(--cw-hover);
+    }
+
+    &[aria-selected='true'] {
+      border-color: var(--cw-line);
+      background: var(--cw-bg);
+      color: var(--cw-text);
+
+      // tira a borda da barra embaixo da aba ativa
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        left: 0;
+        height: 2px;
+        background: var(--cw-bg);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--cw-function);
+      outline-offset: -2px;
+    }
+  }
+
+  &__lang {
+    flex: none;
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--cw-hover);
+    color: var(--cw-punct);
+    font-family: 'Google Sans', ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  &__copy {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    gap: 6px;
+    margin-left: -4px;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--cw-punct);
+    font: 500 0.8125rem/1 'Google Sans', ui-monospace, monospace;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover {
+      background: var(--cw-hover);
+      color: var(--cw-text);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--cw-function);
+      outline-offset: 1px;
+    }
+
+    &.is-copied {
+      color: var(--cw-selector);
+
+      svg {
+        animation: cw-pop 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+    }
+  }
+
+  /* --- codigo ----------------------------------------------------------- */
+  &__body {
+    display: none;
+    min-width: 0;
+    font-family: 'Google Sans', ui-monospace, monospace;
+    font-size: 0.875rem;
+    line-height: 1.75;
+
+    // so o painel ativo aparece: a altura acompanha o codigo de cada aba
+    &.is-active {
+      display: flex;
+    }
+
+    .has-tabs &.is-active {
+      animation: cw-fade 0.2s ease;
+    }
+  }
+
+  &__gutter {
+    flex: none;
+    padding: 20px 0 20px 0;
+    min-width: 3.25em;
+    padding-right: 14px;
+    border-right: 1px solid var(--cw-line);
+    color: var(--cw-muted);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: pre;
+    user-select: none;
+    opacity: 0.7;
+  }
+
+  pre[class*='language-'] {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 20px 24px 20px 18px;
+    overflow-x: auto;
+    border-radius: 0;
+    background: transparent;
+    font: inherit;
+    tab-size: 2;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cw-line) transparent;
+
+    &:focus-visible {
+      outline: 2px solid var(--cw-function);
+      outline-offset: -2px;
+    }
+  }
+
+  code[class*='language-'] {
+    display: block;
+    width: max-content;
+    min-width: 100%;
+    background: none;
+    color: var(--cw-text);
+    font: inherit;
+    font-size: inherit !important;
+    line-height: inherit;
+    text-shadow: none;
+    white-space: pre;
+
+    span {
+      font-family: inherit;
+    }
+  }
+
+  &__swatch {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.85em;
+    margin-right: 0.4em;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.14);
+    vertical-align: -0.08em;
+  }
+
+  /* --- sintaxe ---------------------------------------------------------- */
+  .token {
+    background: none;
+
+    &.comment,
+    &.prolog,
+    &.doctype,
+    &.cdata {
+      color: var(--cw-muted);
+      font-style: italic;
+    }
+
+    &.punctuation,
+    &.operator {
+      color: var(--cw-punct);
+    }
+
+    &.selector,
+    &.tag,
+    &.attr-name {
+      color: var(--cw-selector);
+    }
+
+    &.property,
+    &.variable,
+    &.class-name {
+      color: var(--cw-property);
+    }
+
+    &.function,
+    &.builtin {
+      color: var(--cw-function);
+    }
+
+    &.string,
+    &.url,
+    &.attr-value,
+    &.char {
+      color: var(--cw-string);
+    }
+
+    &.atrule,
+    &.keyword,
+    &.rule,
+    &.important,
+    &.boolean {
+      color: var(--cw-keyword);
+    }
+
+    &.number,
+    &.unit,
+    &.hexcode,
+    &.constant {
+      color: var(--cw-number);
+    }
+  }
+
+  .language-css .token.string,
+  .style .token.string {
+    background: none;
+  }
+}
+
+// tela estreita: sem os pontos e so o icone no copiar, sobra espaco para abas
+@media (max-width: 480px) {
+  .code-window {
+    &.has-tabs .code-window__dots,
+    &.has-tabs .code-window__lang {
+      display: none;
+    }
+
+    &.has-tabs .code-window__tabs {
+      margin-left: -8px;
+    }
+
+    &__copy span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    &__gutter {
+      min-width: 2.5em;
+      padding-right: 10px;
+    }
+
+    pre[class*='language-'] {
+      padding-right: 16px;
+      padding-left: 14px;
+    }
+  }
+}
+
+@keyframes cw-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes cw-pop {
+  0% {
+    transform: scale(0.6);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-window__copy.is-copied svg,
+  .code-window__body.is-active {
+    animation: none;
   }
 }
 
