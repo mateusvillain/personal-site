@@ -1,0 +1,124 @@
+---
+/**
+ * Resultados do case Locaweb em cards.
+ *
+ * Continua sendo uma lista (<ul>/<li>): cada item tem um titulo curto, o
+ * texto e uma mini-ilustracao decorativa do resultado. A ilustracao reage
+ * ao passar o cursor; em telas de toque, reage quando o card cruza o meio
+ * da tela. Sem JS ou com reduced motion, fica no estado parado.
+ */
+type Result = { title: string; text: string }
+
+interface Props {
+  results: Result[]
+}
+
+const { results } = Astro.props
+const kinds = ['tokens', 'naming', 'color', 'type', 'elevation', 'brands'] as const
+---
+
+<ul class="lwr">
+  {
+    results.map((item, i) => (
+      <li class={`lwr-card lwr-card--${kinds[i]}`}>
+        <div class="lwr-stage" aria-hidden="true">
+          {kinds[i] === 'tokens' && (
+            <>
+              <span class="lwr-chip">
+                <i class="lwr-dot" />
+                blue-600
+              </span>
+              <svg class="lwr-link" viewBox="0 0 40 12">
+                <path d="M2 6 H36 M31 2 L36 6 L31 10" pathLength="1" />
+              </svg>
+              <span class="lwr-chip lwr-chip--semantic">primary</span>
+            </>
+          )}
+
+          {kinds[i] === 'naming' && (
+            <>
+              {/* nomes diferentes (barras desiguais) que viram um so */}
+              <span class="lwr-name">
+                <svg viewBox="0 0 16 16">
+                  <path d="M8 1.5H6a2 2 0 0 0 0 4h2zM8 1.5h2a2 2 0 0 1 0 4H8zM8 5.5H6a2 2 0 0 0 0 4h2zM8 9.5H6a2 2 0 1 0 2 2zM12 7.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                </svg>
+                <i style="--w: 44px" />
+              </span>
+              <span class="lwr-eq">
+                <i />
+                <i />
+                <i class="lwr-eq__slash" />
+              </span>
+              <span class="lwr-name">
+                <svg viewBox="0 0 16 16">
+                  <path d="M5.5 4 1.5 8l4 4M10.5 4l4 4-4 4" />
+                </svg>
+                <i style="--w: 26px" />
+              </span>
+            </>
+          )}
+
+          {kinds[i] === 'color' && (
+            <>
+              <span class="lwr-swatches">
+                {['#FFCFDD', '#FF9EBF', '#FF6893', '#DE003B', '#B9002B'].map((c, n) => (
+                  <i style={`--n: ${n + 1}; --c: ${c}`} />
+                ))}
+              </span>
+              <span class="lwr-badge">AA 4.5:1</span>
+            </>
+          )}
+
+          {kinds[i] === 'type' && (
+            <span class="lwr-screen">
+              <span class="lwr-aa">Aa</span>
+              <span class="lwr-rem">rem</span>
+            </span>
+          )}
+
+          {kinds[i] === 'elevation' && (
+            <span class="lwr-layers">
+              <i style="--n: 0" />
+              <i style="--n: 1" />
+              <i style="--n: 2" />
+            </span>
+          )}
+
+          {kinds[i] === 'brands' && (
+            <span class="lwr-brands">
+              {/* o mesmo componente em tres marcas: so a cor (o token) muda */}
+              {['#DE003B', '#3D5AFE', '#0E9F6E'].map((c, n) => (
+                <span class="lwr-brand" style={`--n: ${n}; --c: ${c}`}>
+                  <i class="lwr-brand__head" />
+                  <i class="lwr-brand__line" />
+                  <i class="lwr-brand__btn" />
+                </span>
+              ))}
+            </span>
+          )}
+
+        </div>
+
+        <h4 class="lwr-card__title body--lg">{item.title}</h4>
+        <p class="lwr-card__text body--md">{item.text}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<script>
+  // em telas de toque nao ha hover: o card "acende" ao cruzar o meio da tela
+  if (
+    window.matchMedia('(hover: none)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    'IntersectionObserver' in window
+  ) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.target.classList.toggle('is-on', e.isIntersecting))
+      },
+      { rootMargin: '-40% 0px -40% 0px' },
+    )
+    document.querySelectorAll('.lwr-card').forEach((card) => io.observe(card))
+  }
+</script>

@@ -4,6 +4,7 @@ import LwColorBoard from './LwColorBoard.astro'
 import LwTypeScale from './LwTypeScale.astro'
 import LwNotebook from './LwNotebook.astro'
 import LwDesignCodeDiff from './LwDesignCodeDiff.astro'
+import LwResults from './LwResults.astro'
 import { htmlLang, localizePath, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 import { caseLocaweb } from '../i18n/case-locaweb'
@@ -32,23 +33,16 @@ const protectedLang = htmlLang[locale]
       >
     </lui-breadcrumb>
     <h1 class="title m-t-fluid-16 m-b-fluid-8">{strings.title}</h1>
-    <div class="tag-list">
-      {
-        strings.tags.map((tag) => (
-          <div class="tag tag--container-neutral body--sm">{tag}</div>
-        ))
-      }
-    </div>
-    <div class="project-details">
+    <dl class="project-details">
       <div class="info">
-        <p class="body--md">{strings.company}</p>
-        <p class="body--lg">{strings.companyName}</p>
+        <dt class="body--sm">{strings.company}</dt>
+        <dd class="body--lg">{strings.companyName}</dd>
       </div>
       <div class="info">
-        <p class="body--md">{strings.role}</p>
-        <p class="body--lg">{strings.roleName}</p>
+        <dt class="body--sm">{strings.role}</dt>
+        <dd class="body--lg">{strings.roleName}</dd>
       </div>
-    </div>
+    </dl>
   </main>
 
   <!-- Overview -->
@@ -58,9 +52,7 @@ const protectedLang = htmlLang[locale]
       <p class="body--lg">{overview.text}</p>
     </div>
     <h3 class="block-title">{overview.resultsTitle}</h3>
-    <ul class="overview-results">
-      {overview.results.map((item) => <li class="body--lg">{item}</li>)}
-    </ul>
+    <LwResults results={overview.results} />
   </section>
 
   <!-- Discovery -->

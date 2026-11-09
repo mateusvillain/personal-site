@@ -44,19 +44,40 @@ main.project-main {
   }
 }
 
+// ficha do case: rotulo pequeno em caixa alta sobre o valor, com o
+// conjunto entre duas linhas finas
 .project-details {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
+  --line: var(--lui-color-neutral-border-subtle);
+
+  margin: 32px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  border-block: 1px solid var(--line);
 
   & .info {
     display: flex;
     flex-direction: column;
+    gap: 4px;
+    padding: 16px 56px 16px 0;
+  }
 
-    & p:first-of-type {
-      opacity: 0.8;
-      font-weight: 500;
+  & dt {
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  & dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  @media (max-width: 399px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    & .info {
+      padding-right: 16px;
     }
   }
 }

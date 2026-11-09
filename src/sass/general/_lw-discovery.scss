@@ -1617,3 +1617,430 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   }
 
 }
+
+/* =========================================================================
+   Resultados: lista em cards com mini-ilustracoes
+   ========================================================================= */
+section.project-section ul.lwr {
+  --line: var(--lui-color-neutral-border-subtle);
+  --tint: color-mix(in srgb, var(--lui-color-neutral-text-heading) 4%, transparent);
+  --accent: var(--lui-color-primary-icon-default);
+  --t: 0.45s;
+
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
+}
+
+.lwr-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 8px 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  transition:
+    border-color 0.2s,
+    transform 0.3s $ease-out;
+
+  // dobra a classe para vencer o peso do .body--lg
+  &__title#{&}__title {
+    margin: 16px 12px 0;
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__text {
+    margin: 4px 12px 0;
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+.lwr-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 112px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--tint);
+  font-size: 0.8125rem;
+  color: var(--lui-color-neutral-text-body);
+
+  i {
+    display: block;
+    font-style: normal;
+  }
+}
+
+// estado "aceso": hover em mouse, ou .is-on (toque, via script)
+@mixin on {
+  @media (hover: hover) {
+    .lwr-card:hover & {
+      @content;
+    }
+  }
+  .lwr-card.is-on & {
+    @content;
+  }
+}
+
+// numero impar de cards: o ultimo ocupa a linha inteira, ilustracao ao lado
+@media (min-width: 520px) {
+  .lwr-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 8px;
+    padding-bottom: 8px;
+
+    .lwr-stage {
+      grid-row: 1 / 3;
+      height: auto;
+      min-height: 112px;
+    }
+
+    .lwr-card__title {
+      margin-top: 12px;
+    }
+
+    .lwr-card__text {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .lwr-card:hover {
+    border-color: var(--lui-color-neutral-border-default);
+    transform: translateY(-2px);
+  }
+}
+
+/* --- tokens: primitivo -> semantico ------------------------------------- */
+.lwr-chip,
+.lwr-badge,
+.lwr-rem {
+  font-family: $mono;
+}
+
+.lwr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--lui-color-neutral-border-default);
+  border-radius: 999px;
+  background: var(--lui-color-neutral-background-surface);
+  transition:
+    transform var(--t) $ease-out,
+    border-color var(--t),
+    color var(--t);
+
+  &--semantic {
+    @include on {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+  }
+}
+
+.lwr-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.lwr-link {
+  width: 40px;
+  height: 12px;
+
+  path {
+    @extend %ink-stroke;
+    stroke: var(--lui-color-neutral-text-caption);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke var(--t);
+
+    @include on {
+      stroke: var(--accent);
+      animation: lwr-draw 0.6s $ease-draw;
+    }
+  }
+}
+
+@keyframes lwr-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+/* --- nomenclatura: dois nomes viram um ------------------------------- */
+.lwr-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--lui-color-neutral-border-default);
+  border-radius: 999px;
+  background: var(--lui-color-neutral-background-surface);
+  transition: border-color var(--t);
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: var(--lui-color-neutral-text-caption);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  i {
+    width: var(--w);
+    height: 6px;
+    border-radius: 3px;
+    background: var(--lui-color-neutral-text-caption);
+    transition:
+      width var(--t) $ease-out,
+      background var(--t);
+  }
+
+  @include on {
+    border-color: var(--accent);
+
+    i {
+      width: 36px;
+      background: var(--accent);
+    }
+  }
+}
+
+.lwr-eq {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 16px;
+
+  i {
+    height: 2px;
+    border-radius: 1px;
+    background: var(--lui-color-neutral-text-caption);
+    transition: background var(--t);
+
+    @include on {
+      background: var(--accent);
+    }
+  }
+
+  // o risco do "≠" some quando os nomes se igualam
+  &__slash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 16px !important;
+    transform: translate(-50%, -50%) rotate(30deg);
+    transition:
+      transform var(--t) $ease-out,
+      opacity var(--t) !important;
+
+    @include on {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(30deg) scaleY(0);
+    }
+  }
+}
+
+/* --- cores: escala que se abre e selo de contraste ---------------------- */
+.lwr-swatches {
+  display: flex;
+
+  i {
+    width: 28px;
+    height: 28px;
+    margin-left: -8px;
+    border: 2px solid var(--lui-color-neutral-background-surface);
+    border-radius: 50%;
+    background: var(--c);
+    transition: margin var(--t) $ease-out;
+    transition-delay: calc(var(--n) * 30ms);
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @include on {
+      margin-left: 4px;
+    }
+
+    &:first-child {
+      @include on {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.lwr-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--lui-color-neutral-text-heading);
+  color: var(--lui-color-neutral-text-inverse);
+  font-size: 0.75rem;
+  transform: scale(0.9);
+  opacity: 0.55;
+  transition:
+    transform var(--t) $ease-out,
+    opacity var(--t);
+
+  @include on {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- tipografia: a tela encolhe e o texto acompanha --------------------- */
+.lwr-screen {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 80px;
+  border: 1.5px solid var(--lui-color-neutral-border-default);
+  border-radius: 8px;
+  background: var(--lui-color-neutral-background-surface);
+  transition:
+    width var(--t) $ease-out,
+    height var(--t) $ease-out;
+
+  @include on {
+    width: 64px;
+    height: 92px;
+  }
+}
+
+.lwr-aa {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--lui-color-neutral-text-heading);
+  transition: transform var(--t) $ease-out;
+
+  @include on {
+    transform: scale(0.62);
+  }
+}
+
+.lwr-rem {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  font-size: 0.6875rem;
+  color: var(--accent);
+}
+
+/* --- elevacao: camadas que sobem com sombras maiores -------------------- */
+.lwr-layers {
+  position: relative;
+  width: 120px;
+  height: 56px;
+  margin-top: 12px;
+
+  i {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--lui-color-neutral-background-surface);
+    transform: translate(calc(var(--n) * 6px), calc(var(--n) * -4px));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+    transition:
+      transform var(--t) $ease-out,
+      box-shadow var(--t);
+
+    @include on {
+      transform: translate(calc(var(--n) * 10px), calc(var(--n) * -10px));
+      box-shadow: 0 calc(2px + var(--n) * 5px) calc(4px + var(--n) * 10px)
+        rgb(0 0 0 / calc(0.08 + var(--n) * 0.04));
+    }
+  }
+}
+
+/* --- multi-brand: o mesmo card em tres marcas, que se abrem em leque -- */
+.lwr-brands {
+  position: relative;
+  width: 96px;
+  height: 76px;
+}
+
+.lwr-brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--lui-color-neutral-background-surface);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.06);
+  // empilhados: a primeira marca na frente
+  z-index: calc(3 - var(--n));
+  transform: translate(calc(var(--n) * 5px), calc(var(--n) * -4px));
+  transition: transform var(--t) $ease-out;
+
+  @include on {
+    transform: translateX(calc((var(--n) - 1) * -64px)) rotate(calc((var(--n) - 1) * -6deg));
+  }
+
+  &__head {
+    width: 70%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--lui-color-neutral-text-heading);
+  }
+
+  &__line {
+    width: 90%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--lui-color-neutral-border-default);
+  }
+
+  &__btn {
+    width: 44px;
+    height: 16px;
+    margin-top: auto;
+    border-radius: 999px;
+    background: var(--c);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwr-card,
+  .lwr-card * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
