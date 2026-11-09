@@ -2583,17 +2583,24 @@ section.project-section ul.lwr {
     @include window.dots;
   }
 
-  // largura no formato da etiqueta de linguagem do bloco de codigo
+  // base e largura no formato da etiqueta de linguagem do bloco de codigo
+  &__root,
   &__width {
     padding: 2px 8px;
     border-radius: 6px;
-    background: var(--cw-hover);
     font-weight: 500;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  // a base e informacao fixa: sem fundo, mais discreta que a largura
+  &__root {
+    margin-left: auto;
+    color: var(--cw-muted);
   }
 
   &__width {
-    margin-left: auto;
+    background: var(--cw-hover);
     color: var(--cw-text);
   }
 

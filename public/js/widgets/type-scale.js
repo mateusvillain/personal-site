@@ -56,7 +56,8 @@ const COPY = {
   },
 }
 
-const ROOT_PX = 16
+// 1rem em px quando a escala nao informa a base
+const DEFAULT_ROOT = 16
 const MIN_W = 320
 const MAX_W = 1920
 const PRESETS = { mobile: 375, tablet: 768, desktop: 1440 }
@@ -70,12 +71,13 @@ function h(tag, className, text) {
 
 const round = (n, d = 1) => String(Math.round(n * 10 ** d) / 10 ** d)
 
-// tamanho em px de um estilo numa tela de `w` px (o que o clamp faria)
-function sizeAt(s, w) {
-  const max = s.fontSize * ROOT_PX
+// tamanho em px de um estilo numa tela de `w` px (o que o clamp faria),
+// com 1rem = `root` px
+function sizeAt(s, w, root) {
+  const max = s.fontSize * root
   if (!s.fluid) return max
-  const min = s.fluid.min * ROOT_PX
-  const pref = (s.fluid.vw * w) / 100 + s.fluid.rem * ROOT_PX
+  const min = s.fluid.min * root
+  const pref = (s.fluid.vw * w) / 100 + s.fluid.rem * root
   return Math.min(max, Math.max(min, pref))
 }
 
@@ -98,6 +100,7 @@ function setFont(el, s) {
 
 export function mount(container, data, locale = 'pt') {
   const t = COPY[locale] || COPY.pt
+  const root = Number(data.root) >= 8 && Number(data.root) <= 32 ? Number(data.root) : DEFAULT_ROOT
   const styles = data?.styles || []
   if (!styles.length) return
 
@@ -148,7 +151,9 @@ export function mount(container, data, locale = 'pt') {
   const dots = h('span', 'lwy-win__dots')
   dots.append(h('i'), h('i'), h('i'))
   const widthLabel = h('span', 'lwy-win__width')
-  chrome.append(dots, widthLabel)
+  // a base em uso: deixa claro de onde vem cada px
+  const rootLabel = h('span', 'lwy-win__root', `1rem = ${round(root, 2)}px`)
+  chrome.append(dots, rootLabel, widthLabel)
 
   const clip = h('div', 'lwy-win__clip')
   const inner = h('div', 'lwy-win__inner')
@@ -190,9 +195,9 @@ export function mount(container, data, locale = 'pt') {
     const fill = h('i', 'lwy-row__fill')
     if (s.fluid) {
       bounds.append(
-        h('span', 'lwy-row__end', `${round(s.fluid.min * ROOT_PX)}px`),
+        h('span', 'lwy-row__end', `${round(s.fluid.min * root)}px`),
         h('span', 'lwy-row__track'),
-        h('span', 'lwy-row__end', `${round(s.fontSize * ROOT_PX)}px`),
+        h('span', 'lwy-row__end', `${round(s.fontSize * root)}px`),
       )
       bounds.children[1].append(fill)
     }
@@ -257,14 +262,14 @@ export function mount(container, data, locale = 'pt') {
     win.classList.toggle('is-wider', width > avail)
 
     sized.forEach(({ el, s }) => {
-      el.style.fontSize = `${sizeAt(s, width)}px`
+      el.style.fontSize = `${sizeAt(s, width, root)}px`
     })
     rowParts.forEach(({ s, now, fill }) => {
-      const px = sizeAt(s, width)
+      const px = sizeAt(s, width, root)
       now.textContent = `${round(px)}px`
       if (s.fluid) {
-        const min = s.fluid.min * ROOT_PX
-        const max = s.fontSize * ROOT_PX
+        const min = s.fluid.min * root
+        const max = s.fontSize * root
         fill.style.width = `${((px - min) / (max - min)) * 100}%`
       }
     })

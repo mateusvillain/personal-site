@@ -42,6 +42,15 @@ export default defineType({
       description: 'Ex.: The quick brown fox jumps over the lazy dog',
     }),
     defineField({
+      name: 'rootFontSize',
+      title: 'font-size base (px)',
+      description:
+        'Quanto vale 1rem nesse design system (o font-size do <html>). Todos os valores em rem da escala são convertidos para px com ele.',
+      type: 'number',
+      initialValue: 16,
+      validation: (Rule) => Rule.required().min(8).max(32),
+    }),
+    defineField({
       name: 'styles',
       title: 'Estilos',
       type: 'array',

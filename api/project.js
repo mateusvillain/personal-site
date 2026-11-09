@@ -85,12 +85,12 @@ export default async function handler(req, res) {
           "pt": pt[]{
             ...,
             _type == "tokenMapRef" => { "map": map->{ caption, groups } },
-            _type == "typeScaleRef" => { "scale": scale->{ caption, sample, styles } }
+            _type == "typeScaleRef" => { "scale": scale->{ caption, sample, rootFontSize, styles } }
           },
           "en": en[]{
             ...,
             _type == "tokenMapRef" => { "map": map->{ caption, groups } },
-            _type == "typeScaleRef" => { "scale": scale->{ caption, sample, styles } }
+            _type == "typeScaleRef" => { "scale": scale->{ caption, sample, rootFontSize, styles } }
           }
         }
       }`,

@@ -174,6 +174,8 @@ function typeScaleData(scale, locale) {
   return {
     caption: scale.caption?.[locale] || scale.caption?.pt || '',
     sample: scale.sample?.[locale] || scale.sample?.pt || '',
+    // quanto vale 1rem em px (font-size do <html> do design system)
+    root: inRange(scale.rootFontSize, 8, 32) ? scale.rootFontSize : 16,
     styles: (scale.styles || [])
       .filter((s) => s?.name && inRange(s.fontSize, 0.25, 10) && inRange(s.lineHeight, 0.8, 3))
       .map((s) => ({
