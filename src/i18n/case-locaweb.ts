@@ -96,6 +96,7 @@ const en = {
       section: 'section?',
       never: 'never used',
       whichGray: 'which gray?',
+      erase: 'Erase',
     },
     comparisonTitle: 'Comparing design and code',
     comparison: [
@@ -241,6 +242,7 @@ const pt: typeof en = {
       section: 'seção?',
       never: 'nunca usado',
       whichGray: 'qual cinza?',
+      erase: 'Apagar',
     },
     comparisonTitle: 'Comparações entre design e código',
     comparison: [

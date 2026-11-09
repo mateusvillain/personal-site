@@ -7,6 +7,14 @@
  * (a direita em telas largas, embaixo nas estreitas) e trechos grifados com
  * marca-texto. Ao entrar na tela, o rabisco e desenhado e o grifo passa.
  *
+ * Os rabiscos sao gerados aqui com um "lapis" procedural (semente fixa, o
+ * resultado e sempre o mesmo): tracos com barriga que passam do ponto,
+ * circulos que nao fecham, hachuras soltas ou em zigue-zague e mais de uma
+ * passada nos tracos fortes. Assim nada fica reto ou perfeito demais.
+ *
+ * Com JS, a folha tambem vira um bloco de rascunho: da para desenhar por cima
+ * com mouse, caneta ou dedo. Nada e salvo: recarregar a pagina apaga tudo.
+ *
  * Os grifos vem do texto do i18n: `==trecho==` vira <mark>.
  */
 type Note = {
@@ -21,6 +29,7 @@ type Doodles = {
   section: string
   never: string
   whichGray: string
+  erase: string
 }
 
 interface Props {
@@ -32,172 +41,321 @@ const { notes, doodles: d } = Astro.props
 
 // "a ==b== c" -> ['a ', 'b', ' c']: indices impares sao grifados
 const parts = (text: string) => text.split(/==(.+?)==/)
+
+/* --- lapis procedural ------------------------------------------------- */
+
+type P = [number, number]
+// kind: espessura do traco (ver .lwn-d--*); delay: quando comeca a ser desenhado
+type Mark = { d: string; kind?: string; delay?: number }
+type Label = { x: number; y: number; text: string; rot: number }
+
+const pencil = (seed: number) => {
+  // mulberry32: aleatorio, mas igual a cada build
+  let s = seed >>> 0
+  const rand = () => {
+    s = (s + 0x6d2b79f5) >>> 0
+    let t = s
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+  const n = (amp = 1) => (rand() * 2 - 1) * amp
+  const f = (v: number) => +v.toFixed(1)
+
+  // curva suave (catmull-rom) por pontos levemente tremidos
+  const curve = (pts: P[], jitter = 0.6) => {
+    const p = pts.map(([x, y]) => [x + n(jitter), y + n(jitter)] as P)
+    let path = `M${f(p[0][0])} ${f(p[0][1])}`
+    for (let i = 0; i < p.length - 1; i++) {
+      const a = p[i - 1] ?? p[i]
+      const b = p[i]
+      const c = p[i + 1]
+      const e = p[i + 2] ?? c
+      path += ` C${f(b[0] + (c[0] - a[0]) / 6)} ${f(b[1] + (c[1] - a[1]) / 6)} ${f(c[0] - (e[0] - b[0]) / 6)} ${f(c[1] - (e[1] - b[1]) / 6)} ${f(c[0])} ${f(c[1])}`
+    }
+    return path
+  }
+
+  // traco "reto" a mao: barriga leve, comeca e termina um pouco fora do ponto
+  const line = (x1: number, y1: number, x2: number, y2: number, passes = 1, bow = 1.4) => {
+    const len = Math.hypot(x2 - x1, y2 - y1) || 1
+    const [ux, uy] = [(x2 - x1) / len, (y2 - y1) / len]
+    const out: string[] = []
+    for (let k = 0; k < passes; k++) {
+      const a = n(1.4)
+      const b = 0.6 + rand() * 2
+      const t = 0.4 + rand() * 0.2
+      const sag = n(bow) * Math.min(1, len / 40)
+      out.push(
+        curve(
+          [
+            [x1 - ux * a, y1 - uy * a + n(0.6) * k],
+            [x1 + (x2 - x1) * t - uy * sag, y1 + (y2 - y1) * t + ux * sag],
+            [x2 + ux * b, y2 + uy * b + n(0.6) * k],
+          ],
+          0.5,
+        ),
+      )
+    }
+    return out.join(' ')
+  }
+
+  // circulo de uma volta so: levemente oval, raio irregular e ponta que
+  // passa do comeco sem fechar
+  const circle = (cx: number, cy: number, r: number, over = 0.18 + rand() * 0.22) => {
+    const a0 = rand() * Math.PI * 2
+    const sq = 1 + n(0.07)
+    const steps = 10
+    const total = Math.round(steps * (1 + over))
+    const pts: P[] = []
+    for (let i = 0; i <= total; i++) {
+      const ang = a0 - (i / steps) * Math.PI * 2
+      const rr = r * (1 + n(0.045)) + (i / total) * (0.4 + rand() * 1.4)
+      pts.push([cx + Math.cos(ang) * rr * sq, cy + Math.sin(ang) * (rr / sq)])
+    }
+    return curve(pts, 0.3)
+  }
+
+  // hachura dentro de um circulo; zigzag liga uma linha na outra sem tirar
+  // o lapis do papel
+  const hatch = (cx: number, cy: number, r: number, gap: number, angle = 40, zigzag = false) => {
+    const th = ((angle + n(5)) * Math.PI) / 180
+    const [ux, uy] = [Math.cos(th), Math.sin(th)]
+    const [px, py] = [-uy, ux]
+    let path = ''
+    let flip = false
+    for (let t = -r + gap * (0.4 + rand() * 0.5); t < r - 0.8; t += gap * (0.8 + rand() * 0.4)) {
+      const h = Math.sqrt(r * r - t * t)
+      if (h < 1.6) continue
+      let a = -h + 0.6 + n(1.3)
+      let b = h - 0.6 + n(1.3)
+      if (flip) [a, b] = [b, a]
+      const s: P = [cx + px * t + ux * a, cy + py * t + uy * a]
+      const e: P = [cx + px * t + ux * b, cy + py * t + uy * b]
+      path += `${zigzag && path ? ' L' : ' M'}${f(s[0])} ${f(s[1])} L${f(e[0])} ${f(e[1])}`
+      if (zigzag) flip = !flip
+    }
+    return path.trim()
+  }
+
+  // barra de "texto" a lapis: varias passadas quase paralelas preenchendo a
+  // altura, com pontas desencontradas
+  const bar = (x1: number, x2: number, y: number, h: number) => {
+    const rows = Math.max(2, Math.round(h / 1.4))
+    const slope = n(0.02)
+    return Array.from({ length: rows }, (_, k) => {
+      const yy = y - h / 2 + (h * (k + 0.5)) / rows
+      return line(x1 + n(1.5), yy, x2 + n(2.5), yy + (x2 - x1) * slope, 1, 0.8)
+    }).join(' ')
+  }
+
+  // seta com haste curva e cabeca num traco so ("<" de quem tem pressa)
+  const arrow = (pts: P[], head = 5) => {
+    const shaft = curve(pts, 0.5)
+    const [ex, ey] = pts[pts.length - 1]
+    const [bx, by] = pts[pts.length - 2]
+    const back = Math.atan2(by - ey, bx - ex)
+    const wing = (side: number) => {
+      const ang = back + side * (0.42 + rand() * 0.2)
+      const len = head * (0.8 + rand() * 0.4)
+      return [ex + Math.cos(ang) * len, ey + Math.sin(ang) * len]
+    }
+    const [w1, w2] = [wing(1), wing(-1)]
+    return `${shaft} M${f(w1[0])} ${f(w1[1])} L${f(ex + n(0.5))} ${f(ey + n(0.5))} L${f(w2[0])} ${f(w2[1])}`
+  }
+
+  return { n, curve, line, circle, hatch, bar, arrow }
+}
+
+const art: { marks: Mark[]; labels: Label[] }[] = []
+
+{
+  // 1. paleta secundaria: tres amostras hachuradas e um "?"
+  const p = pencil(11)
+  const swatches: [number, string][] = [
+    [28, p.hatch(28, 50, 13, 6.5, 38)],
+    [64, p.hatch(64, 50, 13, 3.6, 44, true)],
+    [100, `${p.hatch(100, 50, 13, 3, 36, true)} ${p.hatch(100, 50, 12, 4.4, -48)}`],
+  ]
+  art.push({
+    marks: [
+      ...swatches.map(([cx]) => ({ d: p.circle(cx, 50, 15 + p.n(1.2)) })),
+      ...swatches.map(([, d]) => ({ d, kind: 'hatch', delay: 0.4 })),
+      {
+        d: [0, 1]
+          .map(() =>
+            p.curve([
+              [128.5, 35],
+              [130, 25],
+              [138, 21.5],
+              [146, 25],
+              [146.5, 33],
+              [142, 40],
+              [137.5, 45],
+              [137, 54],
+            ]),
+          )
+          .join(' '),
+        kind: 'bold',
+        delay: 0.2,
+      },
+      { d: p.circle(137.5, 63, 1.3, 0.5), kind: 'bold', delay: 0.9 },
+    ],
+    labels: [{ x: 64, y: 96, text: d.purpose, rot: -3 }],
+  })
+}
+
+{
+  // 2. hierarquia: tres "linhas de texto" e rotulos trocados
+  const p = pencil(23)
+  art.push({
+    marks: [
+      { d: p.bar(8, 72, 28, 6), kind: 'heavy' },
+      { d: p.bar(8, 60, 56, 3.6), kind: 'heavy', delay: 0.15 },
+      { d: p.line(8, 84, 50, 84, 2), delay: 0.3 },
+      { d: p.arrow([[100, 30], [89, 30.5], [78, 28.5]]), kind: 'thin', delay: 0.5 },
+      { d: p.arrow([[90, 58], [78, 58], [66, 56]]), kind: 'thin', delay: 0.6 },
+      { d: p.arrow([[100, 86], [78, 87], [56, 84.5]]), kind: 'thin', delay: 0.7 },
+      { d: p.arrow([[100, 82], [86, 76], [70, 61]]), kind: 'thin', delay: 0.8 },
+    ],
+    labels: [
+      { x: 122, y: 34, text: d.title, rot: -4 },
+      { x: 124, y: 62, text: d.subtitle, rot: 2 },
+      { x: 121, y: 90, text: d.section, rot: -2 },
+    ],
+  })
+}
+
+{
+  // 3. peso light riscado ao lado do bold
+  const p = pencil(37)
+  const letters = (dx: number, passes: number) =>
+    [
+      p.line(10 + dx, 80, 24 + dx, 34, passes, 1),
+      p.line(24 + dx, 34, 38 + dx, 80, passes, 1),
+      p.line(15 + dx, 64, 33 + dx, 63, passes, 0.8),
+      ...Array.from({ length: passes }, () => p.circle(55 + dx, 70, 8.6, 0.12)),
+      p.line(63.5 + dx, 59, 63 + dx, 81, passes, 0.6),
+    ].join(' ')
+  art.push({
+    marks: [
+      { d: letters(0, 1), kind: 'hair' },
+      { d: letters(78, 3), kind: 'heavy', delay: 0.2 },
+      { d: `${p.line(4, 42, 72, 76, 2, 3)} ${p.line(6, 79, 70, 39, 2, 3)}`, kind: 'strike', delay: 0.9 },
+    ],
+    labels: [{ x: 38, y: 106, text: d.never, rot: 3 }],
+  })
+}
+
+{
+  // 4. titulo e paragrafo, e tres cinzas sem saber qual usar
+  const p = pencil(51)
+  const grays: [number, string][] = [
+    [22, p.hatch(136, 22, 7.5, 5.5, 42)],
+    [46, p.hatch(136, 46, 7.5, 3.2, 38, true)],
+    [70, `${p.hatch(136, 70, 7.5, 2.6, 44, true)} ${p.hatch(136, 70, 7, 3.6, -42)}`],
+  ]
+  art.push({
+    marks: [
+      { d: p.bar(8, 78, 26, 5), kind: 'heavy' },
+      { d: `${p.line(8, 46, 94, 46.5)} ${p.line(8, 58, 90, 57.5)} ${p.line(8, 70, 66, 70.5)}`, kind: 'thin', delay: 0.15 },
+      ...grays.map(([cy]) => ({ d: p.circle(136, cy, 9 + p.n(0.8)), delay: 0.25 })),
+      ...grays.map(([, d]) => ({ d, kind: 'hatch', delay: 0.55 })),
+      { d: p.arrow([[124, 34], [106, 28], [86, 26.5]]), kind: 'thin', delay: 0.7 },
+      { d: p.arrow([[124, 58], [112, 55.5], [100, 52]]), kind: 'thin', delay: 0.8 },
+    ],
+    labels: [{ x: 112, y: 102, text: d.whichGray, rot: -2.5 }],
+  })
+}
 ---
 
-<ol class="lwn">
-  <!-- definicoes compartilhadas pelos rabiscos: textura de lapis e hachuras -->
-  <svg class="lwn__defs" aria-hidden="true" focusable="false">
-    <defs>
-      <!-- regiao em unidades do desenho: linhas retas tem caixa de altura zero e sumiriam com a regiao relativa -->
-      <filter id="lwn-pencil" filterUnits="userSpaceOnUse" x="-8" y="-8" width="176" height="136">
-        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="wob" />
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="wob"
-          scale="1.8"
-          xChannelSelector="R"
-          yChannelSelector="G"
-          result="shaky"
-        />
-        <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="grain" />
-        <feColorMatrix
-          in="grain"
-          type="matrix"
-          values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.35"
-          result="mask"
-        />
-        <feComposite in="shaky" in2="mask" operator="in" />
-      </filter>
-      {
-        [
-          ['lwn-hatch-light', 7],
-          ['lwn-hatch', 4],
-          ['lwn-hatch-dense', 2.4],
-        ].map(([id, gap]) => (
-          <pattern
-            id={id}
-            width={gap}
-            height={gap}
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(40)"
-          >
-            <line x1="0" y1="0" x2="0" y2={gap} />
-          </pattern>
-        ))
-      }
-    </defs>
-  </svg>
+<div class="lwn-sheet" data-lwn-sheet>
+  <ol class="lwn">
+    <!-- definicoes compartilhadas pelos rabiscos: textura de lapis -->
+    <svg class="lwn__defs" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- regiao em unidades do desenho: linhas retas tem caixa de altura zero e sumiriam com a regiao relativa -->
+        <filter id="lwn-pencil" filterUnits="userSpaceOnUse" x="-8" y="-8" width="176" height="136">
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="wob" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="wob"
+            scale="1.8"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            result="shaky"
+          />
+          <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="grain" />
+          <feColorMatrix
+            in="grain"
+            type="matrix"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.35"
+            result="mask"
+          />
+          <feComposite in="shaky" in2="mask" operator="in" />
+        </filter>
+      </defs>
+    </svg>
 
-  {
-    notes.map((note, i) => (
-      <li class="lwn__item">
-        <span class="lwn__num" aria-hidden="true">
-          {i + 1}.
-        </span>
-        <h4 class="lwn__title body--lg">{note.title}</h4>
-        <p class="lwn__text body--lg">
-          {parts(note.text).map((part, j) =>
-            j % 2 ? (
-              // numa linha so: quebras aqui viram espaco dentro do grifo
-              // prettier-ignore
-              <mark class="lwn-mark" style={`--m: ${(j - 1) / 2}`}>{part}</mark>
-            ) : (
-              part
-            ),
+    {
+      notes.map((note, i) => (
+        <li class="lwn__item">
+          <span class="lwn__num" aria-hidden="true">
+            {i + 1}.
+          </span>
+          <h4 class="lwn__title body--lg">{note.title}</h4>
+          <p class="lwn__text body--lg">
+            {parts(note.text).map((part, j) =>
+              j % 2 ? (
+                // numa linha so: quebras aqui viram espaco dentro do grifo
+                // prettier-ignore
+                <mark class="lwn-mark" style={`--m: ${(j - 1) / 2}`}>{part}</mark>
+              ) : (
+                part
+              ),
+            )}
+          </p>
+
+          {art[i] && (
+            <svg class="lwn-doodle" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
+              {art[i].marks.map((m) => (
+                <path
+                  class:list={['lwn-d', m.kind && `lwn-d--${m.kind}`]}
+                  d={m.d}
+                  pathLength="1"
+                  style={m.delay ? `--dl: ${m.delay}s` : undefined}
+                />
+              ))}
+              {art[i].labels.map((l) => (
+                <text
+                  class="lwn-label"
+                  x={l.x}
+                  y={l.y}
+                  text-anchor="middle"
+                  transform={`rotate(${l.rot} ${l.x} ${l.y})`}
+                >
+                  {l.text}
+                </text>
+              ))}
+            </svg>
           )}
-        </p>
+        </li>
+      ))
+    }
+  </ol>
 
-        <svg class="lwn-doodle" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
-          <g>
-            {i === 0 && (
-              <>
-                {/* paleta secundaria: tres amostras hachuradas e um "?" */}
-                <circle class="lwn-fill" cx="28" cy="50" r="15" fill="url(#lwn-hatch-light)" />
-                <circle class="lwn-fill" cx="64" cy="50" r="15" fill="url(#lwn-hatch)" />
-                <circle class="lwn-fill" cx="100" cy="50" r="15" fill="url(#lwn-hatch-dense)" />
-                <circle class="lwn-d" cx="28" cy="50" r="15" pathLength="1" />
-                <circle class="lwn-d" cx="64" cy="50" r="15" pathLength="1" />
-                <circle class="lwn-d" cx="100" cy="50" r="15" pathLength="1" />
-                <path
-                  class="lwn-d lwn-d--bold"
-                  d="M128 34 C127 23 148 22 147 34 C146 42 137 42 137 53 M137 62 L137 63"
-                  pathLength="1"
-                />
-                <text class="lwn-label" x="64" y="96" text-anchor="middle">
-                  {d.purpose}
-                </text>
-              </>
-            )}
+  <!-- bloco de rascunho por cima da folha (so com JS) -->
+  <canvas class="lwn-canvas" aria-hidden="true" hidden></canvas>
 
-            {i === 1 && (
-              <>
-                {/* hierarquia: tres "linhas de texto" e rotulos trocados */}
-                <path class="lwn-d" style="stroke-width: 6" d="M8 28 L72 28" pathLength="1" />
-                <path class="lwn-d" style="stroke-width: 4" d="M8 56 L60 56" pathLength="1" />
-                <path class="lwn-d" style="stroke-width: 2.2" d="M8 84 L50 84" pathLength="1" />
-                <path
-                  class="lwn-d lwn-d--thin"
-                  d="M100 29 C92 29 86 28 78 28 M78 28 L83 25 M78 28 L83 31 M90 57 C82 57 74 56 66 56 M66 56 L71 53 M66 56 L71 59 M100 86 C86 86 70 85 56 84 M56 84 L61 81 M56 84 L61 87 M100 83 C88 78 78 66 68 60 M68 60 L74 60.5 M68 60 L70.5 65.5"
-                  pathLength="1"
-                />
-                <text class="lwn-label" x="122" y="34" text-anchor="middle">
-                  {d.title}
-                </text>
-                <text class="lwn-label" x="122" y="62" text-anchor="middle">
-                  {d.subtitle}
-                </text>
-                <text class="lwn-label" x="122" y="90" text-anchor="middle">
-                  {d.section}
-                </text>
-              </>
-            )}
-
-            {i === 2 && (
-              <>
-                {/* peso light riscado ao lado do bold */}
-                <path
-                  class="lwn-d lwn-d--hair"
-                  d="M10 80 L24 34 L38 80 M15 64 L33 64 M63 58 L63 80 M63 69 C63 60 46 59 46 70 C46 81 63 80 63 71"
-                  pathLength="1"
-                />
-                <path
-                  class="lwn-d"
-                  style="stroke-width: 6"
-                  d="M88 80 L102 34 L116 80 M93 64 L111 64 M141 58 L141 80 M141 69 C141 60 124 59 124 70 C124 81 141 80 141 71"
-                  pathLength="1"
-                />
-                <path
-                  class="lwn-d lwn-d--strike"
-                  d="M4 42 C24 52 46 64 72 76 M6 78 C26 66 48 54 70 40"
-                  pathLength="1"
-                />
-                <text class="lwn-label" x="38" y="106" text-anchor="middle">
-                  {d.never}
-                </text>
-              </>
-            )}
-
-            {i === 3 && (
-              <>
-                {/* titulo e paragrafo, e tres cinzas sem saber qual usar */}
-                <path class="lwn-d" style="stroke-width: 5" d="M8 26 L78 26" pathLength="1" />
-                <path
-                  class="lwn-d lwn-d--thin"
-                  d="M8 46 L94 46 M8 58 L90 58 M8 70 L66 70"
-                  pathLength="1"
-                />
-                <circle class="lwn-fill" cx="136" cy="22" r="9" fill="url(#lwn-hatch-light)" />
-                <circle class="lwn-fill" cx="136" cy="46" r="9" fill="url(#lwn-hatch)" />
-                <circle class="lwn-fill" cx="136" cy="70" r="9" fill="url(#lwn-hatch-dense)" />
-                <circle class="lwn-d" cx="136" cy="22" r="9" pathLength="1" />
-                <circle class="lwn-d" cx="136" cy="46" r="9" pathLength="1" />
-                <circle class="lwn-d" cx="136" cy="70" r="9" pathLength="1" />
-                <path
-                  class="lwn-d lwn-d--thin"
-                  d="M124 34 C114 30 104 26 86 26 M86 26 L91 23 M86 26 L91 30 M124 58 C114 56 108 54 100 52 M100 52 L104 49 M100 52 L104 56"
-                  pathLength="1"
-                />
-                <text class="lwn-label" x="112" y="102" text-anchor="middle">
-                  {d.whichGray}
-                </text>
-              </>
-            )}
-          </g>
-        </svg>
-      </li>
-    ))
-  }
-</ol>
+  <div class="lwn-tools" hidden>
+    <button type="button" class="lwn-tool" data-lwn-erase>
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <path d="M6 13.5h7.5 M2.8 9.6l6.4-6.4a1.3 1.3 0 0 1 1.8 0l2.3 2.3a1.3 1.3 0 0 1 0 1.8L7.5 13.5H5.3L2.8 11a1 1 0 0 1 0-1.4z M5.6 6.8l4.1 4.1" />
+      </svg>
+      {d.erase}
+    </button>
+  </div>
+</div>
 
 <script>
   // rabisco e grifo aparecem quando a nota entra na tela (sem JS ou com
@@ -219,4 +377,150 @@ const parts = (text: string) => text.split(/==(.+?)==/)
       io.observe(item)
     })
   }
+
+  // bloco de rascunho: um canvas do tamanho da folha, sempre pronto para
+  // desenhar. Os tracos ficam so em memoria, entao somem ao recarregar
+  type Pt = { x: number; y: number; w: number }
+
+  document.querySelectorAll<HTMLElement>('[data-lwn-sheet]').forEach((sheet) => {
+    const paper = sheet.querySelector<HTMLElement>('.lwn')
+    const canvas = sheet.querySelector<HTMLCanvasElement>('.lwn-canvas')
+    const tools = sheet.querySelector<HTMLElement>('.lwn-tools')
+    const eraseBtn = sheet.querySelector<HTMLButtonElement>('[data-lwn-erase]')
+    const ctx = canvas?.getContext('2d')
+    if (!paper || !canvas || !tools || !eraseBtn || !ctx) return
+
+    canvas.hidden = false
+
+    const strokes: Pt[][] = []
+    let current: Pt[] | null = null
+    let pointerId: number | null = null
+    let dpr = 1
+    let ink: CanvasPattern | string = '#666'
+
+    // a cor do lapis vem do tema (--pencil); vira um padrao com grao para o
+    // traco nao ficar liso como caneta
+    const makeInk = () => {
+      const probe = document.createElement('span')
+      probe.style.cssText = 'position:absolute;visibility:hidden;color:var(--pencil)'
+      paper.append(probe)
+      const color = getComputedStyle(probe).color
+      probe.remove()
+
+      const tile = document.createElement('canvas')
+      tile.width = tile.height = 48
+      const tc = tile.getContext('2d')
+      if (!tc) return void (ink = color)
+      tc.fillStyle = color
+      tc.fillRect(0, 0, 48, 48)
+      const img = tc.getImageData(0, 0, 48, 48)
+      for (let i = 3; i < img.data.length; i += 4) img.data[i] *= 0.35 + Math.random() * 0.65
+      tc.putImageData(img, 0, 0)
+      ink = ctx.createPattern(tile, 'repeat') ?? color
+    }
+
+    const pen = () => {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      ctx.strokeStyle = ink
+      ctx.fillStyle = ink
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+    }
+
+    // trecho suave de b ate o meio de b-c, passando pelo meio de a-b
+    const segment = (a: Pt, b: Pt, c: Pt) => {
+      ctx.beginPath()
+      ctx.moveTo((a.x + b.x) / 2, (a.y + b.y) / 2)
+      ctx.quadraticCurveTo(b.x, b.y, (b.x + c.x) / 2, (b.y + c.y) / 2)
+      ctx.lineWidth = (b.w + c.w) / 2
+      ctx.stroke()
+    }
+
+    const dot = (p: Pt) => {
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.w / 2, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    const at = (s: Pt[], i: number) => s[Math.max(0, Math.min(s.length - 1, i))]
+
+    const redraw = () => {
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      pen()
+      for (const s of strokes) {
+        if (s.length === 1) dot(s[0])
+        else for (let i = 0; i < s.length; i++) segment(at(s, i - 1), s[i], at(s, i + 1))
+      }
+    }
+
+    const layout = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const w = paper.offsetWidth
+      const h = paper.offsetHeight
+      canvas.style.left = `${paper.offsetLeft}px`
+      canvas.style.top = `${paper.offsetTop}px`
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      canvas.width = Math.round(w * dpr)
+      canvas.height = Math.round(h * dpr)
+      redraw()
+    }
+
+    const point = (e: PointerEvent): Pt => {
+      const r = canvas.getBoundingClientRect()
+      const base = e.pointerType === 'pen' ? 0.5 + e.pressure * 2.2 : e.pointerType === 'touch' ? 2 : 1.7
+      return { x: e.clientX - r.left, y: e.clientY - r.top, w: base * (0.88 + Math.random() * 0.24) }
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      if (pointerId !== null || e.button > 0) return
+      e.preventDefault()
+      canvas.setPointerCapture(e.pointerId)
+      pointerId = e.pointerId
+      current = [point(e)]
+      strokes.push(current)
+      pen()
+      dot(current[0])
+      tools.hidden = false
+    })
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (!current || e.pointerId !== pointerId) return
+      const events = e.getCoalescedEvents?.() ?? []
+      for (const ev of events.length ? events : [e]) {
+        const p = point(ev)
+        const last = current[current.length - 1]
+        if (Math.hypot(p.x - last.x, p.y - last.y) < 1.2) continue
+        current.push(p)
+        const n = current.length
+        segment(at(current, n - 3), current[n - 2], current[n - 1])
+      }
+    })
+
+    const finish = (e: PointerEvent) => {
+      if (!current || e.pointerId !== pointerId) return
+      const n = current.length
+      if (n > 1) segment(current[n - 2], current[n - 1], current[n - 1])
+      current = null
+      pointerId = null
+    }
+    canvas.addEventListener('pointerup', finish)
+    canvas.addEventListener('pointercancel', finish)
+
+    eraseBtn.addEventListener('click', () => {
+      strokes.length = 0
+      redraw()
+      tools.hidden = true
+    })
+
+    // tema trocado: refaz a tinta e redesenha o que ja foi rabiscado
+    new MutationObserver(() => {
+      makeInk()
+      redraw()
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+
+    makeInk()
+    new ResizeObserver(layout).observe(paper)
+  })
 </script>
