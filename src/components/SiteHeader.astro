@@ -19,9 +19,11 @@ interface Props {
   locale: Locale
   /** Caminho desta pagina no outro idioma. */
   switchPath: string
+  /** Mostra hora e clima na barra do topo (desligar tambem no SiteLayout). */
+  liveInfo?: boolean
 }
 
-const { locale, switchPath } = Astro.props
+const { locale, switchPath, liveInfo = true } = Astro.props
 const strings = ui[locale]
 const homePath = localizePath('/', locale)
 // Compara sem a barra final: '/pt' e '/pt/' sao a mesma pagina.
@@ -93,15 +95,22 @@ const socials = [
 </script>
 
 <section class="site-topbar" aria-label={strings.topbar.label}>
+  <!-- sem hora e clima o bloco fica vazio, para os controles seguirem a direita -->
   <div class="site-topbar__info">
-    <p class="body--sm">
-      <span class="sr-only">{strings.topbar.time}</span>
-      <span id="hora"></span>
-    </p>
-    <p class="body--sm">
-      <span class="sr-only">{strings.topbar.weather}</span>
-      <span id="clima"></span>
-    </p>
+    {
+      liveInfo && (
+        <>
+          <p class="body--sm">
+            <span class="sr-only">{strings.topbar.time}</span>
+            <span id="hora" />
+          </p>
+          <p class="body--sm">
+            <span class="sr-only">{strings.topbar.weather}</span>
+            <span id="clima" />
+          </p>
+        </>
+      )
+    }
   </div>
   <div class="site-topbar__controls">
     <LangToggle locale={locale} href={switchPath} />

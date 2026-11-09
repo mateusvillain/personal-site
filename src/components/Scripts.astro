@@ -1,5 +1,20 @@
+---
+interface Props {
+  /** Carrega hora e clima da barra do topo (precisa do #hora/#clima no SiteHeader). */
+  liveInfo?: boolean
+}
+
+const { liveInfo = true } = Astro.props
+---
+
 <script is:inline src="/js/analytics.js"></script>
 <script is:inline src="/js/theme.js"></script>
 <script is:inline src="/js/spotify.js"></script>
-<script is:inline src="/js/weather.js"></script>
-<script is:inline src="/js/time.js"></script>
+{
+  liveInfo && (
+    <>
+      <script is:inline src="/js/weather.js"></script>
+      <script is:inline src="/js/time.js"></script>
+    </>
+  )
+}
