@@ -115,6 +115,14 @@ function renderSections(sections) {
           .then((m) => m.mount(el, section.data, locale))
           .catch(() => el.remove())
         break
+
+      case 'type-scale':
+        resetList()
+        el = document.createElement('div')
+        import('/js/widgets/type-scale.js')
+          .then((m) => m.mount(el, section.data, locale))
+          .catch(() => el.remove())
+        break
     }
 
     if (el) {

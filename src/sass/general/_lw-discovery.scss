@@ -2445,3 +2445,380 @@ section.project-section ul.lwr {
   // amostras escuras (gray-900) sumiriam no fundo escuro
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
 }
+
+/* =========================================================================
+   Escala tipografica fluida (conteudo protegido, public/js/widgets/type-scale.js)
+   ========================================================================= */
+.lwy {
+  --line: var(--lui-color-neutral-border-subtle);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+
+  margin: 24px 0;
+
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
+
+  &.is-resizing {
+    cursor: ew-resize;
+    user-select: none;
+  }
+}
+
+.lwy__hint.lwy__hint {
+  margin: 0 0 12px;
+  color: var(--lui-color-neutral-text-caption);
+}
+
+.lwy__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+
+// abas e atalhos no mesmo formato de pilula do resto do case
+.lwy-seg,
+.lwy-presets {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--hover);
+}
+
+.lwy-seg__opt,
+.lwy-presets__btn {
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--lui-color-neutral-text-body);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &[aria-selected='true'],
+  &[aria-pressed='true'] {
+    background: var(--lui-color-neutral-background-surface);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+    color: var(--lui-color-neutral-text-heading);
+    font-weight: 500;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.lwy-presets__btn {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+/* --- janela -------------------------------------------------------------- */
+.lwy__stage {
+  position: relative;
+  padding-right: 10px; // espaco da alca
+}
+
+.lwy-win {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--lui-color-neutral-border-default);
+  border-radius: 12px;
+  background: var(--lui-color-neutral-background-surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
+
+  &__chrome {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+    font-family: $mono;
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  &__dots {
+    display: flex;
+    gap: 5px;
+
+    i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lui-color-neutral-border-default);
+    }
+  }
+
+  &__width {
+    margin-left: auto;
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  &__zoom:empty {
+    display: none;
+  }
+
+  &__zoom {
+    padding: 0 6px;
+    border-radius: 4px;
+    background: var(--hover);
+  }
+
+  &__clip {
+    overflow: hidden;
+    border-radius: 0 0 12px 12px;
+  }
+
+  &__inner {
+    padding: 8px 20px 20px;
+    box-sizing: border-box;
+    transform-origin: 0 0;
+  }
+
+  // alca na borda direita
+  &__handle {
+    position: absolute;
+    top: 50%;
+    right: -9px;
+    width: 18px;
+    height: 56px;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+    touch-action: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0 5px;
+      border: 1px solid var(--lui-color-neutral-border-default);
+      border-radius: 999px;
+      background: var(--lui-color-neutral-background-surface);
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+      transition: border-color 0.15s;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 18px;
+      border-inline: 1px solid var(--lui-color-neutral-text-caption);
+      transform: translate(-50%, -50%);
+      box-sizing: content-box;
+      width: 2px;
+    }
+
+    &:hover::before,
+    .is-resizing &::before {
+      border-color: var(--lui-color-neutral-text-heading);
+    }
+  }
+}
+
+.lwy__foot {
+  margin-top: 12px;
+}
+
+.lwy__range {
+  display: block;
+}
+
+.lwy-range {
+  width: 100%;
+  accent-color: var(--lui-color-neutral-text-heading);
+}
+
+/* --- aba Escala ------------------------------------------------------------ */
+.lwy-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lwy-row {
+  padding: 14px 0;
+
+  & + & {
+    border-top: 1px solid var(--line);
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  &__name {
+    flex: 1 1 auto;
+  }
+
+  &__tag {
+    padding: 1px 6px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: $mono;
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  &__now {
+    min-width: 4.2em;
+    font-family: $mono;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+    text-align: right;
+  }
+
+  &__lh {
+    font-family: $mono;
+    font-size: 0.75rem;
+  }
+
+  &__sample.lwy-row__sample {
+    display: -webkit-box;
+    margin: 8px 0 10px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: var(--lui-color-neutral-text-heading);
+    overflow-wrap: anywhere;
+  }
+
+  // minimo ---o------ maximo
+  &__range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 320px;
+    font-family: $mono;
+    font-size: 0.6875rem;
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  &__track {
+    position: relative;
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--hover);
+  }
+
+  &__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: inherit;
+    background: var(--lui-color-neutral-text-heading);
+
+    // ponto no tamanho atual
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--lui-color-neutral-background-surface);
+      border-radius: 50%;
+      background: var(--lui-color-neutral-text-heading);
+      box-sizing: border-box;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__clamp {
+    display: block;
+    margin-top: 6px;
+    font-family: $mono;
+    font-size: 0.6875rem;
+    color: var(--lui-color-neutral-text-caption);
+    overflow-wrap: anywhere;
+  }
+}
+
+/* --- aba Pagina ----------------------------------------------------------- */
+.lwy-page[hidden] {
+  display: none;
+}
+
+.lwy-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  color: var(--lui-color-neutral-text-heading);
+
+  &__el.lwy-page__el {
+    position: relative;
+    margin: 0;
+    border-radius: 3px;
+
+    // o estilo de cada texto aparece ao passar o cursor
+    &:hover {
+      outline: 2px dashed var(--lui-color-neutral-text-heading);
+      outline-offset: 3px;
+
+      &::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 0;
+        z-index: 1;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: var(--lui-color-neutral-text-heading);
+        color: var(--lui-color-neutral-text-inverse);
+        font: 500 12px/1.4 $mono;
+        letter-spacing: 0;
+        text-transform: none;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &__hr {
+    width: 100%;
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwy * {
+    transition: none !important;
+  }
+}

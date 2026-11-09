@@ -82,8 +82,16 @@ export default async function handler(req, res) {
       `*[_type == "caseStudy" && slug.current == $slug][0]{
         title, isPublic, requiresPassword, passwordKey,
         content{
-          "pt": pt[]{ ..., _type == "tokenMapRef" => { "map": map->{ caption, groups } } },
-          "en": en[]{ ..., _type == "tokenMapRef" => { "map": map->{ caption, groups } } }
+          "pt": pt[]{
+            ...,
+            _type == "tokenMapRef" => { "map": map->{ caption, groups } },
+            _type == "typeScaleRef" => { "scale": scale->{ caption, sample, styles } }
+          },
+          "en": en[]{
+            ...,
+            _type == "tokenMapRef" => { "map": map->{ caption, groups } },
+            _type == "typeScaleRef" => { "scale": scale->{ caption, sample, styles } }
+          }
         }
       }`,
       { slug }

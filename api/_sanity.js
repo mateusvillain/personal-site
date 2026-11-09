@@ -93,6 +93,41 @@ function tokenMapData(block) {
   }
 }
 
+const TYPE_ROLES = ['title', 'subtitle', 'headline', 'overtitle', 'body', 'caption', 'none']
+const TYPE_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span']
+const FAMILY = /^[\w -]{1,40}$/
+
+const inRange = (n, min, max) => typeof n === 'number' && n >= min && n <= max
+
+// clamp(min, calc(vw + rem), max): so vale com os tres numeros e min < max
+function fluidData(f, max) {
+  if (!f || !inRange(f.min, 0.25, 10) || !inRange(f.vw, 0, 20) || !inRange(f.rem, -10, 10)) {
+    return null
+  }
+  return f.min < max ? { min: f.min, vw: f.vw, rem: f.rem } : null
+}
+
+// Estilos validados: os valores viram style inline no client
+function typeScaleData(scale, locale) {
+  return {
+    caption: scale.caption?.[locale] || scale.caption?.pt || '',
+    sample: scale.sample?.[locale] || scale.sample?.pt || '',
+    styles: (scale.styles || [])
+      .filter((s) => s?.name && inRange(s.fontSize, 0.25, 10) && inRange(s.lineHeight, 0.8, 3))
+      .map((s) => ({
+        name: s.name,
+        role: TYPE_ROLES.includes(s.role) ? s.role : 'none',
+        tag: TYPE_TAGS.includes(s.tag) ? s.tag : 'p',
+        family: FAMILY.test(s.family || '') ? s.family : 'Inter',
+        weight: inRange(s.weight, 100, 900) ? Math.round(s.weight) : 400,
+        fontSize: s.fontSize,
+        lineHeight: s.lineHeight,
+        uppercase: Boolean(s.uppercase),
+        fluid: fluidData(s.fluid, s.fontSize)
+      }))
+  }
+}
+
 /**
  * Portable Text (por idioma) -> mesmo shape de "sections" que
  * public/js/project-protected.js já sabe renderizar (era o formato
@@ -140,6 +175,12 @@ export function blocksToSections(blocks = [], locale = 'pt') {
         if (block.map) {
           const caption = block.map.caption?.[locale] || block.map.caption?.pt || ''
           sections.push({ type: 'token-map', data: tokenMapData({ ...block.map, caption }) })
+        }
+        break
+
+      case 'typeScaleRef':
+        if (block.scale) {
+          sections.push({ type: 'type-scale', data: typeScaleData(block.scale, locale) })
         }
         break
 
