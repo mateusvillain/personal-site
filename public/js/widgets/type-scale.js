@@ -59,7 +59,7 @@ const COPY = {
 // 1rem em px quando a escala nao informa a base
 const DEFAULT_ROOT = 16
 const MIN_W = 320
-const MAX_W = 1920
+const MAX_W = 1440
 const PRESETS = { mobile: 375, tablet: 768, desktop: 1440 }
 
 function h(tag, className, text) {
