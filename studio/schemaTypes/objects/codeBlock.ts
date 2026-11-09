@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { createCopyPasteInput } from '../components/CopyPasteInput'
 
 const LANGUAGES = ['css', 'scss', 'html', 'javascript', 'typescript', 'json', 'bash', 'markdown']
 
@@ -38,6 +39,13 @@ export default defineType({
   name: 'codeBlock',
   title: 'Bloco de código',
   type: 'object',
+  components: {
+    input: createCopyPasteInput({
+      type: 'codeBlock',
+      label: 'bloco de código',
+      fields: ['title', 'language', 'code', 'preview', 'previewHtml', 'previewCss', 'tabs'],
+    }),
+  },
   fieldsets: [
     {
       name: 'customPreview',
