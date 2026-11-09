@@ -352,12 +352,27 @@ main.project-main {
     }
   }
 
+  // ate 20 linhas a janela cresce com o codigo; a partir de 21 a altura
+  // trava em 20 linhas (+ o respiro de cima e de baixo) e o corpo rola.
+  // A rolagem fica no corpo, e nao no <pre>, para os numeros acompanharem
+  // o codigo na vertical
   &__body {
+    --cw-lh: 1.75;
+    --cw-max-lines: 20;
+
     display: flex;
+    // filhos com a altura do proprio conteudo: esticados, ficariam com a
+    // altura da janela e o resto do codigo vazaria sem fundo
+    align-items: flex-start;
     min-width: 0;
+    max-height: calc(var(--cw-max-lines) * var(--cw-lh) * 1em + 40px);
+    overflow: auto;
+    overscroll-behavior: contain;
     font-family: 'Google Sans', ui-monospace, monospace;
     font-size: 0.875rem;
-    line-height: 1.75;
+    line-height: var(--cw-lh);
+    scrollbar-width: thin;
+    scrollbar-color: var(--cw-line) transparent;
   }
 
   /* --- previa ----------------------------------------------------------- */
@@ -451,17 +466,23 @@ main.project-main {
   }
 
   &__gutter {
+    position: sticky;
+    left: 0;
+    z-index: 1;
     flex: none;
+    box-sizing: border-box;
+    // fundo opaco: o codigo passa por baixo na rolagem horizontal
+    background: var(--cw-bg);
     padding: 20px 0 20px 0;
     min-width: 3.25em;
     padding-right: 14px;
     border-right: 1px solid var(--cw-line);
-    color: var(--cw-muted);
     font-variant-numeric: tabular-nums;
     text-align: right;
     white-space: pre;
     user-select: none;
-    opacity: 0.7;
+    // equivale ao antigo opacity 0.7, sem deixar o fundo transparente
+    color: color-mix(in srgb, var(--cw-muted) 70%, var(--cw-bg));
   }
 
   pre[class*='language-'] {
@@ -469,7 +490,7 @@ main.project-main {
     min-width: 0;
     margin: 0;
     padding: 20px 24px 20px 18px;
-    overflow-x: auto;
+    overflow: visible;
     border-radius: 0;
     background: transparent;
     font: inherit;
