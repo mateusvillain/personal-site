@@ -142,6 +142,8 @@ main.project-main {
   --cw-dot-1: #ff5f57;
   --cw-dot-2: #febc2e;
   --cw-dot-3: #28c840;
+  --cw-canvas: #f1f1ef;
+  --cw-dot: rgb(0 0 0 / 0.07);
 
   position: relative;
   margin: var(--lui-spacing-fixed-32, 32px) 0;
@@ -174,6 +176,8 @@ main.project-main {
     --cw-keyword: #ff7b72;
     --cw-number: #ffa657;
     --cw-punct: #8b949e;
+    --cw-canvas: #e6e7ea;
+    --cw-dot: rgb(0 0 0 / 0.08);
 
     box-shadow:
       0 1px 0 rgb(255 255 255 / 0.04) inset,
@@ -343,21 +347,116 @@ main.project-main {
   }
 
   /* --- codigo ----------------------------------------------------------- */
-  &__body {
+  // so o painel ativo aparece: a altura acompanha o conteudo de cada aba
+  &__panel {
     display: none;
     min-width: 0;
-    font-family: 'Google Sans', ui-monospace, monospace;
-    font-size: 0.875rem;
-    line-height: 1.75;
 
-    // so o painel ativo aparece: a altura acompanha o codigo de cada aba
     &.is-active {
-      display: flex;
+      display: block;
     }
 
     .has-tabs &.is-active {
       animation: cw-fade 0.2s ease;
     }
+  }
+
+  &__body {
+    display: flex;
+    min-width: 0;
+    font-family: 'Google Sans', ui-monospace, monospace;
+    font-size: 0.875rem;
+    line-height: 1.75;
+  }
+
+  /* --- previa ----------------------------------------------------------- */
+  // O palco fica claro nos dois temas: as sombras foram desenhadas para a
+  // interface clara e sumiriam num fundo escuro.
+  &__preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 44px 24px 40px;
+    border-bottom: 1px solid var(--cw-line);
+    background:
+      radial-gradient(circle, var(--cw-dot) 1px, transparent 1.5px) 0 0 / 16px 16px,
+      var(--cw-canvas);
+  }
+
+  // com previa, a aba ativa encaixa no palco em vez de no codigo
+  &.is-preview &__tab[aria-selected='true'] {
+    background: var(--cw-canvas);
+    color: #24292f;
+
+    &::after {
+      background: var(--cw-canvas);
+    }
+  }
+
+  // previa personalizada: o iframe ocupa o palco e cuida do proprio respiro
+  &__preview.is-custom {
+    display: block;
+    padding: 0;
+  }
+
+  &__frame {
+    display: block;
+    width: 100%;
+    height: 160px;
+    border: 0;
+    background: transparent;
+    color-scheme: light;
+  }
+
+  // fundo proprio: continua legivel sobre previas escuras (ex.: scrim)
+  &__preview-label {
+    z-index: 1;
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    background: rgb(255 255 255 / 0.8);
+    color: #6e7781;
+    font: 500 0.6875rem/1 'Google Sans', ui-monospace, monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__sample {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: min(100%, 240px);
+    padding: 18px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background-color: #fff;
+
+    > span {
+      display: grid;
+      flex: 1;
+      gap: 8px;
+    }
+
+    span i {
+      height: 8px;
+      border-radius: 4px;
+      background: #e3e5e8;
+
+      &:last-child {
+        width: 60%;
+        background: #eef0f2;
+      }
+    }
+  }
+
+  &__sample-avatar {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e3e5e8;
   }
 
   &__gutter {
@@ -534,7 +633,7 @@ main.project-main {
 
 @media (prefers-reduced-motion: reduce) {
   .code-window__copy.is-copied svg,
-  .code-window__body.is-active {
+  .code-window__panel.is-active {
     animation: none;
   }
 }

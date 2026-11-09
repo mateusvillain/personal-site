@@ -2,6 +2,34 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 const LANGUAGES = ['css', 'scss', 'html', 'javascript', 'typescript', 'json', 'bash', 'markdown']
 
+const PREVIEW_HELP =
+  'Opcional. Monta uma interface própria na prévia. O elemento com o atributo data-preview recebe as declarações do código (ex.: box-shadow); sem data-preview, o HTML/CSS aparece como está. Scripts e arquivos externos não carregam.'
+
+// HTML e CSS da previa personalizada; usados no bloco e, como substituto,
+// em cada aba
+// `hidden` vale so no bloco (sem `preview` marcado); nas abas os campos
+// ficam sempre visiveis
+const previewFields = (hidden?: (ctx: { parent?: { preview?: boolean } }) => boolean) => [
+  defineField({
+    name: 'previewHtml',
+    title: 'HTML da prévia',
+    description: PREVIEW_HELP,
+    type: 'text',
+    rows: 6,
+    fieldset: 'customPreview',
+    hidden,
+  }),
+  defineField({
+    name: 'previewCss',
+    title: 'CSS da prévia',
+    description: 'Estilos só da prévia; não afetam o resto da página.',
+    type: 'text',
+    rows: 6,
+    fieldset: 'customPreview',
+    hidden,
+  }),
+]
+
 // Bloco de código dentro do rich text — equivalente ao block "code" do Notion.
 // Sem abas: usa Título (opcional), Linguagem e Código.
 // Com abas: cada aba tem rótulo, linguagem e código próprios, e os campos de
@@ -10,6 +38,13 @@ export default defineType({
   name: 'codeBlock',
   title: 'Bloco de código',
   type: 'object',
+  fieldsets: [
+    {
+      name: 'customPreview',
+      title: 'Prévia personalizada (opcional)',
+      options: { collapsible: true, collapsed: true },
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
@@ -34,6 +69,15 @@ export default defineType({
       hidden: ({ parent }) => Boolean(parent?.tabs?.length),
     }),
     defineField({
+      name: 'preview',
+      title: 'Mostrar prévia',
+      description:
+        'Aplica as declarações visuais do código (box-shadow, border-radius, cores…) num card de exemplo acima do código, ou na interface da prévia personalizada. Vale para todas as abas.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    ...previewFields(({ parent }) => !parent?.preview),
+    defineField({
       name: 'tabs',
       title: 'Abas (opcional)',
       description: 'Com abas, o bloco mostra um código por aba.',
@@ -43,6 +87,14 @@ export default defineType({
           name: 'codeTab',
           title: 'Aba',
           type: 'object',
+          fieldsets: [
+            {
+              name: 'customPreview',
+              title: 'Prévia personalizada desta aba (opcional)',
+              description: 'Substitui a do bloco só nesta aba.',
+              options: { collapsible: true, collapsed: true },
+            },
+          ],
           fields: [
             defineField({
               name: 'label',
@@ -64,6 +116,7 @@ export default defineType({
               type: 'text',
               rows: 10,
             }),
+            ...previewFields(),
           ],
           preview: {
             select: { title: 'label', language: 'language' },

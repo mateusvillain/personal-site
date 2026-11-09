@@ -28,6 +28,63 @@ function codeLanguage(value) {
   return /^[a-z0-9-]{1,20}$/.test(value || '') ? value : 'css'
 }
 
+// Previa do bloco de codigo: tira do CSS so as declaracoes visuais que o
+// card de exemplo sabe mostrar. Aceita declaracoes soltas ou dentro do
+// primeiro { } (ex.: `.card { box-shadow: ... }`). Sem url(), @ e afins:
+// a previa nao pode carregar nada de fora nem escapar do card.
+const PREVIEW_PROPS = new Set([
+  'box-shadow',
+  'border-radius',
+  'background',
+  'background-color',
+  'border',
+  'border-color',
+  'border-width',
+  'border-style',
+  'outline',
+  'outline-offset',
+  'opacity',
+  'filter',
+  'backdrop-filter',
+  'color'
+])
+
+function previewStyles(code) {
+  let src = String(code || '').replace(/\/\*[\s\S]*?\*\//g, '')
+  const open = src.indexOf('{')
+  if (open !== -1) {
+    const close = src.indexOf('}', open)
+    src = src.slice(open + 1, close === -1 ? undefined : close)
+  }
+
+  const out = []
+  for (const part of src.split(';')) {
+    const colon = part.indexOf(':')
+    if (colon === -1) continue
+    const prop = part.slice(0, colon).trim().toLowerCase()
+    const value = part.slice(colon + 1).trim()
+    if (!value || value.length > 400) continue
+    if (/url\(|image-set|expression|[\\<>{}@]/i.test(value)) continue
+    if (PREVIEW_PROPS.has(prop) || /^--[a-z0-9-]{1,60}$/.test(prop)) {
+      out.push({ prop, value })
+    }
+  }
+  return out.slice(0, 20)
+}
+
+// Previa completa: declaracoes do codigo + HTML/CSS personalizados (o da
+// aba substitui o do bloco). O HTML/CSS vai cru: o navegador monta num
+// iframe sandbox sem scripts e com CSP que bloqueia recursos externos.
+function previewData(code, ...sources) {
+  const source = sources.find((item) => item?.previewHtml?.trim()) || {}
+  const html = String(source.previewHtml || '').slice(0, 20000)
+  const css = html ? String(source.previewCss || '').slice(0, 20000) : ''
+  return {
+    declarations: previewStyles(code),
+    ...(html && { html, css })
+  }
+}
+
 function escapeHtml(str = '') {
   return str
     .replace(/&/g, '&amp;')
@@ -197,7 +254,8 @@ export function blocksToSections(blocks = [], locale = 'pt') {
           .map((tab) => ({
             label: String(tab.label || '').slice(0, 40),
             language: codeLanguage(tab.language),
-            html: tab.code
+            html: tab.code,
+            ...(block.preview && { preview: previewData(tab.code, tab, block) })
           }))
 
         if (tabs.length) {
@@ -207,7 +265,8 @@ export function blocksToSections(blocks = [], locale = 'pt') {
             type: 'code',
             html: block.code || '',
             language: codeLanguage(block.language),
-            title: String(block.title || '').slice(0, 60)
+            title: String(block.title || '').slice(0, 60),
+            ...(block.preview && { preview: previewData(block.code, block) })
           })
         }
         break

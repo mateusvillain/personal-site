@@ -130,8 +130,8 @@ function renderSections(sections) {
 /* --- blocos de codigo ---------------------------------------------------- */
 
 const codeLabels = {
-  pt: { copy: 'Copiar', copied: 'Copiado', code: 'Código' },
-  en: { copy: 'Copy', copied: 'Copied', code: 'Code' },
+  pt: { copy: 'Copiar', copied: 'Copiado', code: 'Código', preview: 'Prévia' },
+  en: { copy: 'Copy', copied: 'Copied', code: 'Code', preview: 'Preview' },
 }
 
 const languageNames = {
@@ -169,6 +169,7 @@ function codeWindow(section) {
       lang,
       langName: languageNames[lang] || lang.toUpperCase(),
       text: String(tab.html || '').replace(/\s+$/, ''),
+      preview: hasPreview(tab.preview) ? tab.preview : null,
     }
   })
   const hasTabs = tabs.length > 1
@@ -259,14 +260,19 @@ function codeWindow(section) {
   panels.className = 'code-window__panels'
 
   const panelEls = tabs.map((tab, i) => {
-    const body = document.createElement('div')
-    body.className = 'code-window__body'
+    const panel = document.createElement('div')
+    panel.className = 'code-window__panel'
 
     if (hasTabs) {
-      body.id = `${uid}-panel-${i}`
-      body.setAttribute('role', 'tabpanel')
-      body.setAttribute('aria-labelledby', `${uid}-tab-${i}`)
+      panel.id = `${uid}-panel-${i}`
+      panel.setAttribute('role', 'tabpanel')
+      panel.setAttribute('aria-labelledby', `${uid}-tab-${i}`)
     }
+
+    if (tab.preview) panel.append(codePreview(tab.preview, t))
+
+    const body = document.createElement('div')
+    body.className = 'code-window__body'
 
     const gutter = document.createElement('span')
     gutter.className = 'code-window__gutter'
@@ -287,8 +293,9 @@ function codeWindow(section) {
 
     pre.append(code)
     body.append(gutter, pre)
-    panels.append(body)
-    return body
+    panel.append(body)
+    panels.append(panel)
+    return panel
   })
 
   function select(i) {
@@ -301,6 +308,7 @@ function codeWindow(section) {
     panelEls.forEach((panel, n) => {
       panel.classList.toggle('is-active', n === i)
     })
+    figure.classList.toggle('is-preview', Boolean(tabs[i].preview))
     langLabel.textContent = tabs[i].langName
     clearTimeout(resetTimer)
     setCopy(false)
@@ -309,6 +317,90 @@ function codeWindow(section) {
   select(0)
   figure.append(bar, panels)
   return figure
+}
+
+function hasPreview(preview) {
+  return Boolean(
+    preview && (typeof preview.html === 'string' || preview.declarations?.length)
+  )
+}
+
+// Previa do codigo. Sem HTML proprio: um card de exemplo recebe as
+// declaracoes que a API ja filtrou (so propriedades visuais, sem url()).
+// Com HTML/CSS proprios: um iframe sandbox monta a interface, e o elemento
+// com data-preview recebe as declaracoes como padrao (especificidade zero,
+// antes do CSS da previa): qualquer regra do CSS da previa, :hover
+// inclusive, vence.
+function codePreview(preview, t) {
+  const stage = document.createElement('div')
+  stage.className = 'code-window__preview'
+
+  const label = document.createElement('span')
+  label.className = 'code-window__preview-label'
+  label.textContent = t.preview
+  stage.append(label)
+
+  const declarations = (preview.declarations || []).filter(
+    (item) => typeof item?.prop === 'string' && typeof item?.value === 'string'
+  )
+
+  if (typeof preview.html === 'string') {
+    stage.classList.add('is-custom')
+    stage.append(previewFrame(preview.html, preview.css || '', declarations, t))
+    return stage
+  }
+
+  const sample = document.createElement('div')
+  sample.className = 'code-window__sample'
+  sample.setAttribute('aria-hidden', 'true')
+  sample.innerHTML = '<i class="code-window__sample-avatar"></i><span><i></i><i></i></span>'
+  // setProperty ignora valor invalido: CSS com erro nao quebra a previa
+  declarations.forEach(({ prop, value }) => sample.style.setProperty(prop, value))
+  stage.append(sample)
+  return stage
+}
+
+// sandbox sem allow-scripts: nada executa la dentro. allow-same-origin so
+// para medir a altura do conteudo. A CSP corta qualquer recurso externo.
+function previewFrame(html, css, declarations, t) {
+  const frame = document.createElement('iframe')
+  frame.className = 'code-window__frame'
+  frame.title = t.preview
+  frame.setAttribute('sandbox', 'allow-same-origin')
+  frame.setAttribute('loading', 'lazy')
+
+  const noClose = (text) => text.replace(/<\/(style)/gi, '<\\/$1')
+  const applied = declarations.length
+    ? `:where([data-preview]){${declarations
+        .map(({ prop, value }) => `${prop}:${value}`)
+        .join(';')}}`
+    : ''
+
+  frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src 'self'">
+<style>
+@font-face{font-family:'Geist';src:url('/fonts/Geist-VariableFont_wght.woff2') format('woff2');font-weight:100 900}
+:root{color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:transparent}
+body{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:24px;padding:44px 24px 40px;font:14px/1.5 Geist,system-ui,sans-serif;color:#24292f}
+</style>
+<style>${noClose(applied)}</style>
+<style>${noClose(css)}</style>
+</head><body>${html}</body></html>`
+
+  // a altura acompanha o conteudo (inclusive ao trocar de aba ou de largura)
+  frame.addEventListener('load', () => {
+    const body = frame.contentDocument?.body
+    if (!body) return
+    const fit = () => {
+      frame.style.height = `${Math.ceil(body.getBoundingClientRect().height)}px`
+    }
+    fit()
+    new ResizeObserver(fit).observe(body)
+  })
+
+  return frame
 }
 
 // Mostra uma amostra ao lado de cada cor hexadecimal do codigo
