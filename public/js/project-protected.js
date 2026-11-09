@@ -106,6 +106,15 @@ function renderSections(sections) {
         resetList()
         el = document.createElement('hr')
         break
+
+      case 'token-map':
+        resetList()
+        // visual interativo: o codigo e carregado so quando o case tem um
+        el = document.createElement('div')
+        import('/js/widgets/token-map.js')
+          .then((m) => m.mount(el, section.data, locale))
+          .catch(() => el.remove())
+        break
     }
 
     if (el) {

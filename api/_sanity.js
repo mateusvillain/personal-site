@@ -73,12 +73,32 @@ function renderBlockHtml(block) {
     .join('')
 }
 
+const HEX = /^#[0-9a-f]{6}$/i
+
+// So o que o visual precisa, com a cor validada (vai para um style no client)
+function tokenMapData(block) {
+  return {
+    caption: block.caption || '',
+    groups: (block.groups || []).map((group) => ({
+      name: group.name || '',
+      tokens: (group.tokens || [])
+        .filter((t) => t?.name && HEX.test(t.hex || ''))
+        .map((t) => ({
+          name: t.name,
+          primitive: t.primitive || '',
+          hex: t.hex.toLowerCase(),
+          role: t.role || 'none'
+        }))
+    }))
+  }
+}
+
 /**
  * Portable Text (por idioma) -> mesmo shape de "sections" que
  * public/js/project-protected.js já sabe renderizar (era o formato
  * usado pelos blocks do Notion).
  */
-export function blocksToSections(blocks = []) {
+export function blocksToSections(blocks = [], locale = 'pt') {
   const sections = []
 
   for (const block of blocks) {
@@ -108,6 +128,19 @@ export function blocksToSections(blocks = []) {
           src: imageUrl(block),
           alt: block.alt || ''
         })
+        break
+
+      // formato antigo: mapa escrito direto no conteudo do idioma
+      case 'tokenMap':
+        sections.push({ type: 'token-map', data: tokenMapData(block) })
+        break
+
+      // mapa compartilhado entre idiomas (documento tokenMapDoc)
+      case 'tokenMapRef':
+        if (block.map) {
+          const caption = block.map.caption?.[locale] || block.map.caption?.pt || ''
+          sections.push({ type: 'token-map', data: tokenMapData({ ...block.map, caption }) })
+        }
         break
 
       case 'codeBlock':

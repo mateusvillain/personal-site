@@ -4,6 +4,8 @@ import { defineField, defineType } from 'sanity'
 // - texto (parágrafo, headings 1-3, citação, listas) via block padrão
 // - imagem com alt obrigatório
 // - bloco de código (codeBlock)
+// - mapa de tokens interativo (tokenMapRef -> documento tokenMapDoc,
+//   compartilhado entre PT e EN; tokenMap e o formato antigo)
 // Mapeia 1:1 para o "sections" que api/project.js já entrega ao client
 // (public/js/project-protected.js), então o front não precisa mudar.
 const blockContentArray = {
@@ -53,6 +55,8 @@ const blockContentArray = {
       ],
     },
     { type: 'codeBlock' },
+    { type: 'tokenMapRef' },
+    { type: 'tokenMap' },
   ],
 }
 

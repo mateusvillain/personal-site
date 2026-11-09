@@ -2044,3 +2044,404 @@ section.project-section ul.lwr {
     animation: none !important;
   }
 }
+
+/* =========================================================================
+   Mapa de tokens semanticos (conteudo protegido, public/js/widgets/token-map.js)
+   ========================================================================= */
+.lwm {
+  --line: var(--lui-color-neutral-border-subtle);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+  --focus: var(--lui-color-neutral-text-heading);
+
+  container-type: inline-size;
+  margin: 24px 0;
+
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
+}
+
+.lwm__hint {
+  margin: 0 0 12px;
+  color: var(--lui-color-neutral-text-caption);
+}
+
+.lwm__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  @container (min-width: 640px) {
+    grid-template-columns: minmax(0, 1fr) 280px;
+
+    .lwm__stage {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .lwm__list {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+}
+
+// a mini-interface acompanha a rolagem: no celular fica no topo enquanto
+// se toca nos tokens embaixo
+.lwm__stage {
+  position: sticky;
+  top: 8px;
+  z-index: 1;
+  align-self: start;
+  // fundo opaco: a lista passa por baixo ao rolar
+  padding-bottom: 4px;
+  background: var(--lui-color-neutral-background-surface);
+}
+
+.lwm__readout.lwm__readout {
+  min-height: 1.5em;
+  margin: 8px 4px 0;
+  font-family: $mono;
+  font-size: 0.75rem;
+  color: var(--lui-color-neutral-text-caption);
+  overflow-wrap: anywhere;
+}
+
+/* --- lista ---------------------------------------------------------------- */
+/* --- abas: um grupo por vez --------------------------------------------- */
+.lwm-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 12px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--hover);
+
+  &__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--lui-color-neutral-text-body);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      color: var(--lui-color-neutral-text-heading);
+    }
+
+    &[aria-selected='true'] {
+      background: var(--lui-color-neutral-background-surface);
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+      color: var(--lui-color-neutral-text-heading);
+      font-weight: 500;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--lui-color-neutral-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+
+  &__count {
+    min-width: 1.5em;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--hover);
+    font-family: $mono;
+    font-size: 0.6875rem;
+    text-align: center;
+  }
+}
+
+.lwm-group__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lwm__list {
+  container-type: inline-size;
+}
+
+// coluna estreita: token em cima, primitivo embaixo (igual em todas as
+// linhas); com espaco, os dois na mesma linha
+.lwm-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  gap: 4px;
+  padding: 6px 8px;
+
+  @container (min-width: 480px) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  border-radius: 8px;
+  cursor: default;
+  transition:
+    background 0.15s,
+    opacity 0.2s;
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .lwm.is-active &:not(.is-on) {
+    opacity: 0.4;
+  }
+
+  &.is-on {
+    background: var(--hover);
+  }
+
+  &__name {
+    font-family: $mono;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-body);
+    overflow-wrap: anywhere;
+  }
+}
+
+.lwm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 10px 3px 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--lui-color-neutral-background-surface);
+  font-family: $mono;
+  font-size: 0.8125rem;
+  color: var(--lui-color-neutral-text-body);
+  transition: border-color 0.15s;
+
+  &:hover,
+  .is-shared & {
+    border-color: var(--lui-color-neutral-border-default);
+  }
+
+  &__swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12);
+  }
+}
+
+/* --- mini-interface ------------------------------------------------------- */
+.lwm-ui {
+  position: relative;
+  padding: 20px 16px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--bg-page);
+  // a mini-interface e sempre "clara": e o produto, nao o tema do site
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--border-stroke);
+    border-radius: 10px;
+    background: var(--bg-base);
+  }
+
+  // dobra a classe para vencer o `p + p` do conteudo protegido
+  &__title#{&}__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  &__body#{&}__body {
+    margin: -4px 0 0;
+    color: var(--text-body);
+  }
+
+  &__hr {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--border-divisor);
+  }
+
+  &__fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__field {
+    padding: 6px 10px;
+    border: 1px solid var(--border-stroke);
+    border-radius: 6px;
+    color: var(--text-body);
+    transition: border-color 0.2s;
+  }
+
+  &[data-field='error'] &__field {
+    border-color: var(--border-danger);
+  }
+
+  &[data-field='success'] &__field {
+    border-color: var(--border-success);
+  }
+
+  // texto de ajuda do campo: uma linha so, para o card nao pular de altura
+  &__help {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 1.35em;
+    font-size: 0.75rem;
+    color: var(--text-body);
+  }
+
+  &[data-field='error'] &__help .lwm-ui__icon {
+    stroke: var(--border-danger);
+  }
+
+  &[data-field='success'] &__help .lwm-ui__icon {
+    stroke: var(--border-success);
+  }
+
+  &__notice#{&}__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid var(--border-info);
+    border-radius: 6px;
+    color: var(--text-body);
+    font-size: 0.75rem;
+    // espaco de duas linhas: trocar info <-> aviso nao muda a altura do card
+    box-sizing: border-box;
+    min-height: calc(2 * 1.35em + 18px);
+    transition: border-color 0.2s;
+
+    .lwm-ui__icon {
+      margin-top: 1px;
+      stroke: var(--border-info);
+    }
+  }
+
+  &[data-notice='warning'] &__notice {
+    border-color: var(--border-warning);
+
+    .lwm-ui__icon {
+      stroke: var(--border-warning);
+    }
+  }
+
+  &__icon {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &__alert#{&}__alert {
+    margin: 0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--bg-danger);
+    color: var(--text-inverse);
+    font-weight: 500;
+  }
+
+  &__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  &__link {
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  &__button {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--bg-primary);
+    color: var(--text-inverse);
+    font-weight: 500;
+  }
+
+  // o overlay so aparece quando o token dele esta em destaque
+  &__scrim {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  &.is-scrim &__scrim {
+    opacity: 0.55;
+  }
+
+  // alvo do token em destaque
+  .is-target {
+    outline: 2px dashed var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  &.is-target {
+    outline-offset: -4px;
+  }
+}
+
+:root[data-theme='dark'] .lwm-ui {
+  box-shadow: none;
+}
+
+:root[data-theme='dark'] .lwm-ui .is-target {
+  // o tracejado precisa contrastar com a interface clara, nao com o tema
+  outline-color: #18181b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwm * {
+    transition: none !important;
+  }
+}
+
+:root[data-theme='dark'] .lwm-chip__swatch {
+  // amostras escuras (gray-900) sumiriam no fundo escuro
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
+}

@@ -80,7 +80,11 @@ export default async function handler(req, res) {
     ====================================================== */
     const doc = await sanity.fetch(
       `*[_type == "caseStudy" && slug.current == $slug][0]{
-        title, isPublic, requiresPassword, passwordKey, content
+        title, isPublic, requiresPassword, passwordKey,
+        content{
+          "pt": pt[]{ ..., _type == "tokenMapRef" => { "map": map->{ caption, groups } } },
+          "en": en[]{ ..., _type == "tokenMapRef" => { "map": map->{ caption, groups } } }
+        }
       }`,
       { slug }
     )
@@ -116,7 +120,7 @@ export default async function handler(req, res) {
     // Aba EN tocada no Studio mas vazia persiste `en: []` — cai no PT também.
     const localized = doc.content?.[locale]
     const blocks = localized?.length ? localized : doc.content?.pt ?? []
-    const sections = blocksToSections(blocks)
+    const sections = blocksToSections(blocks, locale)
 
     return res.status(200).json({
       title: doc.title?.[locale] || doc.title?.pt || '',
