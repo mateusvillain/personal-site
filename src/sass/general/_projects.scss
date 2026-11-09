@@ -153,6 +153,23 @@ main.project-main {
     border-radius: 16px;
   }
 
+  // imagens do Sanity vazam a coluna como os visuais em codigo
+  // (bloco de codigo, escalas, mapa de tokens)
+  .content-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: var(--lui-spacing-fixed-32, 32px) 0;
+
+    @media (min-width: 768px) {
+      --bleed: min(92vw, 720px);
+
+      width: var(--bleed);
+      max-width: none;
+      margin-left: calc(50% - var(--bleed) / 2);
+    }
+  }
+
 }
 
 /* =========================================================================
