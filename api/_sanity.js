@@ -100,9 +100,16 @@ function renderChild(child, markDefs = []) {
     const markDef = markDefs.find((m) => m._key === mark)
 
     if (markDef?._type === 'link') {
-      // Link sem href (annotation criada e não preenchida) vira texto puro.
-      if (markDef.href) {
-        text = `<a href="${escapeHtml(markDef.href)}" target="_blank" rel="noopener noreferrer">${text}</a>`
+      // Link sem href (annotation criada e não preenchida) ou com esquema
+      // fora da lista (javascript: etc.) vira texto puro. A classe `link` é a
+      // mesma dos links da página inicial (Let's UI): cor de link, sublinhado
+      // no hover e anel de foco.
+      const href = String(markDef.href || '').trim()
+      if (/^(https?:|mailto:|\/|#)/i.test(href)) {
+        const external = /^https?:/i.test(href)
+        text = `<a class="link" href="${escapeHtml(href)}"${
+          external ? ' target="_blank" rel="noopener noreferrer"' : ''
+        }>${text}</a>`
       }
       continue
     }
