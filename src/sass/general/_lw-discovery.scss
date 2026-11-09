@@ -2583,9 +2583,8 @@ section.project-section ul.lwr {
     @include window.dots;
   }
 
-  // largura e zoom no formato da etiqueta de linguagem do bloco de codigo
-  &__width,
-  &__zoom {
+  // largura no formato da etiqueta de linguagem do bloco de codigo
+  &__width {
     padding: 2px 8px;
     border-radius: 6px;
     background: var(--cw-hover);
@@ -2598,8 +2597,19 @@ section.project-section ul.lwr {
     color: var(--cw-text);
   }
 
-  &__zoom:empty {
-    display: none;
+  // tela simulada maior que o espaco: a janela continua alem da borda
+  &.is-wider {
+    border-right-style: dashed;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &.is-wider &__chrome {
+    border-top-right-radius: 0;
+  }
+
+  &.is-wider &__clip {
+    border-bottom-right-radius: 0;
   }
 
   &__clip {
@@ -2610,7 +2620,6 @@ section.project-section ul.lwr {
   &__inner {
     padding: 8px 20px 20px;
     box-sizing: border-box;
-    transform-origin: 0 0;
   }
 
   // alca na borda direita

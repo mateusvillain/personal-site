@@ -9,8 +9,11 @@
  *    esta entre o minimo e o maximo do clamp;
  *  - Pagina: uma mini-pagina montada com os estilos.
  *
- * Quando a largura simulada passa do espaco disponivel, o conteudo e
- * reduzido para caber (o zoom aparece na barra da janela).
+ * Os textos ficam sempre no tamanho real (o px que o clamp() da para a
+ * largura simulada). Quando a largura simulada passa do espaco disponivel,
+ * a janela para de crescer e a borda direita fica tracejada: a "tela"
+ * continua alem do que cabe aqui. Encolher o conteudo para caber deixava os
+ * textos ilegiveis justamente nas telas grandes.
  *
  * Nada confidencial mora aqui: os valores chegam so depois da senha, ja
  * validados pela API. Todo texto entra por textContent.
@@ -145,8 +148,7 @@ export function mount(container, data, locale = 'pt') {
   const dots = h('span', 'lwy-win__dots')
   dots.append(h('i'), h('i'), h('i'))
   const widthLabel = h('span', 'lwy-win__width')
-  const zoomLabel = h('span', 'lwy-win__zoom')
-  chrome.append(dots, widthLabel, zoomLabel)
+  chrome.append(dots, widthLabel)
 
   const clip = h('div', 'lwy-win__clip')
   const inner = h('div', 'lwy-win__inner')
@@ -251,11 +253,8 @@ export function mount(container, data, locale = 'pt') {
   let avail = 0 // espaco disponivel para a janela
 
   function render() {
-    const scale = Math.min(1, avail / width)
     win.style.width = `${Math.min(width, avail)}px`
-    inner.style.width = `${width}px`
-    inner.style.transform = scale < 1 ? `scale(${scale})` : ''
-    clip.style.height = `${inner.offsetHeight * scale}px`
+    win.classList.toggle('is-wider', width > avail)
 
     sized.forEach(({ el, s }) => {
       el.style.fontSize = `${sizeAt(s, width)}px`
@@ -271,7 +270,6 @@ export function mount(container, data, locale = 'pt') {
     })
 
     widthLabel.textContent = `${Math.round(width)}px`
-    zoomLabel.textContent = scale < 1 ? `${Math.round(scale * 100)}%` : ''
     range.value = String(Math.round(width))
     range.setAttribute('aria-valuetext', `${Math.round(width)}px`)
     presetBtns.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.w) === Math.round(width))))
@@ -282,7 +280,6 @@ export function mount(container, data, locale = 'pt') {
     render()
   }
 
-  // a altura do conteudo muda com a largura: refaz o recorte
   // a alca fica meio para fora da janela: reserva esse espaco a direita
   const HANDLE_ROOM = 10
   const measure = () => stage.clientWidth - HANDLE_ROOM
@@ -291,10 +288,6 @@ export function mount(container, data, locale = 'pt') {
     avail = measure()
     render()
   }).observe(stage)
-  new ResizeObserver(() => {
-    const scale = Math.min(1, avail / width)
-    clip.style.height = `${inner.offsetHeight * scale}px`
-  }).observe(inner)
 
   function select(key) {
     Object.entries(viewTabs).forEach(([k, b]) => {
@@ -340,7 +333,7 @@ export function mount(container, data, locale = 'pt') {
     handle.addEventListener('pointercancel', up)
   })
 
-  // comeca no tamanho real do espaco (zoom 100%)
+  // comeca na largura real do espaco
   avail = measure()
   width = Math.max(MIN_W, Math.round(avail))
   select('scale')
