@@ -96,12 +96,57 @@ export default defineType({
               title: 'Fluido (clamp)',
               type: 'object',
               description:
-                'Deixe vazio se o tamanho for fixo. clamp(mínimo, calc(Xvw + Yrem), font-size).',
+                'Deixe vazio se o tamanho for fixo (ex.: 1rem): vale só o font-size. clamp(mínimo, calc(Xvw + Yrem), font-size).',
               options: { collapsible: true, collapsed: true },
+              // os mesmos limites da API (api/_sanity.js, fluidData): fora
+              // deles o site descarta o clamp e mostra o estilo como fixo
               fields: [
-                defineField({ name: 'min', title: 'Mínimo (rem)', type: 'number' }),
-                defineField({ name: 'vw', title: 'Coeficiente (vw)', type: 'number' }),
-                defineField({ name: 'rem', title: 'Constante (rem)', type: 'number' }),
+                defineField({
+                  name: 'min',
+                  title: 'Mínimo (rem)',
+                  type: 'number',
+                  validation: (Rule) =>
+                    Rule.min(0.25)
+                      .max(10)
+                      .custom((min, ctx) => {
+                        // sem coeficiente vw nao ha clamp: o estilo e fixo e o
+                        // minimo nao importa
+                        if (typeof (ctx.parent as { vw?: number } | undefined)?.vw !== 'number') return true
+                        // caminho: styles[_key == ...].fluid.min -> acha o estilo pela _key
+                        const seg = ctx.path?.[1] as { _key?: string } | undefined
+                        const styles = ctx.document?.styles as { _key?: string; fontSize?: number }[] | undefined
+                        const max = styles?.find((st) => st._key === seg?._key)?.fontSize
+                        return typeof min === 'number' && typeof max === 'number' && min >= max
+                          ? 'O mínimo precisa ser menor que o font-size; sem isso o estilo fica fixo.'
+                          : true
+                      }),
+                }),
+                defineField({
+                  name: 'vw',
+                  title: 'Coeficiente (vw)',
+                  description: 'Com ponto decimal, ex.: 1.19875 (não 119875).',
+                  type: 'number',
+                  validation: (Rule) =>
+                    Rule.min(0).max(20).error('Entre 0 e 20. Confira o ponto decimal, ex.: 1.19875.'),
+                }),
+                defineField({
+                  name: 'rem',
+                  title: 'Constante (rem)',
+                  description:
+                    'O termo somado ao vw dentro do calc(), ex.: 1.753 — não é o máximo (esse é o font-size).',
+                  type: 'number',
+                  validation: (Rule) =>
+                    Rule.min(-10)
+                      .max(10)
+                      .custom((rem, ctx) => {
+                        const seg = ctx.path?.[1] as { _key?: string } | undefined
+                        const styles = ctx.document?.styles as { _key?: string; fontSize?: number }[] | undefined
+                        const max = styles?.find((st) => st._key === seg?._key)?.fontSize
+                        return typeof rem === 'number' && typeof max === 'number' && rem >= max
+                          ? 'Com a constante igual ou maior que o font-size, o calc() já começa acima do máximo e a escala fica travada nele.'
+                          : true
+                      }),
+                }),
               ],
             }),
             defineField({
