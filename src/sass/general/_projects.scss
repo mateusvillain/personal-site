@@ -114,6 +114,37 @@ main.project-main {
     margin-top: 16px;
   }
 
+  // listas vindas do Sanity (sem classe): marcador dentro da coluna, com o
+  // texto quebrado alinhado ao texto do item, e respiro entre os paragrafos
+  ul,
+  ol {
+    margin: 12px 0 16px;
+    padding-left: 1.5em;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li + li {
+    margin-top: 6px;
+  }
+
+  li::marker {
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  h2 + ul,
+  h2 + ol,
+  h3 + ul,
+  h3 + ol {
+    margin-top: 8px;
+  }
+
   pre {
     border-radius: 16px;
   }
