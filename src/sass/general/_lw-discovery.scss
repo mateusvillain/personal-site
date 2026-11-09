@@ -1,3 +1,5 @@
+@use 'window';
+
 // Discovery do case Locaweb: a prancha de contraste das cores
 // (src/components/LwColorBoard.astro) e a escala tipografica
 // (src/components/LwTypeScale.astro). As cores dos tokens sao fixas; o
@@ -523,11 +525,11 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
    ====================================================================== */
 
 .lwt {
-  --pink: #c2255c;
+  @include window.tokens;
 
-  :root[data-theme='dark'] & {
-    --pink: #f78fb3;
-  }
+  // o destaque (token, linha do grafico) usa o roxo de propriedade do bloco
+  // de codigo
+  --pink: var(--cw-property);
 }
 
 /* --- seletor desktop/mobile -------------------------------------------- */
@@ -603,56 +605,71 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   overflow-x: clip;
 }
 
+// mesma janela do bloco de codigo: barra no topo com os pontos coloridos
 .lwt-frame {
+  @include window.frame;
+
   position: relative;
   max-width: 100%;
-  padding: 34px 12px 12px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  padding: 44px 0 4px;
   transition:
     max-width 0.5s $ease-out,
     border-radius 0.5s $ease-out;
 
-  &__chrome {
+  // a barra e um pseudo-elemento para os pontos poderem se mover sozinhos
+  // (no modo mobile eles viram o entalhe do celular, no centro)
+  &::before {
+    content: '';
     position: absolute;
-    top: 13px;
-    left: 14px;
-    display: flex;
-    gap: 5px;
+    inset: 0 0 auto;
+    height: 44px;
+    border-bottom: 1px solid var(--cw-line);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    background: var(--cw-bar);
+    box-sizing: border-box;
+  }
+
+  &__chrome {
+    @include window.dots;
+
+    position: absolute;
+    top: 16px;
+    left: 16px;
     transition:
       left 0.5s $ease-out,
       transform 0.5s $ease-out;
 
     i {
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-      background: var(--lui-color-neutral-border-default);
+      border-radius: 6px;
       transition:
         width 0.4s $ease-out,
-        opacity 0.3s ease;
+        opacity 0.3s ease,
+        background-color 0.4s ease;
     }
   }
 }
 
 .lwt-list {
   display: grid;
-  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+// linhas de editor: separadas por filetes, sem cartao em volta
 .lwt-row {
   position: relative;
   min-width: 0;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  padding: 12px 20px;
   transition: background-color 0.15s ease;
 
+  & + & {
+    border-top: 1px solid var(--cw-line);
+  }
+
   &:hover {
-    background: var(--hover);
+    background: var(--cw-hover);
   }
 
   &__meta {
@@ -669,9 +686,10 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   }
 
   &__px {
+    font-family: $mono;
     font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
-    color: var(--lui-color-neutral-text-caption);
+    color: var(--cw-muted);
     white-space: nowrap;
   }
 
@@ -682,7 +700,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   &__to {
     display: none;
     margin-left: 4px;
-    color: var(--lui-color-neutral-text-heading);
+    color: var(--cw-text);
   }
 
   &__sample {
@@ -692,7 +710,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     font-size: var(--d);
     font-weight: 700;
     line-height: 1.2;
-    color: var(--lui-color-neutral-text-heading);
+    color: var(--cw-text);
     white-space: nowrap;
     text-overflow: ellipsis;
     transition: font-size 0.45s $ease-out;
@@ -759,10 +777,10 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   position: relative;
   display: flex;
   flex-direction: column;
+  @include window.frame;
+
   min-height: 260px;
   padding: 36px 12px 16px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
 
   &__axis {
     position: absolute;
@@ -875,8 +893,10 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     left: 50%;
     transform: translateX(-50%);
 
+    // entalhe neutro: os pontos coloridos sao do navegador do desktop
     i:first-child {
       width: 44px;
+      background: var(--cw-muted);
     }
 
     i:not(:first-child) {
@@ -1435,7 +1455,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   &__value {
     font-family: $mono;
     font-size: 0.6875rem;
-    color: var(--lui-color-neutral-text-caption);
+    color: var(--cw-muted);
     overflow-wrap: anywhere;
   }
 }
@@ -2450,7 +2470,9 @@ section.project-section ul.lwr {
    Escala tipografica fluida (conteudo protegido, public/js/widgets/type-scale.js)
    ========================================================================= */
 .lwy {
-  --line: var(--lui-color-neutral-border-subtle);
+  @include window.tokens;
+
+  --line: var(--cw-line);
   --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
 
   margin: 24px 0;
@@ -2535,56 +2557,54 @@ section.project-section ul.lwr {
   padding-right: 10px; // espaco da alca
 }
 
+// mesma janela do bloco de codigo
 .lwy-win {
+  @include window.frame;
+
   position: relative;
   min-width: 0;
   max-width: 100%;
-  border: 1px solid var(--lui-color-neutral-border-default);
-  border-radius: 12px;
-  background: var(--lui-color-neutral-background-surface);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
 
   &__chrome {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--line);
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 12px 0 16px;
+    border-bottom: 1px solid var(--cw-line);
+    border-radius: 15px 15px 0 0;
+    background: var(--cw-bar);
     font-family: $mono;
     font-size: 0.75rem;
-    color: var(--lui-color-neutral-text-caption);
+    color: var(--cw-punct);
   }
 
   &__dots {
-    display: flex;
-    gap: 5px;
+    @include window.dots;
+  }
 
-    i {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--lui-color-neutral-border-default);
-    }
+  // largura e zoom no formato da etiqueta de linguagem do bloco de codigo
+  &__width,
+  &__zoom {
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--cw-hover);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
   }
 
   &__width {
     margin-left: auto;
-    color: var(--lui-color-neutral-text-body);
+    color: var(--cw-text);
   }
 
   &__zoom:empty {
     display: none;
   }
 
-  &__zoom {
-    padding: 0 6px;
-    border-radius: 4px;
-    background: var(--hover);
-  }
-
   &__clip {
     overflow: hidden;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 15px 15px;
   }
 
   &__inner {
@@ -2668,11 +2688,14 @@ section.project-section ul.lwr {
     align-items: baseline;
     gap: 4px 12px;
     font-size: 0.8125rem;
-    color: var(--lui-color-neutral-text-caption);
+    color: var(--cw-muted);
   }
 
+  // nome do estilo no roxo de propriedade, como no bloco de codigo
   &__name {
     flex: 1 1 auto;
+    font-family: $mono;
+    color: var(--cw-property);
   }
 
   &__tag {
@@ -2681,7 +2704,7 @@ section.project-section ul.lwr {
     border-radius: 6px;
     font-family: $mono;
     font-size: 0.75rem;
-    color: var(--lui-color-neutral-text-body);
+    color: var(--cw-punct);
   }
 
   &__now {
@@ -2689,7 +2712,7 @@ section.project-section ul.lwr {
     font-family: $mono;
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--lui-color-neutral-text-heading);
+    color: var(--cw-text);
     text-align: right;
   }
 
@@ -2704,7 +2727,7 @@ section.project-section ul.lwr {
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    color: var(--lui-color-neutral-text-heading);
+    color: var(--cw-text);
     overflow-wrap: anywhere;
   }
 
@@ -2716,7 +2739,7 @@ section.project-section ul.lwr {
     max-width: 320px;
     font-family: $mono;
     font-size: 0.6875rem;
-    color: var(--lui-color-neutral-text-caption);
+    color: var(--cw-muted);
   }
 
   &__track {
@@ -2724,14 +2747,14 @@ section.project-section ul.lwr {
     flex: 1;
     height: 4px;
     border-radius: 2px;
-    background: var(--hover);
+    background: var(--cw-hover);
   }
 
   &__fill {
     position: absolute;
     inset: 0 auto 0 0;
     border-radius: inherit;
-    background: var(--lui-color-neutral-text-heading);
+    background: var(--cw-function);
 
     // ponto no tamanho atual
     &::after {
@@ -2741,9 +2764,9 @@ section.project-section ul.lwr {
       right: -5px;
       width: 10px;
       height: 10px;
-      border: 2px solid var(--lui-color-neutral-background-surface);
+      border: 2px solid var(--cw-bg);
       border-radius: 50%;
-      background: var(--lui-color-neutral-text-heading);
+      background: var(--cw-function);
       box-sizing: border-box;
       transform: translateY(-50%);
     }

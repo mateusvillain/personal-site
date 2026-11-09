@@ -1,3 +1,5 @@
+@use 'window';
+
 section {
   &.project-section {
     h3 {
@@ -115,33 +117,35 @@ main.project-main {
   }
 
   // listas vindas do Sanity (sem classe): marcador dentro da coluna, com o
-  // texto quebrado alinhado ao texto do item, e respiro entre os paragrafos
-  ul,
-  ol {
+  // texto quebrado alinhado ao texto do item, e respiro entre os paragrafos.
+  // So os filhos diretos: os widgets (escala, mapa de tokens) tambem usam
+  // <ul> e nao podem ganhar marcador.
+  > ul,
+  > ol {
     margin: 12px 0 16px;
     padding-left: 1.5em;
+
+    > li + li {
+      margin-top: 6px;
+    }
+
+    > li::marker {
+      color: var(--lui-color-neutral-text-caption);
+    }
   }
 
-  ul {
+  > ul {
     list-style: disc;
   }
 
-  ol {
+  > ol {
     list-style: decimal;
   }
 
-  li + li {
-    margin-top: 6px;
-  }
-
-  li::marker {
-    color: var(--lui-color-neutral-text-caption);
-  }
-
-  h2 + ul,
-  h2 + ol,
-  h3 + ul,
-  h3 + ol {
+  > h2 + ul,
+  > h2 + ol,
+  > h3 + ul,
+  > h3 + ol {
     margin-top: 8px;
   }
 
@@ -157,62 +161,18 @@ main.project-main {
    o tema padrao do Prism carregado no layout.
    ========================================================================= */
 .code-window {
-  --cw-bg: #fbfbfa;
-  --cw-bar: #f3f3f1;
-  --cw-line: color-mix(in srgb, var(--lui-color-neutral-text-heading, #1f2328) 10%, transparent);
-  --cw-text: #24292f;
-  --cw-muted: #8c959f;
-  --cw-hover: color-mix(in srgb, var(--lui-color-neutral-text-heading, #1f2328) 7%, transparent);
-  --cw-selector: #0a7a52;
-  --cw-property: #8250df;
-  --cw-function: #0550ae;
-  --cw-string: #0a3069;
-  --cw-keyword: #cf222e;
-  --cw-number: #953800;
-  --cw-punct: #6e7781;
-  --cw-dot-1: #ff5f57;
-  --cw-dot-2: #febc2e;
-  --cw-dot-3: #28c840;
-  --cw-canvas: #f1f1ef;
-  --cw-dot: rgb(0 0 0 / 0.07);
+  @include window.tokens;
 
   position: relative;
   margin: var(--lui-spacing-fixed-32, 32px) 0;
   overflow: hidden;
-  border: 1px solid var(--cw-line);
-  border-radius: 16px;
-  background: var(--cw-bg);
-  box-shadow:
-    0 1px 2px rgb(16 24 40 / 0.04),
-    0 12px 32px -12px rgb(16 24 40 / 0.12);
+  @include window.frame;
 
   @media (min-width: 768px) {
     --bleed: min(92vw, 720px);
 
     width: var(--bleed);
     margin-left: calc(50% - var(--bleed) / 2);
-  }
-
-  :root[data-theme='dark'] & {
-    --cw-bg: #16181d;
-    --cw-bar: #1d2026;
-    --cw-line: rgb(255 255 255 / 0.08);
-    --cw-text: #e6edf3;
-    --cw-muted: #6e7681;
-    --cw-hover: rgb(255 255 255 / 0.07);
-    --cw-selector: #7ee2a8;
-    --cw-property: #d2a8ff;
-    --cw-function: #79c0ff;
-    --cw-string: #a5d6ff;
-    --cw-keyword: #ff7b72;
-    --cw-number: #ffa657;
-    --cw-punct: #8b949e;
-    --cw-canvas: #e6e7ea;
-    --cw-dot: rgb(0 0 0 / 0.08);
-
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.04) inset,
-      0 16px 40px -16px rgb(0 0 0 / 0.6);
   }
 
   /* --- barra ------------------------------------------------------------ */
@@ -227,24 +187,7 @@ main.project-main {
   }
 
   &__dots {
-    display: flex;
-    gap: 7px;
-
-    i {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: var(--cw-dot-1);
-      box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
-
-      &:nth-child(2) {
-        background: var(--cw-dot-2);
-      }
-
-      &:nth-child(3) {
-        background: var(--cw-dot-3);
-      }
-    }
+    @include window.dots;
   }
 
   &__title {
