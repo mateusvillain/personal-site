@@ -3,24 +3,10 @@
 
 /* --- preferencias globais ------------------------------------------------ */
 
-// Reduzir movimento escolhido no site: mesmo efeito do
-// `prefers-reduced-motion` do sistema para tudo que e CSS. Animacoes e
-// transicoes terminam na hora (ja no estado final, sem sumir com nada); as
-// feitas em JS consultam src/lib/motion.ts.
-:root[data-motion='reduce'] {
-  scroll-behavior: auto !important;
-
-  *,
-  *::before,
-  *::after,
-  ::backdrop {
-    animation-duration: 0.01ms !important;
-    animation-delay: 0s !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
-  }
-}
+// Reduzir movimento: o ThemeInit marca `html[data-motion="reduce"]` quando o
+// sistema pede ou o visitante escolhe nas Configuracoes. Os blocos de
+// movimento reduzido do site (antes `@media (prefers-reduced-motion)`) usam
+// esse atributo, entao as duas origens dao exatamente o mesmo resultado.
 
 // Clima e horario desativados: o bloco fica vazio (os controles seguem a
 // direita, como nas paginas sem liveInfo)
@@ -38,9 +24,10 @@
   }
 }
 
-// Mesmo tamanho e fundo dos seletores de idioma e tema ao lado
+// Mesmo tamanho e fundo dos seletores de idioma e tema ao lado. So com JS
+// (o modal depende dele): `html[data-js]` vem do ThemeInit, antes da pintura.
 .settings-button {
-  display: inline-flex;
+  display: none;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
@@ -80,6 +67,10 @@
     outline: none;
     box-shadow: var(--lui-focus-ring-primary);
   }
+}
+
+:root[data-js] .settings-button {
+  display: inline-flex;
 }
 
 /* --- modal --------------------------------------------------------------- */
@@ -204,7 +195,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .settings-button,
   .settings-button svg {
     transition: none;
@@ -213,6 +204,31 @@
   .settings[open],
   .settings::backdrop {
     animation: none;
+  }
+}
+
+// Cookies: Aceito / Recuso no visual do seletor de idioma. Radios de verdade
+// (escondidos so na tela), entao setas, Tab e leitor de tela funcionam como
+// de costume; nenhum marcado enquanto nao ha decisao.
+.settings__choice .lang-toggle__option {
+  padding: 4px 12px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+
+  &:has(input:checked) {
+    background-color: var(--lui-color-neutral-background-surface);
+  }
+
+  &:not(:has(input:checked)):hover {
+    background-color: color-mix(
+      in srgb,
+      var(--lui-color-neutral-background-surface) 50%,
+      transparent
+    );
+  }
+
+  &:has(input:focus-visible) {
+    box-shadow: var(--lui-focus-ring-primary);
   }
 }
 

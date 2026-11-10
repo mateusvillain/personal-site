@@ -841,7 +841,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .pcard,
   .pcard__go,
   .lwscale__step,

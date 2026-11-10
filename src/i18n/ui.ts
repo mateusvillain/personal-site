@@ -62,6 +62,8 @@ const en = {
     liveInfoHint: 'Hides the time and weather in Criciúma at the top of the page.',
     cookies: 'Analytics cookies',
     cookiesHint: 'Google Analytics and Hotjar, to see what people read here.',
+    cookiesAccept: 'Accept',
+    cookiesDecline: 'Decline',
   },
   topbar: {
     /** Nome acessivel da barra de hora, clima, idioma e tema. */
@@ -158,6 +160,8 @@ const pt: typeof en = {
     liveInfoHint: 'Esconde a hora e o clima de Criciúma no topo da página.',
     cookies: 'Cookies de análise',
     cookiesHint: 'Google Analytics e Hotjar, para ver o que as pessoas leem por aqui.',
+    cookiesAccept: 'Aceito',
+    cookiesDecline: 'Recuso',
   },
   topbar: {
     label: 'Hora, clima e preferências',

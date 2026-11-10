@@ -1,16 +1,15 @@
 /**
- * Reduzir movimento: vale a preferencia do sistema
- * (`prefers-reduced-motion`) ou a do site (Configuracoes, ver
- * SiteSettings.astro), que fica em `html[data-motion="reduce"]`. Le na hora,
- * entao trocar a opcao com a pagina aberta ja vale para a proxima animacao.
+ * Reduzir movimento. O ThemeInit marca `html[data-motion="reduce"]` quando o
+ * sistema pede (`prefers-reduced-motion`) ou o visitante escolheu nas
+ * Configuracoes, e mantem o atributo em dia. Tudo olha so para ele.
  *
- * Mesmo formato de um MediaQueryList (`.matches`) para trocar o
- * `matchMedia(...)` sem mexer no resto do codigo.
+ * Mesmo formato de um MediaQueryList (`.matches`), lido na hora.
  */
-const system = window.matchMedia('(prefers-reduced-motion: reduce)')
-
 export const reduceMotion = {
   get matches() {
-    return document.documentElement.dataset.motion === 'reduce' || system.matches
+    return document.documentElement.dataset.motion === 'reduce'
   },
 }
+
+/** So a preferencia do sistema (para travar a opcao nas Configuracoes). */
+export const systemReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')

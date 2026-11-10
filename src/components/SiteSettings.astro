@@ -5,12 +5,15 @@
  * - Modo de cor: o mesmo ThemeToggle da barra; public/js/theme.js sincroniza
  *   todos os seletores da pagina.
  * - Idioma: links para esta pagina no outro idioma (funciona sem JS).
- * - Reduzir movimento: `html[data-motion="reduce"]`, somado ao
- *   `prefers-reduced-motion` do sistema. Com o sistema ja pedindo, a opcao
- *   aparece ligada e travada.
+ * - Reduzir movimento: guarda `localStorage.motion`; o ThemeInit junta com o
+ *   `prefers-reduced-motion` do sistema em `html[data-motion]`. Com o
+ *   sistema ja pedindo, a opcao aparece ligada e travada.
  * - Desativar clima e horario: `html[data-live-info="off"]`; time.js e
- *   weather.js param de buscar e voltam com o evento `mv:live-info`.
- * - Cookies de analise: o mesmo consentimento do aviso (ConsentScript.astro).
+ *   weather.js param de buscar e voltam com o evento `mv:live-info`. So
+ *   aparece nas paginas que mostram hora e clima (`liveInfo`).
+ * - Cookies de analise: o mesmo consentimento do aviso (ConsentScript.astro),
+ *   com Aceito e Recuso lado a lado e nenhum marcado enquanto a pessoa nao
+ *   decidiu: recusar nao pode exigir aceitar antes.
  *
  * Tudo fica no localStorage e e aplicado antes da pintura pelo ThemeInit.
  *
@@ -27,9 +30,11 @@ interface Props {
   locale: Locale
   /** Caminho desta pagina no outro idioma. */
   switchPath: string
+  /** A pagina mostra hora e clima (mesmo valor do SiteHeader). */
+  liveInfo?: boolean
 }
 
-const { locale, switchPath } = Astro.props
+const { locale, switchPath, liveInfo = true } = Astro.props
 const strings = ui[locale].settings
 ---
 
@@ -93,42 +98,54 @@ const strings = ui[locale].settings
         </span>
       </label>
 
-      <label class="settings__row">
-        <span class="settings__text">
-          <span class="settings__label" aria-hidden="true" id="settings-live">{strings.liveInfo}</span>
-          <span class="settings__hint" aria-hidden="true" id="settings-live-hint">{strings.liveInfoHint}</span>
-        </span>
-        <span class="switch switch--lg">
-          <input
-            type="checkbox"
-            role="switch"
-            aria-labelledby="settings-live"
-            aria-describedby="settings-live-hint"
-            data-setting="live-info"
-          />
-        </span>
-      </label>
+      {
+        liveInfo && (
+          <label class="settings__row">
+            <span class="settings__text">
+              <span class="settings__label" aria-hidden="true" id="settings-live">{strings.liveInfo}</span>
+              <span class="settings__hint" aria-hidden="true" id="settings-live-hint">{strings.liveInfoHint}</span>
+            </span>
+            <span class="switch switch--lg">
+              <input
+                type="checkbox"
+                role="switch"
+                aria-labelledby="settings-live"
+                aria-describedby="settings-live-hint"
+                data-setting="live-info"
+              />
+            </span>
+          </label>
+        )
+      }
 
-      <label class="settings__row">
+      <div class="settings__row">
         <span class="settings__text">
           <span class="settings__label" aria-hidden="true" id="settings-cookies">{strings.cookies}</span>
           <span class="settings__hint" aria-hidden="true" id="settings-cookies-hint">{strings.cookiesHint}</span>
         </span>
-        <span class="switch switch--lg">
-          <input
-            type="checkbox"
-            role="switch"
-            aria-labelledby="settings-cookies"
-            aria-describedby="settings-cookies-hint"
-            data-setting="cookies"
-          />
-        </span>
-      </label>
+        <div
+          class="lang-toggle settings__choice"
+          role="radiogroup"
+          aria-labelledby="settings-cookies"
+          aria-describedby="settings-cookies-hint"
+        >
+          <label class="lang-toggle__option">
+            <input class="sr-only" type="radio" name="settings-cookies" value="granted" data-cookies />
+            {strings.cookiesAccept}
+          </label>
+          <label class="lang-toggle__option">
+            <input class="sr-only" type="radio" name="settings-cookies" value="denied" data-cookies />
+            {strings.cookiesDecline}
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 </dialog>
 
 <script>
+  import { systemReduceMotion } from '../lib/motion'
+
   type Consent = {
     grant: () => void
     deny: () => void
@@ -137,8 +154,7 @@ const strings = ui[locale].settings
 
   const dialog = document.querySelector<HTMLDialogElement>('[data-settings]')
   const root = document.documentElement
-  const systemMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-  const consent = () => (window as Window & { mvConsent?: Consent }).mvConsent
+  const win = window as Window & { mvConsent?: Consent; mvSyncMotion?: () => void }
 
   const store = (key: string, value: string | null) => {
     try {
@@ -147,21 +163,24 @@ const strings = ui[locale].settings
     } catch {}
   }
 
+  // visivel = tem caixa na pagina (o menu fechado e o botao do menu no
+  // desktop ficam com display: none)
+  const visible = (el: Element | null): el is HTMLElement =>
+    !!el && el.getClientRects().length > 0
+
   if (dialog) {
-    const input = (name: string) =>
-      dialog.querySelector<HTMLInputElement>(`[data-setting="${name}"]`)!
-    const motion = input('motion')
-    const liveInfo = input('live-info')
-    const cookies = input('cookies')
+    const motion = dialog.querySelector<HTMLInputElement>('[data-setting="motion"]')!
+    const liveInfo = dialog.querySelector<HTMLInputElement>('[data-setting="live-info"]')
+    const cookies = [...dialog.querySelectorAll<HTMLInputElement>('[data-cookies]')]
     const motionHint = dialog.querySelector<HTMLElement>('[data-motion-hint]')!
     const motionSystem = dialog.querySelector<HTMLElement>('[data-motion-system]')!
     let opener: HTMLElement | null = null
 
-    // Os switches refletem o estado atual (que pode ter mudado fora daqui:
+    // Os controles refletem o estado atual (que pode ter mudado fora daqui:
     // aviso de cookies, preferencia do sistema)
     const sync = () => {
-      const system = systemMotion.matches
-      motion.checked = system || root.dataset.motion === 'reduce'
+      const system = systemReduceMotion.matches
+      motion.checked = root.dataset.motion === 'reduce'
       // aria-disabled (e nao disabled): continua no Tab, entao quem navega
       // por teclado descobre que a opcao ja esta ligada pelo sistema
       if (system) motion.setAttribute('aria-disabled', 'true')
@@ -170,8 +189,10 @@ const strings = ui[locale].settings
       motionSystem.hidden = !system
       // so a dica visivel: descricao referenciada e lida mesmo escondida
       motion.setAttribute('aria-describedby', (system ? motionSystem : motionHint).id)
-      liveInfo.checked = root.dataset.liveInfo === 'off'
-      cookies.checked = consent()?.status() === 'granted'
+      if (liveInfo) liveInfo.checked = root.dataset.liveInfo === 'off'
+      // sem decisao, nenhum dos dois marcado
+      const status = win.mvConsent?.status() ?? null
+      cookies.forEach((radio) => (radio.checked = radio.value === status))
     }
 
     // travado pelo sistema: o clique nao muda nada
@@ -179,13 +200,13 @@ const strings = ui[locale].settings
       if (motion.hasAttribute('aria-disabled')) event.preventDefault()
     })
 
+    // a escolha fica guardada; o ThemeInit junta com a do sistema
     motion.addEventListener('change', () => {
-      if (motion.checked) root.dataset.motion = 'reduce'
-      else delete root.dataset.motion
       store('motion', motion.checked ? 'reduce' : null)
+      win.mvSyncMotion?.()
     })
 
-    liveInfo.addEventListener('change', () => {
+    liveInfo?.addEventListener('change', () => {
       if (liveInfo.checked) root.dataset.liveInfo = 'off'
       else delete root.dataset.liveInfo
       store('live-info', liveInfo.checked ? 'off' : null)
@@ -193,13 +214,16 @@ const strings = ui[locale].settings
     })
 
     // Recusar depois de aceitar recarrega a pagina (ver ConsentScript)
-    cookies.addEventListener('change', () => {
-      if (cookies.checked) consent()?.grant()
-      else consent()?.deny()
-    })
+    cookies.forEach((radio) =>
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return
+        if (radio.value === 'granted') win.mvConsent?.grant()
+        else win.mvConsent?.deny()
+      }),
+    )
 
     document.addEventListener('mv:consent', sync)
-    systemMotion.addEventListener('change', sync)
+    systemReduceMotion.addEventListener('change', sync)
 
     document.querySelectorAll<HTMLElement>('[data-settings-open]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -213,19 +237,28 @@ const strings = ui[locale].settings
       .querySelector('[data-settings-close]')
       ?.addEventListener('click', () => dialog.close())
 
-    // clique fora do painel (no fundo escurecido) fecha
+    // Clique no fundo escurecido fecha, mas so se tambem comecou nele:
+    // arrastar de dentro do painel para fora (selecionando texto, toque
+    // tremido) dispara click no <dialog> e nao deve fechar.
+    let pressedBackdrop = false
+    dialog.addEventListener('pointerdown', (event) => {
+      pressedBackdrop = event.target === dialog
+    })
     dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close()
+      if (event.target === dialog && pressedBackdrop) dialog.close()
+      pressedBackdrop = false
     })
 
-    // O foco volta para a engrenagem que abriu. Se ela estava no menu mobile
-    // (que fechou ao abrir as configuracoes), vai para o botao do menu.
+    // O foco volta para a engrenagem que abriu. Se ela sumiu (estava no menu
+    // mobile, que fechou, ou a tela mudou de largura), vai para o botao do
+    // menu ou para a engrenagem que estiver visivel.
     dialog.addEventListener('close', () => {
-      const target =
-        opener && opener.getClientRects().length
-          ? opener
-          : document.querySelector<HTMLElement>('[data-menu-button]')
-      target?.focus()
+      const candidates = [
+        opener,
+        document.querySelector('[data-menu-button]'),
+        ...document.querySelectorAll('[data-settings-open]'),
+      ]
+      candidates.find(visible)?.focus()
       opener = null
     })
   }

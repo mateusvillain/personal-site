@@ -6,9 +6,14 @@
  *
  * - tema: `localStorage.theme` (sem valor = sistema). `public/js/theme.js`
  *   cuida das trocas depois; as regras precisam bater.
- * - movimento: `localStorage.motion = 'reduce'` -> `html[data-motion]`
- *   (soma com o `prefers-reduced-motion` do sistema, ver src/lib/motion.ts).
+ * - movimento: `html[data-motion="reduce"]` quando o sistema pede
+ *   (`prefers-reduced-motion`) ou o visitante escolheu
+ *   (`localStorage.motion = 'reduce'`). E a unica fonte: CSS e JS olham so o
+ *   atributo (src/lib/motion.ts). Acompanha a troca no sistema com a pagina
+ *   aberta; as Configuracoes chamam `window.mvSyncMotion()` ao mudar a opcao.
  * - hora e clima: `localStorage['live-info'] = 'off'` -> `html[data-live-info]`.
+ * - `html[data-js]`: o JS esta ativo. O que so funciona com script (como a
+ *   engrenagem das Configuracoes) fica escondido sem ele.
  */
 ---
 
@@ -16,11 +21,25 @@
   ;(function () {
     var root = document.documentElement
     var saved = null
+    root.setAttribute('data-js', '')
+    var systemMotion = matchMedia('(prefers-reduced-motion: reduce)')
+
+    function syncMotion() {
+      var chosen = false
+      try {
+        chosen = localStorage.getItem('motion') === 'reduce'
+      } catch (e) {}
+      if (chosen || systemMotion.matches) root.setAttribute('data-motion', 'reduce')
+      else root.removeAttribute('data-motion')
+    }
+    syncMotion()
+    window.mvSyncMotion = syncMotion
+    if (systemMotion.addEventListener) {
+      systemMotion.addEventListener('change', syncMotion)
+    }
+
     try {
       saved = localStorage.getItem('theme')
-      if (localStorage.getItem('motion') === 'reduce') {
-        root.setAttribute('data-motion', 'reduce')
-      }
       if (localStorage.getItem('live-info') === 'off') {
         root.setAttribute('data-live-info', 'off')
       }

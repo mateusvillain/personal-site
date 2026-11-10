@@ -434,7 +434,7 @@ $ease-out: cubic-bezier(0.2, 0, 0, 1);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .site-header__menu-icon line {
     transition: none;
   }

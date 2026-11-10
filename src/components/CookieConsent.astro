@@ -4,9 +4,8 @@
  * mesmo peso visual (LGPD/GDPR: recusar tem que ser tao facil quanto
  * aceitar). Nao bloqueia nada: sem overlay, sem roubar foco.
  *
- * Aparece so quando nao ha decisao guardada (ver ConsentScript.astro) e
- * pode ser reaberto por window.mvConsent.open() ou [data-consent-open]. A
- * decisao tambem pode ser trocada nas Configuracoes (SiteSettings.astro).
+ * Aparece so quando nao ha decisao guardada (ver ConsentScript.astro). Depois,
+ * a decisao e trocada nas Configuracoes (SiteSettings.astro).
  */
 import type { Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
@@ -122,12 +121,11 @@ const strings = ui[locale].consent
     color: var(--lui-color-link-default, #0b57d0);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .consent,
-    .consent.is-visible {
-      transform: none;
-      transition-duration: 160ms, 0s, 0s;
-    }
+  /* sistema ou Configuracoes (ThemeInit marca o atributo) */
+  :global(:root[data-motion='reduce']) .consent,
+  :global(:root[data-motion='reduce']) .consent.is-visible {
+    transform: none;
+    transition-duration: 160ms, 0s, 0s;
   }
 </style>
 
@@ -152,9 +150,6 @@ const strings = ui[locale].consent
     }
 
     function show() {
-      // reabrir durante a saida: cancela o listener pendente para ele
-      // nao esconder o banner recem-aberto
-      el.removeEventListener('transitionend', onExitEnd)
       el.hidden = false
       // reflow forcado: garante que o estado inicial (opacity 0) foi
       // aplicado antes da classe, senao a transicao de entrada nao roda
@@ -173,20 +168,6 @@ const strings = ui[locale].consent
       if (btn.dataset.consent === 'grant') window.mvConsent.grant()
       else window.mvConsent.deny()
       hide()
-      // Devolve o foco a quem reabriu o aviso; sem isso ele cai no <body>.
-      if (opener) opener.focus()
-      opener = null
-    })
-
-    var opener = null
-
-    // Reaberto pelo visitante (mvConsent.open()): leva o foco para o aviso,
-    // senao quem navega por teclado nao sabe que ele apareceu.
-    document.addEventListener('mv:consent-open', function () {
-      opener = document.activeElement
-      show()
-      var first = el.querySelector('[data-consent]')
-      if (first) first.focus()
     })
 
     // Decidido em outro lugar (Configuracoes): o aviso sai se estiver na

@@ -9,8 +9,9 @@
  * Tambem define `gtag()` — o public/js/analytics.js ja chamava esse
  * global sem ninguem declarar.
  *
- * API: window.mvConsent.grant() / .deny() / .open() / .status()
- * Qualquer elemento com [data-consent-open] reabre o aviso.
+ * API: window.mvConsent.grant() / .deny() / .status(). A decisao pode ser
+ * trocada a qualquer momento nas Configuracoes (SiteSettings.astro); cada
+ * mudanca dispara o evento `mv:consent`.
  */
 const GTM_ID = 'GTM-NTD9ZL6W'
 ---
@@ -79,11 +80,7 @@ const GTM_ID = 'GTM-NTD9ZL6W'
       if (loaded) setTimeout(function () { location.reload() }, 350)
     }
 
-    function open() {
-      document.dispatchEvent(new CustomEvent('mv:consent-open'))
-    }
-
-    window.mvConsent = { grant: grant, deny: deny, open: open, status: read }
+    window.mvConsent = { grant: grant, deny: deny, status: read }
 
     // Visita de retorno com consentimento guardado: precisa reenviar o
     // `update` antes do GTM subir, senao ele fica no `default` (tudo
@@ -92,12 +89,5 @@ const GTM_ID = 'GTM-NTD9ZL6W'
       gtag('consent', 'update', { analytics_storage: 'granted' })
       loadGtm()
     }
-
-    document.addEventListener('click', function (e) {
-      if (e.target.closest && e.target.closest('[data-consent-open]')) {
-        e.preventDefault()
-        open()
-      }
-    })
   })()
 </script>

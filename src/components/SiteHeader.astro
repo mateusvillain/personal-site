@@ -87,11 +87,8 @@ const socials = [
 <script is:inline>
   ;(function () {
     try {
-      if (
-        document.documentElement.dataset.motion === 'reduce' ||
-        matchMedia('(prefers-reduced-motion: reduce)').matches
-      )
-        return
+      // sistema ou Configuracoes (ThemeInit marca o atributo antes daqui)
+      if (document.documentElement.dataset.motion === 'reduce') return
       if (sessionStorage.getItem('intro-played')) return
       document.documentElement.setAttribute('data-intro', '')
       window.__introFallback = setTimeout(function () {
@@ -298,7 +295,7 @@ const socials = [
     </div>
   </div>
 
-  <SiteSettings locale={locale} switchPath={switchPath} />
+  <SiteSettings locale={locale} switchPath={switchPath} liveInfo={liveInfo} />
 </header>
 
 <script>

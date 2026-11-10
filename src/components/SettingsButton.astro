@@ -2,8 +2,8 @@
 /**
  * Botao de engrenagem que abre as Configuracoes (SiteSettings.astro). Fica a
  * esquerda do idioma na barra do topo e no menu mobile; os dois abrem o
- * mesmo modal. Icone: Gear (regular) do Phosphor, inline para nao depender
- * de JS para aparecer.
+ * mesmo modal. Icone: Gear (regular) do Phosphor, inline. Sem JS o modal
+ * nao abre, entao o botao so aparece com `html[data-js]` (ThemeInit).
  */
 import type { Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
