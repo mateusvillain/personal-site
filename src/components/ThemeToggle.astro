@@ -11,13 +11,20 @@ import { ui } from '../i18n/ui'
 interface Props {
   locale: Locale
   name?: string
+  /** id de um rotulo visivel; substitui o nome padrao ("Tema"). */
+  labelledby?: string
 }
 
-const { locale, name = 'theme' } = Astro.props
+const { locale, name = 'theme', labelledby } = Astro.props
 const strings = ui[locale].theme
 ---
 
-<div class="theme-toggle" role="radiogroup" aria-label={strings.label}>
+<div
+  class="theme-toggle"
+  role="radiogroup"
+  aria-label={labelledby ? undefined : strings.label}
+  aria-labelledby={labelledby}
+>
   <div class="theme-toggle__thumb" aria-hidden="true"></div>
   <label class="theme-toggle__option" title={strings.light}>
     <input type="radio" name={name} value="light" aria-label={strings.light} />

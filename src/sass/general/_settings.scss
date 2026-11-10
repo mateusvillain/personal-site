@@ -154,8 +154,18 @@
       cursor: pointer;
     }
 
-    &:is(label):has(input:disabled) {
+    // travado pelo sistema (aria-disabled, ver SiteSettings.astro): mesmo
+    // visual do switch desabilitado do Let's UI
+    &:is(label):has(input[aria-disabled='true']) {
       cursor: not-allowed;
+
+      .switch {
+        opacity: var(--lui-opacity-disabled);
+      }
+
+      input {
+        cursor: not-allowed;
+      }
     }
   }
 

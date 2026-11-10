@@ -17,17 +17,22 @@ interface Props {
   href: string
   /** Nome do idioma no lugar da sigla. */
   full?: boolean
+  /** id de um rotulo visivel; substitui o nome padrao ("Idioma"). */
+  labelledby?: string
 }
 
 // cada idioma no proprio idioma, como de costume em seletores
 const names: Record<Locale, string> = { pt: 'Português', en: 'English' }
 
-const { locale, href, full = false } = Astro.props
+const { locale, href, full = false, labelledby } = Astro.props
 const strings = ui[locale].langSwitch
 const order: Locale[] = ['pt', 'en']
 ---
 
-<div class:list={['lang-toggle', full && 'lang-toggle--full']} role="group" aria-label={strings.group}>
+<div class:list={['lang-toggle', full && 'lang-toggle--full']} role="group"
+  aria-label={labelledby ? undefined : strings.group}
+  aria-labelledby={labelledby}
+>
   {
     order.map((option) =>
       option === locale ? (

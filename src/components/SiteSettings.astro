@@ -55,45 +55,73 @@ const strings = ui[locale].settings
     </div>
 
     <div class="modal__body settings__body">
-      <!-- os grupos ja tem nome acessivel proprio: o rotulo visivel nao e lido -->
+      <!--
+        Os grupos e os switches levam o nome do rotulo visivel
+        (aria-labelledby: quem usa comando de voz fala o que ve) e a dica
+        como descricao (aria-describedby), em vez de ler a linha inteira. O
+        texto visivel sai da arvore (aria-hidden) para nao ser lido duas vezes;
+        referencias por id continuam valendo para elementos escondidos.
+      -->
       <div class="settings__row">
-        <span class="settings__label" aria-hidden="true">{strings.theme}</span>
-        <ThemeToggle locale={locale} name="theme-settings" />
+        <span class="settings__label" aria-hidden="true" id="settings-theme">{strings.theme}</span>
+        <ThemeToggle locale={locale} name="theme-settings" labelledby="settings-theme" />
       </div>
 
       <div class="settings__row">
-        <span class="settings__label" aria-hidden="true">{strings.language}</span>
-        <LangToggle locale={locale} href={switchPath} full />
+        <span class="settings__label" aria-hidden="true" id="settings-language">{strings.language}</span>
+        <LangToggle locale={locale} href={switchPath} full labelledby="settings-language" />
       </div>
 
       <label class="settings__row">
         <span class="settings__text">
-          <span class="settings__label">{strings.motion}</span>
-          <span class="settings__hint" data-motion-hint>{strings.motionHint}</span>
-          <span class="settings__hint" data-motion-system hidden>{strings.motionSystem}</span>
+          <span class="settings__label" aria-hidden="true" id="settings-motion">{strings.motion}</span>
+          <span class="settings__hint" aria-hidden="true" id="settings-motion-hint" data-motion-hint>
+            {strings.motionHint}
+          </span>
+          <span class="settings__hint" aria-hidden="true" id="settings-motion-system" data-motion-system hidden>
+            {strings.motionSystem}
+          </span>
         </span>
         <span class="switch switch--lg">
-          <input type="checkbox" role="switch" data-setting="motion" />
+          <input
+            type="checkbox"
+            role="switch"
+            aria-labelledby="settings-motion"
+            aria-describedby="settings-motion-hint"
+            data-setting="motion"
+          />
         </span>
       </label>
 
       <label class="settings__row">
         <span class="settings__text">
-          <span class="settings__label">{strings.liveInfo}</span>
-          <span class="settings__hint">{strings.liveInfoHint}</span>
+          <span class="settings__label" aria-hidden="true" id="settings-live">{strings.liveInfo}</span>
+          <span class="settings__hint" aria-hidden="true" id="settings-live-hint">{strings.liveInfoHint}</span>
         </span>
         <span class="switch switch--lg">
-          <input type="checkbox" role="switch" data-setting="live-info" />
+          <input
+            type="checkbox"
+            role="switch"
+            aria-labelledby="settings-live"
+            aria-describedby="settings-live-hint"
+            data-setting="live-info"
+          />
         </span>
       </label>
 
       <label class="settings__row">
         <span class="settings__text">
-          <span class="settings__label">{strings.cookies}</span>
-          <span class="settings__hint">{strings.cookiesHint}</span>
+          <span class="settings__label" aria-hidden="true" id="settings-cookies">{strings.cookies}</span>
+          <span class="settings__hint" aria-hidden="true" id="settings-cookies-hint">{strings.cookiesHint}</span>
         </span>
         <span class="switch switch--lg">
-          <input type="checkbox" role="switch" data-setting="cookies" />
+          <input
+            type="checkbox"
+            role="switch"
+            aria-labelledby="settings-cookies"
+            aria-describedby="settings-cookies-hint"
+            data-setting="cookies"
+          />
         </span>
       </label>
     </div>
@@ -134,12 +162,22 @@ const strings = ui[locale].settings
     const sync = () => {
       const system = systemMotion.matches
       motion.checked = system || root.dataset.motion === 'reduce'
-      motion.disabled = system
+      // aria-disabled (e nao disabled): continua no Tab, entao quem navega
+      // por teclado descobre que a opcao ja esta ligada pelo sistema
+      if (system) motion.setAttribute('aria-disabled', 'true')
+      else motion.removeAttribute('aria-disabled')
       motionHint.hidden = system
       motionSystem.hidden = !system
+      // so a dica visivel: descricao referenciada e lida mesmo escondida
+      motion.setAttribute('aria-describedby', (system ? motionSystem : motionHint).id)
       liveInfo.checked = root.dataset.liveInfo === 'off'
       cookies.checked = consent()?.status() === 'granted'
     }
+
+    // travado pelo sistema: o clique nao muda nada
+    motion.addEventListener('click', (event) => {
+      if (motion.hasAttribute('aria-disabled')) event.preventDefault()
+    })
 
     motion.addEventListener('change', () => {
       if (motion.checked) root.dataset.motion = 'reduce'
