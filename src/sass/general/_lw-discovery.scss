@@ -1277,9 +1277,19 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   z-index: 2;
   display: block;
   border-radius: 6px 8px 7px 6px;
-  // no touch, arrastar na vertical ainda rola a pagina; os outros
-  // movimentos desenham
+  // toque sem o Desenhar (so em tela com mouse e touch): arrastar na
+  // vertical ainda rola a pagina; os outros movimentos desenham
   touch-action: pan-y pinch-zoom;
+
+  // tela de toque com o Desenhar desligado: dedo rola e seleciona o texto
+  .is-locked > & {
+    pointer-events: none;
+  }
+
+  // Desenhar ligado: o dedo desenha em qualquer direcao
+  .is-drawing > & {
+    touch-action: pinch-zoom;
+  }
 
   // lapis com a ponta no canto de baixo
   cursor:
@@ -1304,6 +1314,24 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
 
   &[hidden] {
     display: none;
+  }
+
+  // Tela de toque: a folha passa da altura da tela, entao os botoes ficam
+  // presos no rodape da tela enquanto a folha esta visivel (sem isso, o
+  // Desenhar ficaria la embaixo, longe de onde se quer rabiscar).
+  @media (pointer: coarse) {
+    position: sticky;
+    top: auto;
+    bottom: 16px;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+    // a faixa vazia entre os botoes nao bloqueia o toque no texto
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
   }
 }
 
@@ -1361,6 +1389,10 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
     border-color: transparent;
     background: var(--lui-color-neutral-text-heading);
     color: var(--lui-color-neutral-background-surface);
+  }
+
+  &[hidden] {
+    display: none;
   }
 
 }
