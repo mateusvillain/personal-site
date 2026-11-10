@@ -7,7 +7,6 @@
  */
 import '@lets-ui/styles'
 import SeoHead from '../components/SeoHead.astro'
-import SiteFooter from '../components/SiteFooter.astro'
 import CookieConsent from '../components/CookieConsent.astro'
 import Scripts from '../components/Scripts.astro'
 import ThemeInit from '../components/ThemeInit.astro'
@@ -140,7 +139,6 @@ try {
       <NewsletterCard locale={locale} />
     </div>
 
-    <SiteFooter locale={locale} />
 
     {showAuthor && <script is:inline src="/blog/js/code-copy.js" defer></script>}
     {showAuthor && <script is:inline src="/blog/js/highlight.js" defer></script>}
