@@ -1,0 +1,34 @@
+// Cores principais alternativas (Configuracoes > Cor principal). Cada uma
+// troca a escala --lui-brand-color-primary-* inteira. Fonte unica:
+// src/data/accents.json, convertido em _accents.generated.scss pelo
+// scripts/build-accents.mjs (roda antes do Sass). O azul padrao e o proprio
+// brand (_brand.scss) e nao usa data-accent.
+//
+// So as regras com data-theme: data-accent vem do ThemeInit, que marca
+// data-theme no mesmo script, entao uma regra so por preferencia do sistema
+// nunca decidiria nada.
+
+@use 'sass:list';
+@use 'sass:map';
+@use 'accents.generated' as gen;
+@use 'brand';
+
+@each $name, $scale in gen.$accents {
+  @if $name != gen.$default {
+    $root: "html[data-brand='mateus-villain'][data-accent='#{$name}']";
+
+    #{$root}[data-theme='light'] {
+      @include brand.primary-scale(map.get($scale, light));
+    }
+
+    #{$root}[data-theme='dark'] {
+      @include brand.primary-scale(map.get($scale, dark));
+    }
+  }
+
+  // amostra nas Configuracoes: o primary-4 de cada tema
+  .accent-swatch[data-accent='#{$name}'] {
+    --swatch-light: #{list.nth(map.get($scale, light), 4)};
+    --swatch-dark: #{list.nth(map.get($scale, dark), 4)};
+  }
+}

@@ -119,11 +119,13 @@
     }
   }
 
-  &__body {
+  // `.settings .settings__body`: vence o padding-top 0 do .modal__body do
+  // Let's UI (carrega depois). A folga de cima tambem guarda o anel da cor
+  // escolhida e o anel de foco da primeira linha, que o overflow cortaria.
+  & &__body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    // o padding-top 0 do .modal__body encosta a primeira linha no titulo
     padding-top: var(--lui-spacing-fixed-8);
   }
 
@@ -197,7 +199,8 @@
 
 :root[data-motion='reduce'] {
   .settings-button,
-  .settings-button svg {
+  .settings-button svg,
+  .accent-swatch {
     transition: none;
   }
 
@@ -205,6 +208,57 @@
   .settings::backdrop {
     animation: none;
   }
+}
+
+// Cor principal: amostras redondas com o primary-4 de cada cor no tema atual
+// (valores gerados de src/data/accents.json em _accents.scss). Radios de verdade, escondidos so na tela; a
+// escolhida ganha um anel, o foco por teclado usa o anel de foco do site.
+.accent-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--lui-spacing-fixed-8);
+}
+
+.accent-swatch {
+  --swatch: var(--swatch-light);
+
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lui-border-radius-circle);
+  background-color: var(--swatch);
+  cursor: pointer;
+  // anel de selecao: espaco na cor do painel e anel na cor do texto
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.15s ease;
+
+  :root[data-theme='dark'] & {
+    --swatch: var(--swatch-dark);
+  }
+
+  &:hover {
+    box-shadow:
+      0 0 0 2px var(--lui-color-neutral-background-surface),
+      0 0 0 4px var(--lui-color-neutral-border-default, #c7cbd1);
+  }
+
+  &:has(input:checked) {
+    box-shadow:
+      0 0 0 2px var(--lui-color-neutral-background-surface),
+      0 0 0 4px var(--lui-color-neutral-text-heading);
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--lui-color-neutral-text-heading);
+    outline-offset: 5px;
+  }
+}
+
+// a linha da cor quebra antes de espremer o rotulo em telas estreitas
+.settings__row:has(.accent-picker) {
+  flex-wrap: wrap;
 }
 
 // Cookies: Aceito / Recuso no visual do seletor de idioma. Radios de verdade
