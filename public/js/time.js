@@ -1,12 +1,16 @@
 // Hora no topo. Pagina sem a hora no cabecalho (liveInfo desligado): nada a
 // fazer. Desligada nas Configuracoes (html[data-live-info="off"]): para de
-// buscar e volta na hora quando religada (evento mv:live-info).
+// buscar. Religada (evento mv:live-info), so busca de novo se a ultima
+// leitura ja passou do intervalo; senao a hora que estava volta a aparecer.
 const horaEl = document.getElementById('hora');
+const INTERVALO_HORA = 10000;
+let ultimaHora = 0;
 
 const horaAtiva = () => document.documentElement.dataset.liveInfo !== 'off';
 
 async function carregarHora() {
   if (!horaAtiva()) return;
+  ultimaHora = Date.now();
   try {
     const res = await fetch('/api/time/');
     const data = await res.json();
@@ -20,6 +24,8 @@ async function carregarHora() {
 
 if (horaEl) {
   carregarHora();
-  setInterval(carregarHora, 10000);
-  document.addEventListener('mv:live-info', carregarHora);
+  setInterval(carregarHora, INTERVALO_HORA);
+  document.addEventListener('mv:live-info', () => {
+    if (Date.now() - ultimaHora >= INTERVALO_HORA) carregarHora();
+  });
 }
