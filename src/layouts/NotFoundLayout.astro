@@ -3,6 +3,16 @@ import ConsentScript from '../components/ConsentScript.astro'
 import CookieConsent from '../components/CookieConsent.astro'
 import Scripts from '../components/Scripts.astro';
 import ThemeInit from '../components/ThemeInit.astro';
+import { accents, DEFAULT_ACCENT } from '../lib/accents';
+
+// "Tela azul" na cor principal escolhida (html[data-accent], do ThemeInit).
+// O padrao mantem o azul original da pagina; as outras usam o primary-6 do
+// tema claro, escuro o bastante para o texto claro (>= 6.9:1) e para o
+// destaque cinza (>= 4.5:1).
+const accentCss = accents
+  .filter((accent) => accent.id !== DEFAULT_ACCENT)
+  .map((accent) => `html[data-accent='${accent.id}']{--bsod:${accent.light[5]}}`)
+  .join('')
 ---
 
 <!doctype html>
@@ -22,6 +32,12 @@ import ThemeInit from '../components/ThemeInit.astro';
 
     <style is:inline>
       @import 'https://fonts.googleapis.com/css?family=VT323';
+
+      /* fundo e destaque; --bsod muda com a cor principal (ver acima) */
+      :root {
+        --bsod: #0414a7;
+        --bsod-highlight: #b9b9b9;
+      }
 
       body,
       h1,
@@ -65,7 +81,7 @@ import ThemeInit from '../components/ThemeInit.astro';
       }
 
       body {
-        background: #0414a7;
+        background: var(--bsod);
       }
 
       .container {
@@ -81,8 +97,8 @@ import ThemeInit from '../components/ThemeInit.astro';
 
       h1 {
         display: inline-block;
-        color: #0414a7;
-        background: #aaaaaa;
+        color: var(--bsod);
+        background: var(--bsod-highlight);
         padding: 0 16px 2px 12px;
         margin-bottom: 24px;
       }
@@ -94,8 +110,8 @@ import ThemeInit from '../components/ThemeInit.astro';
       }
       a:hover,
       a:focus {
-        background: #aaaaaa;
-        color: #0414a7;
+        background: var(--bsod-highlight);
+        color: var(--bsod);
       }
 
       .skip-link {
@@ -104,8 +120,8 @@ import ThemeInit from '../components/ThemeInit.astro';
         left: 8px;
         padding: 8px 12px;
         z-index: 1000;
-        background: #aaaaaa;
-        color: #0414a7;
+        background: var(--bsod-highlight);
+        color: var(--bsod);
         transform: translateY(-150%);
       }
 
@@ -130,6 +146,7 @@ import ThemeInit from '../components/ThemeInit.astro';
         content: '* ';
       }
     </style>
+    <style is:inline set:html={accentCss} />
   </head>
   <body>
     <slot />
