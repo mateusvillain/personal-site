@@ -1,14 +1,30 @@
 ---
 /**
- * Aplica o tema salvo (ou o do sistema) antes da primeira pintura, para a
- * pagina nao piscar no tema errado nem o thumb do seletor deslizar no load.
- * `public/js/theme.js` cuida das trocas depois; as regras precisam bater.
+ * Aplica as preferencias salvas antes da primeira pintura, para a pagina nao
+ * piscar no tema errado, nem animar ou mostrar hora e clima quando o
+ * visitante desligou isso (Configuracoes, ver SiteSettings.astro).
+ *
+ * - tema: `localStorage.theme` (sem valor = sistema). `public/js/theme.js`
+ *   cuida das trocas depois; as regras precisam bater.
+ * - movimento: `localStorage.motion = 'reduce'` -> `html[data-motion]`
+ *   (soma com o `prefers-reduced-motion` do sistema, ver src/lib/motion.ts).
+ * - hora e clima: `localStorage['live-info'] = 'off'` -> `html[data-live-info]`.
  */
 ---
 
 <script is:inline>
   ;(function () {
-    var saved = localStorage.getItem('theme')
+    var root = document.documentElement
+    var saved = null
+    try {
+      saved = localStorage.getItem('theme')
+      if (localStorage.getItem('motion') === 'reduce') {
+        root.setAttribute('data-motion', 'reduce')
+      }
+      if (localStorage.getItem('live-info') === 'off') {
+        root.setAttribute('data-live-info', 'off')
+      }
+    } catch (e) {}
     var mode = saved === 'light' || saved === 'dark' ? saved : 'system'
     var theme =
       mode === 'system'
@@ -16,7 +32,7 @@
           ? 'dark'
           : 'light'
         : mode
-    document.documentElement.setAttribute('data-theme', theme)
-    document.documentElement.setAttribute('data-theme-mode', mode)
+    root.setAttribute('data-theme', theme)
+    root.setAttribute('data-theme-mode', mode)
   })()
 </script>

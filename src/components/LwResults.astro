@@ -107,10 +107,12 @@ const kinds = ['tokens', 'naming', 'color', 'type', 'elevation', 'brands'] as co
 </ul>
 
 <script>
+  import { reduceMotion } from '../lib/motion'
+
   // em telas de toque nao ha hover: o card "acende" ao cruzar o meio da tela
   if (
     window.matchMedia('(hover: none)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    !reduceMotion.matches &&
     'IntersectionObserver' in window
   ) {
     const io = new IntersectionObserver(

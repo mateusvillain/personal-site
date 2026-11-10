@@ -6,11 +6,14 @@
  * Desktop: a barra fica fixa nas laterais, alinhada ao header. Mobile: a barra
  * fica no fluxo, acima do header, e o header (sticky) a cobre no scroll. O
  * menu mobile repete idioma e tema no rodape, com as redes a direita; o
- * seletor de tema de la usa outro `name`.
+ * seletor de tema de la usa outro `name`. A engrenagem, a esquerda do idioma
+ * nos dois lugares, abre as Configuracoes (SiteSettings.astro).
  *
  * Hora e clima sao preenchidos por `public/js/time.js` e `weather.js`.
  */
 import LangToggle from './LangToggle.astro'
+import SettingsButton from './SettingsButton.astro'
+import SiteSettings from './SiteSettings.astro'
 import ThemeToggle from './ThemeToggle.astro'
 import { localizePath, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
@@ -84,7 +87,11 @@ const socials = [
 <script is:inline>
   ;(function () {
     try {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      if (
+        document.documentElement.dataset.motion === 'reduce' ||
+        matchMedia('(prefers-reduced-motion: reduce)').matches
+      )
+        return
       if (sessionStorage.getItem('intro-played')) return
       document.documentElement.setAttribute('data-intro', '')
       window.__introFallback = setTimeout(function () {
@@ -113,6 +120,7 @@ const socials = [
     }
   </div>
   <div class="site-topbar__controls">
+    <SettingsButton locale={locale} />
     <LangToggle locale={locale} href={switchPath} />
     <ThemeToggle locale={locale} />
   </div>
@@ -251,6 +259,7 @@ const socials = [
 
       <div class="site-header__menu-controls">
         <div class="site-header__menu-settings">
+          <SettingsButton locale={locale} />
           <LangToggle locale={locale} href={switchPath} />
           <ThemeToggle locale={locale} name="theme-menu" />
         </div>
@@ -288,10 +297,13 @@ const socials = [
       </div>
     </div>
   </div>
+
+  <SiteSettings locale={locale} switchPath={switchPath} />
 </header>
 
 <script>
   import { initHoverHighlight } from '../lib/hover-highlight'
+  import { reduceMotion } from '../lib/motion'
 
   const header = document.querySelector<HTMLElement>('[data-site-header]')
   const button = header?.querySelector<HTMLButtonElement>('[data-menu-button]')
@@ -433,7 +445,6 @@ const socials = [
   playIntro()
 
   const panel = header?.querySelector<HTMLElement>('.site-header__panel')
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   const isOpen = () =>
     !!header?.hasAttribute('data-open') && !header.hasAttribute('data-closing')
@@ -489,6 +500,11 @@ const socials = [
   header
     ?.querySelectorAll('.site-header__menu a')
     .forEach((link) => link.addEventListener('click', () => setOpen(false)))
+
+  // A engrenagem do menu abre as Configuracoes por cima: o menu sai na hora.
+  header
+    ?.querySelector('.site-header__menu [data-settings-open]')
+    ?.addEventListener('click', () => setOpen(false, true))
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape' || !isOpen()) return

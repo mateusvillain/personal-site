@@ -57,7 +57,10 @@ const defaultCover = showAuthor ? '/blog/covers/cover.png' : '/img/cover.png'
  * flag cai sozinha: destaque escondido seria pior que destaque sem animacao.
  */
 const highlightBoot = `
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+if (
+  document.documentElement.dataset.motion !== 'reduce' &&
+  !matchMedia('(prefers-reduced-motion: reduce)').matches
+) {
   document.documentElement.dataset.hlAnimate = ''
   window.__hlFallback = setTimeout(function () {
     document.documentElement.removeAttribute('data-hl-animate')
@@ -82,6 +85,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 const postEnterBoot = `
 try {
   if (
+    document.documentElement.dataset.motion !== 'reduce' &&
     !matchMedia('(prefers-reduced-motion: reduce)').matches &&
     sessionStorage.getItem('intro-played')
   ) {

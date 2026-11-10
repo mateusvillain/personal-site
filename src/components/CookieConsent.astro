@@ -5,7 +5,8 @@
  * aceitar). Nao bloqueia nada: sem overlay, sem roubar foco.
  *
  * Aparece so quando nao ha decisao guardada (ver ConsentScript.astro) e
- * pode ser reaberto por window.mvConsent.open() ou [data-consent-open].
+ * pode ser reaberto por window.mvConsent.open() ou [data-consent-open]. A
+ * decisao tambem pode ser trocada nas Configuracoes (SiteSettings.astro).
  */
 import type { Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
@@ -179,7 +180,7 @@ const strings = ui[locale].consent
 
     var opener = null
 
-    // Reaberto pelo visitante (botao "Cookies"): leva o foco para o aviso,
+    // Reaberto pelo visitante (mvConsent.open()): leva o foco para o aviso,
     // senao quem navega por teclado nao sabe que ele apareceu.
     document.addEventListener('mv:consent-open', function () {
       opener = document.activeElement
@@ -188,8 +189,16 @@ const strings = ui[locale].consent
       if (first) first.focus()
     })
 
+    // Decidido em outro lugar (Configuracoes): o aviso sai se estiver na
+    // tela e nao aparece mais depois do atraso de entrada.
+    document.addEventListener('mv:consent', function () {
+      if (el.classList.contains('is-visible')) hide()
+    })
+
     if (window.mvConsent.status() === null) {
-      setTimeout(show, ENTER_DELAY)
+      setTimeout(function () {
+        if (window.mvConsent.status() === null) show()
+      }, ENTER_DELAY)
     }
   })()
 </script>

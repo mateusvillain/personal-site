@@ -1,0 +1,213 @@
+// Configuracoes do site (SiteSettings.astro e SettingsButton.astro) e o
+// efeito global das preferencias aplicadas pelo ThemeInit.
+
+/* --- preferencias globais ------------------------------------------------ */
+
+// Reduzir movimento escolhido no site: mesmo efeito do
+// `prefers-reduced-motion` do sistema para tudo que e CSS. Animacoes e
+// transicoes terminam na hora (ja no estado final, sem sumir com nada); as
+// feitas em JS consultam src/lib/motion.ts.
+:root[data-motion='reduce'] {
+  scroll-behavior: auto !important;
+
+  *,
+  *::before,
+  *::after,
+  ::backdrop {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}
+
+// Clima e horario desativados: o bloco fica vazio (os controles seguem a
+// direita, como nas paginas sem liveInfo)
+:root[data-live-info='off'] .site-topbar__info > * {
+  display: none;
+}
+
+/* --- engrenagem ---------------------------------------------------------- */
+
+// Em telas estreitas os tres controles nao cabem ao lado da hora e do clima:
+// o tema sai da barra do topo e fica nas Configuracoes (e no menu mobile).
+@media (max-width: 419px) {
+  .site-topbar .theme-toggle {
+    display: none;
+  }
+}
+
+// Mesmo tamanho e fundo dos seletores de idioma e tema ao lado
+.settings-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--lui-spacing-fixed-40);
+  height: var(--lui-spacing-fixed-40);
+  padding: 0;
+  border: none;
+  border-radius: var(--lui-border-radius-circle);
+  background-color: var(--lui-color-gray-2);
+  color: var(--lui-color-neutral-icon-default);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+  -webkit-tap-highlight-color: transparent;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--lui-color-neutral-text-heading) 8%,
+      var(--lui-color-gray-2)
+    );
+
+    svg {
+      transform: rotate(45deg);
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--lui-focus-ring-primary);
+  }
+}
+
+/* --- modal --------------------------------------------------------------- */
+
+// Sem rolagem por tras do modal aberto
+:root:has(.settings[open]) {
+  overflow: hidden;
+}
+
+// O <dialog> so posiciona e escurece o fundo; o painel e o .modal do Let's UI
+.settings {
+  box-sizing: border-box;
+  width: min(480px, calc(100% - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  overflow: visible;
+
+  &[open] {
+    animation: settings-in 0.24s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  &::backdrop {
+    background: rgb(0 0 0 / 0.4);
+    animation: settings-fade 0.24s ease-out;
+  }
+
+  // `.settings .settings__modal`: vence a margem do .modal do Let's UI, que
+  // carrega depois deste CSS e deslocava o painel dentro do <dialog>
+  & &__modal {
+    max-height: calc(100dvh - 2rem);
+    margin: 0;
+
+    &:focus {
+      outline: none;
+    }
+
+    // o h2 global do site e maior que o titulo do .modal__header
+    .modal__title {
+      margin: 0;
+      font: inherit;
+      color: var(--lui-color-neutral-text-heading);
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    // o padding-top 0 do .modal__body encosta a primeira linha no titulo
+    padding-top: var(--lui-spacing-fixed-8);
+  }
+
+  // Rotulo (e dica) a esquerda, controle a direita
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--lui-spacing-fixed-16);
+    padding: var(--lui-spacing-fixed-16) 0;
+    border-top: 1px solid var(--lui-color-neutral-border-subtle);
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    &:is(label) {
+      cursor: pointer;
+    }
+
+    &:is(label):has(input:disabled) {
+      cursor: not-allowed;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    color: var(--lui-color-neutral-text-heading);
+    font-weight: 500;
+  }
+
+  &__hint {
+    color: var(--lui-color-neutral-text-caption);
+    font-size: 0.875rem;
+    line-height: 1.4;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+}
+
+@keyframes settings-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@keyframes settings-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settings-button,
+  .settings-button svg {
+    transition: none;
+  }
+
+  .settings[open],
+  .settings::backdrop {
+    animation: none;
+  }
+}
+
+// Idioma com o nome por extenso (LangToggle `full`)
+.lang-toggle--full .lang-toggle__option {
+  padding: 4px 12px;
+  font-size: 0.8125rem;
+}

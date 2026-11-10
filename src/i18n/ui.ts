@@ -46,6 +46,23 @@ const en = {
     social: 'Social media',
     menu: 'Menu',
   },
+  /** Configuracoes do site (SiteSettings.astro). */
+  settings: {
+    /** Nome acessivel do botao de engrenagem. */
+    open: 'Settings',
+    title: 'Settings',
+    close: 'Close settings',
+    theme: 'Color mode',
+    language: 'Language',
+    motion: 'Reduce motion',
+    motionHint: 'Turns off animations and transitions.',
+    /** Mostrado quando o sistema ja pede menos movimento. */
+    motionSystem: 'Already on in your device settings.',
+    liveInfo: 'Turn off weather and time',
+    liveInfoHint: 'Hides the time and weather in Criciúma at the top of the page.',
+    cookies: 'Analytics cookies',
+    cookiesHint: 'Google Analytics and Hotjar, to see what people read here.',
+  },
   topbar: {
     /** Nome acessivel da barra de hora, clima, idioma e tema. */
     label: 'Time, weather and preferences',
@@ -130,6 +147,20 @@ const pt: typeof en = {
     resources: 'Recursos',
     social: 'Redes sociais',
     menu: 'Menu',
+  },
+  settings: {
+    open: 'Configurações',
+    title: 'Configurações',
+    close: 'Fechar configurações',
+    theme: 'Modo de cor',
+    language: 'Idioma',
+    motion: 'Reduzir movimento',
+    motionHint: 'Desliga animações e transições.',
+    motionSystem: 'Já está ativado nas configurações do seu dispositivo.',
+    liveInfo: 'Desativar clima e horário',
+    liveInfoHint: 'Esconde a hora e o clima de Criciúma no topo da página.',
+    cookies: 'Cookies de análise',
+    cookiesHint: 'Google Analytics e Hotjar, para ver o que as pessoas leem por aqui.',
   },
   topbar: {
     label: 'Hora, clima e preferências',

@@ -1,0 +1,194 @@
+---
+/**
+ * Configuracoes do site: modal aberto pela engrenagem (SettingsButton.astro).
+ *
+ * - Modo de cor: o mesmo ThemeToggle da barra; public/js/theme.js sincroniza
+ *   todos os seletores da pagina.
+ * - Idioma: links para esta pagina no outro idioma (funciona sem JS).
+ * - Reduzir movimento: `html[data-motion="reduce"]`, somado ao
+ *   `prefers-reduced-motion` do sistema. Com o sistema ja pedindo, a opcao
+ *   aparece ligada e travada.
+ * - Desativar clima e horario: `html[data-live-info="off"]`; time.js e
+ *   weather.js param de buscar e voltam com o evento `mv:live-info`.
+ * - Cookies de analise: o mesmo consentimento do aviso (ConsentScript.astro).
+ *
+ * Tudo fica no localStorage e e aplicado antes da pintura pelo ThemeInit.
+ *
+ * O <dialog> nativo da o foco preso, o Esc e o fundo inerte. Ele mora dentro
+ * do <header>: o menu mobile deixa o resto da pagina inerte, e daqui ele
+ * pode ser aberto com o menu ainda fechando.
+ */
+import LangToggle from './LangToggle.astro'
+import ThemeToggle from './ThemeToggle.astro'
+import type { Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+  /** Caminho desta pagina no outro idioma. */
+  switchPath: string
+}
+
+const { locale, switchPath } = Astro.props
+const strings = ui[locale].settings
+---
+
+<dialog class="settings" id="site-settings" aria-labelledby="site-settings-title" data-settings>
+  <!-- o foco entra no painel (sem anel), nao no Fechar: o leitor de tela
+       anuncia o titulo e o Tab segue para os controles -->
+  <div class="modal modal--md settings__modal" tabindex="-1" autofocus>
+    <div class="modal__header">
+      <h2 class="modal__title" id="site-settings-title">{strings.title}</h2>
+      <button type="button" class="modal__close" aria-label={strings.close} data-settings-close>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal__body settings__body">
+      <!-- os grupos ja tem nome acessivel proprio: o rotulo visivel nao e lido -->
+      <div class="settings__row">
+        <span class="settings__label" aria-hidden="true">{strings.theme}</span>
+        <ThemeToggle locale={locale} name="theme-settings" />
+      </div>
+
+      <div class="settings__row">
+        <span class="settings__label" aria-hidden="true">{strings.language}</span>
+        <LangToggle locale={locale} href={switchPath} full />
+      </div>
+
+      <label class="settings__row">
+        <span class="settings__text">
+          <span class="settings__label">{strings.motion}</span>
+          <span class="settings__hint" data-motion-hint>{strings.motionHint}</span>
+          <span class="settings__hint" data-motion-system hidden>{strings.motionSystem}</span>
+        </span>
+        <span class="switch switch--lg">
+          <input type="checkbox" role="switch" data-setting="motion" />
+        </span>
+      </label>
+
+      <label class="settings__row">
+        <span class="settings__text">
+          <span class="settings__label">{strings.liveInfo}</span>
+          <span class="settings__hint">{strings.liveInfoHint}</span>
+        </span>
+        <span class="switch switch--lg">
+          <input type="checkbox" role="switch" data-setting="live-info" />
+        </span>
+      </label>
+
+      <label class="settings__row">
+        <span class="settings__text">
+          <span class="settings__label">{strings.cookies}</span>
+          <span class="settings__hint">{strings.cookiesHint}</span>
+        </span>
+        <span class="switch switch--lg">
+          <input type="checkbox" role="switch" data-setting="cookies" />
+        </span>
+      </label>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  type Consent = {
+    grant: () => void
+    deny: () => void
+    status: () => 'granted' | 'denied' | null
+  }
+
+  const dialog = document.querySelector<HTMLDialogElement>('[data-settings]')
+  const root = document.documentElement
+  const systemMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+  const consent = () => (window as Window & { mvConsent?: Consent }).mvConsent
+
+  const store = (key: string, value: string | null) => {
+    try {
+      if (value === null) localStorage.removeItem(key)
+      else localStorage.setItem(key, value)
+    } catch {}
+  }
+
+  if (dialog) {
+    const input = (name: string) =>
+      dialog.querySelector<HTMLInputElement>(`[data-setting="${name}"]`)!
+    const motion = input('motion')
+    const liveInfo = input('live-info')
+    const cookies = input('cookies')
+    const motionHint = dialog.querySelector<HTMLElement>('[data-motion-hint]')!
+    const motionSystem = dialog.querySelector<HTMLElement>('[data-motion-system]')!
+    let opener: HTMLElement | null = null
+
+    // Os switches refletem o estado atual (que pode ter mudado fora daqui:
+    // aviso de cookies, preferencia do sistema)
+    const sync = () => {
+      const system = systemMotion.matches
+      motion.checked = system || root.dataset.motion === 'reduce'
+      motion.disabled = system
+      motionHint.hidden = system
+      motionSystem.hidden = !system
+      liveInfo.checked = root.dataset.liveInfo === 'off'
+      cookies.checked = consent()?.status() === 'granted'
+    }
+
+    motion.addEventListener('change', () => {
+      if (motion.checked) root.dataset.motion = 'reduce'
+      else delete root.dataset.motion
+      store('motion', motion.checked ? 'reduce' : null)
+    })
+
+    liveInfo.addEventListener('change', () => {
+      if (liveInfo.checked) root.dataset.liveInfo = 'off'
+      else delete root.dataset.liveInfo
+      store('live-info', liveInfo.checked ? 'off' : null)
+      document.dispatchEvent(new Event('mv:live-info'))
+    })
+
+    // Recusar depois de aceitar recarrega a pagina (ver ConsentScript)
+    cookies.addEventListener('change', () => {
+      if (cookies.checked) consent()?.grant()
+      else consent()?.deny()
+    })
+
+    document.addEventListener('mv:consent', sync)
+    systemMotion.addEventListener('change', sync)
+
+    document.querySelectorAll<HTMLElement>('[data-settings-open]').forEach((button) => {
+      button.addEventListener('click', () => {
+        opener = button
+        sync()
+        dialog.showModal()
+      })
+    })
+
+    dialog
+      .querySelector('[data-settings-close]')
+      ?.addEventListener('click', () => dialog.close())
+
+    // clique fora do painel (no fundo escurecido) fecha
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close()
+    })
+
+    // O foco volta para a engrenagem que abriu. Se ela estava no menu mobile
+    // (que fechou ao abrir as configuracoes), vai para o botao do menu.
+    dialog.addEventListener('close', () => {
+      const target =
+        opener && opener.getClientRects().length
+          ? opener
+          : document.querySelector<HTMLElement>('[data-menu-button]')
+      target?.focus()
+      opener = null
+    })
+  }
+</script>

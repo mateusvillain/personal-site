@@ -196,8 +196,9 @@ const ring =
 </figure>
 
 <script>
+  import { reduceMotion } from '../lib/motion'
+
   const SVG = 'http://www.w3.org/2000/svg'
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   const verdictOf = (r: number) =>
     r >= 7 ? 'aaa' : r >= 4.5 ? 'aa' : r >= 3 ? 'large' : 'fail'
