@@ -12,6 +12,8 @@
  *   atributo (src/lib/motion.ts). Acompanha a troca no sistema com a pagina
  *   aberta; as Configuracoes chamam `window.mvSyncMotion()` ao mudar a opcao.
  * - hora e clima: `localStorage['live-info'] = 'off'` -> `html[data-live-info]`.
+ * - cor principal: `localStorage.accent` -> `html[data-accent]` (lista em
+ *   src/lib/accents.ts, escalas em _accents.scss). Sem valor: o azul padrao.
  * - `html[data-js]`: o JS esta ativo. O que so funciona com script (como a
  *   engrenagem das Configuracoes) fica escondido sem ele.
  */
@@ -42,6 +44,10 @@
       saved = localStorage.getItem('theme')
       if (localStorage.getItem('live-info') === 'off') {
         root.setAttribute('data-live-info', 'off')
+      }
+      var accent = localStorage.getItem('accent')
+      if (accent && /^[a-z]{1,20}$/.test(accent)) {
+        root.setAttribute('data-accent', accent)
       }
     } catch (e) {}
     var mode = saved === 'light' || saved === 'dark' ? saved : 'system'

@@ -1,0 +1,81 @@
+@use 'sass:list';
+@use 'sass:map';
+
+// Cores principais alternativas (Configuracoes > Cor principal). Cada uma
+// troca a escala --lui-brand-color-primary-* inteira, clara e escura. Geradas
+// em OKLCH com o perfil de luminosidade do azul padrao; o primary-4 (links,
+// fundo de botoes com texto branco, icones) tem contraste de 5.5:1 com branco
+// no tema claro e de 6.2:1 com o fundo no escuro. O azul padrao fica no
+// _brand.scss e nao usa data-accent.
+//
+// Ids e nomes ficam em src/lib/accents.ts; os dois precisam bater.
+
+$accents: (
+  'violet': (
+    light: (#f5f3fe, #e3ddfb, #c8b9f8, #8435f5, #7228d7, #5e25af, #22004b, #0f0028),
+    dark: (#160e28, #251743, #3c236b, #a583f8, #b49cf8, #c6b5fc, #dad1fb, #efecfd),
+  ),
+  'magenta': (
+    light: (#fcf1f7, #f7d7e8, #eeadd1, #c60090, #ab007c, #8e0067, #350024, #1c0011),
+    dark: (#230919, #3a0d2a, #5d1143, #e46eb5, #eb8cc3, #f3a9d2, #f5c9e1, #fbe9f2),
+  ),
+  'red': (
+    light: (#fef1f0, #fcd8d4, #f8aea7, #d30022, #b6001c, #970015, #3a0003, #1f0001),
+    dark: (#260808, #400c0c, #660e12, #f46d66, #f88c84, #fdaaa2, #fccac5, #fdeae7),
+  ),
+  'orange': (
+    light: (#fef2ed, #fadacc, #f5b295, #b14800, #983c00, #7d3000, #310e00, #1a0400),
+    dark: (#250a01, #3c1300, #5b2100, #ef7436, #f39265, #f9ae8c, #facdb9, #fcebe3),
+  ),
+  'green': (
+    light: (#eff8f0, #cfead4, #9bd5a6, #007936, #00662c, #005322, #00220a, #001003),
+    dark: (#001a07, #002a0e, #00421a, #26ad56, #5fba76, #87c994, #bee3c4, #e5f3e7),
+  ),
+  'teal': (
+    light: (#ebf8f7, #c4ebe8, #7cd7d1, #007571, #00635f, #00504d, #00201e, #000f0e),
+    dark: (#001817, #002826, #003f3c, #00a9a2, #00bdb6, #60ccc6, #ace5e0, #dff4f2),
+  ),
+);
+
+// Escala primaria (8 tons) nas variaveis do brand
+@mixin primary-scale($colors) {
+  @for $i from 1 through 8 {
+    --lui-brand-color-primary-#{$i}: #{list.nth($colors, $i)};
+  }
+}
+
+@each $name, $scale in $accents {
+  $root: "html[data-brand='mateus-villain'][data-accent='#{$name}']";
+
+  // Mesma ordem do _brand.scss: claro por padrao, sistema escuro, e o tema
+  // forcado (data-theme) por ultimo, com especificidade maior.
+  #{$root} {
+    @include primary-scale(map.get($scale, light));
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #{$root} {
+      @include primary-scale(map.get($scale, dark));
+    }
+  }
+
+  #{$root}[data-theme='light'] {
+    @include primary-scale(map.get($scale, light));
+  }
+
+  #{$root}[data-theme='dark'] {
+    @include primary-scale(map.get($scale, dark));
+  }
+
+  // amostra nas Configuracoes: o primary-4 de cada tema
+  .accent-swatch[data-accent='#{$name}'] {
+    --swatch-light: #{list.nth(map.get($scale, light), 4)};
+    --swatch-dark: #{list.nth(map.get($scale, dark), 4)};
+  }
+}
+
+// o azul padrao (sem data-accent), mesmos valores do _brand.scss
+.accent-swatch[data-accent='blue'] {
+  --swatch-light: #0722d7;
+  --swatch-dark: #6493ff;
+}

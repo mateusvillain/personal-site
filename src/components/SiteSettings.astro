@@ -4,6 +4,8 @@
  *
  * - Modo de cor: o mesmo ThemeToggle da barra; public/js/theme.js sincroniza
  *   todos os seletores da pagina.
+ * - Cor principal: troca a escala primaria do brand (`html[data-accent]`,
+ *   escalas em _accents.scss, lista em src/lib/accents.ts).
  * - Idioma: links para esta pagina no outro idioma (funciona sem JS).
  * - Reduzir movimento: guarda `localStorage.motion`; o ThemeInit junta com o
  *   `prefers-reduced-motion` do sistema em `html[data-motion]`. Com o
@@ -23,6 +25,7 @@
  */
 import LangToggle from './LangToggle.astro'
 import ThemeToggle from './ThemeToggle.astro'
+import { accents } from '../lib/accents'
 import type { Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
 
@@ -67,6 +70,26 @@ const strings = ui[locale].settings
         texto visivel sai da arvore (aria-hidden) para nao ser lido duas vezes;
         referencias por id continuam valendo para elementos escondidos.
       -->
+      <div class="settings__row">
+        <span class="settings__label" aria-hidden="true" id="settings-accent">{strings.accent}</span>
+        <div class="accent-picker" role="radiogroup" aria-labelledby="settings-accent">
+          {
+            accents.map((accent) => (
+              <label class="accent-swatch" data-accent={accent.id} title={accent.name[locale]}>
+                <input
+                  class="sr-only"
+                  type="radio"
+                  name="settings-accent"
+                  value={accent.id}
+                  aria-label={accent.name[locale]}
+                  data-accent-option
+                />
+              </label>
+            ))
+          }
+        </div>
+      </div>
+
       <div class="settings__row">
         <span class="settings__label" aria-hidden="true" id="settings-theme">{strings.theme}</span>
         <ThemeToggle locale={locale} name="theme-settings" labelledby="settings-theme" />
@@ -145,6 +168,7 @@ const strings = ui[locale].settings
 
 <script>
   import { systemReduceMotion } from '../lib/motion'
+  import { DEFAULT_ACCENT } from '../lib/accents'
 
   type Consent = {
     grant: () => void
@@ -172,6 +196,7 @@ const strings = ui[locale].settings
     const motion = dialog.querySelector<HTMLInputElement>('[data-setting="motion"]')!
     const liveInfo = dialog.querySelector<HTMLInputElement>('[data-setting="live-info"]')
     const cookies = [...dialog.querySelectorAll<HTMLInputElement>('[data-cookies]')]
+    const accentOptions = [...dialog.querySelectorAll<HTMLInputElement>('[data-accent-option]')]
     const motionHint = dialog.querySelector<HTMLElement>('[data-motion-hint]')!
     const motionSystem = dialog.querySelector<HTMLElement>('[data-motion-system]')!
     let opener: HTMLElement | null = null
@@ -190,6 +215,8 @@ const strings = ui[locale].settings
       // so a dica visivel: descricao referenciada e lida mesmo escondida
       motion.setAttribute('aria-describedby', (system ? motionSystem : motionHint).id)
       if (liveInfo) liveInfo.checked = root.dataset.liveInfo === 'off'
+      const accent = root.dataset.accent || DEFAULT_ACCENT
+      accentOptions.forEach((radio) => (radio.checked = radio.value === accent))
       // sem decisao, nenhum dos dois marcado
       const status = win.mvConsent?.status() ?? null
       cookies.forEach((radio) => (radio.checked = radio.value === status))
@@ -205,6 +232,17 @@ const strings = ui[locale].settings
       store('motion', motion.checked ? 'reduce' : null)
       win.mvSyncMotion?.()
     })
+
+    // o azul padrao e o proprio brand: sem atributo e sem nada guardado
+    accentOptions.forEach((radio) =>
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return
+        const custom = radio.value !== DEFAULT_ACCENT
+        if (custom) root.dataset.accent = radio.value
+        else delete root.dataset.accent
+        store('accent', custom ? radio.value : null)
+      }),
+    )
 
     liveInfo?.addEventListener('change', () => {
       if (liveInfo.checked) root.dataset.liveInfo = 'off'
