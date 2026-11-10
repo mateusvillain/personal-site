@@ -72,3 +72,15 @@
     }
   }
 }
+
+// Visuais do case vazam um pouco da coluna de texto (560px) em telas
+// largas, todos com a mesma largura: blocos de codigo, imagens, escalas,
+// mapa de tokens, caderno e afins.
+@mixin bleed {
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
+}

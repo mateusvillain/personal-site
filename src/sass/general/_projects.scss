@@ -161,12 +161,10 @@ main.project-main {
     height: auto;
     margin: var(--lui-spacing-fixed-32, 32px) 0;
 
-    @media (min-width: 768px) {
-      --bleed: min(92vw, 720px);
+    @include window.bleed;
 
-      width: var(--bleed);
+    @media (min-width: 768px) {
       max-width: none;
-      margin-left: calc(50% - var(--bleed) / 2);
     }
   }
 
@@ -185,12 +183,7 @@ main.project-main {
   overflow: hidden;
   @include window.frame;
 
-  @media (min-width: 768px) {
-    --bleed: min(92vw, 720px);
-
-    width: var(--bleed);
-    margin-left: calc(50% - var(--bleed) / 2);
-  }
+  @include window.bleed;
 
   /* --- barra ------------------------------------------------------------ */
   &__bar {

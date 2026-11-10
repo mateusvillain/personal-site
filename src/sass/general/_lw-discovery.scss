@@ -52,12 +52,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
      Vaza um pouco da coluna de texto, como o quadro de Works da home,
      mas com folga menor: 720px contra os 560px da coluna.
   */
-  @media (min-width: 768px) {
-    --bleed: min(92vw, 720px);
-
-    width: var(--bleed);
-    margin-left: calc(50% - var(--bleed) / 2);
-  }
+  @include window.bleed;
 }
 
 .lwc__bar,
@@ -971,12 +966,10 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   margin-top: 24px;
 
   // vaza a coluna como a prancha de cores e a escala tipografica
-  @media (min-width: 768px) {
-    --bleed: min(92vw, 720px);
+  @include window.bleed;
 
+  @media (min-width: 768px) {
     box-sizing: border-box;
-    width: var(--bleed);
-    margin-left: calc(50% - var(--bleed) / 2);
   }
 }
 
@@ -1758,12 +1751,7 @@ section.project-section ul.lwr {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (min-width: 768px) {
-    --bleed: min(92vw, 720px);
-
-    width: var(--bleed);
-    margin-left: calc(50% - var(--bleed) / 2);
-  }
+  @include window.bleed;
 }
 
 .lwr-card {
@@ -2175,12 +2163,7 @@ section.project-section ul.lwr {
   container-type: inline-size;
   margin: 24px 0;
 
-  @media (min-width: 768px) {
-    --bleed: min(92vw, 720px);
-
-    width: var(--bleed);
-    margin-left: calc(50% - var(--bleed) / 2);
-  }
+  @include window.bleed;
 }
 
 .lwm__hint {
@@ -2576,12 +2559,7 @@ section.project-section ul.lwr {
 
   margin: 24px 0;
 
-  @media (min-width: 768px) {
-    --bleed: min(92vw, 720px);
-
-    width: var(--bleed);
-    margin-left: calc(50% - var(--bleed) / 2);
-  }
+  @include window.bleed;
 
   &.is-resizing {
     cursor: ew-resize;

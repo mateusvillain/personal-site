@@ -10,6 +10,8 @@
  * Todo texto entra por textContent, e as cores ja vem validadas da API.
  */
 
+import { h, tabKeys } from './dom.js'
+
 const COPY = {
   pt: {
     hint: 'Passe o cursor ou toque em um token para ver onde ele é usado.',
@@ -63,13 +65,6 @@ const FALLBACK = {
   'border-info': '#2563eb',
   'border-success': '#16a34a',
   'border-warning': '#d97706',
-}
-
-function h(tag, className, text) {
-  const el = document.createElement(tag)
-  if (className) el.className = className
-  if (text != null) el.textContent = text
-  return el
 }
 
 // papeis (tokens) que pintam o elemento; um elemento pode ter varios
@@ -259,15 +254,8 @@ export function mount(container, data, locale = 'pt') {
 
   tabs.forEach((tab, i) => {
     tab.addEventListener('click', () => select(i, false))
-    // setas, Home e End trocam de aba (padrao WAI-ARIA)
-    tab.addEventListener('keydown', (e) => {
-      const last = tabs.length - 1
-      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: last }[e.key]
-      if (next == null) return
-      e.preventDefault()
-      select(next > last ? 0 : next < 0 ? last : next, true)
-    })
   })
+  tabKeys(tabs, (n) => select(n, false))
 
   list.prepend(tablist)
 

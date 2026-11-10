@@ -326,6 +326,8 @@ const ring =
       })
       row.addEventListener('focus', () => show(row))
       row.addEventListener('click', () => select(row))
+      // setas nas quatro direcoes, Home e End (lista vertical, nao abas:
+      // por isso nao usa o tabKeys() de public/js/widgets/dom.js)
       row.addEventListener('keydown', (ev) => {
         const step =
           ev.key === 'ArrowDown' || ev.key === 'ArrowRight'

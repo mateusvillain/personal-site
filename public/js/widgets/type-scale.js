@@ -19,6 +19,8 @@
  * validados pela API. Todo texto entra por textContent.
  */
 
+import { h, tabKeys } from './dom.js'
+
 const COPY = {
   pt: {
     hint: 'Arraste a borda da janela ou escolha uma tela para ver a escala se adaptar.',
@@ -61,13 +63,6 @@ const DEFAULT_ROOT = 16
 const MIN_W = 320
 const MAX_W = 1440
 const PRESETS = { mobile: 375, tablet: 768, desktop: 1440 }
-
-function h(tag, className, text) {
-  const el = document.createElement(tag)
-  if (className) el.className = className
-  if (text != null) el.textContent = text
-  return el
-}
 
 const round = (n, d = 1) => String(Math.round(n * 10 ** d) / 10 ** d)
 
@@ -304,16 +299,8 @@ export function mount(container, data, locale = 'pt') {
     pageView.hidden = key !== 'page'
     render()
   }
-  Object.entries(viewTabs).forEach(([key, b], i, all) => {
-    b.addEventListener('click', () => select(key))
-    b.addEventListener('keydown', (e) => {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
-      e.preventDefault()
-      const next = all[(i + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length]
-      select(next[0])
-      next[1].focus()
-    })
-  })
+  Object.entries(viewTabs).forEach(([key, b]) => b.addEventListener('click', () => select(key)))
+  tabKeys(Object.values(viewTabs), (n) => select(Object.keys(viewTabs)[n]))
 
   presetBtns.forEach((b) => b.addEventListener('click', () => setWidth(Number(b.dataset.w))))
   range.addEventListener('input', () => setWidth(Number(range.value)))
