@@ -78,9 +78,10 @@ export default async function handler(req, res) {
     /* =====================================================
        1. Buscar case pelo slug
     ====================================================== */
+    // So os metadados aqui: o conteudo vem depois de a senha conferir.
     const doc = await sanity.fetch(
       `*[_type == "caseStudy" && slug.current == $slug][0]{
-        title, isPublic, requiresPassword, passwordKey, content
+        _id, title, isPublic, requiresPassword, passwordKey
       }`,
       { slug }
     )
@@ -113,10 +114,19 @@ export default async function handler(req, res) {
     /* =====================================================
        3. Portable Text (por idioma) -> sections
     ====================================================== */
-    // Aba EN tocada no Studio mas vazia persiste `en: []` — cai no PT também.
-    const localized = doc.content?.[locale]
-    const blocks = localized?.length ? localized : doc.content?.pt ?? []
-    const sections = blocksToSections(blocks)
+    // So o idioma pedido; aba EN tocada no Studio mas vazia persiste
+    // `en: []` e cai no PT tambem. `locale` e sempre 'pt' ou 'en'.
+    const blocks = await sanity.fetch(
+      `*[_id == $id][0]{
+        "blocks": select(count(content.${locale}) > 0 => content.${locale}, content.pt)[]{
+          ...,
+          _type == "tokenMapRef" => { "map": map->{ caption, groups } },
+          _type == "typeScaleRef" => { "scale": scale->{ caption, sample, rootFontSize, styles } }
+        }
+      }.blocks`,
+      { id: doc._id }
+    ) ?? []
+    const sections = blocksToSections(blocks, locale)
 
     return res.status(200).json({
       title: doc.title?.[locale] || doc.title?.pt || '',

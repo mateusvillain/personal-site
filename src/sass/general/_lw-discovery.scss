@@ -1,0 +1,2972 @@
+@use 'window';
+
+// Discovery do case Locaweb: a prancha de contraste das cores
+// (src/components/LwColorBoard.astro) e a escala tipografica
+// (src/components/LwTypeScale.astro). As cores dos tokens sao fixas; o
+// resto (bordas, textos, tinta das anotacoes) segue o tema do site.
+
+@font-face {
+  font-family: 'Caveat';
+  src: url('fonts/Caveat-VariableFont_wght.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+// Fonte da marca Locaweb, so para os exemplos da escala tipografica.
+// Apenas o peso 700 e o subset latin (cobre os acentos do portugues).
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-Bold-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+$hand: 'Caveat', cursive;
+$mono: 'Google Sans', ui-monospace, monospace;
+$ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+$ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
+
+%ink-stroke {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.lwc,
+.lwt {
+  --ink: var(--lui-color-neutral-text-body);
+  --line: var(--lui-color-neutral-border-subtle);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+
+  container-type: inline-size;
+  margin: 24px 0;
+
+  /*
+     Vaza um pouco da coluna de texto, como o quadro de Works da home,
+     mas com folga menor: 720px contra os 560px da coluna.
+  */
+  @include window.bleed;
+}
+
+.lwc__bar,
+.lwt__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+
+.lwc__hint,
+.lwt__hint {
+  color: var(--lui-color-neutral-text-caption);
+}
+
+/* ======================================================================
+   Cores
+   ====================================================================== */
+
+.lwc {
+  --cols: 14px minmax(0, 1fr) 2.4rem 2.4rem;
+  --gap: 8px;
+  --pad: 16px; // padding do card + padding da linha
+}
+
+/* --- prancha ------------------------------------------------------------ */
+.lwc__board {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'heads' 'primary' 'note' 'success' 'gray';
+  row-gap: 12px;
+
+  @container (min-width: 540px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'heads .'
+      'primary gray'
+      'note gray'
+      'success gray';
+    column-gap: 16px;
+  }
+}
+
+.lwc__heads {
+  grid-area: heads;
+  display: grid;
+  grid-template-columns: var(--cols);
+  column-gap: var(--gap);
+  align-items: end;
+  padding-inline: var(--pad);
+  min-height: 64px;
+}
+
+.lwc__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min-content;
+  justify-self: center;
+  font-family: $hand;
+  font-size: 1.125rem;
+  line-height: 0.9;
+  text-align: center;
+  color: var(--ink);
+
+  &--light {
+    grid-column: 3;
+    transform: translateX(-12px) rotate(-5deg);
+  }
+
+  &--dark {
+    grid-column: 4;
+    transform: translateX(2px) rotate(4deg);
+  }
+}
+
+.lwc__arrow {
+  width: 22px;
+  height: 26px;
+  margin-top: 2px;
+  overflow: visible;
+
+  path {
+    @extend %ink-stroke;
+  }
+}
+
+.lwc-card {
+  align-self: start;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+}
+
+.lwc-card--primary {
+  grid-area: primary;
+}
+.lwc-card--success {
+  grid-area: success;
+}
+.lwc-card--gray {
+  grid-area: gray;
+}
+
+.lwc-list {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 12px;
+  list-style: none;
+
+  // linha pontilhada que amarra os tons da paleta
+  &::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    left: 1px;
+    border-left: 1.5px dotted var(--lui-color-neutral-border-default);
+  }
+
+  li {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -10px;
+      width: 8px;
+      border-top: 1.5px dotted var(--lui-color-neutral-border-default);
+    }
+  }
+}
+
+.lwc-row {
+  appearance: none;
+  display: grid;
+  grid-template-columns: var(--cols);
+  column-gap: var(--gap);
+  align-items: center;
+  width: 100%;
+  padding: 4px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--lui-color-neutral-text-body);
+  font: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover,
+  &[aria-pressed='true'] {
+    background: var(--hover);
+  }
+
+  &[aria-pressed='true'] {
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: 1px;
+  }
+
+  &__swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: var(--c);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
+
+    :root[data-theme='dark'] & {
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+    }
+  }
+
+  &__name {
+    position: relative;
+    justify-self: start;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  &__val {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--lui-color-neutral-text-heading);
+
+    &[data-low] {
+      color: var(--lui-color-neutral-text-caption);
+      opacity: 0.75;
+    }
+  }
+}
+
+/* --- rabiscos ----------------------------------------------------------- */
+.lwc-ring {
+  position: absolute;
+  inset: -8px -12px -7px -7px;
+  pointer-events: none;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  path {
+    @extend %ink-stroke;
+    transition: stroke-width 0.2s ease;
+  }
+
+  &__star {
+    display: none;
+    position: absolute;
+    top: -14px;
+    right: -6px;
+    font-family: $hand;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  &.is-starred &__star {
+    display: block;
+  }
+}
+
+.lwc-note {
+  grid-area: note;
+  justify-self: center;
+  max-width: 13em;
+  margin: 6px 8px;
+  font-family: $hand;
+  font-size: 1.25rem;
+  line-height: 1;
+  text-align: center;
+  color: var(--ink);
+  transform: rotate(-3deg);
+  cursor: default;
+
+  @container (min-width: 540px) {
+    justify-self: end;
+    margin: 10px 4px 10px 0;
+  }
+
+  &__star {
+    display: none;
+    margin-right: 2px;
+  }
+
+  &.is-starred &__star {
+    display: inline;
+  }
+}
+
+.lwc__wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+
+  path {
+    @extend %ink-stroke;
+    transition: stroke-width 0.2s ease;
+  }
+}
+
+// passar pela nota destaca os tres tons que ela comenta
+.lwc.is-linked {
+  .lwc-ring path,
+  .lwc__wires path {
+    stroke-width: 2.5px;
+  }
+
+  .lwc-row:has(.lwc-ring) {
+    background: var(--hover);
+  }
+}
+
+// desenho ao entrar na tela (so com JS e sem reduced motion)
+.lwc[data-animate] {
+  .lwc-ink path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition:
+      stroke-dashoffset 0.7s $ease-draw var(--delay, 0ms),
+      stroke-width 0.2s ease;
+  }
+
+  .lwc__head,
+  .lwc-note {
+    clip-path: inset(-0.6em 100% -0.6em -0.6em);
+    transition: clip-path 0.7s $ease-draw var(--delay, 0ms);
+  }
+
+  .lwc__head--dark {
+    --delay: 150ms;
+  }
+
+  .lwc-ring {
+    --delay: 450ms;
+  }
+
+  .lwc-note {
+    --delay: 750ms;
+  }
+
+  .lwc__wires path {
+    --delay: calc(1100ms + var(--d, 0ms));
+  }
+
+  &.is-drawn {
+    .lwc-ink path {
+      stroke-dashoffset: 0;
+    }
+
+    .lwc__head,
+    .lwc-note {
+      clip-path: inset(-0.6em);
+    }
+  }
+}
+
+/* --- preview de contraste ---------------------------------------------- */
+.lwc-preview {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  &__name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 4px;
+
+    code {
+      font-family: $mono;
+      font-size: 0.8125rem;
+      color: var(--lui-color-neutral-text-heading);
+    }
+  }
+
+  &__swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: var(--c);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
+    transition: background-color 0.2s ease;
+  }
+
+  &__tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+
+    @container (min-width: 440px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+.lwc-tile {
+  --label: #5c6270;
+
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #e3e5e8;
+
+  &--dark {
+    --label: #a3a8b1;
+
+    background: #000;
+    box-shadow: inset 0 0 0 1px #2a2d33;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    color: var(--label);
+  }
+
+  &__sample {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--c);
+    transition: color 0.2s ease;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__ratio {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--label);
+  }
+}
+
+.lwc-badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.6;
+
+  .lwc-tile--light & {
+    &[data-verdict='aaa'],
+    &[data-verdict='aa'] {
+      background: #e3f5e4;
+      color: #1e5a24;
+    }
+
+    &[data-verdict='large'] {
+      background: #fff1d2;
+      color: #774900;
+    }
+
+    &[data-verdict='fail'] {
+      background: #fde3e3;
+      color: #9b1c1c;
+    }
+  }
+
+  .lwc-tile--dark & {
+    &[data-verdict='aaa'],
+    &[data-verdict='aa'] {
+      background: #12351a;
+      color: #8fdc97;
+    }
+
+    &[data-verdict='large'] {
+      background: #3a2a06;
+      color: #f5c56b;
+    }
+
+    &[data-verdict='fail'] {
+      background: #3d1414;
+      color: #f59a9a;
+    }
+  }
+}
+
+/* ======================================================================
+   Escala tipografica
+   ====================================================================== */
+
+.lwt {
+  @include window.tokens;
+
+  // o destaque (token, linha do grafico) usa o roxo de propriedade do bloco
+  // de codigo
+  --pink: var(--cw-property);
+}
+
+/* --- seletor desktop/mobile -------------------------------------------- */
+.lwt-seg {
+  display: inline-flex;
+  gap: 2px;
+  margin: 0;
+  padding: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--hover);
+
+  &__opt {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    color: var(--lui-color-neutral-text-body);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    input {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+    }
+
+    &:has(input:checked) {
+      background: var(--lui-color-neutral-text-heading);
+      color: var(--lui-color-neutral-text-inverse);
+    }
+
+    &:has(input:focus-visible) {
+      outline: 2px solid var(--lui-color-neutral-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}
+
+/* --- palco -------------------------------------------------------------- */
+.lwt__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+
+  @container (min-width: 900px) {
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 24px;
+  }
+}
+
+.lwt__stage {
+  container-type: inline-size;
+  min-width: 0;
+  // a nota do 2xl fica fora do quadro no modo desktop, so escondida;
+  // sem o corte ela alargava a pagina
+  overflow-x: clip;
+}
+
+// mesma janela do bloco de codigo: barra no topo com os pontos coloridos
+.lwt-frame {
+  @include window.frame;
+
+  position: relative;
+  max-width: 100%;
+  padding: 44px 0 4px;
+  transition:
+    max-width 0.5s $ease-out,
+    border-radius 0.5s $ease-out;
+
+  // a barra e um pseudo-elemento para os pontos poderem se mover sozinhos
+  // (no modo mobile eles viram o entalhe do celular, no centro)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 44px;
+    border-bottom: 1px solid var(--cw-line);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    background: var(--cw-bar);
+    box-sizing: border-box;
+  }
+
+  &__chrome {
+    @include window.dots;
+
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    transition:
+      left 0.5s $ease-out,
+      transform 0.5s $ease-out;
+
+    i {
+      border-radius: 6px;
+      transition:
+        width 0.4s $ease-out,
+        opacity 0.3s ease,
+        background-color 0.4s ease;
+    }
+  }
+}
+
+.lwt-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// linhas de editor: separadas por filetes, sem cartao em volta
+.lwt-row {
+  position: relative;
+  min-width: 0;
+  padding: 12px 20px;
+  transition: background-color 0.15s ease;
+
+  & + & {
+    border-top: 1px solid var(--cw-line);
+  }
+
+  &:hover {
+    background: var(--cw-hover);
+  }
+
+  &__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__token {
+    font-family: $mono;
+    font-size: 0.8125rem;
+    color: var(--pink);
+  }
+
+  &__px {
+    font-family: $mono;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--cw-muted);
+    white-space: nowrap;
+  }
+
+  &__from {
+    text-decoration: none;
+  }
+
+  &__to {
+    display: none;
+    margin-left: 4px;
+    color: var(--cw-text);
+  }
+
+  &__sample {
+    margin-top: 2px;
+    overflow: hidden;
+    font-family: 'Ubuntu', var(--lui-brand-typography-font-family-heading), sans-serif;
+    font-size: var(--d);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--cw-text);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: font-size 0.45s $ease-out;
+  }
+}
+
+/* --- anotacoes do modo mobile ------------------------------------------ */
+.lwt-note {
+  position: absolute;
+  left: calc(100% + 14px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 9em;
+  font-family: $hand;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s;
+
+  path {
+    @extend %ink-stroke;
+  }
+
+  svg {
+    flex: none;
+    overflow: visible;
+  }
+
+  &__arrow {
+    width: 32px;
+    height: 16px;
+  }
+
+  &--big {
+    top: 50%;
+    transform: translateY(-50%) rotate(-3deg);
+  }
+
+  // sem espaco ao lado da "tela": a nota vira uma linha dentro do card
+  @container (max-width: 529px) {
+    position: static;
+    display: none;
+    width: auto;
+    height: auto;
+    margin-top: 6px;
+    transform: none;
+
+    .lwt-note__arrow {
+      width: 22px;
+      height: 12px;
+      transform: rotate(60deg);
+    }
+  }
+}
+
+/* --- grafico ------------------------------------------------------------ */
+.lwt-chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  @include window.frame;
+
+  min-height: 260px;
+  padding: 36px 12px 16px;
+
+  &__axis {
+    position: absolute;
+    top: 12px;
+    left: var(--x);
+    font-size: 0.75rem;
+    color: var(--lui-color-neutral-text-caption);
+    transform: translateX(-50%);
+    transition: color 0.3s ease;
+
+    &:not(&--m) {
+      color: var(--lui-color-neutral-text-heading);
+      font-weight: 600;
+    }
+  }
+
+  &__plot {
+    position: relative;
+    flex: 1;
+
+    svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      clip-path: inset(-4px 70% -4px -4px);
+      transition: clip-path 0.7s $ease-draw;
+    }
+  }
+
+  &__guide {
+    stroke: var(--line);
+    stroke-width: 1px;
+    stroke-dasharray: 2 4;
+    vector-effect: non-scaling-stroke;
+  }
+
+  &__line {
+    fill: none;
+    stroke: var(--lui-color-neutral-text-caption);
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    transition:
+      stroke 0.2s ease,
+      stroke-width 0.2s ease;
+  }
+
+  &__dot {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 50%;
+    background: var(--lui-color-neutral-text-heading);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s $ease-out,
+      background-color 0.3s ease;
+
+    &--m {
+      background: var(--pink);
+      opacity: 0;
+      transform: scale(0.4);
+      transition-delay: calc(0.3s + var(--i) * 50ms);
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 50%;
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--lui-color-neutral-text-caption);
+    white-space: nowrap;
+    transform: translateY(-50%);
+
+    b {
+      font-weight: 600;
+      color: var(--lui-color-neutral-text-heading);
+    }
+
+    &--d {
+      right: calc(100% + 8px);
+    }
+
+    &--m {
+      left: calc(100% + 8px);
+
+      b {
+        color: var(--pink);
+      }
+    }
+  }
+
+}
+
+/* --- modo mobile -------------------------------------------------------- */
+.lwt:has(input[value='mobile']:checked) {
+  .lwt-frame {
+    max-width: 360px;
+    border-radius: 28px;
+  }
+
+  .lwt-frame__chrome {
+    left: 50%;
+    transform: translateX(-50%);
+
+    // entalhe neutro: os pontos coloridos sao do navegador do desktop
+    i:first-child {
+      width: 44px;
+      background: var(--cw-muted);
+    }
+
+    i:not(:first-child) {
+      width: 0;
+      opacity: 0;
+    }
+  }
+
+  .lwt-row__from {
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  .lwt-row__to {
+    display: inline;
+  }
+
+  .lwt-row__sample {
+    font-size: var(--m);
+  }
+
+  .lwt-note {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.35s;
+
+    @container (max-width: 529px) {
+      display: flex;
+    }
+  }
+
+  .lwt-chart__axis {
+    color: var(--lui-color-neutral-text-heading);
+    font-weight: 600;
+  }
+
+  .lwt-chart__plot svg {
+    clip-path: inset(-4px);
+  }
+
+  .lwt-chart__dot:not(.lwt-chart__dot--m) {
+    background: var(--lui-color-neutral-text-caption);
+  }
+
+  .lwt-chart__dot--m {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// passar o cursor numa escala acende a linha dela no grafico
+@for $i from 0 through 6 {
+  .lwt:has(.lwt-row[data-i='#{$i}']:hover) {
+    .lwt-chart__line[data-i='#{$i}'] {
+      stroke: var(--pink);
+      stroke-width: 2.5px;
+    }
+
+    .lwt-chart__dot[data-i='#{$i}'] {
+      transform: scale(1.5);
+    }
+  }
+}
+
+/* ======================================================================
+   Entrevistas: caderno pautado
+   ====================================================================== */
+
+// folha + canvas de rascunho + barra do lapis
+.lwn-sheet {
+  position: relative;
+  margin-top: 24px;
+
+  // vaza a coluna como a prancha de cores e a escala tipografica
+  @include window.bleed;
+
+  @media (min-width: 768px) {
+    box-sizing: border-box;
+  }
+}
+
+.lwn {
+  --ink: var(--lui-color-neutral-text-body);
+  --paper: color-mix(
+    in srgb,
+    var(--lui-color-neutral-text-heading) 2%,
+    var(--lui-color-neutral-background-surface)
+  );
+  // pauta azul e margem vermelha: o que faz a folha ser lida como caderno
+  --rule: rgb(74 127 209 / 0.2);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --margin: 56px;
+  --pencil: color-mix(in srgb, var(--lui-color-neutral-text-body) 80%, transparent);
+  --marker: rgb(255 214 10 / 0.42);
+
+  :root[data-theme='dark'] & {
+    --marker: rgb(250 204 21 / 0.26);
+    --rule: rgb(122 167 255 / 0.13);
+    // grao claro: o escuro sumiria no papel escuro
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  container-type: inline-size;
+
+  position: relative;
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 24px 32px 24px var(--margin);
+  list-style: none;
+  border: 1px solid var(--lui-color-neutral-border-subtle);
+  border-radius: 6px 8px 7px 6px;
+  background-color: var(--paper);
+  // grao do papel + pauta na altura de linha do texto (24px). A linha fica
+  // no topo de cada faixa: com a linha de base a 17px, o meio das letras cai
+  // perto dos 12px, centralizado entre a linha de cima e a de baixo
+  background-image:
+    var(--grain),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+  background-size:
+    180px 180px,
+    100% 24px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 10px 28px -18px rgb(0 0 0 / 0.22);
+
+  // segunda folha por baixo, levemente torta
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 4px 2px -5px 6px;
+    z-index: -1;
+    border: 1px solid var(--lui-color-neutral-border-subtle);
+    border-radius: 8px 6px 9px 7px;
+    background: var(--paper);
+    transform: rotate(1.1deg);
+
+    @media (max-width: 559px) {
+      inset: 4px 6px -5px 6px;
+      transform: rotate(0.6deg);
+    }
+  }
+
+  // linha vermelha da margem
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--margin) - 16px);
+    width: 1px;
+    background: rgb(229 92 92 / 0.45);
+  }
+
+  @media (max-width: 559px) {
+    --margin: 44px;
+
+    padding-right: 16px;
+  }
+
+  // texto e rabisco: lado a lado quando ha espaco, senao o rabisco desce
+  &__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'title' 'text' 'doodle';
+
+    @container (min-width: 600px) {
+      grid-template-columns: minmax(0, 1fr) 160px;
+      grid-template-areas: 'title doodle' 'text doodle';
+      grid-template-rows: auto 1fr;
+      column-gap: 32px;
+    }
+  }
+
+  &__num {
+    position: absolute;
+    top: 0;
+    right: calc(100% + 22px);
+    font-family: $hand;
+    font-size: 1.5rem;
+    line-height: 24px;
+    color: var(--ink);
+
+    @media (max-width: 559px) {
+      right: calc(100% + 20px);
+      font-size: 1.25rem;
+    }
+  }
+
+  &__title,
+  &__text {
+    line-height: 24px !important;
+  }
+
+  // dobra a classe para vencer o peso do .body--lg do Let's UI
+  &__title#{&}__title {
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__text {
+    color: var(--lui-color-neutral-text-body);
+  }
+
+  &__text {
+    grid-area: text;
+  }
+
+  &__title {
+    grid-area: title;
+  }
+}
+
+/* --- rabiscos a lapis --------------------------------------------------- */
+.lwn__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.lwn-doodle {
+  grid-area: doodle;
+  display: block;
+  justify-self: var(--jm, start);
+  // altura multipla da pauta (5 linhas): senao cada nota empurra as
+  // seguintes para fora das linhas
+  width: 160px;
+  height: 120px;
+  margin-top: 0;
+  overflow: visible;
+  // cada rabisco cai num lugar e numa inclinacao diferente, sem seguir a pauta
+  transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--rot, 0deg)) scale(var(--s, 1));
+
+  @container (min-width: 600px) {
+    align-self: var(--align, start);
+    justify-self: center;
+  }
+}
+
+.lwn__item {
+  &:nth-of-type(1) {
+    --rot: -4deg;
+    --x: 4px;
+    --y: 2px;
+    --jm: start;
+  }
+
+  &:nth-of-type(2) {
+    --rot: 2.5deg;
+    --x: -12px;
+    --y: 6px;
+    --align: center;
+    --jm: end;
+  }
+
+  &:nth-of-type(3) {
+    --rot: -1.5deg;
+    --x: 10px;
+    --y: 16px;
+    --s: 0.94;
+    --align: end;
+    --jm: center;
+  }
+
+  &:nth-of-type(4) {
+    --rot: 5deg;
+    --x: -4px;
+    --y: -6px;
+    --s: 0.92;
+    --jm: start;
+  }
+}
+
+// textura de lapis (tremor e grao) so nos tracos; os rotulos ficam sem grao
+// para continuarem legiveis
+.lwn-d {
+  filter: url(#lwn-pencil);
+}
+
+.lwn-d {
+  fill: none;
+  stroke: var(--pencil);
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  &--bold {
+    stroke-width: 3px;
+  }
+
+  &--thin {
+    stroke-width: 1.2px;
+  }
+
+  &--hair {
+    stroke-width: 0.9px;
+  }
+
+  // varias passadas por cima: o "bold" feito a lapis
+  &--heavy {
+    stroke-width: 2.2px;
+  }
+
+  // hachura: mais fina e mais clara que o contorno
+  &--hatch {
+    stroke-width: 0.85px;
+    opacity: 0.8;
+  }
+
+  // risco por cima do "Aa" light: mesmo lapis, mas mais carregado
+  &--strike {
+    stroke-width: 2.2px;
+  }
+}
+
+.lwn-label {
+  font-family: $hand;
+  font-size: 17px;
+  font-weight: 500;
+  fill: var(--pencil);
+}
+
+/* --- marca-texto -------------------------------------------------------- */
+.lwn-mark {
+  padding: 0 0.12em;
+  margin: 0 -0.12em;
+  color: inherit;
+  border-radius: 0.3em 0.15em 0.35em 0.2em;
+  background-color: transparent;
+  // faixa um pouco mais baixa que a linha, como quem grifa com pressa
+  background-image: linear-gradient(
+    100deg,
+    transparent 0.2em,
+    var(--marker) 0.35em,
+    var(--marker) calc(100% - 0.3em),
+    transparent calc(100% - 0.1em)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 62%;
+  background-size: 100% 78%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* --- desenho ao entrar na tela ----------------------------------------- */
+.lwn__item[data-animate] {
+  .lwn-d {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.9s $ease-draw var(--dl, 0s);
+  }
+
+  .lwn-label {
+    opacity: 0;
+    transition: opacity 0.6s ease 0.7s;
+  }
+
+  .lwn-mark {
+    background-size: 0% 78%;
+    transition: background-size 0.7s $ease-out calc(0.3s + var(--m) * 0.5s);
+  }
+
+  &.is-drawn {
+    .lwn-d {
+      stroke-dashoffset: 0;
+    }
+
+    .lwn-label {
+      opacity: 1;
+    }
+
+    .lwn-mark {
+      background-size: 100% 78%;
+    }
+  }
+}
+
+/* --- bloco de rascunho --------------------------------------------------- */
+.lwn-canvas {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border-radius: 6px 8px 7px 6px;
+  // toque sem o Desenhar (so em tela com mouse e touch): arrastar na
+  // vertical ainda rola a pagina; os outros movimentos desenham
+  touch-action: pan-y pinch-zoom;
+
+  // tela de toque com o Desenhar desligado: dedo rola e seleciona o texto
+  .is-locked > & {
+    pointer-events: none;
+  }
+
+  // Desenhar ligado: o dedo desenha em qualquer direcao
+  .is-drawing > & {
+    touch-action: pinch-zoom;
+  }
+
+  // lapis com a ponta no canto de baixo
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M3 21l1.4-4.8L16 4.6a2.1 2.1 0 0 1 3 3L7.4 19.2z' fill='%23fff' stroke='%23333' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M14 6.6l3 3' stroke='%23333' stroke-width='1.4'/%3E%3C/svg%3E")
+      3 21,
+    crosshair;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.lwn-tools {
+  // a borracha so aparece depois do primeiro rabisco; fica fora do fluxo
+  // para nao empurrar o conteudo quando surge
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 14px);
+  right: 0;
+  display: flex;
+  animation: lwn-tools-in 0.2s ease-out;
+
+  &[hidden] {
+    display: none;
+  }
+
+  // Tela de toque: a folha passa da altura da tela, entao os botoes ficam
+  // presos no rodape da tela enquanto a folha esta visivel (sem isso, o
+  // Desenhar ficaria la embaixo, longe de onde se quer rabiscar).
+  @media (pointer: coarse) {
+    position: sticky;
+    top: auto;
+    bottom: 16px;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+    // a faixa vazia entre os botoes nao bloqueia o toque no texto
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+  }
+}
+
+@keyframes lwn-tools-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.lwn-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--lui-color-neutral-border-subtle);
+  border-radius: 999px;
+  background: var(--lui-color-neutral-background-surface);
+  color: var(--lui-color-neutral-text-heading);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover {
+    background: color-mix(
+      in srgb,
+      var(--lui-color-neutral-text-heading) 6%,
+      var(--lui-color-neutral-background-surface)
+    );
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-text-heading);
+    outline-offset: 2px;
+  }
+
+  &[aria-pressed='true'] {
+    border-color: transparent;
+    background: var(--lui-color-neutral-text-heading);
+    color: var(--lui-color-neutral-background-surface);
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+}
+
+/* ======================================================================
+   Figma x codigo
+   ====================================================================== */
+
+.lwd {
+  --ink: var(--lui-color-neutral-text-body);
+  --line: var(--lui-color-neutral-border-subtle);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+  --figma: #a259ff;
+  --code: #0d99c2;
+  --cols: minmax(0, 1fr) 40px minmax(0, 1fr);
+
+  container-type: inline-size;
+  margin-top: 24px;
+
+  :root[data-theme='dark'] & {
+    --figma: #c08cff;
+    --code: #4cc4e6;
+  }
+
+  &__hint {
+    margin-bottom: 12px;
+    color: var(--lui-color-neutral-text-caption);
+  }
+
+  // rotulos das colunas; no layout empilhado cada lado traz o seu
+  &__cols {
+    display: grid;
+    grid-template-columns: var(--cols);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--lui-color-neutral-text-heading);
+
+      &:last-child {
+        grid-column: 3;
+      }
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    span:first-child svg {
+      stroke: var(--figma);
+    }
+
+    span:last-child svg {
+      stroke: var(--code);
+    }
+
+    @container (max-width: 479px) {
+      display: none;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.lwd-finding {
+  &__title#{&}__title {
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__text {
+    margin-top: 4px;
+    color: var(--lui-color-neutral-text-body);
+  }
+}
+
+.lwd-pairs {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+
+  // um par em foco apaga os outros do mesmo achado
+  &:has(.lwd-pair:is(:hover, :focus-visible)) .lwd-pair:not(:hover, :focus-visible) {
+    opacity: 0.45;
+  }
+}
+
+.lwd-pair {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: stretch;
+  border-radius: 12px;
+  outline: none;
+  cursor: default;
+  transition: opacity 0.2s ease;
+
+  @container (max-width: 479px) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+.lwd-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  .lwd-pair:is(:hover, :focus-visible) & {
+    background: var(--hover);
+  }
+
+  .lwd-pair:is(:hover, :focus-visible) &--figma {
+    border-color: color-mix(in srgb, var(--figma) 60%, transparent);
+  }
+
+  .lwd-pair:is(:hover, :focus-visible) &--code {
+    border-color: color-mix(in srgb, var(--code) 60%, transparent);
+  }
+
+  &__tag {
+    display: none;
+    flex: none;
+    width: 3.5em;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    @container (max-width: 479px) {
+      display: block;
+    }
+  }
+
+  &--figma &__tag {
+    color: var(--figma);
+  }
+
+  &--code &__tag {
+    color: var(--code);
+  }
+
+  &__body {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  code {
+    font-family: $mono;
+    font-size: 0.875rem;
+    color: var(--lui-color-neutral-text-heading);
+    overflow-wrap: anywhere;
+  }
+
+  &__value {
+    font-family: $mono;
+    font-size: 0.6875rem;
+    color: var(--cw-muted);
+    overflow-wrap: anywhere;
+  }
+}
+
+// amostra da sombra sobre um "canvas" claro fixo: em fundo escuro a sombra
+// some e a comparacao perde o sentido
+.lwd-shadow {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 52px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eef0f3;
+
+  i {
+    width: 26px;
+    height: 18px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: var(--sh);
+  }
+}
+
+// lado que nao existe: contorno tracejado e vazio
+.lwd-side--missing {
+  border-style: dashed;
+  background: none;
+
+  .lwd-pair:is(:hover, :focus-visible) & {
+    background: none;
+  }
+}
+
+.lwd-side__missing {
+  font-family: $hand;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: var(--lui-color-neutral-text-caption);
+}
+
+// miniatura do botao em cada variante (cores fixas, como no componente)
+.lwd-btn {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 52px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eef0f3;
+
+  i {
+    padding: 4px 7px;
+    border-radius: 4px;
+    font-size: 0.5625rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    background: var(--tone);
+  }
+
+  &--success {
+    --tone: #387d3d;
+  }
+
+  &--danger {
+    --tone: #c62a2a;
+  }
+
+  &--warning {
+    --tone: #f2b01e;
+
+    i {
+      color: #25282e;
+    }
+  }
+}
+
+// "diferente" desenhado a mao entre os dois lados
+.lwd-neq {
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+
+  svg {
+    width: 28px;
+    height: 22px;
+    overflow: visible;
+  }
+
+  path {
+    @extend %ink-stroke;
+    transition: stroke-width 0.2s ease;
+  }
+
+  .lwd-pair:is(:hover, :focus-visible) & path {
+    stroke-width: 2.25px;
+  }
+
+  @container (max-width: 479px) {
+    height: 28px;
+  }
+}
+
+.lwd-scribble {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  margin: 8px 8px 0 0;
+  pointer-events: none;
+  font-family: $hand;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--ink);
+  text-align: right;
+  transform: rotate(-2deg);
+
+  svg {
+    flex: none;
+    width: 26px;
+    height: 20px;
+    margin-top: -6px;
+    overflow: visible;
+  }
+
+  path {
+    @extend %ink-stroke;
+  }
+}
+
+// desenho ao entrar na tela (so com JS e sem reduced motion)
+.lwd-finding[data-animate] {
+  .lwd-neq path,
+  .lwd-scribble path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition:
+      stroke-dashoffset 0.5s $ease-draw var(--delay, 0ms),
+      stroke-width 0.2s ease;
+  }
+
+  .lwd-neq path:nth-child(2) {
+    --delay: 150ms;
+  }
+
+  .lwd-neq path:nth-child(3) {
+    --delay: 320ms;
+  }
+
+  .lwd-scribble {
+    clip-path: inset(-0.6em 100% -0.6em -0.6em);
+    transition: clip-path 0.8s $ease-draw 450ms;
+  }
+
+  .lwd-scribble path {
+    --delay: 450ms;
+  }
+
+  &.is-drawn {
+    .lwd-neq path,
+    .lwd-scribble path {
+      stroke-dashoffset: 0;
+    }
+
+    .lwd-scribble {
+      clip-path: inset(-0.6em);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwc *,
+  .lwt *,
+  .lwn *,
+  .lwd * {
+    transition: none !important;
+  }
+
+}
+
+/* =========================================================================
+   Resultados: lista em cards com mini-ilustracoes
+   ========================================================================= */
+section.project-section ul.lwr {
+  --line: var(--lui-color-neutral-border-subtle);
+  --tint: color-mix(in srgb, var(--lui-color-neutral-text-heading) 4%, transparent);
+  --accent: var(--lui-color-primary-icon-default);
+  --t: 0.45s;
+
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include window.bleed;
+}
+
+.lwr-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 8px 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  transition:
+    border-color 0.2s,
+    transform 0.3s $ease-out;
+
+  // dobra a classe para vencer o peso do .body--lg
+  &__title#{&}__title {
+    margin: 16px 12px 0;
+    font-weight: 600;
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &__text {
+    margin: 4px 12px 0;
+    color: var(--lui-color-neutral-text-caption);
+  }
+}
+
+.lwr-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 112px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--tint);
+  font-size: 0.8125rem;
+  color: var(--lui-color-neutral-text-body);
+
+  i {
+    display: block;
+    font-style: normal;
+  }
+}
+
+// estado "aceso": hover em mouse, ou .is-on (toque, via script)
+@mixin on {
+  @media (hover: hover) {
+    .lwr-card:hover & {
+      @content;
+    }
+  }
+  .lwr-card.is-on & {
+    @content;
+  }
+}
+
+// numero impar de cards: o ultimo ocupa a linha inteira, ilustracao ao lado
+@media (min-width: 520px) {
+  .lwr-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 8px;
+    padding-bottom: 8px;
+
+    .lwr-stage {
+      grid-row: 1 / 3;
+      height: auto;
+      min-height: 112px;
+    }
+
+    .lwr-card__title {
+      margin-top: 12px;
+    }
+
+    .lwr-card__text {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+@media (hover: hover) {
+  .lwr-card:hover {
+    border-color: var(--lui-color-neutral-border-default);
+    transform: translateY(-2px);
+  }
+}
+
+/* --- tokens: primitivo -> semantico ------------------------------------- */
+.lwr-chip,
+.lwr-badge,
+.lwr-rem {
+  font-family: $mono;
+}
+
+.lwr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--lui-color-neutral-border-default);
+  border-radius: 999px;
+  background: var(--lui-color-neutral-background-surface);
+  transition:
+    transform var(--t) $ease-out,
+    border-color var(--t),
+    color var(--t);
+
+  &--semantic {
+    @include on {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+  }
+}
+
+.lwr-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.lwr-link {
+  width: 40px;
+  height: 12px;
+
+  path {
+    @extend %ink-stroke;
+    stroke: var(--lui-color-neutral-text-caption);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke var(--t);
+
+    @include on {
+      stroke: var(--accent);
+      animation: lwr-draw 0.6s $ease-draw;
+    }
+  }
+}
+
+@keyframes lwr-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+/* --- nomenclatura: dois nomes viram um ------------------------------- */
+.lwr-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--lui-color-neutral-border-default);
+  border-radius: 999px;
+  background: var(--lui-color-neutral-background-surface);
+  transition: border-color var(--t);
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: var(--lui-color-neutral-text-caption);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  i {
+    width: var(--w);
+    height: 6px;
+    border-radius: 3px;
+    background: var(--lui-color-neutral-text-caption);
+    transition:
+      width var(--t) $ease-out,
+      background var(--t);
+  }
+
+  @include on {
+    border-color: var(--accent);
+
+    i {
+      width: 36px;
+      background: var(--accent);
+    }
+  }
+}
+
+.lwr-eq {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 16px;
+
+  i {
+    height: 2px;
+    border-radius: 1px;
+    background: var(--lui-color-neutral-text-caption);
+    transition: background var(--t);
+
+    @include on {
+      background: var(--accent);
+    }
+  }
+
+  // o risco do "≠" some quando os nomes se igualam
+  &__slash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 16px !important;
+    transform: translate(-50%, -50%) rotate(30deg);
+    transition:
+      transform var(--t) $ease-out,
+      opacity var(--t) !important;
+
+    @include on {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(30deg) scaleY(0);
+    }
+  }
+}
+
+/* --- cores: escala que se abre e selo de contraste ---------------------- */
+.lwr-swatches {
+  display: flex;
+
+  i {
+    width: 28px;
+    height: 28px;
+    margin-left: -8px;
+    border: 2px solid var(--lui-color-neutral-background-surface);
+    border-radius: 50%;
+    background: var(--c);
+    transition: margin var(--t) $ease-out;
+    transition-delay: calc(var(--n) * 30ms);
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @include on {
+      margin-left: 4px;
+    }
+
+    &:first-child {
+      @include on {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.lwr-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--lui-color-neutral-text-heading);
+  color: var(--lui-color-neutral-text-inverse);
+  font-size: 0.75rem;
+  transform: scale(0.9);
+  opacity: 0.55;
+  transition:
+    transform var(--t) $ease-out,
+    opacity var(--t);
+
+  @include on {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- tipografia: a tela encolhe e o texto acompanha --------------------- */
+.lwr-screen {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 80px;
+  border: 1.5px solid var(--lui-color-neutral-border-default);
+  border-radius: 8px;
+  background: var(--lui-color-neutral-background-surface);
+  transition:
+    width var(--t) $ease-out,
+    height var(--t) $ease-out;
+
+  @include on {
+    width: 64px;
+    height: 92px;
+  }
+}
+
+.lwr-aa {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--lui-color-neutral-text-heading);
+  transition: transform var(--t) $ease-out;
+
+  @include on {
+    transform: scale(0.62);
+  }
+}
+
+.lwr-rem {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  font-size: 0.6875rem;
+  color: var(--accent);
+}
+
+/* --- elevacao: camadas que sobem com sombras maiores -------------------- */
+.lwr-layers {
+  position: relative;
+  width: 120px;
+  height: 56px;
+  margin-top: 12px;
+
+  i {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--lui-color-neutral-background-surface);
+    transform: translate(calc(var(--n) * 6px), calc(var(--n) * -4px));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+    transition:
+      transform var(--t) $ease-out,
+      box-shadow var(--t);
+
+    @include on {
+      transform: translate(calc(var(--n) * 10px), calc(var(--n) * -10px));
+      box-shadow: 0 calc(2px + var(--n) * 5px) calc(4px + var(--n) * 10px)
+        rgb(0 0 0 / calc(0.08 + var(--n) * 0.04));
+    }
+  }
+}
+
+/* --- multi-brand: o mesmo card em tres marcas, que se abrem em leque -- */
+.lwr-brands {
+  position: relative;
+  width: 96px;
+  height: 76px;
+}
+
+.lwr-brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--lui-color-neutral-background-surface);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.06);
+  // empilhados: a primeira marca na frente
+  z-index: calc(3 - var(--n));
+  transform: translate(calc(var(--n) * 5px), calc(var(--n) * -4px));
+  transition: transform var(--t) $ease-out;
+
+  @include on {
+    transform: translateX(calc((var(--n) - 1) * -64px)) rotate(calc((var(--n) - 1) * -6deg));
+  }
+
+  &__head {
+    width: 70%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--lui-color-neutral-text-heading);
+  }
+
+  &__line {
+    width: 90%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--lui-color-neutral-border-default);
+  }
+
+  &__btn {
+    width: 44px;
+    height: 16px;
+    margin-top: auto;
+    border-radius: 999px;
+    background: var(--c);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwr-card,
+  .lwr-card * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* =========================================================================
+   Mapa de tokens semanticos (conteudo protegido, public/js/widgets/token-map.js)
+   ========================================================================= */
+.lwm {
+  --line: var(--lui-color-neutral-border-subtle);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+  --focus: var(--lui-color-neutral-text-heading);
+
+  container-type: inline-size;
+  margin: 24px 0;
+
+  @include window.bleed;
+}
+
+.lwm__hint {
+  margin: 0 0 12px;
+  color: var(--lui-color-neutral-text-caption);
+}
+
+.lwm__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  @container (min-width: 640px) {
+    grid-template-columns: minmax(0, 1fr) 280px;
+
+    .lwm__stage {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .lwm__list {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+}
+
+// a mini-interface acompanha a rolagem: no celular fica no topo enquanto
+// se toca nos tokens embaixo
+.lwm__stage {
+  position: sticky;
+  top: 8px;
+  z-index: 1;
+  align-self: start;
+  // fundo opaco: a lista passa por baixo ao rolar
+  padding-bottom: 4px;
+  background: var(--lui-color-neutral-background-surface);
+}
+
+.lwm__readout.lwm__readout {
+  min-height: 1.5em;
+  margin: 8px 4px 0;
+  font-family: $mono;
+  font-size: 0.75rem;
+  color: var(--lui-color-neutral-text-caption);
+  overflow-wrap: anywhere;
+}
+
+/* --- lista ---------------------------------------------------------------- */
+/* --- abas: um grupo por vez --------------------------------------------- */
+.lwm-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 12px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--hover);
+
+  &__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--lui-color-neutral-text-body);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      color: var(--lui-color-neutral-text-heading);
+    }
+
+    &[aria-selected='true'] {
+      background: var(--lui-color-neutral-background-surface);
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+      color: var(--lui-color-neutral-text-heading);
+      font-weight: 500;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--lui-color-neutral-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+
+  &__count {
+    min-width: 1.5em;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--hover);
+    font-family: $mono;
+    font-size: 0.6875rem;
+    text-align: center;
+  }
+}
+
+.lwm-group__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lwm__list {
+  container-type: inline-size;
+}
+
+// coluna estreita: token em cima, primitivo embaixo (igual em todas as
+// linhas); com espaco, os dois na mesma linha
+.lwm-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  gap: 4px;
+  padding: 6px 8px;
+
+  @container (min-width: 480px) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  border-radius: 8px;
+  cursor: default;
+  transition:
+    background 0.15s,
+    opacity 0.2s;
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .lwm.is-active &:not(.is-on) {
+    opacity: 0.4;
+  }
+
+  &.is-on {
+    background: var(--hover);
+  }
+
+  &__name {
+    font-family: $mono;
+    font-size: 0.8125rem;
+    color: var(--lui-color-neutral-text-body);
+    overflow-wrap: anywhere;
+  }
+}
+
+.lwm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 10px 3px 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--lui-color-neutral-background-surface);
+  font-family: $mono;
+  font-size: 0.8125rem;
+  color: var(--lui-color-neutral-text-body);
+  transition: border-color 0.15s;
+
+  &:hover,
+  .is-shared & {
+    border-color: var(--lui-color-neutral-border-default);
+  }
+
+  &__swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12);
+  }
+}
+
+/* --- mini-interface ------------------------------------------------------- */
+.lwm-ui {
+  position: relative;
+  padding: 20px 16px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--bg-page);
+  // a mini-interface e sempre "clara": e o produto, nao o tema do site
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--border-stroke);
+    border-radius: 10px;
+    background: var(--bg-base);
+  }
+
+  // dobra a classe para vencer o `p + p` do conteudo protegido
+  &__title#{&}__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  &__body#{&}__body {
+    margin: -4px 0 0;
+    color: var(--text-body);
+  }
+
+  &__hr {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--border-divisor);
+  }
+
+  &__fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__field {
+    padding: 6px 10px;
+    border: 1px solid var(--border-stroke);
+    border-radius: 6px;
+    color: var(--text-body);
+    transition: border-color 0.2s;
+  }
+
+  &[data-field='error'] &__field {
+    border-color: var(--border-danger);
+  }
+
+  &[data-field='success'] &__field {
+    border-color: var(--border-success);
+  }
+
+  // texto de ajuda do campo: uma linha so, para o card nao pular de altura
+  &__help {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 1.35em;
+    font-size: 0.75rem;
+    color: var(--text-body);
+  }
+
+  &[data-field='error'] &__help .lwm-ui__icon {
+    stroke: var(--border-danger);
+  }
+
+  &[data-field='success'] &__help .lwm-ui__icon {
+    stroke: var(--border-success);
+  }
+
+  &__notice#{&}__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid var(--border-info);
+    border-radius: 6px;
+    color: var(--text-body);
+    font-size: 0.75rem;
+    // espaco de duas linhas: trocar info <-> aviso nao muda a altura do card
+    box-sizing: border-box;
+    min-height: calc(2 * 1.35em + 18px);
+    transition: border-color 0.2s;
+
+    .lwm-ui__icon {
+      margin-top: 1px;
+      stroke: var(--border-info);
+    }
+  }
+
+  &[data-notice='warning'] &__notice {
+    border-color: var(--border-warning);
+
+    .lwm-ui__icon {
+      stroke: var(--border-warning);
+    }
+  }
+
+  &__icon {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &__alert#{&}__alert {
+    margin: 0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--bg-danger);
+    color: var(--text-inverse);
+    font-weight: 500;
+  }
+
+  &__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  &__link {
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  &__button {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--bg-primary);
+    color: var(--text-inverse);
+    font-weight: 500;
+  }
+
+  // o overlay so aparece quando o token dele esta em destaque
+  &__scrim {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  &.is-scrim &__scrim {
+    opacity: 0.55;
+  }
+
+  // alvo do token em destaque
+  .is-target {
+    outline: 2px dashed var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  &.is-target {
+    outline-offset: -4px;
+  }
+}
+
+:root[data-theme='dark'] .lwm-ui {
+  box-shadow: none;
+}
+
+:root[data-theme='dark'] .lwm-ui .is-target {
+  // o tracejado precisa contrastar com a interface clara, nao com o tema
+  outline-color: #18181b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwm * {
+    transition: none !important;
+  }
+}
+
+:root[data-theme='dark'] .lwm-chip__swatch {
+  // amostras escuras (gray-900) sumiriam no fundo escuro
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18);
+}
+
+/* =========================================================================
+   Escala tipografica fluida (conteudo protegido, public/js/widgets/type-scale.js)
+   ========================================================================= */
+.lwy {
+  @include window.tokens;
+
+  --line: var(--cw-line);
+  --hover: color-mix(in srgb, var(--lui-color-neutral-text-heading) 6%, transparent);
+
+  margin: 24px 0;
+
+  @include window.bleed;
+
+  &.is-resizing {
+    cursor: ew-resize;
+    user-select: none;
+  }
+}
+
+.lwy__hint.lwy__hint {
+  margin: 0 0 12px;
+  color: var(--lui-color-neutral-text-caption);
+}
+
+.lwy__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+}
+
+// abas e atalhos no mesmo formato de pilula do resto do case
+.lwy-seg,
+.lwy-presets {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--hover);
+}
+
+.lwy-seg__opt,
+.lwy-presets__btn {
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--lui-color-neutral-text-body);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    color: var(--lui-color-neutral-text-heading);
+  }
+
+  &[aria-selected='true'],
+  &[aria-pressed='true'] {
+    background: var(--lui-color-neutral-background-surface);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+    color: var(--lui-color-neutral-text-heading);
+    font-weight: 500;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--lui-color-neutral-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.lwy-presets__btn {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+/* --- janela -------------------------------------------------------------- */
+.lwy__stage {
+  position: relative;
+  padding-right: 10px; // espaco da alca
+}
+
+// mesma janela do bloco de codigo
+.lwy-win {
+  @include window.frame;
+
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+
+  &__chrome {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 12px 0 16px;
+    border-bottom: 1px solid var(--cw-line);
+    border-radius: 15px 15px 0 0;
+    background: var(--cw-bar);
+    font-family: $mono;
+    font-size: 0.75rem;
+    color: var(--cw-punct);
+  }
+
+  &__dots {
+    @include window.dots;
+  }
+
+  // base e largura no formato da etiqueta de linguagem do bloco de codigo
+  &__root,
+  &__width {
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  // a base e informacao fixa: sem fundo, mais discreta que a largura
+  &__root {
+    margin-left: auto;
+    color: var(--cw-muted);
+  }
+
+  &__width {
+    background: var(--cw-hover);
+    color: var(--cw-text);
+  }
+
+  // tela simulada maior que o espaco: a janela continua alem da borda
+  &.is-wider {
+    border-right-style: dashed;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &.is-wider &__chrome {
+    border-top-right-radius: 0;
+  }
+
+  &.is-wider &__clip {
+    border-bottom-right-radius: 0;
+  }
+
+  &__clip {
+    overflow: hidden;
+    border-radius: 0 0 15px 15px;
+  }
+
+  &__inner {
+    padding: 8px 20px 20px;
+    box-sizing: border-box;
+  }
+
+  // alca na borda direita
+  &__handle {
+    position: absolute;
+    top: 50%;
+    right: -9px;
+    width: 18px;
+    height: 56px;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+    touch-action: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0 5px;
+      border: 1px solid var(--lui-color-neutral-border-default);
+      border-radius: 999px;
+      background: var(--lui-color-neutral-background-surface);
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+      transition: border-color 0.15s;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 18px;
+      border-inline: 1px solid var(--lui-color-neutral-text-caption);
+      transform: translate(-50%, -50%);
+      box-sizing: content-box;
+      width: 2px;
+    }
+
+    &:hover::before,
+    .is-resizing &::before {
+      border-color: var(--lui-color-neutral-text-heading);
+    }
+  }
+}
+
+.lwy__foot {
+  margin-top: 12px;
+}
+
+.lwy__range {
+  display: block;
+}
+
+.lwy-range {
+  width: 100%;
+  accent-color: var(--lui-color-neutral-text-heading);
+}
+
+/* --- aba Escala ------------------------------------------------------------ */
+.lwy-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lwy-row {
+  padding: 14px 0;
+
+  & + & {
+    border-top: 1px solid var(--line);
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+    font-size: 0.8125rem;
+    color: var(--cw-muted);
+  }
+
+  // nome do estilo no roxo de propriedade, como no bloco de codigo
+  &__name {
+    flex: 1 1 auto;
+    font-family: $mono;
+    color: var(--cw-property);
+  }
+
+  &__tag {
+    padding: 1px 6px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: $mono;
+    font-size: 0.75rem;
+    color: var(--cw-punct);
+  }
+
+  &__now {
+    min-width: 4.2em;
+    font-family: $mono;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--cw-text);
+    text-align: right;
+  }
+
+  &__lh {
+    font-family: $mono;
+    font-size: 0.75rem;
+  }
+
+  &__sample.lwy-row__sample {
+    display: -webkit-box;
+    margin: 8px 0 10px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: var(--cw-text);
+    overflow-wrap: anywhere;
+  }
+
+  // minimo ---o------ maximo
+  &__range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 320px;
+    font-family: $mono;
+    font-size: 0.6875rem;
+    color: var(--cw-muted);
+  }
+
+  &__track {
+    position: relative;
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--cw-hover);
+  }
+
+  &__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: inherit;
+    background: var(--cw-function);
+
+    // ponto no tamanho atual
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--cw-bg);
+      border-radius: 50%;
+      background: var(--cw-function);
+      box-sizing: border-box;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__clamp {
+    display: block;
+    margin-top: 6px;
+    font-family: $mono;
+    font-size: 0.6875rem;
+    color: var(--lui-color-neutral-text-caption);
+    overflow-wrap: anywhere;
+  }
+}
+
+/* --- aba Pagina ----------------------------------------------------------- */
+.lwy-page[hidden] {
+  display: none;
+}
+
+.lwy-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  color: var(--lui-color-neutral-text-heading);
+
+  &__el.lwy-page__el {
+    position: relative;
+    margin: 0;
+    border-radius: 3px;
+
+    // o estilo de cada texto aparece ao passar o cursor
+    &:hover {
+      outline: 2px dashed var(--lui-color-neutral-text-heading);
+      outline-offset: 3px;
+
+      &::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 0;
+        z-index: 1;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: var(--lui-color-neutral-text-heading);
+        color: var(--lui-color-neutral-text-inverse);
+        font: 500 12px/1.4 $mono;
+        letter-spacing: 0;
+        text-transform: none;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &__hr {
+    width: 100%;
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lwy * {
+    transition: none !important;
+  }
+}

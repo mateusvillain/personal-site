@@ -9,21 +9,21 @@ const en = {
     'Optimizing the Locaweb design system, focusing on design tokens, accessibility and scalability.',
   title: 'Restructuring the tokens of the Locaweb Design System',
   tags: ['design system', 'design tokens', 'accessibility', 'user interface'],
-  company: 'Company:',
+  company: 'Company',
   companyName: 'Locaweb',
-  role: 'Role:',
+  role: 'Role',
   roleName: 'Product designer',
   overview: {
     title: 'Overview',
     text: 'The Locaweb design system was built on top of Vuetify to speed up development, but it ended up producing components and tokens that were hard to scale and lacked clear documentation. In this project, my role was to review and improve these elements, bringing more scalability and efficiency to designers and developers.',
     resultsTitle: 'Results',
     results: [
-      'New design tokens system, separating primitive and semantic tokens, with clear and scalable naming.',
-      'Rebuilt color palettes, ensuring accessible contrast and well-defined semantic usage.',
-      'Typographic scales with relative units and better adaptation to smaller screens.',
-      'Elevation system completely redesigned, based on lighting models and with usage guidelines for components and microinteractions.',
-      'Clear documentation, explaining general component usage and individual properties, along with accessibility criteria.',
-      'Components with accessibility attributes (ARIA) included, and screen-reader labels defined directly in the Figma component.',
+      { title: 'Redesigned design tokens', text: 'New design tokens system, separating primitive and semantic tokens, with clear and scalable naming.' },
+      { title: 'One shared vocabulary for design and code', text: 'A single naming convention shared by Figma and code for components, variants and tokens, with type scales named by their role (heading, subtitle, body) instead of their size.' },
+      { title: 'New color palettes', text: 'Rebuilt color palettes, ensuring accessible contrast and well-defined semantic usage.' },
+      { title: 'Fluid typography', text: 'Typographic scales with relative units and better adaptation to smaller screens.' },
+      { title: 'Light-based shadows', text: 'Elevation system completely redesigned, based on lighting models and with usage guidelines for components and microinteractions.' },
+      { title: 'Ready for multiple brands', text: 'The design system was extended to support multiple brands: components stay the same, and each brand swaps only its own layer of tokens.' },
     ],
   },
   discovery: {
@@ -43,6 +43,26 @@ const en = {
       'However, the biggest problem I noticed regarding typography was its practical use. Within the design system itself, some headings were made of different sizes, and products had no consistent pattern between them. This was due to the unclear naming (font-size-xl, lg, md...) and to the lack of any indication of what an h1, h2 or other tags should be.',
     typographyAlt:
       'List of texts with different font sizes, showing a disorganized typographic scale that adapts poorly across devices.',
+    colorBoard: {
+      lightContrast: 'Light contrast',
+      darkContrast: 'Dark contrast',
+      note: "These values don't change from light to dark mode",
+      hint: 'Hover or tap a token to preview its contrast.',
+      onLight: 'On a light background',
+      onDark: 'On a dark background',
+      sample: 'Sample text',
+      verdicts: { aaa: 'AAA', aa: 'AA', large: 'AA large only', fail: 'Fails' },
+      groups: { primary: 'Primary palette', success: 'Success palette', gray: 'Gray scale' },
+    },
+    typeScale: {
+      screen: 'Screen size',
+      desktop: 'Desktop',
+      mobile: 'Mobile',
+      sample: 'The quick brown fox jumps over the lazy dog',
+      tooBig: 'still huge on a phone',
+      chartLabel: 'Size of each step on desktop and on mobile, in pixels',
+      hint: 'Switch screens to see each step drop one level down.',
+    },
     fonts:
       'Finally, the design system also provided the same scales for both brand typefaces, Ubuntu (primary) and Open Sans (secondary), but the latter was rarely used in projects — some designers did not even know it existed.',
     interviewsTitle: 'Interviews with collaborators',
@@ -53,21 +73,32 @@ const en = {
     interviewNotes: [
       {
         title: 'Little use of the secondary color',
-        text: 'Designers never used the secondary color anywhere in the product interfaces, and since there was no documentation, they could not say what that palette was for.',
+        text: 'Designers ==never used the secondary color== anywhere in the product interfaces, and since there was no documentation, ==they could not say what that palette was for==.',
       },
       {
         title: 'Difficulty understanding typographic hierarchies',
-        text: 'Designers had different understandings of when to use most of the typographic scales. There were different definitions of what the page title, subtitle, and even a section heading should be.',
+        text: 'Designers had ==different understandings of when to use== most of the typographic scales. There were different definitions of what the page title, subtitle, and even a section heading should be.',
       },
       {
         title: 'Unused "light" weight',
-        text: 'The file provided the "light" weight for each of the eight scales, and even with very few insertions seen in analytics, every designer said they never used it and did not know its use case.',
+        text: 'The file provided the "light" weight for each of the eight scales, and even with very few insertions seen in analytics, ==every designer said they never used it== and did not know its use case.',
       },
       {
         title: 'Uncertainty about using gray scales in text',
-        text: 'Due to the lack of standards and recommendations, designers had different understandings of how to use the gray scales in text to support the hierarchy of headings and paragraphs.',
+        text: 'Due to the lack of standards and recommendations, designers had ==different understandings of how to use the gray scales== in text to support the hierarchy of headings and paragraphs.',
       },
     ],
+    // rabiscos a lapis ao lado de cada nota (decorativos)
+    interviewDoodles: {
+      purpose: 'what for?',
+      title: 'title?',
+      subtitle: 'subtitle?',
+      section: 'section?',
+      never: 'never used',
+      whichGray: 'which gray?',
+      draw: 'Draw',
+      erase: 'Erase',
+    },
     comparisonTitle: 'Comparing design and code',
     comparison: [
       'The third and final analysis involved a direct comparison between Figma and code for every design token and component.',
@@ -75,7 +106,7 @@ const en = {
     ],
     comparisonNotes: [
       {
-        title: 'Components with different names',
+        title: 'Components and variants with different names',
         text: 'Although designers and developers used the same components, some of them did not share the same name, as was the case with Dialog for designers and Modal for developers.',
       },
       {
@@ -86,7 +117,24 @@ const en = {
         title: 'Elevation differences between design and code',
         text: 'The design system file in Figma provided some elevation levels (shadow styles) that were completely different from the tokens, both in naming and in value.',
       },
+      {
+        title: 'Variants that only existed in code',
+        text: 'In code, the Button had success, danger and warning variants that did not exist in Figma. In other words, on the engineering side the design system covered more elements than it was originally meant to, and even though there was no usage documentation, these variants were present in Storybook.',
+      },
     ],
+    comparisonBoard: {
+      figma: 'Figma',
+      code: 'Code',
+      differs: 'differs from',
+      hint: 'Hover or tap a pair to compare both sides.',
+      scribbles: [
+        'same thing, two names',
+        'each side calls it something else',
+        'neither name nor value match',
+        'Figma never got these',
+      ],
+      missing: 'not in Figma',
+    },
   },
   protected: {
     title: 'Confidential information',
@@ -109,21 +157,21 @@ const pt: typeof en = {
     'Otimização do design system da Locaweb, com foco em design tokens, acessibilidade e escalabilidade.',
   title: 'Reestruturando os tokens do Locaweb Design System',
   tags: ['design system', 'design tokens', 'acessibilidade', 'user interface'],
-  company: 'Empresa:',
+  company: 'Empresa',
   companyName: 'Locaweb',
-  role: 'Atuação:',
+  role: 'Atuação',
   roleName: 'Product designer',
   overview: {
     title: 'Visão geral',
     text: 'O design system da Locaweb foi criado a partir do Vuetify para agilizar o desenvolvimento, mas acabou gerando componentes e tokens pouco escaláveis e sem documentação clara. Nesse projeto, meu papel foi revisar e melhorar esses elementos, trazendo mais escalabilidade e eficiência para designers e desenvolvedores.',
     resultsTitle: 'Resultados',
     results: [
-      'Novo sistema de design tokens, com separação entre tokens primitivos e semânticos, nomenclaturas claras e escaláveis.',
-      'Paletas de cores recriadas, garantindo contrastes acessíveis e com uso semântico definido.',
-      'Escalas tipográficas com medidas relativas e melhor adaptação a telas menores.',
-      'Sistema de elevação totalmente reformulado, baseado em modelos de iluminação e com definição de uso em componentes e microinterações.',
-      'Documentação clara, com explicação de uso geral dos componentes e suas propriedades individuais, e critérios de acessibilidade.',
-      'Componentes com atributos de acessibilidade (ARIA) incluídos, e adoção de rótulos para softwares leitura de tela com definição diretamente no componente do Figma.',
+      { title: 'Design tokens reformulados', text: 'Novo sistema de design tokens, com separação entre tokens primitivos e semânticos, nomenclaturas claras e escaláveis.' },
+      { title: 'Um só vocabulário entre design e código', text: 'Nomenclatura única entre Figma e código para componentes, variantes e tokens, com escalas tipográficas nomeadas pela função (título, subtítulo, corpo) e não pelo tamanho.' },
+      { title: 'Novas paletas de cores', text: 'Paletas de cores recriadas, garantindo contrastes acessíveis e com uso semântico definido.' },
+      { title: 'Tipografia com fluidez', text: 'Escalas tipográficas com medidas relativas e melhor adaptação a telas menores.' },
+      { title: 'Sombras com lógica de luz', text: 'Sistema de elevação totalmente reformulado, baseado em modelos de iluminação e com definição de uso em componentes e microinterações.' },
+      { title: 'Pronto para várias marcas', text: 'Extensão do design system para multi-brand: os componentes são os mesmos, e cada marca troca apenas a sua própria camada de tokens.' },
     ],
   },
   discovery: {
@@ -143,6 +191,26 @@ const pt: typeof en = {
       'Entretanto, o maior problema que notei com relação a tipografia era o seu uso prático. No próprio design system, alguns títulos eram compostos por tamanhos diferentes, e os produtos não possuíam padrão entre si. Isso se devia pela nomenclatura nada clara (font-size-xl, lg, md...) e por não ter nenhuma indicação do que seria um h1, h2 e outras tags.',
     typographyAlt:
       'Lista de textos com diferentes tamanhos de fonte, mostrando uma escala tipográfica desorganizada e pouco responsiva entre dispositivos.',
+    colorBoard: {
+      lightContrast: 'Contraste claro',
+      darkContrast: 'Contraste escuro',
+      note: 'Esses valores não possuem mudança de light para dark mode',
+      hint: 'Passe o cursor ou toque em um token para ver o contraste.',
+      onLight: 'Sobre fundo claro',
+      onDark: 'Sobre fundo escuro',
+      sample: 'Texto de exemplo',
+      verdicts: { aaa: 'AAA', aa: 'AA', large: 'Só AA grande', fail: 'Reprova' },
+      groups: { primary: 'Paleta primária', success: 'Paleta de sucesso', gray: 'Escala de cinza' },
+    },
+    typeScale: {
+      screen: 'Tamanho da tela',
+      desktop: 'Desktop',
+      mobile: 'Mobile',
+      sample: 'Um pequeno jabuti xereta viu dez cegonhas felizes',
+      tooBig: 'ainda enorme no celular',
+      chartLabel: 'Tamanho de cada escala no desktop e no mobile, em pixels',
+      hint: 'Troque de tela para ver cada escala descer um nível.',
+    },
     fonts:
       'Por fim, o design system também fornecia as mesmas escalas para as duas fontes da marca, Ubuntu (principal) e Open Sans (secundária), mas a última raramente era usada nos projetos, considerando que até mesmo alguns designers nem sabiam da existência dela.',
     interviewsTitle: 'Entrevista com colaboradores',
@@ -153,21 +221,31 @@ const pt: typeof en = {
     interviewNotes: [
       {
         title: 'Pouco uso da cor secundária',
-        text: 'Os designers não utilizavam a cor secundária em nenhuma ocasião na interface dos produtos, e como não havia documentação, não sabiam dizer para que essa paleta servia.',
+        text: 'Os designers ==não utilizavam a cor secundária em nenhuma ocasião== na interface dos produtos, e como não havia documentação, ==não sabiam dizer para que essa paleta servia==.',
       },
       {
         title: 'Dificuldades em entender as hierarquias tipográficas',
-        text: 'Os designers tinham entendimentos diferentes sobre quando utilizar a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.',
+        text: 'Os designers tinham ==entendimentos diferentes sobre quando utilizar== a maioria das escalas tipográficas. Haviam diferentes definições do que seria o título da página, subtítulo, e até mesmo uma chamada de seção.',
       },
       {
         title: 'Inutilização do peso "light"',
-        text: 'O arquivo fornecia o peso “light” para cada uma das oito escalas, e mesmo que com pouquíssimas inserções vistas no analytics, todos os designers afirmaram nunca usar e nem saber o seu caso de uso.',
+        text: 'O arquivo fornecia o peso “light” para cada uma das oito escalas, e mesmo que com pouquíssimas inserções vistas no analytics, ==todos os designers afirmaram nunca usar== e nem saber o seu caso de uso.',
       },
       {
         title: 'Incerteza sobre o uso das escalas de cinza nos textos',
-        text: 'Pela falta de padronização e recomendação, os designers tinham diferentes entendimentos entre si sobre o uso das escalas de cinza em textos, de forma a colaborar na hierarquia de títulos e parágrafos.',
+        text: 'Pela falta de padronização e recomendação, os designers tinham ==diferentes entendimentos entre si sobre o uso das escalas de cinza== em textos, de forma a colaborar na hierarquia de títulos e parágrafos.',
       },
     ],
+    interviewDoodles: {
+      purpose: 'pra quê?',
+      title: 'título?',
+      subtitle: 'subtítulo?',
+      section: 'seção?',
+      never: 'nunca usado',
+      whichGray: 'qual cinza?',
+      draw: 'Desenhar',
+      erase: 'Apagar',
+    },
     comparisonTitle: 'Comparações entre design e código',
     comparison: [
       'A terceira e última análise envolveu uma comparação direta entre Figma e código de todos os design tokens e componentes.',
@@ -175,7 +253,7 @@ const pt: typeof en = {
     ],
     comparisonNotes: [
       {
-        title: 'Componentes com nomes diferentes',
+        title: 'Componentes e variantes com nomes diferentes',
         text: 'Apesar dos designers e desenvolvedores usarem os mesmos componentes, alguns deles não compartilhavam o mesmo nome, como era o caso do Dialog para os designers, e Modal para os desenvolvedores.',
       },
       {
@@ -186,7 +264,24 @@ const pt: typeof en = {
         title: 'Diferenças nas elevações em design e código',
         text: 'O arquivo do design system no Figma fornecia alguns níveis de elevação (estilos de sombra), que eram completamente diferentes dos tokens, tanto em nomenclatura quanto em valor.',
       },
+      {
+        title: 'Variantes que só existiam no código',
+        text: 'No código, o Button possuía as variantes success, danger e warning, que não existiam no Figma. Ou seja, o design system pelo lado de engenharia cobria mais elementos do que originalmente deveria cobrir, e por mais que não houvesse documentação de uso, essas variantes estavam presentes no Storybook.',
+      },
     ],
+    comparisonBoard: {
+      figma: 'Figma',
+      code: 'Código',
+      differs: 'é diferente de',
+      hint: 'Passe o cursor ou toque em um par para comparar os dois lados.',
+      scribbles: [
+        'mesma coisa, dois nomes',
+        'cada lado chama de um jeito',
+        'nem o nome nem o valor batem',
+        'o Figma nunca recebeu essas',
+      ],
+      missing: 'não existe no Figma',
+    },
   },
   protected: {
     title: 'Informações confidenciais',

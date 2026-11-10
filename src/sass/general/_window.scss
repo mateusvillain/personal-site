@@ -1,0 +1,86 @@
+// Pele de "janela" compartilhada pelos visuais do case: o bloco de codigo
+// (.code-window, _projects.scss) e as escalas tipograficas (.lwt e .lwy,
+// _lw-discovery.scss). Mesmas cores, borda, barra e pontos nos dois temas.
+
+@mixin tokens {
+  --cw-bg: #fbfbfa;
+  --cw-bar: #f3f3f1;
+  --cw-line: color-mix(in srgb, var(--lui-color-neutral-text-heading, #1f2328) 10%, transparent);
+  --cw-text: #24292f;
+  --cw-muted: #8c959f;
+  --cw-hover: color-mix(in srgb, var(--lui-color-neutral-text-heading, #1f2328) 7%, transparent);
+  --cw-selector: #0a7a52;
+  --cw-property: #8250df;
+  --cw-function: #0550ae;
+  --cw-string: #0a3069;
+  --cw-keyword: #cf222e;
+  --cw-number: #953800;
+  --cw-punct: #6e7781;
+  --cw-dot-1: #ff5f57;
+  --cw-dot-2: #febc2e;
+  --cw-dot-3: #28c840;
+  --cw-canvas: #f1f1ef;
+  --cw-dot: rgb(0 0 0 / 0.07);
+  --cw-shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 12px 32px -12px rgb(16 24 40 / 0.12);
+
+  :root[data-theme='dark'] & {
+    --cw-bg: #16181d;
+    --cw-bar: #1d2026;
+    --cw-line: rgb(255 255 255 / 0.08);
+    --cw-text: #e6edf3;
+    --cw-muted: #6e7681;
+    --cw-hover: rgb(255 255 255 / 0.07);
+    --cw-selector: #7ee2a8;
+    --cw-property: #d2a8ff;
+    --cw-function: #79c0ff;
+    --cw-string: #a5d6ff;
+    --cw-keyword: #ff7b72;
+    --cw-number: #ffa657;
+    --cw-punct: #8b949e;
+    --cw-canvas: #e6e7ea;
+    --cw-dot: rgb(0 0 0 / 0.08);
+    --cw-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 16px 40px -16px rgb(0 0 0 / 0.6);
+  }
+}
+
+// moldura: borda, cantos, fundo e sombra
+@mixin frame {
+  border: 1px solid var(--cw-line);
+  border-radius: 16px;
+  background: var(--cw-bg);
+  box-shadow: var(--cw-shadow);
+}
+
+// os tres pontos coloridos da barra
+@mixin dots {
+  display: flex;
+  gap: 7px;
+
+  i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--cw-dot-1);
+    box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
+
+    &:nth-child(2) {
+      background: var(--cw-dot-2);
+    }
+
+    &:nth-child(3) {
+      background: var(--cw-dot-3);
+    }
+  }
+}
+
+// Visuais do case vazam um pouco da coluna de texto (560px) em telas
+// largas, todos com a mesma largura: blocos de codigo, imagens, escalas,
+// mapa de tokens, caderno e afins.
+@mixin bleed {
+  @media (min-width: 768px) {
+    --bleed: min(92vw, 720px);
+
+    width: var(--bleed);
+    margin-left: calc(50% - var(--bleed) / 2);
+  }
+}

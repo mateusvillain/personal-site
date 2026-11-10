@@ -20,6 +20,8 @@ interface Props {
   bodyClass?: string
   brand?: string
   includeScripts?: boolean
+  /** Hora e clima na barra do topo; o SiteHeader recebe o mesmo valor. */
+  liveInfo?: boolean
 }
 
 const {
@@ -33,6 +35,7 @@ const {
   bodyClass = 'm-b-fluid-80',
   brand = 'mateus-villain',
   includeScripts = true,
+  liveInfo = true,
 } = Astro.props
 ---
 
@@ -68,7 +71,7 @@ const {
   <body class={bodyClass}>
     <slot />
     <SiteFooter locale={locale} />
-    {includeScripts && <Scripts />}
+    {includeScripts && <Scripts liveInfo={liveInfo} />}
     <CookieConsent locale={locale} />
     <script>
       // So os icones usados no site: o pacote inteiro passa de 5 MB. Cada
