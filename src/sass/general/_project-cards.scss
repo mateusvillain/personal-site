@@ -249,14 +249,31 @@
 }
 
 .lwcover {
-  --lw: #e55c5c;
-  --lw-muted: #b27474;
+  // paleta primaria da marca Locaweb (tokens do Locaweb Design System)
+  --lw-brand-color-primary-100: #ffeaf0;
+  --lw-brand-color-primary-200: #ffcfdd;
+  --lw-brand-color-primary-300: #ff9ebf;
+  --lw-brand-color-primary-400: #ff6893;
+  --lw-brand-color-primary-500: #de003b;
+  --lw-brand-color-primary-600: #b9002b;
+  --lw-brand-color-primary-700: #8f001c;
+  --lw-brand-color-primary-800: #660011;
+
+  --lw: var(--lw-brand-color-primary-500);
+  --lw-strong: var(--lw-brand-color-primary-600);
+  --lw-soft: var(--lw-brand-color-primary-200);
+  --lw-tint: var(--lw-brand-color-primary-100);
+  --lw-muted: var(--lw-brand-color-primary-400);
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  background: linear-gradient(180deg, #fddfdf 0%, rgb(253 223 223 / 0) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--lw-tint) 0%,
+    color-mix(in srgb, var(--lw-tint) 0%, transparent) 100%
+  );
   padding: clamp(16px, 5cqw, 44px) clamp(16px, 5cqw, 32px);
   cursor: auto;
 
@@ -267,7 +284,7 @@
      "brilho" do desenho original sem o corte abrupto.
   */
   :root[data-theme='dark'] & {
-    --lw-muted: #d9a3a3;
+    --lw-muted: var(--lw-brand-color-primary-300);
 
     background: linear-gradient(
       180deg,
@@ -306,11 +323,7 @@
     padding: 0;
     border: none;
     border-radius: var(--lui-border-radius-xl);
-    background-color: color-mix(
-      in srgb,
-      var(--lw) calc(var(--step) * 100%),
-      transparent
-    );
+    background-color: var(--swatch);
     cursor: pointer;
     transition:
       transform 0.2s ease,
@@ -341,10 +354,6 @@
     transition:
       opacity 0.2s ease,
       transform 0.2s ease;
-
-    &::after {
-      content: '%';
-    }
   }
 
   &__step:hover &__value,
@@ -399,7 +408,7 @@
     color: var(--lui-color-brand-accent-background-surface, #fff);
 
     &:hover {
-      background-color: color-mix(in srgb, var(--lw) 86%, #000);
+      background-color: var(--lw-strong);
     }
   }
 
@@ -510,7 +519,7 @@
     width: 48px;
     height: 24px;
     border-radius: var(--lui-border-radius-circle);
-    background-color: color-mix(in srgb, var(--lw) 22%, #fff);
+    background-color: var(--lw-soft);
     transition: background-color 0.2s ease;
 
     &::after {

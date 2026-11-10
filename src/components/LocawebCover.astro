@@ -12,8 +12,9 @@
 const { id = 'lw' } = Astro.props
 const uid = (name) => `${id}-${name}`
 
-// escala de cor: a mesma opacidade aplicada sobre o vermelho da marca
-const scale = [10, 30, 60, 80, 100]
+// escala de cor: degraus da paleta primaria da marca (os tokens ficam em
+// .lwcover, _project-cards.scss)
+const scale = [200, 300, 500, 700, 800]
 const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
 ---
 
@@ -28,7 +29,7 @@ const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
               type="button"
               class="lwscale__step"
               tabindex="-1"
-              style={`--step: ${step / 100}`}
+              style={`--swatch: var(--lw-brand-color-primary-${step})`}
             >
               <span class="lwscale__value">{step}</span>
             </button>
