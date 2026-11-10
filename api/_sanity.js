@@ -103,9 +103,10 @@ function renderChild(child, markDefs = []) {
       // Link sem href (annotation criada e não preenchida) ou com esquema
       // fora da lista (javascript: etc.) vira texto puro. A classe `link` é a
       // mesma dos links da página inicial (Let's UI): cor de link, sublinhado
-      // no hover e anel de foco.
+      // no hover e anel de foco. `//site.com` e `/\site.com` comecam com
+      // barra mas levam para outro dominio: nao contam como link interno.
       const href = String(markDef.href || '').trim()
-      if (/^(https?:|mailto:|\/|#)/i.test(href)) {
+      if (/^(https?:|mailto:|\/(?![\/\\])|#)/i.test(href)) {
         const external = /^https?:/i.test(href)
         text = `<a class="link" href="${escapeHtml(href)}"${
           external ? ' target="_blank" rel="noopener noreferrer"' : ''
@@ -144,6 +145,16 @@ function renderBlockHtml(block) {
 
 const HEX = /^#[0-9a-f]{6}$/i
 
+// Mesmos valores de TOKEN_ROLES (studio/schemaTypes/objects/tokenMap.ts).
+// O papel vira seletor CSS no client ([data-slots~="..."]): valor fora da
+// lista (importacao, script de migracao) vira 'none'.
+const TOKEN_ROLES = new Set([
+  'bg-page', 'bg-base', 'bg-overlay', 'bg-primary', 'bg-danger',
+  'text-heading', 'text-body', 'text-inverse', 'text-primary',
+  'border-stroke', 'border-divisor', 'border-danger', 'border-info',
+  'border-success', 'border-warning', 'none'
+])
+
 // So o que o visual precisa, com a cor validada (vai para um style no client)
 function tokenMapData(block) {
   return {
@@ -156,7 +167,7 @@ function tokenMapData(block) {
           name: t.name,
           primitive: t.primitive || '',
           hex: t.hex.toLowerCase(),
-          role: t.role || 'none'
+          role: TOKEN_ROLES.has(t.role) ? t.role : 'none'
         }))
     }))
   }
@@ -257,8 +268,11 @@ export function blocksToSections(blocks = [], locale = 'pt') {
 
       case 'codeBlock': {
         // Com abas, cada aba vira um { label, language, html }; sem abas, o
-        // bloco segue o formato antigo (uma aba so, sem rotulo).
-        const tabs = (Array.isArray(block.tabs) ? block.tabs : [])
+        // bloco segue o formato antigo (uma aba so, sem rotulo). Com abas
+        // todas vazias o bloco some: o codigo de fora fica escondido no
+        // Studio e nao deve ir ao ar.
+        const rawTabs = Array.isArray(block.tabs) ? block.tabs : []
+        const tabs = rawTabs
           .filter((tab) => tab && typeof tab.code === 'string' && tab.code.trim())
           .map((tab) => ({
             label: String(tab.label || '').slice(0, 40),
@@ -269,7 +283,7 @@ export function blocksToSections(blocks = [], locale = 'pt') {
 
         if (tabs.length) {
           sections.push({ type: 'code', tabs })
-        } else {
+        } else if (!rawTabs.length) {
           sections.push({
             type: 'code',
             html: block.code || '',
