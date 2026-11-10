@@ -123,8 +123,68 @@ function renderSections(sections) {
     }
   })
 
-  if (window.Prism) Prism.highlightAll()
-  contentEl.querySelectorAll('.code-window code').forEach(addSwatches)
+  highlightCode([...contentEl.querySelectorAll('.code-window code')])
+}
+
+/* --- realce de sintaxe ---------------------------------------------------- */
+
+// O Prism so carrega quando o case destravado tem codigo, e so com as
+// linguagens usadas. Em modo manual ele nao refaz a pagina sozinho ao
+// terminar de carregar: as amostras de cor entram sempre depois do realce
+// (refazer o codigo apagaria as amostras).
+const PRISM_CDN = 'https://cdn.jsdelivr.net/npm/prismjs@1'
+// linguagem -> componentes do Prism, dependencias primeiro (html e markup
+// ja vem no nucleo)
+const PRISM_COMPONENTS = {
+  css: ['css'],
+  scss: ['css', 'scss'],
+  javascript: ['javascript'],
+  js: ['javascript'],
+  typescript: ['javascript', 'typescript'],
+  ts: ['javascript', 'typescript'],
+  json: ['json'],
+  bash: ['bash'],
+  markdown: ['markdown'],
+}
+
+const loadedScripts = new Map()
+
+function loadScript(src) {
+  if (!loadedScripts.has(src)) {
+    loadedScripts.set(
+      src,
+      new Promise((resolve, reject) => {
+        const el = document.createElement('script')
+        el.src = src
+        el.onload = resolve
+        el.onerror = reject
+        document.head.append(el)
+      })
+    )
+  }
+  return loadedScripts.get(src)
+}
+
+async function loadPrism(langs) {
+  window.Prism = window.Prism || { manual: true }
+  await loadScript(`${PRISM_CDN}/prism.min.js`)
+  // um componente por vez: scss e typescript estendem css e javascript
+  const components = [...new Set(langs.flatMap((lang) => PRISM_COMPONENTS[lang] || []))]
+  for (const name of components) {
+    await loadScript(`${PRISM_CDN}/components/prism-${name}.min.js`)
+  }
+}
+
+async function highlightCode(codes) {
+  if (!codes.length) return
+  const langs = codes.map((code) => code.className.replace(/^language-/, ''))
+  try {
+    await loadPrism(langs)
+    codes.forEach((code) => window.Prism.highlightElement(code))
+  } catch {
+    /* sem realce: o codigo continua legivel */
+  }
+  codes.forEach(addSwatches)
 }
 
 /* --- blocos de codigo ---------------------------------------------------- */
@@ -207,6 +267,9 @@ function codeWindow(section) {
         select(i)
         btn.scrollIntoView({ block: 'nearest', inline: 'nearest' })
       })
+      // Mesmo padrao do tabKeys() de widgets/dom.js, repetido aqui: este
+      // arquivo e um script comum (le os data-* via document.currentScript)
+      // e nao pode importar modulos.
       btn.addEventListener('keydown', (event) => {
         const keys = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }
         if (!(event.key in keys)) return
@@ -220,10 +283,12 @@ function codeWindow(section) {
       list.append(btn)
     })
     bar.append(list)
-  } else if (section.title) {
+  } else if (section.title || tabs[0].label) {
+    // aba unica: o rotulo dela faz o papel do titulo (com abas, o Studio
+    // esconde o campo Titulo)
     const title = document.createElement('span')
     title.className = 'code-window__title'
-    title.textContent = section.title
+    title.textContent = section.title || tabs[0].label
     bar.append(title)
   }
 
