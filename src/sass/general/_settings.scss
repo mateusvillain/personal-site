@@ -199,7 +199,8 @@
 
 :root[data-motion='reduce'] {
   .settings-button,
-  .settings-button svg {
+  .settings-button svg,
+  .accent-swatch {
     transition: none;
   }
 
@@ -210,7 +211,7 @@
 }
 
 // Cor principal: amostras redondas com o primary-4 de cada cor no tema atual
-// (valores em _accents.scss). Radios de verdade, escondidos so na tela; a
+// (valores gerados de src/data/accents.json em _accents.scss). Radios de verdade, escondidos so na tela; a
 // escolhida ganha um anel, o foco por teclado usa o anel de foco do site.
 .accent-picker {
   display: flex;

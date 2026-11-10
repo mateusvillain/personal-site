@@ -9,6 +9,18 @@
 //
 // Palette: OKLCH scales built on the ultramarine #0414a7 (hue ~265).
 // primary-4 is the main shade (links, containers); 5/6 are hover/visited.
+// The primary scale comes from src/data/accents.json (the default accent),
+// the same source as the other main colors in Settings.
+
+@use 'sass:list';
+@use 'sass:map';
+@use 'accents.generated' as gen;
+
+@mixin primary-scale($colors) {
+  @for $i from 1 through 8 {
+    --lui-brand-color-primary-#{$i}: #{list.nth($colors, $i)};
+  }
+}
 
 $font-stack:
   -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue',
@@ -16,14 +28,7 @@ $font-stack:
 
 @mixin light-colors {
   color-scheme: light;
-  --lui-brand-color-primary-1: #f0f5ff;
-  --lui-brand-color-primary-2: #d4e2fe;
-  --lui-brand-color-primary-3: #a8c4fe;
-  --lui-brand-color-primary-4: #0722d7;
-  --lui-brand-color-primary-5: #050bb8;
-  --lui-brand-color-primary-6: #03068f;
-  --lui-brand-color-primary-7: #01065a;
-  --lui-brand-color-primary-8: #01052c;
+  @include primary-scale(map.get(map.get(gen.$accents, gen.$default), light));
   --lui-brand-color-secondary-1: #ffffff;
   --lui-brand-color-secondary-2: #e9ebef;
   --lui-brand-color-secondary-3: #c7cbd1;
@@ -36,14 +41,7 @@ $font-stack:
 
 @mixin dark-colors {
   color-scheme: dark;
-  --lui-brand-color-primary-1: #08122a;
-  --lui-brand-color-primary-2: #0e1e47;
-  --lui-brand-color-primary-3: #162f72;
-  --lui-brand-color-primary-4: #6493ff;
-  --lui-brand-color-primary-5: #81a8fe;
-  --lui-brand-color-primary-6: #9ebdff;
-  --lui-brand-color-primary-7: #c5d8ff;
-  --lui-brand-color-primary-8: #e7effe;
+  @include primary-scale(map.get(map.get(gen.$accents, gen.$default), dark));
   --lui-brand-color-secondary-1: #14161b;
   --lui-brand-color-secondary-2: #282b33;
   --lui-brand-color-secondary-3: #383d47;

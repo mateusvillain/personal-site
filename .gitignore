@@ -16,6 +16,7 @@ build/
 .astro/
 public/blog.css
 public/style.css
+src/sass/general/_accents.generated.scss
 .out/
 .next/
 .nuxt/

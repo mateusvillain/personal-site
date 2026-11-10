@@ -168,7 +168,7 @@ const strings = ui[locale].settings
 
 <script>
   import { systemReduceMotion } from '../lib/motion'
-  import { DEFAULT_ACCENT } from '../lib/accents'
+  import { accentIds, DEFAULT_ACCENT } from '../lib/accents'
 
   type Consent = {
     grant: () => void
@@ -215,7 +215,10 @@ const strings = ui[locale].settings
       // so a dica visivel: descricao referenciada e lida mesmo escondida
       motion.setAttribute('aria-describedby', (system ? motionSystem : motionHint).id)
       if (liveInfo) liveInfo.checked = root.dataset.liveInfo === 'off'
-      const accent = root.dataset.accent || DEFAULT_ACCENT
+      // cor fora da lista (o ThemeInit ja descarta, mas por garantia): o
+      // grupo nunca fica sem nenhuma marcada
+      const current = root.dataset.accent
+      const accent = current && accentIds.includes(current) ? current : DEFAULT_ACCENT
       accentOptions.forEach((radio) => (radio.checked = radio.value === accent))
       // sem decisao, nenhum dos dois marcado
       const status = win.mvConsent?.status() ?? null

@@ -12,14 +12,19 @@
  *   atributo (src/lib/motion.ts). Acompanha a troca no sistema com a pagina
  *   aberta; as Configuracoes chamam `window.mvSyncMotion()` ao mudar a opcao.
  * - hora e clima: `localStorage['live-info'] = 'off'` -> `html[data-live-info]`.
- * - cor principal: `localStorage.accent` -> `html[data-accent]` (lista em
- *   src/lib/accents.ts, escalas em _accents.scss). Sem valor: o azul padrao.
+ * - cor principal: `localStorage.accent` -> `html[data-accent]`, so se a cor
+ *   existir em src/data/accents.json; uma cor salva que saiu da lista e
+ *   apagada. Sem valor: o azul padrao (sem atributo).
  * - `html[data-js]`: o JS esta ativo. O que so funciona com script (como a
  *   engrenagem das Configuracoes) fica escondido sem ele.
  */
+import { accentIds, DEFAULT_ACCENT } from '../lib/accents'
+
+// so as cores alternativas: o padrao nao usa data-accent
+const customAccents = accentIds.filter((id) => id !== DEFAULT_ACCENT)
 ---
 
-<script is:inline>
+<script is:inline define:vars={{ customAccents }}>
   ;(function () {
     var root = document.documentElement
     var saved = null
@@ -46,8 +51,10 @@
         root.setAttribute('data-live-info', 'off')
       }
       var accent = localStorage.getItem('accent')
-      if (accent && /^[a-z]{1,20}$/.test(accent)) {
+      if (accent && customAccents.indexOf(accent) !== -1) {
         root.setAttribute('data-accent', accent)
+      } else if (accent) {
+        localStorage.removeItem('accent')
       }
     } catch (e) {}
     var mode = saved === 'light' || saved === 'dark' ? saved : 'system'
