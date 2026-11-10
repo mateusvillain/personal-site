@@ -4,6 +4,9 @@
  * de tema. O idioma atual e so marcado; o outro e um <a> de verdade para a
  * mesma pagina no outro idioma, entao funciona sem script e informa o idioma
  * de destino via `hreflang` e `lang`.
+ *
+ * `full` troca as siglas pelo nome do idioma (Português, English), para onde
+ * ha espaco, como as Configuracoes.
  */
 import { htmlLang, type Locale } from '../i18n/config'
 import { ui } from '../i18n/ui'
@@ -12,20 +15,30 @@ interface Props {
   locale: Locale
   /** Caminho desta pagina no outro idioma. */
   href: string
+  /** Nome do idioma no lugar da sigla. */
+  full?: boolean
+  /** id de um rotulo visivel; substitui o nome padrao ("Idioma"). */
+  labelledby?: string
 }
 
-const { locale, href } = Astro.props
+// cada idioma no proprio idioma, como de costume em seletores
+const names: Record<Locale, string> = { pt: 'Português', en: 'English' }
+
+const { locale, href, full = false, labelledby } = Astro.props
 const strings = ui[locale].langSwitch
 const order: Locale[] = ['pt', 'en']
 ---
 
-<div class="lang-toggle" role="group" aria-label={strings.group}>
+<div class:list={['lang-toggle', full && 'lang-toggle--full']} role="group"
+  aria-label={labelledby ? undefined : strings.group}
+  aria-labelledby={labelledby}
+>
   {
     order.map((option) =>
       option === locale ? (
         <span class="lang-toggle__option is-active">
           <span class="sr-only">{strings.current}</span>
-          <span aria-hidden="true">{option.toUpperCase()}</span>
+          <span aria-hidden="true">{full ? names[option] : option.toUpperCase()}</span>
         </span>
       ) : (
         <a
@@ -36,7 +49,7 @@ const order: Locale[] = ['pt', 'en']
           aria-label={strings.ariaLabel}
           data-link="language"
         >
-          {option.toUpperCase()}
+          {full ? names[option] : option.toUpperCase()}
         </a>
       ),
     )

@@ -248,7 +248,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .now-playing,
   .now-playing__toggle,
   .now-playing__lyrics ol,

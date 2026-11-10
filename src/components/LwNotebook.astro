@@ -368,10 +368,12 @@ const art: { marks: Mark[]; labels: Label[] }[] = []
 </div>
 
 <script>
+  import { reduceMotion } from '../lib/motion'
+
   // rabisco e grifo aparecem quando a nota entra na tela (sem JS ou com
   // reduced motion, ja ficam prontos desde o inicio)
   if (
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    !reduceMotion.matches &&
     'IntersectionObserver' in window
   ) {
     document.querySelectorAll<HTMLElement>('.lwn__item').forEach((item) => {

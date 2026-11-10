@@ -126,7 +126,7 @@ main {
   transform: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .hover-highlight {
     transition: opacity 0.2s ease;
   }
@@ -285,7 +285,7 @@ p.text-link {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .theme-toggle__thumb {
     transition: none;
   }

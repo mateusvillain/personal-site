@@ -220,6 +220,8 @@ const jsonLd = [
 </script>
 
 <script>
+  import { reduceMotion } from '../../../lib/motion'
+
   // Titulo, data e compartilhamento: quando somem atras do header, vao para
   // uma coluna fixa a esquerda do texto; ao voltar ao topo, retornam ao lugar.
   // A troca e instantanea no layout e a transicao e um FLIP (deslocamento do
@@ -230,7 +232,6 @@ const jsonLd = [
     '[data-post-details-content]',
   )
   const wide = window.matchMedia('(min-width: 1280px)')
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
   // Base do header fixo (top 24px + altura 64px, ver _site-header.scss).
   const HEADER_BOTTOM = 88
 

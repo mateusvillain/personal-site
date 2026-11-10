@@ -46,6 +46,25 @@ const en = {
     social: 'Social media',
     menu: 'Menu',
   },
+  /** Configuracoes do site (SiteSettings.astro). */
+  settings: {
+    /** Nome acessivel do botao de engrenagem. */
+    open: 'Settings',
+    title: 'Settings',
+    close: 'Close settings',
+    theme: 'Color mode',
+    language: 'Language',
+    motion: 'Reduce motion',
+    motionHint: 'Turns off animations and transitions.',
+    /** Mostrado quando o sistema ja pede menos movimento. */
+    motionSystem: 'Already on in your device settings.',
+    liveInfo: 'Turn off weather and time',
+    liveInfoHint: 'Hides the time and weather in Criciúma at the top of the page.',
+    cookies: 'Analytics cookies',
+    cookiesHint: 'Google Analytics and Hotjar, to see what people read here.',
+    cookiesAccept: 'Accept',
+    cookiesDecline: 'Decline',
+  },
   topbar: {
     /** Nome acessivel da barra de hora, clima, idioma e tema. */
     label: 'Time, weather and preferences',
@@ -61,9 +80,6 @@ const en = {
       "I'm nosy: I use Google Analytics and Hotjar to see what people read and how they browse around here. Okay if that includes you?",
     accept: 'Okay',
     decline: 'Leave me out',
-    /** Botao do rodape (SiteFooter) que reabre o aviso. */
-    reopen: 'Cookies',
-    reopenLabel: 'Cookies: preferences',
   },
   newsletter: {
     title: 'Subscribe to the newsletter',
@@ -131,6 +147,22 @@ const pt: typeof en = {
     social: 'Redes sociais',
     menu: 'Menu',
   },
+  settings: {
+    open: 'Configurações',
+    title: 'Configurações',
+    close: 'Fechar configurações',
+    theme: 'Modo de cor',
+    language: 'Idioma',
+    motion: 'Reduzir movimento',
+    motionHint: 'Desliga animações e transições.',
+    motionSystem: 'Já está ativado nas configurações do seu dispositivo.',
+    liveInfo: 'Desativar clima e horário',
+    liveInfoHint: 'Esconde a hora e o clima de Criciúma no topo da página.',
+    cookies: 'Cookies de análise',
+    cookiesHint: 'Google Analytics e Hotjar, para ver o que as pessoas leem por aqui.',
+    cookiesAccept: 'Aceito',
+    cookiesDecline: 'Recuso',
+  },
   topbar: {
     label: 'Hora, clima e preferências',
     time: 'Hora em Criciúma:',
@@ -143,8 +175,6 @@ const pt: typeof en = {
       'Sou curioso: uso o Google Analytics e o Hotjar pra ver o que as pessoas leem e como navegam por aqui. Tudo bem contar com você?',
     accept: 'Tudo bem',
     decline: 'Fico de fora',
-    reopen: 'Cookies',
-    reopenLabel: 'Cookies: preferências',
   },
   newsletter: {
     title: 'Assine a newsletter',

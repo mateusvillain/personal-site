@@ -128,8 +128,8 @@ $markers: (
 }
 
 // Se o "reduzir movimento" for ligado depois da pagina carregar.
-@media (prefers-reduced-motion: reduce) {
-  [data-hl-animate] .full-post mark {
+:root[data-motion='reduce'] {
+  &[data-hl-animate] .full-post mark {
     background-size: 100% 100%;
     transition: none;
   }

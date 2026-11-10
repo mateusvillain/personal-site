@@ -1752,7 +1752,7 @@ $ease-draw: cubic-bezier(0.65, 0, 0.35, 1);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .lwc *,
   .lwt *,
   .lwn *,
@@ -2176,7 +2176,7 @@ section.project-section ul.lwr {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .lwr-card,
   .lwr-card * {
     transition: none !important;
@@ -2569,7 +2569,7 @@ section.project-section ul.lwr {
   outline-color: #18181b;
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .lwm * {
     transition: none !important;
   }
@@ -2965,7 +2965,7 @@ section.project-section ul.lwr {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .lwy * {
     transition: none !important;
   }

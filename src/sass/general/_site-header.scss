@@ -267,13 +267,12 @@ $ease-out: cubic-bezier(0.2, 0, 0, 1);
     border-radius: 12px;
   }
 
-  // Rodape do menu: idioma e tema a esquerda, redes a direita (mesmo se
-  // quebrar linha em telas estreitas).
+  // Rodape do menu: configuracoes, idioma e tema em cima, redes embaixo,
+  // tudo alinhado a esquerda.
   &__menu-controls {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--lui-spacing-fixed-16);
     padding: var(--lui-spacing-fixed-16);
   }
@@ -288,7 +287,6 @@ $ease-out: cubic-bezier(0.2, 0, 0, 1);
   &__menu &__menu-social {
     flex-direction: row;
     gap: var(--lui-spacing-fluid-4);
-    margin-left: auto;
     padding: 0;
 
     .icon-button {
@@ -436,7 +434,7 @@ $ease-out: cubic-bezier(0.2, 0, 0, 1);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .site-header__menu-icon line {
     transition: none;
   }

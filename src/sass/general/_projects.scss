@@ -636,7 +636,7 @@ main.project-main {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .code-window__copy.is-copied svg,
   .code-window__panel.is-active {
     animation: none;

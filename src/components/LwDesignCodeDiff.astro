@@ -182,10 +182,12 @@ const sides = [
 </div>
 
 <script>
+  import { reduceMotion } from '../lib/motion'
+
   // rabiscos desenhados ao entrar na tela (sem JS ou com reduced motion,
   // ficam desenhados desde o inicio)
   if (
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    !reduceMotion.matches &&
     'IntersectionObserver' in window
   ) {
     document.querySelectorAll<HTMLElement>('.lwd-finding').forEach((finding) => {

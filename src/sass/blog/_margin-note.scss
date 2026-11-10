@@ -130,7 +130,17 @@ $write-delay: 360ms;
   }
 }
 
-@media (prefers-reduced-motion: reduce), print {
+:root[data-motion='reduce'] {
+  &[data-mn-animate] .margin-note {
+    .margin-note__bracket,
+    .margin-note__text {
+      clip-path: none;
+      transition: none;
+    }
+  }
+}
+
+@media print {
   [data-mn-animate] .margin-note {
     .margin-note__bracket,
     .margin-note__text {
@@ -158,7 +168,7 @@ $write-delay: 360ms;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+:root[data-motion='reduce'] {
   .full-post > * {
     transition: none;
   }

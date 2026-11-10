@@ -1,0 +1,265 @@
+---
+/**
+ * Configuracoes do site: modal aberto pela engrenagem (SettingsButton.astro).
+ *
+ * - Modo de cor: o mesmo ThemeToggle da barra; public/js/theme.js sincroniza
+ *   todos os seletores da pagina.
+ * - Idioma: links para esta pagina no outro idioma (funciona sem JS).
+ * - Reduzir movimento: guarda `localStorage.motion`; o ThemeInit junta com o
+ *   `prefers-reduced-motion` do sistema em `html[data-motion]`. Com o
+ *   sistema ja pedindo, a opcao aparece ligada e travada.
+ * - Desativar clima e horario: `html[data-live-info="off"]`; time.js e
+ *   weather.js param de buscar e voltam com o evento `mv:live-info`. So
+ *   aparece nas paginas que mostram hora e clima (`liveInfo`).
+ * - Cookies de analise: o mesmo consentimento do aviso (ConsentScript.astro),
+ *   com Aceito e Recuso lado a lado e nenhum marcado enquanto a pessoa nao
+ *   decidiu: recusar nao pode exigir aceitar antes.
+ *
+ * Tudo fica no localStorage e e aplicado antes da pintura pelo ThemeInit.
+ *
+ * O <dialog> nativo da o foco preso, o Esc e o fundo inerte. Ele mora dentro
+ * do <header>: o menu mobile deixa o resto da pagina inerte, e daqui ele
+ * pode ser aberto com o menu ainda fechando.
+ */
+import LangToggle from './LangToggle.astro'
+import ThemeToggle from './ThemeToggle.astro'
+import type { Locale } from '../i18n/config'
+import { ui } from '../i18n/ui'
+
+interface Props {
+  locale: Locale
+  /** Caminho desta pagina no outro idioma. */
+  switchPath: string
+  /** A pagina mostra hora e clima (mesmo valor do SiteHeader). */
+  liveInfo?: boolean
+}
+
+const { locale, switchPath, liveInfo = true } = Astro.props
+const strings = ui[locale].settings
+---
+
+<dialog class="settings" id="site-settings" aria-labelledby="site-settings-title" data-settings>
+  <!-- o foco entra no painel (sem anel), nao no Fechar: o leitor de tela
+       anuncia o titulo e o Tab segue para os controles -->
+  <div class="modal modal--md settings__modal" tabindex="-1" autofocus>
+    <div class="modal__header">
+      <h2 class="modal__title" id="site-settings-title">{strings.title}</h2>
+      <button type="button" class="modal__close" aria-label={strings.close} data-settings-close>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal__body settings__body">
+      <!--
+        Os grupos e os switches levam o nome do rotulo visivel
+        (aria-labelledby: quem usa comando de voz fala o que ve) e a dica
+        como descricao (aria-describedby), em vez de ler a linha inteira. O
+        texto visivel sai da arvore (aria-hidden) para nao ser lido duas vezes;
+        referencias por id continuam valendo para elementos escondidos.
+      -->
+      <div class="settings__row">
+        <span class="settings__label" aria-hidden="true" id="settings-theme">{strings.theme}</span>
+        <ThemeToggle locale={locale} name="theme-settings" labelledby="settings-theme" />
+      </div>
+
+      <div class="settings__row">
+        <span class="settings__label" aria-hidden="true" id="settings-language">{strings.language}</span>
+        <LangToggle locale={locale} href={switchPath} full labelledby="settings-language" />
+      </div>
+
+      <label class="settings__row">
+        <span class="settings__text">
+          <span class="settings__label" aria-hidden="true" id="settings-motion">{strings.motion}</span>
+          <span class="settings__hint" aria-hidden="true" id="settings-motion-hint" data-motion-hint>
+            {strings.motionHint}
+          </span>
+          <span class="settings__hint" aria-hidden="true" id="settings-motion-system" data-motion-system hidden>
+            {strings.motionSystem}
+          </span>
+        </span>
+        <span class="switch switch--lg">
+          <input
+            type="checkbox"
+            role="switch"
+            aria-labelledby="settings-motion"
+            aria-describedby="settings-motion-hint"
+            data-setting="motion"
+          />
+        </span>
+      </label>
+
+      {
+        liveInfo && (
+          <label class="settings__row">
+            <span class="settings__text">
+              <span class="settings__label" aria-hidden="true" id="settings-live">{strings.liveInfo}</span>
+              <span class="settings__hint" aria-hidden="true" id="settings-live-hint">{strings.liveInfoHint}</span>
+            </span>
+            <span class="switch switch--lg">
+              <input
+                type="checkbox"
+                role="switch"
+                aria-labelledby="settings-live"
+                aria-describedby="settings-live-hint"
+                data-setting="live-info"
+              />
+            </span>
+          </label>
+        )
+      }
+
+      <div class="settings__row">
+        <span class="settings__text">
+          <span class="settings__label" aria-hidden="true" id="settings-cookies">{strings.cookies}</span>
+          <span class="settings__hint" aria-hidden="true" id="settings-cookies-hint">{strings.cookiesHint}</span>
+        </span>
+        <div
+          class="lang-toggle settings__choice"
+          role="radiogroup"
+          aria-labelledby="settings-cookies"
+          aria-describedby="settings-cookies-hint"
+        >
+          <label class="lang-toggle__option">
+            <input class="sr-only" type="radio" name="settings-cookies" value="granted" data-cookies />
+            {strings.cookiesAccept}
+          </label>
+          <label class="lang-toggle__option">
+            <input class="sr-only" type="radio" name="settings-cookies" value="denied" data-cookies />
+            {strings.cookiesDecline}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import { systemReduceMotion } from '../lib/motion'
+
+  type Consent = {
+    grant: () => void
+    deny: () => void
+    status: () => 'granted' | 'denied' | null
+  }
+
+  const dialog = document.querySelector<HTMLDialogElement>('[data-settings]')
+  const root = document.documentElement
+  const win = window as Window & { mvConsent?: Consent; mvSyncMotion?: () => void }
+
+  const store = (key: string, value: string | null) => {
+    try {
+      if (value === null) localStorage.removeItem(key)
+      else localStorage.setItem(key, value)
+    } catch {}
+  }
+
+  // visivel = tem caixa na pagina (o menu fechado e o botao do menu no
+  // desktop ficam com display: none)
+  const visible = (el: Element | null): el is HTMLElement =>
+    !!el && el.getClientRects().length > 0
+
+  if (dialog) {
+    const motion = dialog.querySelector<HTMLInputElement>('[data-setting="motion"]')!
+    const liveInfo = dialog.querySelector<HTMLInputElement>('[data-setting="live-info"]')
+    const cookies = [...dialog.querySelectorAll<HTMLInputElement>('[data-cookies]')]
+    const motionHint = dialog.querySelector<HTMLElement>('[data-motion-hint]')!
+    const motionSystem = dialog.querySelector<HTMLElement>('[data-motion-system]')!
+    let opener: HTMLElement | null = null
+
+    // Os controles refletem o estado atual (que pode ter mudado fora daqui:
+    // aviso de cookies, preferencia do sistema)
+    const sync = () => {
+      const system = systemReduceMotion.matches
+      motion.checked = root.dataset.motion === 'reduce'
+      // aria-disabled (e nao disabled): continua no Tab, entao quem navega
+      // por teclado descobre que a opcao ja esta ligada pelo sistema
+      if (system) motion.setAttribute('aria-disabled', 'true')
+      else motion.removeAttribute('aria-disabled')
+      motionHint.hidden = system
+      motionSystem.hidden = !system
+      // so a dica visivel: descricao referenciada e lida mesmo escondida
+      motion.setAttribute('aria-describedby', (system ? motionSystem : motionHint).id)
+      if (liveInfo) liveInfo.checked = root.dataset.liveInfo === 'off'
+      // sem decisao, nenhum dos dois marcado
+      const status = win.mvConsent?.status() ?? null
+      cookies.forEach((radio) => (radio.checked = radio.value === status))
+    }
+
+    // travado pelo sistema: o clique nao muda nada
+    motion.addEventListener('click', (event) => {
+      if (motion.hasAttribute('aria-disabled')) event.preventDefault()
+    })
+
+    // a escolha fica guardada; o ThemeInit junta com a do sistema
+    motion.addEventListener('change', () => {
+      store('motion', motion.checked ? 'reduce' : null)
+      win.mvSyncMotion?.()
+    })
+
+    liveInfo?.addEventListener('change', () => {
+      if (liveInfo.checked) root.dataset.liveInfo = 'off'
+      else delete root.dataset.liveInfo
+      store('live-info', liveInfo.checked ? 'off' : null)
+      document.dispatchEvent(new Event('mv:live-info'))
+    })
+
+    // Recusar depois de aceitar recarrega a pagina (ver ConsentScript)
+    cookies.forEach((radio) =>
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return
+        if (radio.value === 'granted') win.mvConsent?.grant()
+        else win.mvConsent?.deny()
+      }),
+    )
+
+    document.addEventListener('mv:consent', sync)
+    systemReduceMotion.addEventListener('change', sync)
+
+    document.querySelectorAll<HTMLElement>('[data-settings-open]').forEach((button) => {
+      button.addEventListener('click', () => {
+        opener = button
+        sync()
+        dialog.showModal()
+      })
+    })
+
+    dialog
+      .querySelector('[data-settings-close]')
+      ?.addEventListener('click', () => dialog.close())
+
+    // Clique no fundo escurecido fecha, mas so se tambem comecou nele:
+    // arrastar de dentro do painel para fora (selecionando texto, toque
+    // tremido) dispara click no <dialog> e nao deve fechar.
+    let pressedBackdrop = false
+    dialog.addEventListener('pointerdown', (event) => {
+      pressedBackdrop = event.target === dialog
+    })
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog && pressedBackdrop) dialog.close()
+      pressedBackdrop = false
+    })
+
+    // O foco volta para a engrenagem que abriu. Se ela sumiu (estava no menu
+    // mobile, que fechou, ou a tela mudou de largura), vai para o botao do
+    // menu ou para a engrenagem que estiver visivel.
+    dialog.addEventListener('close', () => {
+      const candidates = [
+        opener,
+        document.querySelector('[data-menu-button]'),
+        ...document.querySelectorAll('[data-settings-open]'),
+      ]
+      candidates.find(visible)?.focus()
+      opener = null
+    })
+  }
+</script>
