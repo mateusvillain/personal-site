@@ -550,11 +550,80 @@ passwordInput.addEventListener('keydown', (event) => {
 // primeiro sucesso pode renderizar, senão o conteúdo aparece duplicado.
 let unlocked = false
 
-function unlock(sections) {
+function unlock(data) {
   if (unlocked) return
   unlocked = true
   passwordBox.remove()
-  renderSections(sections)
+  renderSections(data.sections)
+  trackReading(data.visitId)
+}
+
+/* --- leitura do conteudo ------------------------------------------------- */
+
+// Para as metricas do case: quanto do conteudo protegido passou pela tela
+// (maximo, em %) e por quanto tempo a aba ficou visivel. So roda quando a
+// API devolve um visitId (senhas de uso proprio nao recebem).
+function trackReading(visitId) {
+  if (!visitId || !navigator.sendBeacon) return
+
+  let maxPct = 0
+  let seconds = 0
+  let visibleSince = document.visibilityState === 'visible' ? Date.now() : null
+  let lastSent = ''
+
+  const measure = () => {
+    const rect = contentEl.getBoundingClientRect()
+    if (rect.height <= 0) return
+    const seen = Math.round(((window.innerHeight - rect.top) / rect.height) * 100)
+    maxPct = Math.max(maxPct, Math.min(100, seen))
+  }
+
+  const elapsed = () =>
+    Math.round(seconds + (visibleSince ? (Date.now() - visibleSince) / 1000 : 0))
+
+  const send = () => {
+    const payload = JSON.stringify({
+      action: 'progress',
+      slug,
+      visitId,
+      pct: maxPct,
+      sec: elapsed()
+    })
+    if (payload === lastSent) return
+    lastSent = payload
+    navigator.sendBeacon('/api/project/', new Blob([payload], { type: 'application/json' }))
+  }
+
+  let frame = 0
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        measure()
+      })
+    },
+    { passive: true }
+  )
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      if (visibleSince) seconds += (Date.now() - visibleSince) / 1000
+      visibleSince = null
+      send()
+    } else {
+      visibleSince = Date.now()
+    }
+  })
+  window.addEventListener('pagehide', send)
+
+  // envio periodico: cobre quem fecha o navegador sem disparar os eventos
+  setInterval(() => {
+    if (document.visibilityState === 'visible') send()
+  }, 30000)
+
+  measure()
 }
 
 unlockForm.addEventListener('submit', async (event) => {
@@ -580,7 +649,7 @@ unlockForm.addEventListener('submit', async (event) => {
     if (!unlocked && typeof window.gtag === 'function') {
       window.gtag('event', 'case_unlock', { project: slug })
     }
-    unlock(result.data.sections)
+    unlock(result.data)
   } catch (err) {
     if (!unlocked) showError(messages.loadError)
   }
@@ -592,7 +661,7 @@ unlockForm.addEventListener('submit', async (event) => {
   try {
     const result = await verifyPassword(undefined)
     if (!result.ok) return
-    unlock(result.data.sections)
+    unlock(result.data)
   } catch (err) {
     /* segue com o formulario */
   }

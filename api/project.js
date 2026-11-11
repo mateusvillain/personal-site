@@ -1,6 +1,6 @@
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { sanity, blocksToSections } from './_sanity.js'
-import { recordUnlock } from './_unlocks.js'
+import { recordAccess, recordProgress } from './_unlocks.js'
 
 // Por quanto tempo o desbloqueio vale sem pedir a senha de novo
 // (refresh, troca de idioma). Cookie HttpOnly assinado — a senha em si
@@ -71,20 +71,21 @@ function readCookie(req, name) {
 // remover/trocar uma senha invalida só os cookies dela.
 // Cookie malformado (encoding inválido, assinatura truncada, etc.) conta
 // como "sem cookie" — nunca deve virar 500.
-function hasValidUnlockCookie(req, slug, passwords) {
-  if (!COOKIE_SECRET) return false
+// Devolve o rótulo do cookie válido, ou null.
+function unlockCookieLabel(req, slug, passwords) {
+  if (!COOKIE_SECRET) return null
   const value = readCookie(req, cookieName(slug))
-  if (!value) return false
+  if (!value) return null
 
   const [exp, label, sig] = value.split('.')
-  if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return false
-  if (Number(exp) < Math.floor(Date.now() / 1000)) return false
+  if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return null
+  if (Number(exp) < Math.floor(Date.now() / 1000)) return null
 
   const password = passwords.find(([l]) => l === label)?.[1]
-  if (!password) return false
+  if (!password) return null
 
   const expected = sign(slug, `${exp}.${label}`, password)
-  return timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
+  return timingSafeEqual(Buffer.from(sig), Buffer.from(expected)) ? label : null
 }
 
 function setUnlockCookie(res, slug, label, password) {
@@ -107,8 +108,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' })
   }
 
-  const { slug, password, locale: rawLocale } = req.body || {}
+  const { slug, password, locale: rawLocale, action } = req.body || {}
   const locale = rawLocale === 'en' ? 'en' : 'pt'
+
+  // Leitura do conteúdo (% e tempo), enviada pelo navegador via sendBeacon.
+  if (action === 'progress') {
+    const { visitId, pct, sec } = req.body
+    await recordProgress(visitId, pct, sec)
+    return res.status(204).end()
+  }
 
   if (typeof slug !== 'string' || !slug) {
     return res.status(400).json({ error: 'Slug não informado' })
@@ -133,6 +141,7 @@ export default async function handler(req, res) {
     /* =====================================================
        2. Verificar senha (por projeto) ou cookie de desbloqueio
     ====================================================== */
+    let access = null // { label, kind } quando o case é protegido
     if (doc.requiresPassword) {
       const passwords = getPasswords(doc.passwordKey)
 
@@ -147,9 +156,13 @@ export default async function handler(req, res) {
           return res.status(401).json({ error: 'Senha inválida' })
         }
         setUnlockCookie(res, slug, label, passwords.find(([l]) => l === label)[1])
-        await recordUnlock(doc.passwordKey, label)
-      } else if (!hasValidUnlockCookie(req, slug, passwords)) {
-        return res.status(401).json({ error: 'Senha inválida' })
+        access = { label, kind: 'senha' }
+      } else {
+        const label = unlockCookieLabel(req, slug, passwords)
+        if (!label) {
+          return res.status(401).json({ error: 'Senha inválida' })
+        }
+        access = { label, kind: 'revisita' }
       }
     }
 
@@ -158,6 +171,11 @@ export default async function handler(req, res) {
     ====================================================== */
     // So o idioma pedido; aba EN tocada no Studio mas vazia persiste
     // `en: []` e cai no PT tambem. `locale` e sempre 'pt' ou 'en'.
+    // Registro do acesso em paralelo com a busca do conteúdo.
+    const visitIdPromise = access
+      ? recordAccess({ caseKey: doc.passwordKey, ...access, locale, req })
+      : Promise.resolve(null)
+
     const blocks = await sanity.fetch(
       `*[_id == $id][0]{
         "blocks": select(count(content.${locale}) > 0 => content.${locale}, content.pt)[]{
@@ -169,10 +187,12 @@ export default async function handler(req, res) {
       { id: doc._id }
     ) ?? []
     const sections = blocksToSections(blocks, locale)
+    const visitId = await visitIdPromise
 
     return res.status(200).json({
       title: doc.title?.[locale] || doc.title?.pt || '',
-      sections
+      sections,
+      ...(visitId && { visitId })
     })
   } catch (error) {
     console.error(error)
