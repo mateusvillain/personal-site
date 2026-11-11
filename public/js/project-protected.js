@@ -73,6 +73,10 @@ function renderSections(sections) {
         el.src = section.src
         el.alt = section.alt || ''
         el.loading = 'lazy'
+        if (section.width && section.height) {
+          el.width = section.width
+          el.height = section.height
+        }
         el.className = styles.image
         break
 
@@ -550,11 +554,89 @@ passwordInput.addEventListener('keydown', (event) => {
 // primeiro sucesso pode renderizar, senão o conteúdo aparece duplicado.
 let unlocked = false
 
-function unlock(sections) {
+function unlock(data) {
   if (unlocked) return
   unlocked = true
   passwordBox.remove()
-  renderSections(sections)
+  renderSections(data.sections)
+  trackReading(data.visitId)
+}
+
+/* --- leitura do conteudo ------------------------------------------------- */
+
+// Para as metricas do case: quanto do conteudo protegido passou pela tela
+// (maximo, em %) e por quanto tempo a aba ficou visivel. So roda quando a
+// API devolve um visitId (senhas de uso proprio nao recebem).
+function trackReading(visitId) {
+  if (!visitId || !navigator.sendBeacon) return
+
+  // Guarda o ponto mais baixo alcançado (px a partir do topo do conteúdo)
+  // e só converte em % no envio, contra a altura daquele momento: widgets e
+  // imagens que terminam de carregar depois aumentam a altura e o % cai
+  // para o valor certo, em vez de travar um % inflado.
+  let maxSeenPx = 0
+  let seconds = 0
+  let visibleSince = document.visibilityState === 'visible' ? Date.now() : null
+  let lastSent = ''
+
+  const measure = () => {
+    const rect = contentEl.getBoundingClientRect()
+    maxSeenPx = Math.max(maxSeenPx, window.innerHeight - rect.top)
+  }
+
+  const percent = () => {
+    const height = contentEl.getBoundingClientRect().height
+    if (height <= 0) return 0
+    return Math.max(0, Math.min(100, Math.round((maxSeenPx / height) * 100)))
+  }
+
+  const elapsed = () =>
+    Math.round(seconds + (visibleSince ? (Date.now() - visibleSince) / 1000 : 0))
+
+  const send = () => {
+    const payload = JSON.stringify({
+      action: 'progress',
+      slug,
+      visitId,
+      pct: percent(),
+      sec: elapsed()
+    })
+    if (payload === lastSent) return
+    lastSent = payload
+    navigator.sendBeacon('/api/project/', new Blob([payload], { type: 'application/json' }))
+  }
+
+  let frame = 0
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        measure()
+      })
+    },
+    { passive: true }
+  )
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      if (visibleSince) seconds += (Date.now() - visibleSince) / 1000
+      visibleSince = null
+      send()
+    } else {
+      visibleSince = Date.now()
+    }
+  })
+  window.addEventListener('pagehide', send)
+  window.addEventListener('resize', measure, { passive: true })
+
+  // envio periodico: cobre quem fecha o navegador sem disparar os eventos
+  setInterval(() => {
+    if (document.visibilityState === 'visible') send()
+  }, 30000)
+
+  measure()
 }
 
 unlockForm.addEventListener('submit', async (event) => {
@@ -568,6 +650,11 @@ unlockForm.addEventListener('submit', async (event) => {
     return
   }
 
+  // Espera a tentativa pelo cookie terminar: se ela já destravou, não manda
+  // a senha (evitaria um segundo acesso registrado e um aviso duplicado).
+  await autoUnlock
+  if (unlocked) return
+
   try {
     const result = await verifyPassword(password)
 
@@ -580,7 +667,7 @@ unlockForm.addEventListener('submit', async (event) => {
     if (!unlocked && typeof window.gtag === 'function') {
       window.gtag('event', 'case_unlock', { project: slug })
     }
-    unlock(result.data.sections)
+    unlock(result.data)
   } catch (err) {
     if (!unlocked) showError(messages.loadError)
   }
@@ -588,11 +675,11 @@ unlockForm.addEventListener('submit', async (event) => {
 
 // Tenta destravar com o cookie de sessao antes de mostrar o formulario.
 // Qualquer falha (401, rede) so mantem o form visivel, sem mensagem.
-;(async () => {
+const autoUnlock = (async () => {
   try {
     const result = await verifyPassword(undefined)
     if (!result.ok) return
-    unlock(result.data.sections)
+    unlock(result.data)
   } catch (err) {
     /* segue com o formulario */
   }

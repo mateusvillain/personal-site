@@ -1,5 +1,7 @@
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { sanity, blocksToSections } from './_sanity.js'
+import { safeEqual } from './_shared.js'
+import { recordAccess, recordProgress } from './_unlocks.js'
 
 // Por quanto tempo o desbloqueio vale sem pedir a senha de novo
 // (refresh, troca de idioma). Cookie HttpOnly assinado — a senha em si
@@ -23,6 +25,38 @@ function sign(slug, exp, password) {
   return createHmac('sha256', key).update(`${slug}:${exp}`).digest('hex')
 }
 
+// Senhas do case: PASSWORDS_<passwordKey> = JSON { rótulo: senha }.
+// Cai em PASSWORD_<passwordKey> (senha única, rótulo "padrao") se não houver.
+// Devolve Map rótulo -> senha.
+function getPasswords(passwordKey) {
+  const many = process.env[`PASSWORDS_${passwordKey}`]
+  if (many) {
+    try {
+      const parsed = JSON.parse(many)
+      return new Map(
+        Object.entries(parsed).filter(
+          ([label, pw]) => /^[a-z0-9-]+$/.test(label) && typeof pw === 'string' && pw
+        )
+      )
+    } catch {
+      console.error(`PASSWORDS_${passwordKey} não é um JSON válido`)
+      return new Map()
+    }
+  }
+  const single = process.env[`PASSWORD_${passwordKey}`]
+  return new Map(single ? [['padrao', single]] : [])
+}
+
+// [rótulo, senha] da senha digitada, ou null. Compara com todas (sem
+// parar no acerto) para o tempo não indicar a posição da senha.
+function findPassword(passwords, password) {
+  let found = null
+  for (const entry of passwords) {
+    if (safeEqual(password, entry[1]) && !found) found = entry
+  }
+  return found
+}
+
 function readCookie(req, name) {
   const raw = req.headers.cookie || ''
   for (const part of raw.split(';')) {
@@ -32,28 +66,34 @@ function readCookie(req, name) {
   return null
 }
 
+// Cookie = exp.rótulo.assinatura, assinado com a senha daquele rótulo:
+// remover/trocar uma senha invalida só os cookies dela.
 // Cookie malformado (encoding inválido, assinatura truncada, etc.) conta
 // como "sem cookie" — nunca deve virar 500.
-function hasValidUnlockCookie(req, slug, password) {
-  if (!COOKIE_SECRET) return false
+// Devolve o rótulo do cookie válido, ou null.
+function unlockCookieLabel(req, slug, passwords) {
+  if (!COOKIE_SECRET) return null
   const value = readCookie(req, cookieName(slug))
-  if (!value) return false
+  if (!value) return null
 
-  const [exp, sig] = value.split('.')
-  if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return false
-  if (Number(exp) < Math.floor(Date.now() / 1000)) return false
+  const [exp, label, sig] = value.split('.')
+  if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return null
+  if (Number(exp) < Math.floor(Date.now() / 1000)) return null
 
-  const expected = sign(slug, exp, password)
-  return timingSafeEqual(Buffer.from(sig), Buffer.from(expected))
+  const password = passwords.get(label)
+  if (!password) return null
+
+  const expected = sign(slug, `${exp}.${label}`, password)
+  return timingSafeEqual(Buffer.from(sig), Buffer.from(expected)) ? label : null
 }
 
-function setUnlockCookie(res, slug, password) {
+function setUnlockCookie(res, slug, label, password) {
   if (!COOKIE_SECRET) {
     console.warn('UNLOCK_COOKIE_SECRET não configurada — cookie de desbloqueio desativado')
     return
   }
   const exp = Math.floor(Date.now() / 1000) + UNLOCK_TTL_SECONDS
-  const value = `${exp}.${sign(slug, exp, password)}`
+  const value = `${exp}.${label}.${sign(slug, `${exp}.${label}`, password)}`
   const secure = process.env.VERCEL_ENV ? '; Secure' : ''
 
   res.setHeader(
@@ -67,8 +107,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' })
   }
 
-  const { slug, password, locale: rawLocale } = req.body || {}
+  const { slug, password, locale: rawLocale, action } = req.body || {}
   const locale = rawLocale === 'en' ? 'en' : 'pt'
+
+  // Leitura do conteúdo (% e tempo), enviada pelo navegador via sendBeacon.
+  if (action === 'progress') {
+    const { visitId, pct, sec } = req.body
+    await recordProgress(visitId, pct, sec)
+    return res.status(204).end()
+  }
 
   if (typeof slug !== 'string' || !slug) {
     return res.status(400).json({ error: 'Slug não informado' })
@@ -93,21 +140,29 @@ export default async function handler(req, res) {
     /* =====================================================
        2. Verificar senha (por projeto) ou cookie de desbloqueio
     ====================================================== */
+    let access = null // { label, kind } quando o case é protegido
     if (doc.requiresPassword) {
-      const expectedPassword = process.env[`PASSWORD_${doc.passwordKey}`]
+      const passwords = getPasswords(doc.passwordKey)
 
-      if (!expectedPassword) {
-        console.error(`PASSWORD_${doc.passwordKey} não configurada`)
+      if (!passwords.size) {
+        console.error(`PASSWORDS_${doc.passwordKey} não configurada`)
         return res.status(500).json({ error: 'Erro interno' })
       }
 
       if (password) {
-        if (password !== expectedPassword) {
+        const match = typeof password === 'string' ? findPassword(passwords, password) : null
+        if (!match) {
           return res.status(401).json({ error: 'Senha inválida' })
         }
-        setUnlockCookie(res, slug, expectedPassword)
-      } else if (!hasValidUnlockCookie(req, slug, expectedPassword)) {
-        return res.status(401).json({ error: 'Senha inválida' })
+        const [label, labelPassword] = match
+        setUnlockCookie(res, slug, label, labelPassword)
+        access = { label, kind: 'senha' }
+      } else {
+        const label = unlockCookieLabel(req, slug, passwords)
+        if (!label) {
+          return res.status(401).json({ error: 'Senha inválida' })
+        }
+        access = { label, kind: 'revisita' }
       }
     }
 
@@ -116,6 +171,11 @@ export default async function handler(req, res) {
     ====================================================== */
     // So o idioma pedido; aba EN tocada no Studio mas vazia persiste
     // `en: []` e cai no PT tambem. `locale` e sempre 'pt' ou 'en'.
+    // Registro do acesso em paralelo com a busca do conteúdo.
+    const visitIdPromise = access
+      ? recordAccess({ caseKey: doc.passwordKey, ...access, locale, req })
+      : Promise.resolve(null)
+
     const blocks = await sanity.fetch(
       `*[_id == $id][0]{
         "blocks": select(count(content.${locale}) > 0 => content.${locale}, content.pt)[]{
@@ -127,10 +187,12 @@ export default async function handler(req, res) {
       { id: doc._id }
     ) ?? []
     const sections = blocksToSections(blocks, locale)
+    const visitId = await visitIdPromise
 
     return res.status(200).json({
       title: doc.title?.[locale] || doc.title?.pt || '',
-      sections
+      sections,
+      ...(visitId && { visitId })
     })
   } catch (error) {
     console.error(error)
