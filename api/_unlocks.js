@@ -7,7 +7,7 @@
 //   unlocks_last:<case>          hash rótulo -> data do último desbloqueio
 //   unlocks_views:<case>         hash rótulo -> revisitas (cookie, sem senha)
 //   unlocks_log:<case>:<rótulo>  lista dos últimos acessos (JSON)
-//   visit:<id>                   leitura de um acesso { pct, sec } (expira)
+//   visit:<id>                   leitura de um acesso { pct, sec }
 
 import { randomUUID } from 'node:crypto'
 import { notifyUnlock } from './_notify.js'
@@ -18,10 +18,8 @@ const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_R
 // Rótulos que acessam mas não entram nas métricas (uso próprio).
 const UNTRACKED_LABELS = new Set(['pessoal'])
 
-// Últimos acessos guardados por senha.
-const LOG_SIZE = 50
-// Por quanto tempo a leitura de cada acesso fica guardada (180 dias).
-const VISIT_TTL_SECONDS = 180 * 24 * 60 * 60
+// Últimos acessos guardados por senha (~300 bytes cada).
+const LOG_SIZE = 500
 // Tetos da leitura enviada pelo navegador (valores acima são cortados).
 const MAX_VISIT_SECONDS = 4 * 60 * 60
 
@@ -110,7 +108,7 @@ async function saveAccess(caseKey, label, id, context) {
       ...counters,
       ['LPUSH', logKey(caseKey, label), entry],
       ['LTRIM', logKey(caseKey, label), '0', String(LOG_SIZE - 1)],
-      ['SET', visitKey(id), JSON.stringify({ pct: 0, sec: 0 }), 'EX', String(VISIT_TTL_SECONDS)]
+      ['SET', visitKey(id), JSON.stringify({ pct: 0, sec: 0 })]
     ])
     return id
   } catch (error) {
@@ -127,7 +125,7 @@ export async function recordProgress(id, pct, sec) {
   const clamp = (n, max) => Math.max(0, Math.min(max, Math.round(Number(n) || 0)))
   const value = JSON.stringify({ pct: clamp(pct, 100), sec: clamp(sec, MAX_VISIT_SECONDS) })
   try {
-    await redis([['SET', visitKey(id), value, 'XX', 'KEEPTTL']])
+    await redis([['SET', visitKey(id), value, 'XX']])
   } catch (error) {
     console.error('Falha ao registrar leitura:', error.message)
   }
