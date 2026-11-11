@@ -239,13 +239,18 @@ export function blocksToSections(blocks = [], locale = 'pt') {
         break
       }
 
-      case 'image':
+      case 'image': {
+        // dimensões originais vêm no id do asset (image-<hash>-<w>x<h>-<ext>);
+        // reservam o espaço da imagem antes de ela carregar
+        const [, w, h] = String(block.asset?._ref || '').match(/-(\d+)x(\d+)-/) || []
         sections.push({
           type: 'image',
           src: imageUrl(block),
-          alt: block.alt || ''
+          alt: block.alt || '',
+          ...(w && h && { width: Number(w), height: Number(h) })
         })
         break
+      }
 
       // formato antigo: mapa escrito direto no conteudo do idioma
       case 'tokenMap':

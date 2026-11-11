@@ -2,9 +2,9 @@
 // Sem DISCORD_WEBHOOK_URL, ou se o Discord falhar, nada acontece:
 // o acesso ao case nunca depende do aviso.
 
-const WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL
+import { DEVICE_ICON, DEFAULT_DEVICE_ICON } from './_shared.js'
 
-const DEVICE_ICON = { celular: '📱', tablet: '📱', computador: '💻' }
+const WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL
 
 export async function notifyUnlock({ caseKey, label, locale, device, city, region, country, at }) {
   if (!WEBHOOK_URL) return
@@ -17,7 +17,7 @@ export async function notifyUnlock({ caseKey, label, locale, device, city, regio
   })
   const details = [
     `📍 ${place}`,
-    device && `${DEVICE_ICON[device] || '🖥️'} ${device}`,
+    device && `${DEVICE_ICON[device] || DEFAULT_DEVICE_ICON} ${device}`,
     locale && `🌐 ${locale.toUpperCase()}`,
     `🕒 ${time}`
   ].filter(Boolean)

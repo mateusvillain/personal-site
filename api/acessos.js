@@ -1,5 +1,5 @@
-import { createHash, timingSafeEqual } from 'node:crypto'
 import { listUnlocks, listUnlockLog } from './_unlocks.js'
+import { safeEqual, DEVICE_ICON, DEFAULT_DEVICE_ICON } from './_shared.js'
 
 // Painel de acessos aos cases protegidos. HTTP Basic Auth:
 // usuário qualquer, senha = env ADMIN_PASSWORD.
@@ -11,10 +11,7 @@ function isAuthorized(req) {
   const header = req.headers.authorization || ''
   if (!ADMIN_PASSWORD || !header.startsWith('Basic ')) return false
   const decoded = Buffer.from(header.slice(6), 'base64').toString()
-  const password = decoded.slice(decoded.indexOf(':') + 1)
-  const a = createHash('sha256').update(password).digest()
-  const b = createHash('sha256').update(ADMIN_PASSWORD).digest()
-  return timingSafeEqual(a, b)
+  return safeEqual(decoded.slice(decoded.indexOf(':') + 1), ADMIN_PASSWORD)
 }
 
 /* --- formatação ----------------------------------------------------------- */
@@ -53,8 +50,6 @@ const flag = (cc) =>
   /^[A-Z]{2}$/.test(cc || '')
     ? String.fromCodePoint(...[...cc].map((c) => 0x1f1a5 + c.charCodeAt(0)))
     : ''
-
-const DEVICE_ICON = { celular: '📱', tablet: '📱', computador: '💻' }
 
 const average = (nums) => (nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : null)
 
@@ -144,7 +139,7 @@ export default async function handler(req, res) {
         <td data-label="Origem"><b>${esc(e.label)}</b> <span class="muted">${esc(e.caseKey)}</span></td>
         <td data-label="Tipo"><span class="badge badge--${kind === 'senha' ? 'unlock' : 'revisit'}">${kind === 'senha' ? '🔓 senha' : '↻ revisita'}</span></td>
         <td data-label="Local">${place ? `${flag(e.country)} ${esc(place)}` : '<span class="muted">—</span>'}</td>
-        <td data-label="Aparelho">${e.device ? `${DEVICE_ICON[e.device] || ''} ${esc(e.device)}` : '<span class="muted">—</span>'}</td>
+        <td data-label="Aparelho">${e.device ? `${DEVICE_ICON[e.device] || DEFAULT_DEVICE_ICON} ${esc(e.device)}` : '<span class="muted">—</span>'}</td>
         <td data-label="Idioma">${e.locale ? esc(e.locale.toUpperCase()) : '<span class="muted">—</span>'}</td>
         <td data-label="Leitura">${bar(e.pct)}</td>
         <td data-label="Tempo" class="num">${duration(e.sec)}</td>

@@ -73,6 +73,10 @@ function renderSections(sections) {
         el.src = section.src
         el.alt = section.alt || ''
         el.loading = 'lazy'
+        if (section.width && section.height) {
+          el.width = section.width
+          el.height = section.height
+        }
         el.className = styles.image
         break
 
@@ -566,16 +570,24 @@ function unlock(data) {
 function trackReading(visitId) {
   if (!visitId || !navigator.sendBeacon) return
 
-  let maxPct = 0
+  // Guarda o ponto mais baixo alcançado (px a partir do topo do conteúdo)
+  // e só converte em % no envio, contra a altura daquele momento: widgets e
+  // imagens que terminam de carregar depois aumentam a altura e o % cai
+  // para o valor certo, em vez de travar um % inflado.
+  let maxSeenPx = 0
   let seconds = 0
   let visibleSince = document.visibilityState === 'visible' ? Date.now() : null
   let lastSent = ''
 
   const measure = () => {
     const rect = contentEl.getBoundingClientRect()
-    if (rect.height <= 0) return
-    const seen = Math.round(((window.innerHeight - rect.top) / rect.height) * 100)
-    maxPct = Math.max(maxPct, Math.min(100, seen))
+    maxSeenPx = Math.max(maxSeenPx, window.innerHeight - rect.top)
+  }
+
+  const percent = () => {
+    const height = contentEl.getBoundingClientRect().height
+    if (height <= 0) return 0
+    return Math.max(0, Math.min(100, Math.round((maxSeenPx / height) * 100)))
   }
 
   const elapsed = () =>
@@ -586,7 +598,7 @@ function trackReading(visitId) {
       action: 'progress',
       slug,
       visitId,
-      pct: maxPct,
+      pct: percent(),
       sec: elapsed()
     })
     if (payload === lastSent) return
@@ -617,6 +629,7 @@ function trackReading(visitId) {
     }
   })
   window.addEventListener('pagehide', send)
+  window.addEventListener('resize', measure, { passive: true })
 
   // envio periodico: cobre quem fecha o navegador sem disparar os eventos
   setInterval(() => {
@@ -636,6 +649,11 @@ unlockForm.addEventListener('submit', async (event) => {
     showError(messages.required)
     return
   }
+
+  // Espera a tentativa pelo cookie terminar: se ela já destravou, não manda
+  // a senha (evitaria um segundo acesso registrado e um aviso duplicado).
+  await autoUnlock
+  if (unlocked) return
 
   try {
     const result = await verifyPassword(password)
@@ -657,7 +675,7 @@ unlockForm.addEventListener('submit', async (event) => {
 
 // Tenta destravar com o cookie de sessao antes de mostrar o formulario.
 // Qualquer falha (401, rede) so mantem o form visivel, sem mensagem.
-;(async () => {
+const autoUnlock = (async () => {
   try {
     const result = await verifyPassword(undefined)
     if (!result.ok) return

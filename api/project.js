@@ -1,5 +1,6 @@
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { sanity, blocksToSections } from './_sanity.js'
+import { safeEqual } from './_shared.js'
 import { recordAccess, recordProgress } from './_unlocks.js'
 
 // Por quanto tempo o desbloqueio vale sem pedir a senha de novo
@@ -26,34 +27,32 @@ function sign(slug, exp, password) {
 
 // Senhas do case: PASSWORDS_<passwordKey> = JSON { rótulo: senha }.
 // Cai em PASSWORD_<passwordKey> (senha única, rótulo "padrao") se não houver.
+// Devolve Map rótulo -> senha.
 function getPasswords(passwordKey) {
   const many = process.env[`PASSWORDS_${passwordKey}`]
   if (many) {
     try {
       const parsed = JSON.parse(many)
-      return Object.entries(parsed).filter(
-        ([label, pw]) => /^[a-z0-9-]+$/.test(label) && typeof pw === 'string' && pw
+      return new Map(
+        Object.entries(parsed).filter(
+          ([label, pw]) => /^[a-z0-9-]+$/.test(label) && typeof pw === 'string' && pw
+        )
       )
     } catch {
       console.error(`PASSWORDS_${passwordKey} não é um JSON válido`)
-      return []
+      return new Map()
     }
   }
   const single = process.env[`PASSWORD_${passwordKey}`]
-  return single ? [['padrao', single]] : []
+  return new Map(single ? [['padrao', single]] : [])
 }
 
-// Comparação em tempo constante (hash iguala os tamanhos).
-function safeEqual(a, b) {
-  const ha = createHash('sha256').update(a).digest()
-  const hb = createHash('sha256').update(b).digest()
-  return timingSafeEqual(ha, hb)
-}
-
-function findLabel(passwords, password) {
+// [rótulo, senha] da senha digitada, ou null. Compara com todas (sem
+// parar no acerto) para o tempo não indicar a posição da senha.
+function findPassword(passwords, password) {
   let found = null
-  for (const [label, pw] of passwords) {
-    if (safeEqual(password, pw) && !found) found = label
+  for (const entry of passwords) {
+    if (safeEqual(password, entry[1]) && !found) found = entry
   }
   return found
 }
@@ -81,7 +80,7 @@ function unlockCookieLabel(req, slug, passwords) {
   if (!/^\d+$/.test(exp || '') || !/^[a-f0-9]{64}$/.test(sig || '')) return null
   if (Number(exp) < Math.floor(Date.now() / 1000)) return null
 
-  const password = passwords.find(([l]) => l === label)?.[1]
+  const password = passwords.get(label)
   if (!password) return null
 
   const expected = sign(slug, `${exp}.${label}`, password)
@@ -145,17 +144,18 @@ export default async function handler(req, res) {
     if (doc.requiresPassword) {
       const passwords = getPasswords(doc.passwordKey)
 
-      if (!passwords.length) {
+      if (!passwords.size) {
         console.error(`PASSWORDS_${doc.passwordKey} não configurada`)
         return res.status(500).json({ error: 'Erro interno' })
       }
 
       if (password) {
-        const label = typeof password === 'string' ? findLabel(passwords, password) : null
-        if (!label) {
+        const match = typeof password === 'string' ? findPassword(passwords, password) : null
+        if (!match) {
           return res.status(401).json({ error: 'Senha inválida' })
         }
-        setUnlockCookie(res, slug, label, passwords.find(([l]) => l === label)[1])
+        const [label, labelPassword] = match
+        setUnlockCookie(res, slug, label, labelPassword)
         access = { label, kind: 'senha' }
       } else {
         const label = unlockCookieLabel(req, slug, passwords)

@@ -53,6 +53,7 @@
     "@phosphor-icons/webcomponents": "^2.1.5",
     "@sanity/client": "^8.6.2",
     "@sanity/image-url": "^2.1.1",
+    "@vercel/functions": "^3.11.1",
     "astro": "^5.18.1",
     "dotenv": "^17.2.3",
     "glob": "^13.0.3",
